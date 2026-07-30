@@ -47,8 +47,8 @@ export default function SpritePortrait({
     const resizeCanvas = () => {
       const bounds = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const nextWidth = Math.max(1, Math.round(bounds.width * dpr));
-      const nextHeight = Math.max(1, Math.round(bounds.height * dpr));
+      const nextWidth = Math.min(4096, Math.max(1, Math.round(bounds.width * dpr)));
+      const nextHeight = Math.min(4096, Math.max(1, Math.round(bounds.height * dpr)));
 
       if (canvas.width !== nextWidth || canvas.height !== nextHeight) {
         canvas.width = nextWidth;

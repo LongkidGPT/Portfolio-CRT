@@ -9,7 +9,7 @@
     radial-gradient(circle at 61% 42%, #f8f9f8 0, transparent 31%),
     linear-gradient(180deg, #e2e5e4 0%, var(--paper) 62%, #f5f6f5 100%);
   color: var(--ink);
-  font-family: var(--font-plex-mono), monospace;
+  font-family: var(--font-mono);
 }
 
 .chrome {
@@ -87,7 +87,14 @@
   transform-origin: 52% 46%;
   transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1), filter 560ms ease;
 }
-.portrait { display: block; width: 100%; height: 100%; }
+.portrait {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  contain: size layout paint;
+  pointer-events: none;
+}
 .home[data-phase="zooming"] .portraitStage,
 .home[data-phase="open"] .portraitStage {
   transform: scale(1.18) translate3d(-2%, 1%, 0);
@@ -225,8 +232,20 @@
   min-height: 100dvh;
   background: #eceeed;
   color: #202322;
-  font-family: var(--font-plex-mono), monospace;
+  font-family: var(--font-mono);
 }
+
+.loadingRing {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  overflow: hidden;
+  background: #eceeed;
+  font: 11px var(--font-mono);
+  letter-spacing: .18em;
+}
+.loadingRing span { animation: loadingPulse 800ms ease-in-out infinite alternate; }
+@keyframes loadingPulse { to { opacity: .25; transform: scale(.96); } }
 
 .standaloneCase { padding-top: 72px; }
 .backHome,
