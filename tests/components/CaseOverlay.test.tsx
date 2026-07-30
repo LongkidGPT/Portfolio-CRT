@@ -1,5 +1,4 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
 import CaseOverlay from "@/components/portfolio/CaseOverlay";
 
@@ -17,14 +16,30 @@ beforeEach(() => {
   window.history.pushState({}, "", "/work/business");
 });
 
-test("locks body scroll and closes on Escape", async () => {
+test("locks body scroll and closes on Escape after the transition", () => {
+  vi.useFakeTimers();
   render(<CaseOverlay label="Business Context"><h1>Business Context</h1></CaseOverlay>);
   expect(document.body.style.overflow).toBe("hidden");
-  await userEvent.keyboard("{Escape}");
+  fireEvent.keyDown(window, { key: "Escape" });
+  expect(back).not.toHaveBeenCalled();
+  act(() => vi.advanceTimersByTime(320));
   expect(back).toHaveBeenCalledOnce();
+  vi.useRealTimers();
 });
 
 test("close button has an accessible name", () => {
   render(<CaseOverlay label="Business Context"><h1>Business Context</h1></CaseOverlay>);
   expect(screen.getByRole("button", { name: "Close project" })).toBeInTheDocument();
+});
+
+test("plays the close transition before returning to the homepage", () => {
+  vi.useFakeTimers();
+  render(<CaseOverlay label="Business Context"><h1>Business Context</h1></CaseOverlay>);
+
+  fireEvent.click(screen.getByRole("button", { name: "Close project" }));
+  expect(back).not.toHaveBeenCalled();
+
+  act(() => vi.advanceTimersByTime(320));
+  expect(back).toHaveBeenCalledOnce();
+  vi.useRealTimers();
 });

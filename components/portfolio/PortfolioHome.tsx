@@ -59,13 +59,15 @@ export default function PortfolioHome() {
     dispatch({ type: "OPEN_REQUESTED", projectId: id });
     timer.current = window.setTimeout(
       () => router.push(getProjectById(id).href),
-      reduced ? 70 : 392,
+      reduced ? 100 : 620,
     );
   }, [reduced, router]);
 
   return (
     <main className={styles.home} data-phase={state.phase} data-project={state.activeProject}>
-      <PortfolioChrome />
+      <PortfolioChrome
+        activeIndex={PROJECTS.findIndex(({ id }) => id === state.activeProject)}
+      />
       <div className={styles.previewStage}>
         <ProjectPreview project={getProjectById(state.activeProject)} />
       </div>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { rulerWidthsForIndex } from "@/lib/portfolio/interactions";
 import styles from "./portfolio.module.css";
 
 function formatTime(date: Date) {
@@ -13,17 +14,18 @@ function formatTime(date: Date) {
   }).format(date).toUpperCase();
 }
 
-function Ruler({ side }: { side: "left" | "right" }) {
+function Ruler({ side, activeIndex }: { side: "left" | "right"; activeIndex: number }) {
+  const widths = rulerWidthsForIndex(activeIndex, side);
   return (
     <div className={styles.ruler} data-side={side} aria-hidden="true">
-      {[28, 52, 84, 126, 168, 126, 84, 52, 28].map((width, index) => (
-        <span key={`${width}-${index}`} style={{ width }} />
+      {widths.map((width, index) => (
+        <span key={index} style={{ width }} />
       ))}
     </div>
   );
 }
 
-export default function PortfolioChrome() {
+export default function PortfolioChrome({ activeIndex }: { activeIndex: number }) {
   const [time, setTime] = useState("—:— PM");
   const [resolution, setResolution] = useState("0000 × 0000");
 
@@ -58,8 +60,8 @@ export default function PortfolioChrome() {
           <strong>LET&apos;S TALK, ME</strong><span>{time} GMT+8</span>
         </div>
       </header>
-      <Ruler side="left" />
-      <Ruler side="right" />
+      <Ruler side="left" activeIndex={activeIndex} />
+      <Ruler side="right" activeIndex={activeIndex} />
       <div className={styles.resolution}>RES / {resolution}</div>
     </>
   );
