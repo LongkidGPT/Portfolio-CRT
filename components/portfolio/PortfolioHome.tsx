@@ -33,8 +33,14 @@ export default function PortfolioHome() {
   const timer = useRef<number | null>(null);
 
   useEffect(() => {
-    if (pathname === "/") dispatch({ type: "CLOSED" });
-    else if (state.phase === "zooming") dispatch({ type: "OPENED" });
+    if (
+      pathname === "/" &&
+      (state.phase === "open" || state.phase === "closing")
+    ) {
+      dispatch({ type: "CLOSED" });
+    } else if (pathname !== "/" && state.phase === "zooming") {
+      dispatch({ type: "OPENED" });
+    }
   }, [pathname, state.phase]);
 
   useEffect(() => {
@@ -59,7 +65,7 @@ export default function PortfolioHome() {
     dispatch({ type: "OPEN_REQUESTED", projectId: id });
     timer.current = window.setTimeout(
       () => router.push(getProjectById(id).href),
-      reduced ? 100 : 620,
+      reduced ? 100 : 720,
     );
   }, [reduced, router]);
 
