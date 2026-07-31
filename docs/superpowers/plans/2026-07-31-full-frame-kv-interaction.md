@@ -47,7 +47,7 @@ describe("generated KV assets", () => {
 
   it("describes the full-frame sequence", () => {
     expect(manifest).toMatchObject({ frameCount: 72, width: 1470, height: 630 });
-    expect(manifest.neutralFrame).toBe(71);
+    expect(manifest.neutralFrame).toBe(54);
   });
 
   it("contains every frame and button state", () => {
@@ -84,7 +84,7 @@ Run: `npm run assets:kv`
 
 Run: `ffprobe -v error -show_entries stream=width,height -of csv=s=x:p=0 public/kv/frames/frame-000.webp`
 
-Expected: `1470x630`. Visually inspect frames `000`, `018`, `036`, `054`, and `071`; frame `071` is the neutral forward-facing frame recorded in the manifest.
+Expected: `1470x630`. Visually inspect frames `000`, `018`, `036`, `054`, and `071`; frame `054` is the neutral forward-facing frame recorded in the manifest.
 
 - [ ] **Step 5: Run the asset test**
 
@@ -227,7 +227,7 @@ export const KV_FRAME_COUNT = 72;
 export const KV_WIDTH = 1470;
 export const KV_HEIGHT = 630;
 export const KV_HEAD_ANCHOR = { x: 0.704, y: 0.425 } as const;
-export const KV_NEUTRAL_FRAME = 71;
+export const KV_NEUTRAL_FRAME = 54;
 
 export function kvFrameSrc(index: number): string {
   const normalized = ((Math.round(index) % KV_FRAME_COUNT) + KV_FRAME_COUNT) % KV_FRAME_COUNT;
