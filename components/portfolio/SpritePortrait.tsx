@@ -2,15 +2,20 @@
 
 import { useEffect, useRef } from "react";
 import {
+  KV_FRAME_COUNT,
+  KV_HEAD_ANCHOR,
+  KV_HEIGHT,
+  KV_NEUTRAL_FRAME,
+  KV_WIDTH,
+  containRect,
+  kvFrameSrc,
+} from "@/lib/portfolio/kv";
+import {
   frameForAngle,
   pointerAngle,
   shortestFrameDelta,
   type Point,
 } from "@/lib/portfolio/sprite";
-
-const FRAME_COUNT = 64;
-const SHEET_COLUMNS = 8;
-const SOURCE_CELL_SIZE = 640;
 
 interface SpritePortraitProps {
   focusPoint: Point | null;
@@ -37,18 +42,29 @@ export default function SpritePortrait({
     const context = canvas.getContext("2d");
     if (!context) return;
 
-    const image = new Image();
+    const images = new Array<HTMLImageElement | undefined>(KV_FRAME_COUNT);
     let animationFrame = 0;
-    let currentFrame = 0;
+    let currentFrame = KV_NEUTRAL_FRAME;
     let drawnFrame = -1;
     let visible = document.visibilityState === "visible";
     let cancelled = false;
 
     const resizeCanvas = () => {
       const bounds = canvas.getBoundingClientRect();
+      const content = containRect(
+        KV_WIDTH,
+        KV_HEIGHT,
+        Math.max(1, bounds.width),
+        Math.max(1, bounds.height),
+      );
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const nextWidth = Math.min(4096, Math.max(1, Math.round(bounds.width * dpr)));
-      const nextHeight = Math.min(4096, Math.max(1, Math.round(bounds.height * dpr)));
+      const resolutionScale = Math.min(
+        dpr,
+        KV_WIDTH / content.width,
+        KV_HEIGHT / content.height,
+      );
+      const nextWidth = Math.max(1, Math.round(bounds.width * resolutionScale));
+      const nextHeight = Math.max(1, Math.round(bounds.height * resolutionScale));
 
       if (canvas.width !== nextWidth || canvas.height !== nextHeight) {
         canvas.width = nextWidth;
@@ -58,42 +74,94 @@ export default function SpritePortrait({
     };
 
     const drawFrame = (frame: number) => {
-      const rounded = ((Math.round(frame) % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT;
-      if (rounded === drawnFrame || !image.complete) return;
+      const rounded =
+        ((Math.round(frame) % KV_FRAME_COUNT) + KV_FRAME_COUNT) %
+        KV_FRAME_COUNT;
+      const image = images[rounded];
 
-      const sourceX = (rounded % SHEET_COLUMNS) * SOURCE_CELL_SIZE;
-      const sourceY = Math.floor(rounded / SHEET_COLUMNS) * SOURCE_CELL_SIZE;
+      if (rounded === drawnFrame || !image?.complete) return;
 
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(
-        image,
-        sourceX,
-        sourceY,
-        SOURCE_CELL_SIZE,
-        SOURCE_CELL_SIZE,
-        0,
-        0,
+      const destination = containRect(
+        KV_WIDTH,
+        KV_HEIGHT,
         canvas.width,
         canvas.height,
       );
+
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = "#e2e5e4";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(
+        image,
+        0,
+        0,
+        KV_WIDTH,
+        KV_HEIGHT,
+        destination.x,
+        destination.y,
+        destination.width,
+        destination.height,
+      );
       drawnFrame = rounded;
+    };
+
+    const loadFrame = (index: number) => {
+      const normalized =
+        ((index % KV_FRAME_COUNT) + KV_FRAME_COUNT) % KV_FRAME_COUNT;
+      if (images[normalized]) return;
+
+      const image = new Image();
+      images[normalized] = image;
+      image.onload = () => {
+        if (cancelled) return;
+        if (normalized === KV_NEUTRAL_FRAME || drawnFrame < 0) {
+          resizeCanvas();
+          drawFrame(normalized);
+        }
+      };
+      image.onerror = () => {
+        images[normalized] = undefined;
+      };
+      image.src = kvFrameSrc(normalized);
+    };
+
+    const preloadFrames = () => {
+      loadFrame(KV_NEUTRAL_FRAME);
+      for (let distance = 1; distance < KV_FRAME_COUNT; distance += 1) {
+        loadFrame(KV_NEUTRAL_FRAME + distance);
+      }
+    };
+
+    const targetFrame = () => {
+      const point = focusPointRef.current;
+      if (motionReduced || !point) return KV_NEUTRAL_FRAME;
+
+      const bounds = canvas.getBoundingClientRect();
+      const content = containRect(
+        KV_WIDTH,
+        KV_HEIGHT,
+        bounds.width,
+        bounds.height,
+      );
+      const anchor = {
+        x: bounds.left + content.x + content.width * KV_HEAD_ANCHOR.x,
+        y: bounds.top + content.y + content.height * KV_HEAD_ANCHOR.y,
+      };
+
+      return frameForAngle(pointerAngle(point, anchor), KV_FRAME_COUNT);
     };
 
     const tick = () => {
       if (cancelled) return;
 
       if (visible) {
-        const point = focusPointRef.current;
-        const targetFrame =
-          motionReduced || !point
-            ? 0
-            : frameForAngle(pointerAngle(point, canvas.getBoundingClientRect()));
+        const target = targetFrame();
 
         if (motionReduced) {
-          currentFrame = 0;
+          currentFrame = KV_NEUTRAL_FRAME;
         } else {
           currentFrame +=
-            shortestFrameDelta(targetFrame, currentFrame, FRAME_COUNT) * 0.16;
+            shortestFrameDelta(target, currentFrame, KV_FRAME_COUNT) * 0.16;
         }
 
         drawFrame(currentFrame);
@@ -109,23 +177,25 @@ export default function SpritePortrait({
     const observer =
       typeof ResizeObserver === "undefined"
         ? null
-        : new ResizeObserver(resizeCanvas);
+        : new ResizeObserver(() => {
+            resizeCanvas();
+            drawFrame(drawnFrame < 0 ? KV_NEUTRAL_FRAME : drawnFrame);
+          });
 
-    image.onload = () => {
-      if (cancelled) return;
-      resizeCanvas();
-      drawFrame(0);
-    };
-    image.src = "/sprite/robot.webp";
     observer?.observe(canvas);
     window.addEventListener("resize", resizeCanvas);
     document.addEventListener("visibilitychange", handleVisibility);
     resizeCanvas();
+    preloadFrames();
     animationFrame = window.requestAnimationFrame(tick);
 
     return () => {
       cancelled = true;
-      image.onload = null;
+      for (const image of images) {
+        if (!image) continue;
+        image.onload = null;
+        image.onerror = null;
+      }
       observer?.disconnect();
       window.removeEventListener("resize", resizeCanvas);
       document.removeEventListener("visibilitychange", handleVisibility);

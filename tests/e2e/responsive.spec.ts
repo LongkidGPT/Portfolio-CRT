@@ -14,6 +14,10 @@ for (const viewport of [
       viewport: window.innerWidth,
     }));
     expect(sizes.content).toBeLessThanOrEqual(sizes.viewport);
-    await expect(page.getByRole("img", { name: "Interactive CRT portrait" })).toBeVisible();
+    const portrait = page.getByRole("img", { name: "Interactive CRT portrait" });
+    await expect(portrait).toBeVisible();
+    const portraitBounds = await portrait.boundingBox();
+    expect(portraitBounds?.width).toBeGreaterThanOrEqual(viewport.width - 1);
+    expect(portraitBounds?.height).toBeGreaterThanOrEqual(viewport.height - 1);
   });
 }

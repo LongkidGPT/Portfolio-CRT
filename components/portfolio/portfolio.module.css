@@ -140,13 +140,10 @@
 .portraitStage {
   position: absolute;
   z-index: 4;
-  left: 48.1%;
-  bottom: -14%;
-  width: clamp(680px, 45vw, 1120px);
-  aspect-ratio: 1;
+  inset: 0;
   opacity: 1;
   filter: blur(0);
-  transform-origin: 52% 46%;
+  transform-origin: 62% 43%;
   transition:
     transform 720ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 520ms ease,
@@ -164,7 +161,7 @@
 .home[data-phase="zooming"] .portraitStage,
 .home[data-phase="open"] .portraitStage {
   opacity: 0;
-  transform: scale(1.52) translate3d(-5%, 2%, 0);
+  transform: scale(1.52);
   filter: blur(8px);
 }
 
@@ -233,16 +230,14 @@
   .projectSummary { font-size: 10px; }
   .projectSummary { max-width: 29ch; margin-top: 9px !important; }
   .portraitStage {
-    top: 9%;
-    bottom: auto;
-    left: 50%;
-    width: max(88vw, 390px);
-    transform: translateX(-50%);
+    inset: 0;
+    width: auto;
+    transform: none;
   }
   .home[data-phase="zooming"] .portraitStage,
   .home[data-phase="open"] .portraitStage {
     opacity: 0;
-    transform: translateX(-50%) scale(1.42);
+    transform: scale(1.42);
     filter: blur(7px);
   }
   .selector { right: auto; bottom: 28px; left: 0; width: 100%; }
