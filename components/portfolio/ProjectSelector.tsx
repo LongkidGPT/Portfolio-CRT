@@ -74,8 +74,20 @@ export default function ProjectSelector({ projects, activeProject, onPreview, on
                 onOpen(project.id);
               }}
             >
-              <span className={styles.fileIcon} aria-hidden="true">▱</span>
-              <span className={styles.projectLabel}>{project.label}</span>
+              <span className={styles.buttonArtwork} aria-hidden="true">
+                <img
+                  src={project.buttonDefault}
+                  alt=""
+                  draggable={false}
+                  data-state="default"
+                />
+                <img
+                  src={project.buttonActive}
+                  alt=""
+                  draggable={false}
+                  data-state="active"
+                />
+              </span>
               <span className={styles.mobileMeta}>
                 <strong>{project.title}</strong><small>{project.year}</small>
                 <small>{project.summary}</small><b>VIEW ↗</b>

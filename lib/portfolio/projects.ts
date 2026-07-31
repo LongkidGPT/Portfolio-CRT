@@ -20,6 +20,8 @@ export interface ProjectDefinition {
   summary: string;
   href: "/about" | `/work/${Exclude<ProjectId, "about">}`;
   kind: "about" | "case";
+  buttonDefault: `/kv/buttons/${string}-default.png`;
+  buttonActive: `/kv/buttons/${string}-active.png`;
   media: readonly MediaSlot[];
 }
 
@@ -32,6 +34,8 @@ export const PROJECTS = [
     summary: "Profile, capabilities, experience and contact.",
     href: "/about",
     kind: "about",
+    buttonDefault: "/kv/buttons/about-default.png",
+    buttonActive: "/kv/buttons/about-active.png",
     media: [],
   },
   {
@@ -42,6 +46,8 @@ export const PROJECTS = [
     summary: "Business objectives, project framing and design requirements.",
     href: "/work/business",
     kind: "case",
+    buttonDefault: "/kv/buttons/business-default.png",
+    buttonActive: "/kv/buttons/business-active.png",
     media: [
       {
         id: "hero",
@@ -65,6 +71,8 @@ export const PROJECTS = [
     summary: "A visual relationship system for Anker and SOLIX.",
     href: "/work/brand-system",
     kind: "case",
+    buttonDefault: "/kv/buttons/brand-system-default.png",
+    buttonActive: "/kv/buttons/brand-system-active.png",
     media: [
       {
         id: "hero",
@@ -88,6 +96,8 @@ export const PROJECTS = [
     summary: "Launch communication, product value and DTC structure.",
     href: "/work/product-launch",
     kind: "case",
+    buttonDefault: "/kv/buttons/product-launch-default.png",
+    buttonActive: "/kv/buttons/product-launch-active.png",
     media: [
       {
         id: "hero",
@@ -111,6 +121,8 @@ export const PROJECTS = [
     summary: "Key visual, event narrative and multi-touchpoint content.",
     href: "/work/launch-event",
     kind: "case",
+    buttonDefault: "/kv/buttons/launch-event-default.png",
+    buttonActive: "/kv/buttons/launch-event-active.png",
     media: [
       {
         id: "hero",

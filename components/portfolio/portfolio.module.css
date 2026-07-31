@@ -174,29 +174,45 @@
   transition: opacity 260ms ease;
 }
 .selectorViewport { overflow: visible; }
-.selectorTrack { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.selectorTrack { display: flex; align-items: stretch; }
 .projectLink {
   position: relative;
   display: flex;
-  min-width: 0;
-  height: clamp(43px, 4.7vh, 72px);
+  flex: 0 0 auto;
+  height: clamp(46px, 5.5vh, 56px);
   align-items: center;
-  gap: 13px;
-  border: 1px solid rgba(32, 35, 34, 0.7);
-  background: rgba(239, 241, 240, 0.56);
-  padding: 0 clamp(12px, 1.1vw, 23px);
-  color: var(--muted);
-  font-size: clamp(9px, 0.62vw, 13px);
-  letter-spacing: 0.03em;
-  transition: background 180ms ease, color 180ms ease;
+  border: 0;
+  background: transparent;
+  padding: 0;
 }
-.projectLink + .projectLink { margin-left: -1px; }
 .projectLink:hover,
 .projectLink:focus-visible,
-.projectLink[aria-current="page"] { z-index: 1; background: rgba(255, 255, 255, 0.9); color: var(--ink); }
+.projectLink[aria-current="page"] { z-index: 1; }
 .projectLink:focus-visible,
 .carouselControls button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-.fileIcon { font-size: 18px; }
+.buttonArtwork {
+  position: relative;
+  display: block;
+  height: 100%;
+}
+.buttonArtwork img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: none;
+  user-select: none;
+}
+.buttonArtwork img[data-state="active"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.projectLink:hover .buttonArtwork img[data-state="default"],
+.projectLink:focus-visible .buttonArtwork img[data-state="default"],
+.projectLink[aria-current="page"] .buttonArtwork img[data-state="default"] { opacity: 0; }
+.projectLink:hover .buttonArtwork img[data-state="active"],
+.projectLink:focus-visible .buttonArtwork img[data-state="active"],
+.projectLink[aria-current="page"] .buttonArtwork img[data-state="active"] { opacity: 1; }
 .mobileMeta,
 .carouselControls { display: none; }
 
@@ -254,8 +270,7 @@
     align-items: flex-start;
     padding: 14px;
   }
-  .projectLink + .projectLink { margin-left: 0; }
-  .projectLabel { padding-top: 3px; }
+  .buttonArtwork { height: 42px; }
   .mobileMeta {
     display: grid;
     flex: 1;

@@ -39,3 +39,25 @@ test("click requests the selected project overlay", async () => {
 
   expect(onOpen).toHaveBeenCalledWith("business");
 });
+
+test("renders the supplied default and active artwork for each project", () => {
+  render(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="business"
+      onPreview={vi.fn()}
+      onOpen={vi.fn()}
+    />,
+  );
+
+  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+  expect(business.querySelector('[data-state="default"]')).toHaveAttribute(
+    "src",
+    "/kv/buttons/business-default.png",
+  );
+  expect(business.querySelector('[data-state="active"]')).toHaveAttribute(
+    "src",
+    "/kv/buttons/business-active.png",
+  );
+  expect(business).toHaveAttribute("aria-current", "page");
+});
