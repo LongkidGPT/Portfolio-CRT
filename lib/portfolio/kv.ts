@@ -3,6 +3,13 @@ export const KV_WIDTH = 1470;
 export const KV_HEIGHT = 630;
 export const KV_NEUTRAL_FRAME = 54;
 export const KV_HEAD_ANCHOR = { x: 0.62, y: 0.43 } as const;
+export const KV_PROJECT_FRAMES = {
+  about: 20,
+  business: 18,
+  "brand-system": 15,
+  "product-launch": 13,
+  "launch-event": 11,
+} as const;
 
 export interface Rect {
   x: number;

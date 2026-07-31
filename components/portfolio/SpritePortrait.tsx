@@ -11,29 +11,35 @@ import {
   kvFrameSrc,
 } from "@/lib/portfolio/kv";
 import {
-  frameForAngle,
+  frameForPointerAngle,
   pointerAngle,
-  shortestFrameDelta,
   type Point,
 } from "@/lib/portfolio/sprite";
 
 interface SpritePortraitProps {
   focusPoint: Point | null;
+  focusFrame?: number | null;
   motionReduced: boolean;
   className?: string;
 }
 
 export default function SpritePortrait({
   focusPoint,
+  focusFrame = null,
   motionReduced,
   className,
 }: SpritePortraitProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const focusPointRef = useRef(focusPoint);
+  const focusFrameRef = useRef(focusFrame);
 
   useEffect(() => {
     focusPointRef.current = focusPoint;
   }, [focusPoint]);
+
+  useEffect(() => {
+    focusFrameRef.current = focusFrame;
+  }, [focusFrame]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -44,7 +50,6 @@ export default function SpritePortrait({
 
     const images = new Array<HTMLImageElement | undefined>(KV_FRAME_COUNT);
     let animationFrame = 0;
-    let currentFrame = KV_NEUTRAL_FRAME;
     let drawnFrame = -1;
     let visible = document.visibilityState === "visible";
     let cancelled = false;
@@ -102,6 +107,7 @@ export default function SpritePortrait({
         destination.width,
         destination.height,
       );
+      canvas.dataset.frame = String(rounded);
       drawnFrame = rounded;
     };
 
@@ -134,7 +140,10 @@ export default function SpritePortrait({
 
     const targetFrame = () => {
       const point = focusPointRef.current;
-      if (motionReduced || !point) return KV_NEUTRAL_FRAME;
+      const fixedFrame = focusFrameRef.current;
+      if (motionReduced) return KV_NEUTRAL_FRAME;
+      if (fixedFrame !== null) return fixedFrame;
+      if (!point) return KV_NEUTRAL_FRAME;
 
       const bounds = canvas.getBoundingClientRect();
       const content = containRect(
@@ -148,23 +157,14 @@ export default function SpritePortrait({
         y: bounds.top + content.y + content.height * KV_HEAD_ANCHOR.y,
       };
 
-      return frameForAngle(pointerAngle(point, anchor), KV_FRAME_COUNT);
+      return frameForPointerAngle(pointerAngle(point, anchor));
     };
 
     const tick = () => {
       if (cancelled) return;
 
       if (visible) {
-        const target = targetFrame();
-
-        if (motionReduced) {
-          currentFrame = KV_NEUTRAL_FRAME;
-        } else {
-          currentFrame +=
-            shortestFrameDelta(target, currentFrame, KV_FRAME_COUNT) * 0.16;
-        }
-
-        drawFrame(currentFrame);
+        drawFrame(targetFrame());
       }
 
       animationFrame = window.requestAnimationFrame(tick);

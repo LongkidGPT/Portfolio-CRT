@@ -3,6 +3,7 @@ import {
   KV_FRAME_COUNT,
   KV_HEIGHT,
   KV_NEUTRAL_FRAME,
+  KV_PROJECT_FRAMES,
   KV_WIDTH,
   containRect,
   kvFrameSrc,
@@ -23,6 +24,16 @@ describe("KV frame helpers", () => {
     expect(kvFrameSrc(71)).toBe("/kv/frames/frame-071.webp");
     expect(kvFrameSrc(72)).toBe("/kv/frames/frame-000.webp");
     expect(kvFrameSrc(-1)).toBe("/kv/frames/frame-071.webp");
+  });
+
+  test("assigns the five project controls to five fixed directions", () => {
+    expect(KV_PROJECT_FRAMES).toEqual({
+      about: 20,
+      business: 18,
+      "brand-system": 15,
+      "product-launch": 13,
+      "launch-event": 11,
+    });
   });
 
   test("contains a 7:3 KV inside a portrait canvas without distortion", () => {

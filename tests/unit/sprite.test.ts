@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   frameForAngle,
+  frameForPointerAngle,
   pointerAngle,
   shortestFrameDelta,
 } from "@/lib/portfolio/sprite";
@@ -17,6 +18,15 @@ describe("sprite math", () => {
   it("supports calibrated source-frame offsets", () => {
     expect(frameForAngle(0, 72, 9)).toBe(9);
     expect(frameForAngle(315, 72, 9)).toBe(0);
+  });
+
+  it("maps pointer directions to calibrated source keyframes", () => {
+    expect(frameForPointerAngle(0)).toBe(42);
+    expect(frameForPointerAngle(90)).toBe(48);
+    expect(frameForPointerAngle(180)).toBe(15);
+    expect(frameForPointerAngle(270)).toBe(29);
+    expect(frameForPointerAngle(315)).toBe(39);
+    expect(frameForPointerAngle(360)).toBe(42);
   });
 
   it("takes the short path across the frame seam", () => {

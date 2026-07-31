@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 import ProjectSelector from "@/components/portfolio/ProjectSelector";
@@ -13,6 +13,7 @@ test("keyboard focus previews the selected project", async () => {
       activeProject="about"
       onPreview={onPreview}
       onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
     />,
   );
 
@@ -30,6 +31,7 @@ test("click requests the selected project overlay", async () => {
       activeProject="about"
       onPreview={vi.fn()}
       onOpen={onOpen}
+      onResumePointer={vi.fn()}
     />,
   );
 
@@ -47,6 +49,7 @@ test("renders the supplied default and active artwork for each project", () => {
       activeProject="business"
       onPreview={vi.fn()}
       onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
     />,
   );
 
@@ -60,4 +63,23 @@ test("renders the supplied default and active artwork for each project", () => {
     "/kv/buttons/business-active.png",
   );
   expect(business).toHaveAttribute("aria-current", "page");
+});
+
+test("returns control to free pointer tracking after leaving a project", () => {
+  const onResumePointer = vi.fn();
+  render(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="business"
+      onPreview={vi.fn()}
+      onOpen={vi.fn()}
+      onResumePointer={onResumePointer}
+    />,
+  );
+
+  fireEvent.pointerLeave(
+    screen.getByRole("link", { name: "Open BUSINESS" }),
+  );
+
+  expect(onResumePointer).toHaveBeenCalledOnce();
 });

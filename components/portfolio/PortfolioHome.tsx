@@ -5,6 +5,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { PROJECTS, getProjectById, type ProjectId } from "@/lib/portfolio/projects";
 import { initialPortfolioState, portfolioReducer } from "@/lib/portfolio/state";
 import type { Point } from "@/lib/portfolio/sprite";
+import { KV_PROJECT_FRAMES } from "@/lib/portfolio/kv";
 import PortfolioChrome from "./PortfolioChrome";
 import ProjectPreview from "./ProjectPreview";
 import ProjectSelector from "./ProjectSelector";
@@ -30,6 +31,7 @@ export default function PortfolioHome() {
   const reduced = useReducedMotionPreference();
   const [state, dispatch] = useReducer(portfolioReducer, initialPortfolioState);
   const [focusPoint, setFocusPoint] = useState<Point | null>(null);
+  const [focusFrame, setFocusFrame] = useState<number | null>(null);
   const timer = useRef<number | null>(null);
 
   useEffect(() => {
@@ -57,6 +59,7 @@ export default function PortfolioHome() {
   const preview = useCallback((id: ProjectId, point: Point) => {
     dispatch({ type: "PREVIEW", projectId: id });
     setFocusPoint(point);
+    setFocusFrame(KV_PROJECT_FRAMES[id]);
     router.prefetch(getProjectById(id).href);
   }, [router]);
 
@@ -78,9 +81,9 @@ export default function PortfolioHome() {
         <ProjectPreview project={getProjectById(state.activeProject)} />
       </div>
       <div className={styles.portraitStage}>
-        <SpritePortrait focusPoint={focusPoint} motionReduced={reduced} className={styles.portrait} />
+        <SpritePortrait focusPoint={focusPoint} focusFrame={focusFrame} motionReduced={reduced} className={styles.portrait} />
       </div>
-      <ProjectSelector projects={PROJECTS} activeProject={state.activeProject} onPreview={preview} onOpen={open} />
+      <ProjectSelector projects={PROJECTS} activeProject={state.activeProject} onPreview={preview} onOpen={open} onResumePointer={() => setFocusFrame(null)} />
     </main>
   );
 }

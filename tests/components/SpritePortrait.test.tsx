@@ -64,6 +64,9 @@ test("loads the neutral full-frame KV and draws it without cropping", () => {
   render(<SpritePortrait focusPoint={null} motionReduced />);
 
   expect(sources[0]).toBe("/kv/frames/frame-054.webp");
+  expect(
+    screen.getByRole("img", { name: "Interactive CRT portrait" }),
+  ).toHaveAttribute("data-frame", "54");
   expect(drawImage).toHaveBeenCalledWith(
     expect.any(FakeImage),
     0,
