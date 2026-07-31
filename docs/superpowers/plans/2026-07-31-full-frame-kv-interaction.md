@@ -179,6 +179,7 @@ git commit -m "feat: map pointer angle to KV frame ring"
 
 **Files:**
 - Create: `lib/portfolio/kv.ts`
+- Create: `tests/unit/kv.test.ts`
 - Modify: `components/portfolio/SpritePortrait.tsx`
 - Modify: `components/portfolio/PortfolioHome.tsx`
 - Modify: `components/portfolio/portfolio.module.css`
@@ -187,17 +188,33 @@ git commit -m "feat: map pointer angle to KV frame ring"
 
 **Interfaces:**
 - Consumes: `focusPoint: Point | null`, `motionReduced: boolean`, and the generated manifest constants exposed by `lib/portfolio/kv.ts`.
-- Produces: a semantic Canvas that always draws a complete 1470×630 frame; `PortfolioHome` supplies real pointer coordinates only for `(pointer: fine)` and supplies button-center coordinates for coarse-pointer previews.
+- Produces: a semantic Canvas that always draws a complete, undistorted 1470×630 frame; `containRect(sourceWidth, sourceHeight, targetWidth, targetHeight)` returns the centered destination rectangle; `PortfolioHome` supplies real pointer coordinates only for `(pointer: fine)` and supplies button-center coordinates for coarse-pointer previews.
 
 - [ ] **Step 1: Add component tests for full-frame assets and reduced motion**
 
 Mock `global.Image` and Canvas 2D. Assert that `SpritePortrait` requests `/kv/frames/frame-${index}.webp`, draws with source dimensions `1470, 630`, keeps the first decoded frame visible when another frame errors, and stays on the neutral frame when `motionReduced` is true.
 
+Add `tests/unit/kv.test.ts`:
+
+```ts
+import { expect, test } from "vitest";
+import { containRect } from "@/lib/portfolio/kv";
+
+test("contains a 7:3 KV inside a portrait canvas without distortion", () => {
+  expect(containRect(1470, 630, 390, 844)).toEqual({
+    x: 0,
+    y: 338.42857142857144,
+    width: 390,
+    height: 167.14285714285714,
+  });
+});
+```
+
 Extend `PortfolioHome.test.tsx` so a mocked fine pointer updates `focusPoint`, while a mocked coarse pointer does not install a global `pointermove` listener.
 
 - [ ] **Step 2: Run the component tests and verify failure**
 
-Run: `npm test -- tests/components/SpritePortrait.test.tsx tests/components/PortfolioHome.test.tsx`
+Run: `npm test -- tests/unit/kv.test.ts tests/components/SpritePortrait.test.tsx tests/components/PortfolioHome.test.tsx`
 
 Expected: FAIL because the component still loads `/sprite/robot.webp` and assumes a square sprite sheet.
 
@@ -216,11 +233,18 @@ export function kvFrameSrc(index: number): string {
   const normalized = ((Math.round(index) % KV_FRAME_COUNT) + KV_FRAME_COUNT) % KV_FRAME_COUNT;
   return `/kv/frames/frame-${String(normalized).padStart(3, "0")}.webp`;
 }
+
+export function containRect(sourceWidth: number, sourceHeight: number, targetWidth: number, targetHeight: number) {
+  const scale = Math.min(targetWidth / sourceWidth, targetHeight / sourceHeight);
+  const width = sourceWidth * scale;
+  const height = sourceHeight * scale;
+  return { x: (targetWidth - width) / 2, y: (targetHeight - height) / 2, width, height };
+}
 ```
 
 - [ ] **Step 4: Replace sprite-sheet drawing with decoded frame drawing**
 
-In `SpritePortrait.tsx`, preload the neutral image first, then fill an `Array<HTMLImageElement | undefined>` outward around the neutral frame. Draw the selected complete image using `drawImage(image, 0, 0, 1470, 630, 0, 0, canvas.width, canvas.height)`. Convert `KV_HEAD_ANCHOR` to screen coordinates using the canvas bounding rectangle before calling `pointerAngle`. Preserve shortest-path easing at `0.16`, visibility pause, resize handling, the last good frame on load failure, and cancellation cleanup.
+In `SpritePortrait.tsx`, preload the neutral image first, then fill an `Array<HTMLImageElement | undefined>` outward around the neutral frame. Clear the Canvas with the source background color, calculate `containRect(1470, 630, canvas.width, canvas.height)`, and draw the complete image into that rectangle without stretching or cropping. Convert `KV_HEAD_ANCHOR` through the same contained destination rectangle before calling `pointerAngle`. Preserve shortest-path easing at `0.16`, visibility pause, resize handling, the last good frame on load failure, and cancellation cleanup.
 
 - [ ] **Step 5: Make the stage full-screen and keep pointer modes separate**
 
@@ -230,7 +254,7 @@ In `PortfolioHome`, keep global `pointermove` only for fine pointers. Continue s
 
 - [ ] **Step 6: Run component and regression tests**
 
-Run: `npm test -- tests/components/SpritePortrait.test.tsx tests/components/PortfolioHome.test.tsx`
+Run: `npm test -- tests/unit/kv.test.ts tests/components/SpritePortrait.test.tsx tests/components/PortfolioHome.test.tsx`
 
 Expected: PASS.
 
@@ -241,7 +265,7 @@ Expected: all tests pass.
 - [ ] **Step 7: Commit the complete-frame renderer**
 
 ```bash
-git add lib/portfolio/kv.ts components/portfolio/SpritePortrait.tsx components/portfolio/PortfolioHome.tsx components/portfolio/portfolio.module.css tests/components/SpritePortrait.test.tsx tests/components/PortfolioHome.test.tsx
+git add lib/portfolio/kv.ts components/portfolio/SpritePortrait.tsx components/portfolio/PortfolioHome.tsx components/portfolio/portfolio.module.css tests/unit/kv.test.ts tests/components/SpritePortrait.test.tsx tests/components/PortfolioHome.test.tsx
 git commit -m "feat: render mouse-following full-frame KV"
 ```
 
