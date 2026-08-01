@@ -1,8 +1,8 @@
 import { shortestFrameDelta } from "@/lib/portfolio/sprite";
 
 export const KV_SYNC_FRAME_COUNT = 193;
-export const KV_SYNC_WIDTH = 1470;
-export const KV_SYNC_HEIGHT = 630;
+export const KV_SYNC_WIDTH = 1280;
+export const KV_SYNC_HEIGHT = 720;
 export const KV_SYNC_NEUTRAL_FRAME = 174;
 export const KV_SYNC_HEAD_ANCHOR = { x: 0.5, y: 0.33 } as const;
 

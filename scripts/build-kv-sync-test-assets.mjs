@@ -2,16 +2,20 @@ import {
   existsSync,
   mkdtempSync,
   mkdirSync,
+  readFileSync,
   readdirSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
+import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const FRAME_COUNT = 193;
 const SOURCE_NAME = "首屏头部转动效果（需要除背景）.mp4";
+const SOURCE_SHA256 =
+  "5ee41d57459185ee198f2b6fbd93b864633d4303bc3ccb295207beee553e6ca6";
 const sourceCandidates = [
   resolve(process.cwd(), "..", "KV首屏", SOURCE_NAME),
   resolve(process.cwd(), "..", "..", "..", "KV首屏", SOURCE_NAME),
@@ -41,6 +45,16 @@ if (!VIDEO_PATH) {
   throw new Error(`Missing source video: ${SOURCE_NAME}`);
 }
 
+const sourceSha256 = createHash("sha256")
+  .update(readFileSync(VIDEO_PATH))
+  .digest("hex");
+
+if (sourceSha256 !== SOURCE_SHA256) {
+  throw new Error(
+    `Unexpected source fingerprint: ${sourceSha256} (${VIDEO_PATH})`,
+  );
+}
+
 const probe = JSON.parse(
   run("ffprobe", [
     "-v",
@@ -59,7 +73,7 @@ const [{ width, height, avg_frame_rate: averageFrameRate, nb_read_frames }] =
   probe.streams;
 const decodedFrameCount = Number(nb_read_frames);
 
-if (width !== 1470 || height !== 630 || decodedFrameCount !== FRAME_COUNT) {
+if (width !== 1280 || height !== 720 || decodedFrameCount !== FRAME_COUNT) {
   throw new Error(
     `Unexpected source: ${width}x${height}, ${decodedFrameCount} frames`,
   );
@@ -113,6 +127,8 @@ const manifest = {
   frameCount: FRAME_COUNT,
   width,
   height,
+  sourceFile: SOURCE_NAME,
+  sourceSha256,
   frameRate: parseRate(averageFrameRate),
   framePattern: "/kv-sync-test/frames/frame-%03d.webp",
 };
@@ -122,4 +138,6 @@ writeFileSync(
   `${JSON.stringify(manifest, null, 2)}\n`,
 );
 
-console.log(`Generated ${FRAME_COUNT} full-frame KV sync assets`);
+console.log(
+  `Generated ${FRAME_COUNT} full-frame KV sync assets from ${VIDEO_PATH}`,
+);
