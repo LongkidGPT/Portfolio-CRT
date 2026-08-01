@@ -4,7 +4,11 @@ export const KV_SYNC_FRAME_COUNT = 193;
 export const KV_SYNC_WIDTH = 1280;
 export const KV_SYNC_HEIGHT = 720;
 export const KV_SYNC_NEUTRAL_FRAME = 174;
-export const KV_SYNC_HEAD_ANCHOR = { x: 0.5, y: 0.33 } as const;
+export const KV_SYNC_HEAD_ANCHOR = { x: 0.5, y: 0.34 } as const;
+
+const KV_SYNC_NEUTRAL_ZONE = { x: 0.14, y: 0.18 } as const;
+const KV_SYNC_RIGHT_FRAME = 30;
+const KV_SYNC_LEFT_FRAME = 103;
 
 const FULL_FRAME_KEYS = [
   [0, 138],
@@ -56,4 +60,27 @@ export function frameForKvSyncAngle(angle: number): number {
   }
 
   return FULL_FRAME_KEYS[0][1];
+}
+
+export function frameForKvSyncPointer(
+  angle: number,
+  normalizedX: number,
+  normalizedY: number,
+): number {
+  if (
+    Math.abs(normalizedX) <= KV_SYNC_NEUTRAL_ZONE.x &&
+    Math.abs(normalizedY) <= KV_SYNC_NEUTRAL_ZONE.y
+  ) {
+    return KV_SYNC_NEUTRAL_FRAME;
+  }
+
+  const horizontalDistance =
+    Math.abs(normalizedX) * (KV_SYNC_WIDTH / KV_SYNC_HEIGHT);
+  const verticalDistance = Math.abs(normalizedY);
+
+  if (horizontalDistance >= verticalDistance * 1.2) {
+    return normalizedX >= 0 ? KV_SYNC_RIGHT_FRAME : KV_SYNC_LEFT_FRAME;
+  }
+
+  return frameForKvSyncAngle(angle);
 }

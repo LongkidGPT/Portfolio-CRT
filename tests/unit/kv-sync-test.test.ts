@@ -5,6 +5,7 @@ import {
   KV_SYNC_HEIGHT,
   KV_SYNC_WIDTH,
   frameForKvSyncAngle,
+  frameForKvSyncPointer,
   kvSyncFrameSrc,
 } from "@/lib/portfolio/kv-sync-test";
 
@@ -29,5 +30,20 @@ describe("KV synchronization test mapping", () => {
     [360, 65],
   ])("maps %d degrees to source frame %d", (angle, frame) => {
     expect(frameForKvSyncAngle(angle)).toBe(frame);
+  });
+
+  it("keeps the complete monitor area on the neutral frame", () => {
+    expect(frameForKvSyncPointer(135, 0.13, 0.16)).toBe(174);
+    expect(frameForKvSyncPointer(45, -0.13, -0.16)).toBe(174);
+  });
+
+  it("keeps clear horizontal pointer positions facing horizontally", () => {
+    expect(frameForKvSyncPointer(112, 0.3, 0.12)).toBe(30);
+    expect(frameForKvSyncPointer(248, -0.3, 0.12)).toBe(103);
+  });
+
+  it("preserves vertical tracking outside the monitor area", () => {
+    expect(frameForKvSyncPointer(0, 0, -0.3)).toBe(65);
+    expect(frameForKvSyncPointer(180, 0, 0.3)).toBe(138);
   });
 });
