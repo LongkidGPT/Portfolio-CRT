@@ -32,9 +32,9 @@ export function kvSyncFrameSrc(frame: number): string {
 }
 
 export function frameForKvSyncAngle(angle: number): number {
-  // Pointer direction and the filmed subject's facing direction use opposite
-  // viewpoints, so rotate once before looking up the source-video pose.
-  const normalized = (((angle + 180) % 360) + 360) % 360;
+  // The source footage uses an inverted vertical axis while its horizontal
+  // facing direction should follow the pointer without mirroring.
+  const normalized = (((180 - angle) % 360) + 360) % 360;
 
   for (let index = 0; index < FULL_FRAME_KEYS.length - 1; index += 1) {
     const [angleA, frameA] = FULL_FRAME_KEYS[index];

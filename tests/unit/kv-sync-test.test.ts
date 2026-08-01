@@ -23,9 +23,9 @@ describe("KV synchronization test mapping", () => {
 
   it.each([
     [0, 65],
-    [90, 103],
+    [90, 30],
     [180, 138],
-    [270, 30],
+    [270, 103],
     [360, 65],
   ])("maps %d degrees to source frame %d", (angle, frame) => {
     expect(frameForKvSyncAngle(angle)).toBe(frame);

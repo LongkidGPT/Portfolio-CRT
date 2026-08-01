@@ -17,9 +17,9 @@ test("renders complete synchronized source frames on the isolated route", async 
 
   for (const [x, y, frame] of [
     [735, 10, "65"],
-    [1400, 208, "103"],
+    [1400, 208, "30"],
     [735, 620, "138"],
-    [70, 208, "30"],
+    [70, 208, "103"],
   ] as const) {
     await page.mouse.move(x, y);
     await expect(canvas).toHaveAttribute("data-frame", frame);
