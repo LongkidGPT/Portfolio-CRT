@@ -14,7 +14,7 @@ describe("generated KV assets", () => {
       frameCount: 72,
       width: 1470,
       height: 630,
-      neutralFrame: 54,
+      neutralFrame: 65,
       transparent: true,
       framePattern: "/kv/frames/frame-%03d.webp",
     });

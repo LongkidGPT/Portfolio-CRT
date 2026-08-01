@@ -31,15 +31,15 @@ export function shortestFrameDelta(
 }
 
 const POINTER_FRAME_KEYS = [
-  [0, 42],
-  [45, 45],
-  [90, 48],
-  [135, 11],
-  [180, 15],
-  [225, 20],
-  [270, 29],
-  [315, 39],
-  [360, 42],
+  [0, 51],
+  [45, 60],
+  [90, 11],
+  [135, 18],
+  [180, 24],
+  [225, 31],
+  [270, 38],
+  [315, 44],
+  [360, 51],
 ] as const;
 
 export function frameForPointerAngle(angle: number): number {

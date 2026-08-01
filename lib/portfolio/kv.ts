@@ -1,14 +1,14 @@
 export const KV_FRAME_COUNT = 72;
 export const KV_WIDTH = 1470;
 export const KV_HEIGHT = 630;
-export const KV_NEUTRAL_FRAME = 54;
-export const KV_HEAD_ANCHOR = { x: 0.62, y: 0.43 } as const;
+export const KV_NEUTRAL_FRAME = 65;
+export const KV_HEAD_ANCHOR = { x: 0.5, y: 0.33 } as const;
 export const KV_PROJECT_FRAMES = {
-  about: 20,
-  business: 18,
-  "brand-system": 15,
-  "product-launch": 13,
-  "launch-event": 11,
+  about: 32,
+  business: 30,
+  "brand-system": 27,
+  "product-launch": 25,
+  "launch-event": 22,
 } as const;
 
 export interface Rect {
@@ -59,9 +59,9 @@ export function portraitRect(targetWidth: number, targetHeight: number): Rect {
   const contained = containRect(KV_WIDTH, KV_HEIGHT, targetWidth, targetHeight);
 
   return {
-    x: contained.x + targetWidth * 0.205,
+    x: contained.x + targetWidth * 0.176,
     y: contained.y + targetHeight * 0.14,
-    width: contained.width * 0.8,
-    height: contained.height * 0.8,
+    width: contained.width * 0.86,
+    height: contained.height * 0.86,
   };
 }

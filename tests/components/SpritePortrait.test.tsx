@@ -63,10 +63,10 @@ test("loads and positions the neutral transparent KV", () => {
 
   render(<SpritePortrait focusPoint={null} motionReduced />);
 
-  expect(sources[0]).toBe("/kv/frames/frame-054.webp");
+  expect(sources[0]).toBe("/kv/frames/frame-065.webp");
   expect(
     screen.getByRole("img", { name: "Interactive CRT portrait" }),
-  ).toHaveAttribute("data-frame", "54");
+  ).toHaveAttribute("data-frame", "65");
   const drawCall = drawImage.mock.calls[0];
   expect(drawCall.slice(0, 5)).toEqual([
     expect.any(FakeImage),
@@ -75,10 +75,10 @@ test("loads and positions the neutral transparent KV", () => {
     1470,
     630,
   ]);
-  expect(drawCall[5]).toBeCloseTo(301.35, 2);
+  expect(drawCall[5]).toBeCloseTo(258.72, 2);
   expect(drawCall[6]).toBeCloseTo(88.2, 2);
-  expect(drawCall[7]).toBeCloseTo(1176, 2);
-  expect(drawCall[8]).toBeCloseTo(504, 2);
+  expect(drawCall[7]).toBeCloseTo(1264.2, 2);
+  expect(drawCall[8]).toBeCloseTo(541.8, 2);
   expect(clearRect).toHaveBeenCalled();
   expect(fillRect).not.toHaveBeenCalled();
 

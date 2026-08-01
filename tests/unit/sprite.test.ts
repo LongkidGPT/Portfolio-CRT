@@ -21,12 +21,12 @@ describe("sprite math", () => {
   });
 
   it("maps pointer directions to calibrated source keyframes", () => {
-    expect(frameForPointerAngle(0)).toBe(42);
-    expect(frameForPointerAngle(90)).toBe(48);
-    expect(frameForPointerAngle(180)).toBe(15);
-    expect(frameForPointerAngle(270)).toBe(29);
-    expect(frameForPointerAngle(315)).toBe(39);
-    expect(frameForPointerAngle(360)).toBe(42);
+    expect(frameForPointerAngle(0)).toBe(51);
+    expect(frameForPointerAngle(90)).toBe(11);
+    expect(frameForPointerAngle(180)).toBe(24);
+    expect(frameForPointerAngle(270)).toBe(38);
+    expect(frameForPointerAngle(315)).toBe(44);
+    expect(frameForPointerAngle(360)).toBe(51);
   });
 
   it("takes the short path across the frame seam", () => {

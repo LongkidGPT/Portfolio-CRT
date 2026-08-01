@@ -8,6 +8,23 @@ from PIL import Image
 from rembg import new_session, remove
 
 
+def tighten_alpha(image: Image.Image) -> Image.Image:
+    rgba = image.convert("RGBA")
+    alpha = rgba.getchannel("A")
+
+    def remap(value: int) -> int:
+        if value <= 96:
+            return 0
+        if value >= 192:
+            return 255
+        progress = (value - 96) / 96
+        smooth = progress * progress * (3 - 2 * progress)
+        return round(smooth * 255)
+
+    rgba.putalpha(alpha.point(remap))
+    return rgba
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("input", type=Path)
@@ -41,7 +58,7 @@ def main() -> None:
                     alpha_matting_erode_size=3,
                 )
             result = remove(source.convert("RGB"), **options)
-            result.save(output_path)
+            tighten_alpha(result).save(output_path)
         print(f"[{index}/{len(sources)}] {source_path.name}", flush=True)
 
 

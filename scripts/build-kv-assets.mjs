@@ -12,7 +12,7 @@ import { basename, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const FRAME_COUNT = 72;
-const NEUTRAL_FRAME = 54;
+const NEUTRAL_FRAME = 65;
 const SOURCE_DIR = resolve(process.cwd(), "..", "KV首屏");
 const VIDEO_PATH = join(SOURCE_DIR, "首屏头部转动效果（需要除背景）.mp4");
 const OUTPUT_ROOT = resolve(process.cwd(), "public", "kv");

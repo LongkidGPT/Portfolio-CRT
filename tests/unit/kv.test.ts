@@ -17,7 +17,7 @@ describe("KV frame helpers", () => {
       width: KV_WIDTH,
       height: KV_HEIGHT,
       neutralFrame: KV_NEUTRAL_FRAME,
-    }).toEqual({ frameCount: 72, width: 1470, height: 630, neutralFrame: 54 });
+    }).toEqual({ frameCount: 72, width: 1470, height: 630, neutralFrame: 65 });
   });
 
   test("normalizes frame paths around the direction ring", () => {
@@ -29,11 +29,11 @@ describe("KV frame helpers", () => {
 
   test("assigns the five project controls to five fixed directions", () => {
     expect(KV_PROJECT_FRAMES).toEqual({
-      about: 20,
-      business: 18,
-      "brand-system": 15,
-      "product-launch": 13,
-      "launch-event": 11,
+      about: 32,
+      business: 30,
+      "brand-system": 27,
+      "product-launch": 25,
+      "launch-event": 22,
     });
   });
 
@@ -49,10 +49,11 @@ describe("KV frame helpers", () => {
   test("places the transparent portrait to match the desktop composition", () => {
     const result = portraitRect(2048, 853);
 
-    expect(result.x).toBeCloseTo(448.67, 1);
+    expect(result.x).toBeCloseTo(389.28, 1);
     expect(result.y).toBeCloseTo(119.42, 1);
     expect(result.width / result.height).toBeCloseTo(1470 / 630, 5);
-    expect(result.height).toBeCloseTo(682.4, 1);
+    expect(result.height).toBeCloseTo(733.58, 1);
+    expect(result.y + result.height).toBeCloseTo(853, 1);
   });
 
   test("enlarges the transparent portrait without distortion on mobile", () => {
