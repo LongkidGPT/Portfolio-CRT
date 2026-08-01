@@ -7,8 +7,8 @@ import {
   KV_HEIGHT,
   KV_NEUTRAL_FRAME,
   KV_WIDTH,
-  containRect,
   kvFrameSrc,
+  portraitRect,
 } from "@/lib/portfolio/kv";
 import {
   frameForPointerAngle,
@@ -56,9 +56,7 @@ export default function SpritePortrait({
 
     const resizeCanvas = () => {
       const bounds = canvas.getBoundingClientRect();
-      const content = containRect(
-        KV_WIDTH,
-        KV_HEIGHT,
+      const content = portraitRect(
         Math.max(1, bounds.width),
         Math.max(1, bounds.height),
       );
@@ -86,16 +84,9 @@ export default function SpritePortrait({
 
       if (rounded === drawnFrame || !image?.complete) return;
 
-      const destination = containRect(
-        KV_WIDTH,
-        KV_HEIGHT,
-        canvas.width,
-        canvas.height,
-      );
+      const destination = portraitRect(canvas.width, canvas.height);
 
       context.clearRect(0, 0, canvas.width, canvas.height);
-      context.fillStyle = "#e2e5e4";
-      context.fillRect(0, 0, canvas.width, canvas.height);
       context.drawImage(
         image,
         0,
@@ -146,12 +137,7 @@ export default function SpritePortrait({
       if (!point) return KV_NEUTRAL_FRAME;
 
       const bounds = canvas.getBoundingClientRect();
-      const content = containRect(
-        KV_WIDTH,
-        KV_HEIGHT,
-        bounds.width,
-        bounds.height,
-      );
+      const content = portraitRect(bounds.width, bounds.height);
       const anchor = {
         x: bounds.left + content.x + content.width * KV_HEAD_ANCHOR.x,
         y: bounds.top + content.y + content.height * KV_HEAD_ANCHOR.y,

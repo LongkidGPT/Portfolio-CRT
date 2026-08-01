@@ -15,6 +15,7 @@ describe("generated KV assets", () => {
       width: 1470,
       height: 630,
       neutralFrame: 54,
+      transparent: true,
       framePattern: "/kv/frames/frame-%03d.webp",
     });
   });

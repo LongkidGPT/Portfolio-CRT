@@ -42,3 +42,26 @@ export function containRect(
     height,
   };
 }
+
+export function portraitRect(targetWidth: number, targetHeight: number): Rect {
+  if (targetWidth <= 767) {
+    const height = targetHeight * 0.49;
+    const width = height * (KV_WIDTH / KV_HEIGHT);
+
+    return {
+      x: (targetWidth - width) / 2,
+      y: targetHeight * 0.1,
+      width,
+      height,
+    };
+  }
+
+  const contained = containRect(KV_WIDTH, KV_HEIGHT, targetWidth, targetHeight);
+
+  return {
+    x: contained.x + targetWidth * 0.205,
+    y: contained.y + targetHeight * 0.14,
+    width: contained.width * 0.8,
+    height: contained.height * 0.8,
+  };
+}

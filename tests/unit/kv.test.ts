@@ -7,6 +7,7 @@ import {
   KV_WIDTH,
   containRect,
   kvFrameSrc,
+  portraitRect,
 } from "@/lib/portfolio/kv";
 
 describe("KV frame helpers", () => {
@@ -43,5 +44,23 @@ describe("KV frame helpers", () => {
     expect(result.y).toBeCloseTo(338.43, 2);
     expect(result.width).toBe(390);
     expect(result.height).toBeCloseTo(167.14, 2);
+  });
+
+  test("places the transparent portrait to match the desktop composition", () => {
+    const result = portraitRect(2048, 853);
+
+    expect(result.x).toBeCloseTo(448.67, 1);
+    expect(result.y).toBeCloseTo(119.42, 1);
+    expect(result.width / result.height).toBeCloseTo(1470 / 630, 5);
+    expect(result.height).toBeCloseTo(682.4, 1);
+  });
+
+  test("enlarges the transparent portrait without distortion on mobile", () => {
+    const result = portraitRect(390, 844);
+
+    expect(result.x).toBeCloseTo(-287.49, 1);
+    expect(result.y).toBeCloseTo(84.4, 1);
+    expect(result.width / result.height).toBeCloseTo(1470 / 630, 5);
+    expect(result.height).toBeCloseTo(413.56, 1);
   });
 });

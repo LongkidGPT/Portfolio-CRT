@@ -14,7 +14,7 @@ import { spawnSync } from "node:child_process";
 const FRAME_COUNT = 72;
 const NEUTRAL_FRAME = 54;
 const SOURCE_DIR = resolve(process.cwd(), "..", "KV首屏");
-const VIDEO_PATH = join(SOURCE_DIR, "首屏头部转动效果.mp4");
+const VIDEO_PATH = join(SOURCE_DIR, "首屏头部转动效果（需要除背景）.mp4");
 const OUTPUT_ROOT = resolve(process.cwd(), "public", "kv");
 const FRAME_DIR = join(OUTPUT_ROOT, "frames");
 const BUTTON_DIR = join(OUTPUT_ROOT, "buttons");
@@ -103,32 +103,61 @@ mkdirSync(FRAME_DIR, { recursive: true });
 mkdirSync(BUTTON_DIR, { recursive: true });
 
 const tempDir = mkdtempSync(join(tmpdir(), "portfolio-kv-"));
+const rawDir = join(tempDir, "raw");
+const selectedDir = join(tempDir, "selected");
+const transparentDir = join(tempDir, "transparent");
 
 try {
+  mkdirSync(rawDir, { recursive: true });
+  mkdirSync(selectedDir, { recursive: true });
   run("ffmpeg", [
     "-y",
     "-v",
     "error",
     "-i",
     VIDEO_PATH,
-    "-vf",
-    `fps=${FRAME_COUNT}/${duration}`,
-    "-frames:v",
-    String(FRAME_COUNT),
     "-start_number",
     "0",
-    join(tempDir, "frame-%03d.png"),
+    join(rawDir, "source-%03d.png"),
   ]);
 
-  const pngFrames = readdirSync(tempDir)
+  const sourceFrames = readdirSync(rawDir)
     .filter((name) => name.endsWith(".png"))
     .sort();
 
-  if (pngFrames.length !== FRAME_COUNT) {
-    throw new Error(
-      `Expected ${FRAME_COUNT} extracted frames, found ${pngFrames.length}`,
-    );
+  if (sourceFrames.length < FRAME_COUNT) {
+    throw new Error(`Expected at least ${FRAME_COUNT} source frames`);
   }
+
+  const pngFrames = Array.from({ length: FRAME_COUNT }, (_, index) => {
+    const sourceIndex = Math.round(
+      (index * (sourceFrames.length - 1)) / (FRAME_COUNT - 1),
+    );
+    const outputName = `frame-${String(index).padStart(3, "0")}.png`;
+    copyFileSync(
+      join(rawDir, sourceFrames[sourceIndex]),
+      join(selectedDir, outputName),
+    );
+    return outputName;
+  });
+
+  if (new Set(pngFrames).size !== FRAME_COUNT) {
+    throw new Error(`Could not select ${FRAME_COUNT} unique frame names`);
+  }
+
+  run("uv", [
+    "run",
+    "--with",
+    "rembg[cpu]",
+    "--with",
+    "pillow",
+    "python",
+    resolve(process.cwd(), "scripts", "remove-background.py"),
+    selectedDir,
+    transparentDir,
+    "--model",
+    "u2netp",
+  ]);
 
   for (const pngName of pngFrames) {
     const webpName = pngName.replace(/\.png$/, ".webp");
@@ -138,7 +167,7 @@ try {
       "78",
       "-m",
       "6",
-      join(tempDir, pngName),
+      join(transparentDir, pngName),
       "-o",
       join(FRAME_DIR, webpName),
     ]);
@@ -166,6 +195,7 @@ const manifest = {
   width,
   height,
   neutralFrame: NEUTRAL_FRAME,
+  transparent: true,
   framePattern: "/kv/frames/frame-%03d.webp",
 };
 

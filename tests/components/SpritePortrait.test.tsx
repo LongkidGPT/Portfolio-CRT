@@ -16,7 +16,7 @@ test("exposes the interactive portrait as one semantic image", () => {
   getContext.mockRestore();
 });
 
-test("loads the neutral full-frame KV and draws it without cropping", () => {
+test("loads and positions the neutral transparent KV", () => {
   const sources: string[] = [];
   const drawImage = vi.fn();
   const clearRect = vi.fn();
@@ -67,17 +67,20 @@ test("loads the neutral full-frame KV and draws it without cropping", () => {
   expect(
     screen.getByRole("img", { name: "Interactive CRT portrait" }),
   ).toHaveAttribute("data-frame", "54");
-  expect(drawImage).toHaveBeenCalledWith(
+  const drawCall = drawImage.mock.calls[0];
+  expect(drawCall.slice(0, 5)).toEqual([
     expect.any(FakeImage),
     0,
     0,
     1470,
     630,
-    0,
-    0,
-    1470,
-    630,
-  );
+  ]);
+  expect(drawCall[5]).toBeCloseTo(301.35, 2);
+  expect(drawCall[6]).toBeCloseTo(88.2, 2);
+  expect(drawCall[7]).toBeCloseTo(1176, 2);
+  expect(drawCall[8]).toBeCloseTo(504, 2);
+  expect(clearRect).toHaveBeenCalled();
+  expect(fillRect).not.toHaveBeenCalled();
 
   requestFrame.mockRestore();
   bounds.mockRestore();

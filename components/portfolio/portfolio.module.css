@@ -220,7 +220,7 @@
   .chrome { grid-template-columns: 1fr 1fr auto; }
   .contact { display: none; }
   .previewStage { left: 19%; width: 26vw; }
-  .portraitStage { left: 36%; width: max(65vw, 650px); }
+  .portraitStage { inset: 0; width: auto; }
   .selector { right: 10%; width: 64vw; }
 }
 
