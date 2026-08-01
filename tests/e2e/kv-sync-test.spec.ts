@@ -11,21 +11,18 @@ test("renders complete synchronized source frames on the isolated route", async 
     name: "Full-frame KV synchronization test",
   });
   await expect(canvas).toHaveAttribute("data-frame", /\d+/);
-  await expect(canvas).toHaveAttribute("data-loaded", /[1-9]\d*/);
+  await expect(canvas).toHaveAttribute("data-loaded", "193");
   await expect(canvas).toHaveAttribute("data-errors", "0");
   await expect(page.locator("[data-nextjs-dialog]")).toHaveCount(0);
 
-  const initialFrame = await canvas.getAttribute("data-frame");
-  await page.mouse.move(1400, 50);
-  await expect(canvas).not.toHaveAttribute("data-frame", initialFrame ?? "174");
-
-  for (const [x, y] of [
-    [70, 50],
-    [1400, 580],
-    [70, 580],
+  for (const [x, y, frame] of [
+    [735, 10, "65"],
+    [1400, 208, "103"],
+    [735, 620, "138"],
+    [70, 208, "30"],
   ] as const) {
     await page.mouse.move(x, y);
-    await expect(canvas).toHaveAttribute("data-frame", /\d+/);
+    await expect(canvas).toHaveAttribute("data-frame", frame);
     await expect(canvas).toHaveAttribute("data-errors", "0");
   }
 });
