@@ -57,15 +57,16 @@ test("renders the supplied default and active artwork for each project", () => {
   );
 
   const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
-  expect(business).toHaveTextContent("DESIGN LOGIC");
   expect(business.querySelector('[data-state="default"]')).toHaveAttribute(
     "src",
-    "/kv/buttons/business-default.png",
+    "/kv/buttons/design-logic-default.png",
   );
   expect(business.querySelector('[data-state="active"]')).toHaveAttribute(
     "src",
-    "/kv/buttons/business-active.png",
+    "/kv/buttons/design-logic-active.png",
   );
+  expect(business.querySelectorAll("img")).toHaveLength(2);
+  expect(screen.queryByText("DESIGN LOGIC")).not.toBeInTheDocument();
   expect(business).toHaveAttribute("data-previewed");
   expect(screen.getByRole("link", { name: "Open ABOUT" })).not.toHaveAttribute(
     "data-previewed",

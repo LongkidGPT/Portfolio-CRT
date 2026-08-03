@@ -104,6 +104,18 @@
 - The homepage entry now exposes `DESIGN LOGIC` visually and accessibly while retaining the supplied button frame/icon and its existing state styling. Evidence: `/private/tmp/portfolio-home-design-logic.png`.
 - Actual homepage click flow was exercised for all four work entries; all opened at artwork top after the transition. Closing the last case returned to the homepage and restored the `DESIGN LOGIC` entry. All overlays computed `rgb(248, 250, 252)` (`#F8FAFC`), and the console contained no errors or warnings.
 
+### Pass 7 — passed
+
+- [P2] The second desktop button had an interrupted bottom border.
+  - User evidence: `/var/folders/w3/86hm5rwn3ll4gmnz__7mbh240000gn/T/TemporaryItems/NSIRD_screencaptureui_sfrgVG/截屏2026-08-04 01.47.42.png`.
+  - Root cause: `DESIGN LOGIC` was rendered as a CSS text/background layer over the original `BUSINESS` raster. That layer covered part of the supplied border artwork, leaving a darker exposed segment below the icon.
+  - Fix: removed the runtime text/background overlay and replaced it with complete `576 × 168` default and active raster assets. Both assets preserve the original icon, frame, rounded corners, transparency, colors, and state behavior.
+- Revised full-view evidence: `/private/tmp/portfolio-design-logic-button-fixed-full.png` at a `1280 × 720` CSS viewport, device scale `1`.
+- Revised focused evidence: `/private/tmp/portfolio-design-logic-button-fixed-crop.png`.
+- Before/after normalized comparison: `/private/tmp/qa-design-logic-button-before-after.png`. The revised lower comparison shows a continuous bottom border matching both adjacent buttons.
+- Fonts/typography: the label remains monospaced, with size reduced only to fit the longer name. Spacing/layout rhythm: icon and label retain the original button anchors. Colors/tokens: default gray and active white/blue states match the supplied artwork. Image quality: both states are native `576 × 168` PNGs with preserved transparency. Copy/content: the visible and accessible label remains `DESIGN LOGIC`.
+- Browser inspection confirmed exactly two raster state images, no runtime label overlay, correct natural dimensions, and no console errors or warnings.
+
 ## Open questions
 
 - None for the confirmed desktop scope. Mobile remains intentionally outside this pass.

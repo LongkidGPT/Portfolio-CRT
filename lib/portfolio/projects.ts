@@ -77,8 +77,8 @@ export const PROJECTS = [
     },
     href: "/work/business",
     kind: "case",
-    buttonDefault: "/kv/buttons/business-default.png",
-    buttonActive: "/kv/buttons/business-active.png",
+    buttonDefault: "/kv/buttons/design-logic-default.png",
+    buttonActive: "/kv/buttons/design-logic-active.png",
     caseArtwork: {
       src: "/kv/cases/design-logic.jpg",
       alt: "Design logic case study",
