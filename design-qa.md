@@ -82,6 +82,28 @@
   - source/implementation comparison: `/private/tmp/qa-brand-system-top-comparison.png`
 - The only intentional difference in the comparison is the app-level `CLOSE ×` control over the intercepted view; it sits outside the supplied artwork. Console contained no errors or warnings.
 
+### Pass 6 — passed
+
+- Supplied subpage artwork:
+  - `/Users/jade/Desktop/Longkid Folder/AIGC/Portflio Test N/KV首屏/子页面/DESIGN LOGIC.jpg` (`2880 × 12170`)
+  - `/Users/jade/Desktop/Longkid Folder/AIGC/Portflio Test N/KV首屏/子页面/BRAND SYSTEM.jpg` (`2880 × 28394`)
+  - `/Users/jade/Desktop/Longkid Folder/AIGC/Portflio Test N/KV首屏/子页面/PRODUCT LAUNCH.png` (`2397 × 32768`)
+  - `/Users/jade/Desktop/Longkid Folder/AIGC/Portflio Test N/KV首屏/子页面/LAUNCH EVENT.png` (`2880 × 19500`)
+- All four artworks render unchanged as continuous case-study images. At the `1280 × 720` QA viewport and device scale `1`, each image occupies the full `1280px` content width; the browser preserves its source aspect ratio and natural dimensions.
+- Source/implementation comparison evidence:
+  - `/private/tmp/qa-design-logic-top-comparison.png`
+  - `/private/tmp/qa-brand-system-updated-comparison.png`
+  - `/private/tmp/qa-product-launch-top-comparison.png`
+  - `/private/tmp/qa-launch-event-top-comparison.png`
+- Browser-rendered implementation evidence:
+  - `/private/tmp/portfolio-design-logic-overlay-top-final.png`
+  - `/private/tmp/portfolio-brand-system-overlay-updated.png`
+  - `/private/tmp/portfolio-product-launch-overlay-top.png`
+  - `/private/tmp/portfolio-launch-event-overlay-top.png`
+- Fonts/typography, spacing/layout rhythm, colors/tokens, image quality, and copy/content are pixel-identical to each supplied raster after width normalization. The only intentional overlay difference is the app-level `CLOSE ×` control.
+- The homepage entry now exposes `DESIGN LOGIC` visually and accessibly while retaining the supplied button frame/icon and its existing state styling. Evidence: `/private/tmp/portfolio-home-design-logic.png`.
+- Actual homepage click flow was exercised for all four work entries; all opened at artwork top after the transition. Closing the last case returned to the homepage and restored the `DESIGN LOGIC` entry. All overlays computed `rgb(248, 250, 252)` (`#F8FAFC`), and the console contained no errors or warnings.
+
 ## Open questions
 
 - None for the confirmed desktop scope. Mobile remains intentionally outside this pass.

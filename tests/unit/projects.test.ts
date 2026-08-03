@@ -23,6 +23,10 @@ describe("project registry", () => {
     }
   });
 
+  it("exposes DESIGN LOGIC as the business entry label", () => {
+    expect(getProjectById("business").label).toBe("DESIGN LOGIC");
+  });
+
   it("stores the approved structured desktop preview copy", () => {
     expect(PROJECTS.map(({ id, previewCopy }) => ({ id, previewCopy }))).toEqual([
       {

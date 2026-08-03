@@ -105,7 +105,7 @@ test("locks the full-frame target to the hovered formal project", () => {
   });
 
   render(<PortfolioHome />);
-  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open BUSINESS" }));
+  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open DESIGN LOGIC" }));
   act(() => callbacks.shift()?.(1000 / 60));
 
   expect(
@@ -116,7 +116,7 @@ test("locks the full-frame target to the hovered formal project", () => {
 test("restores the ABOUT ME copy after the pointer leaves a project button", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   render(<PortfolioHome />);
-  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
 
   fireEvent.pointerEnter(business);
   expect(
@@ -149,7 +149,7 @@ test("holds navigation until the portrait exit transition completes", () => {
     .mockReturnValue(null);
   const { container } = render(<PortfolioHome />);
 
-  fireEvent.click(screen.getByRole("link", { name: "Open BUSINESS" }));
+  fireEvent.click(screen.getByRole("link", { name: "Open DESIGN LOGIC" }));
   expect(container.querySelector("main")).toHaveAttribute("data-phase", "zooming");
   act(() => vi.advanceTimersByTime(719));
   expect(navigation.push).not.toHaveBeenCalled();

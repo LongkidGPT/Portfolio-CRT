@@ -38,7 +38,7 @@ test("click requests the selected project overlay", async () => {
   );
 
   await userEvent.click(
-    screen.getByRole("link", { name: "Open BUSINESS" }),
+    screen.getByRole("link", { name: "Open DESIGN LOGIC" }),
   );
 
   expect(onOpen).toHaveBeenCalledWith("business");
@@ -56,7 +56,8 @@ test("renders the supplied default and active artwork for each project", () => {
     />,
   );
 
-  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
+  expect(business).toHaveTextContent("DESIGN LOGIC");
   expect(business.querySelector('[data-state="default"]')).toHaveAttribute(
     "src",
     "/kv/buttons/business-default.png",
@@ -86,7 +87,7 @@ test("returns control to free pointer tracking after leaving a project", () => {
   );
 
   fireEvent.pointerLeave(
-    screen.getByRole("link", { name: "Open BUSINESS" }),
+    screen.getByRole("link", { name: "Open DESIGN LOGIC" }),
   );
 
   expect(onResumePointer).toHaveBeenCalledOnce();
@@ -104,7 +105,7 @@ test("pointer activation blurs before opening", async () => {
     />,
   );
 
-  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
   business.focus();
   await userEvent.click(business);
 
@@ -123,7 +124,7 @@ test("keyboard activation preserves keyboard focus", () => {
     />,
   );
 
-  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
   business.focus();
   fireEvent.click(business, { detail: 0 });
 

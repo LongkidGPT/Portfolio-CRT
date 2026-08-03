@@ -282,6 +282,25 @@
   inset: 0;
   opacity: 0;
 }
+.designLogicLabel {
+  position: absolute;
+  z-index: 2;
+  inset: 5% 2% 7% 25%;
+  display: flex;
+  align-items: center;
+  padding-left: 5.5%;
+  background: #f7f7f7;
+  color: #999;
+  font: 500 29%/1 var(--font-mono);
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+.projectLink:hover .designLogicLabel,
+.projectLink:focus-visible .designLogicLabel,
+.projectLink[data-previewed] .designLogicLabel {
+  background: #242424;
+  color: #fff;
+}
 .projectLink:hover .buttonArtwork img[data-state="default"],
 .projectLink:focus-visible .buttonArtwork img[data-state="default"],
 .projectLink[data-previewed] .buttonArtwork img[data-state="default"] { opacity: 0; }
@@ -444,12 +463,12 @@
   width: min(calc(100% - 48px), 870px);
   margin: 0 auto;
 }
-.brandSystemCase {
+.caseArtwork {
   width: min(100%, 1440px);
   margin: 0 auto;
   background: #f8fafc;
 }
-.brandSystemCase img {
+.caseArtwork img {
   display: block;
   width: 100%;
   height: auto;

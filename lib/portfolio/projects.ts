@@ -19,6 +19,13 @@ export interface PreviewCopy {
   bodyLines: readonly string[];
 }
 
+export interface CaseArtwork {
+  src: `/kv/cases/${string}`;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface ProjectDefinition {
   id: ProjectId;
   label: string;
@@ -30,6 +37,7 @@ export interface ProjectDefinition {
   kind: "about" | "case";
   buttonDefault: `/kv/buttons/${string}-default.png`;
   buttonActive: `/kv/buttons/${string}-active.png`;
+  caseArtwork?: CaseArtwork;
   media: readonly MediaSlot[];
 }
 
@@ -54,7 +62,7 @@ export const PROJECTS = [
   },
   {
     id: "business",
-    label: "BUSINESS",
+    label: "DESIGN LOGIC",
     title: "Business Context",
     year: "IFA 2025",
     summary: "Business objectives, project framing and design requirements.",
@@ -71,6 +79,12 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/business-default.png",
     buttonActive: "/kv/buttons/business-active.png",
+    caseArtwork: {
+      src: "/kv/cases/design-logic.jpg",
+      alt: "Design logic case study",
+      width: 2880,
+      height: 12170,
+    },
     media: [
       {
         id: "hero",
@@ -105,6 +119,12 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/brand-system-default.png",
     buttonActive: "/kv/buttons/brand-system-active.png",
+    caseArtwork: {
+      src: "/kv/cases/brand-system.jpg",
+      alt: "Brand system case study",
+      width: 2880,
+      height: 28394,
+    },
     media: [
       {
         id: "hero",
@@ -142,6 +162,12 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/product-launch-default.png",
     buttonActive: "/kv/buttons/product-launch-active.png",
+    caseArtwork: {
+      src: "/kv/cases/product-launch.png",
+      alt: "Product launch case study",
+      width: 2397,
+      height: 32768,
+    },
     media: [
       {
         id: "hero",
@@ -176,6 +202,12 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/launch-event-default.png",
     buttonActive: "/kv/buttons/launch-event-active.png",
+    caseArtwork: {
+      src: "/kv/cases/launch-event.png",
+      alt: "Launch event case study",
+      width: 2880,
+      height: 19500,
+    },
     media: [
       {
         id: "hero",

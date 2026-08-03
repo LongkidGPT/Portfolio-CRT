@@ -30,7 +30,7 @@ test("tracks the pointer and locks all five R4 project poses", async ({
 
   const projectTargets = [
     ["ABOUT", "124"],
-    ["BUSINESS", "134"],
+    ["DESIGN LOGIC", "134"],
     ["BRAND SYSTEM", "144"],
     ["PRODUCT LAUNCH", "150"],
     ["LAUNCH EVENT", "156"],
@@ -93,7 +93,7 @@ test("restores the neutral selector and copies contact details", async ({
     expect(new Set(widths)).toEqual(new Set(["18px"]));
   }
 
-  const business = page.getByRole("link", { name: "Open BUSINESS" });
+  const business = page.getByRole("link", { name: "Open DESIGN LOGIC" });
   await business.hover();
   await expect(business).toHaveAttribute("data-previewed", "");
 
@@ -117,13 +117,13 @@ test("pointer navigation does not retain a project focus frame", async ({
   test.skip(testInfo.project.name !== "desktop");
   await page.goto("/");
 
-  await page.getByRole("link", { name: "Open BUSINESS" }).click();
+  await page.getByRole("link", { name: "Open DESIGN LOGIC" }).click();
   await expect(page).toHaveURL(/\/work\/business$/);
   await expect(page.getByRole("dialog", { name: "Business Context" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page).toHaveURL(/\/$/);
 
-  const business = page.getByRole("link", { name: "Open BUSINESS" });
+  const business = page.getByRole("link", { name: "Open DESIGN LOGIC" });
   await expect(business).not.toBeFocused();
   expect(
     await business.evaluate((element) => getComputedStyle(element).outlineStyle),
@@ -135,7 +135,7 @@ test("opens and closes a shareable project overlay", async ({ page }) => {
   if (await page.getByRole("button", { name: "Next project" }).isVisible()) {
     await page.getByRole("button", { name: "Next project" }).click();
   }
-  await page.getByRole("link", { name: "Open BUSINESS" }).click();
+  await page.getByRole("link", { name: "Open DESIGN LOGIC" }).click();
   await page.waitForTimeout(160);
   await expect(page).toHaveURL(/\/$/);
   const portraitOpacity = await page

@@ -61,6 +61,7 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
               prefetch={false}
               className={styles.projectLink}
               aria-label={`Open ${project.label}`}
+              data-project-id={project.id}
               data-previewed={project.id === previewedProject ? "" : undefined}
               onPointerEnter={(event) => onPreview(project.id, center(event.currentTarget))}
               onPointerLeave={onResumePointer}
@@ -95,6 +96,11 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
                   draggable={false}
                   data-state="active"
                 />
+                {project.id === "business" ? (
+                  <span className={styles.designLogicLabel} aria-hidden="true">
+                    DESIGN LOGIC
+                  </span>
+                ) : null}
               </span>
               <span className={styles.mobileMeta}>
                 <strong>{project.title}</strong><small>{project.year}</small>
