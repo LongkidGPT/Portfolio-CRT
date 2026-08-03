@@ -11,6 +11,7 @@ test("keyboard focus previews the selected project", async () => {
     <ProjectSelector
       projects={PROJECTS}
       activeProject="about"
+      previewedProject={null}
       onPreview={onPreview}
       onOpen={vi.fn()}
       onResumePointer={vi.fn()}
@@ -29,6 +30,7 @@ test("click requests the selected project overlay", async () => {
     <ProjectSelector
       projects={PROJECTS}
       activeProject="about"
+      previewedProject={null}
       onPreview={vi.fn()}
       onOpen={onOpen}
       onResumePointer={vi.fn()}
@@ -47,6 +49,7 @@ test("renders the supplied default and active artwork for each project", () => {
     <ProjectSelector
       projects={PROJECTS}
       activeProject="business"
+      previewedProject="business"
       onPreview={vi.fn()}
       onOpen={vi.fn()}
       onResumePointer={vi.fn()}
@@ -62,7 +65,11 @@ test("renders the supplied default and active artwork for each project", () => {
     "src",
     "/kv/buttons/business-active.png",
   );
-  expect(business).toHaveAttribute("aria-current", "page");
+  expect(business).toHaveAttribute("data-previewed");
+  expect(screen.getByRole("link", { name: "Open ABOUT" })).not.toHaveAttribute(
+    "data-previewed",
+  );
+  expect(business).not.toHaveAttribute("aria-current");
 });
 
 test("returns control to free pointer tracking after leaving a project", () => {
@@ -71,6 +78,7 @@ test("returns control to free pointer tracking after leaving a project", () => {
     <ProjectSelector
       projects={PROJECTS}
       activeProject="business"
+      previewedProject="business"
       onPreview={vi.fn()}
       onOpen={vi.fn()}
       onResumePointer={onResumePointer}
@@ -82,4 +90,42 @@ test("returns control to free pointer tracking after leaving a project", () => {
   );
 
   expect(onResumePointer).toHaveBeenCalledOnce();
+});
+
+test("pointer activation blurs before opening", async () => {
+  render(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="business"
+      previewedProject="business"
+      onPreview={vi.fn()}
+      onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
+    />,
+  );
+
+  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+  business.focus();
+  await userEvent.click(business);
+
+  expect(business).not.toHaveFocus();
+});
+
+test("keyboard activation preserves keyboard focus", () => {
+  render(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="business"
+      previewedProject="business"
+      onPreview={vi.fn()}
+      onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
+    />,
+  );
+
+  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+  business.focus();
+  fireEvent.click(business, { detail: 0 });
+
+  expect(business).toHaveFocus();
 });

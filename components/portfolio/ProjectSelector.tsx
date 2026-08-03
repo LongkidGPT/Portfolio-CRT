@@ -10,6 +10,7 @@ import styles from "./portfolio.module.css";
 interface Props {
   projects: readonly ProjectDefinition[];
   activeProject: ProjectId;
+  previewedProject: ProjectId | null;
   onPreview: (id: ProjectId, point: Point) => void;
   onOpen: (id: ProjectId) => void;
   onResumePointer: () => void;
@@ -20,7 +21,7 @@ function center(element: HTMLElement): Point {
   return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
 }
 
-export default function ProjectSelector({ projects, activeProject, onPreview, onOpen, onResumePointer }: Props) {
+export default function ProjectSelector({ projects, activeProject, previewedProject, onPreview, onOpen, onResumePointer }: Props) {
   const drag = useRef<{ x: number; time: number } | null>(null);
   const didDrag = useRef(false);
   const activeIndex = Math.max(0, projects.findIndex(({ id }) => id === activeProject));
@@ -60,7 +61,7 @@ export default function ProjectSelector({ projects, activeProject, onPreview, on
               prefetch={false}
               className={styles.projectLink}
               aria-label={`Open ${project.label}`}
-              aria-current={project.id === activeProject ? "page" : undefined}
+              data-previewed={project.id === previewedProject ? "" : undefined}
               onPointerEnter={(event) => onPreview(project.id, center(event.currentTarget))}
               onPointerLeave={onResumePointer}
               onTouchStart={(event) => onPreview(project.id, center(event.currentTarget))}
@@ -74,6 +75,7 @@ export default function ProjectSelector({ projects, activeProject, onPreview, on
                 }
                 if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
                 event.preventDefault();
+                if (event.detail > 0) event.currentTarget.blur();
                 onOpen(project.id);
               }}
             >

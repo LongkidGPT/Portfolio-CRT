@@ -14,7 +14,7 @@ function formatTime(date: Date) {
   }).format(date).toUpperCase();
 }
 
-function Ruler({ side, activeIndex }: { side: "left" | "right"; activeIndex: number }) {
+function Ruler({ side, activeIndex }: { side: "left" | "right"; activeIndex: number | null }) {
   const widths = rulerWidthsForIndex(activeIndex, side);
   return (
     <div className={styles.ruler} data-side={side} aria-hidden="true">
@@ -25,7 +25,7 @@ function Ruler({ side, activeIndex }: { side: "left" | "right"; activeIndex: num
   );
 }
 
-export default function PortfolioChrome({ activeIndex }: { activeIndex: number }) {
+export default function PortfolioChrome({ activeIndex }: { activeIndex: number | null }) {
   const [time, setTime] = useState("—:— PM");
   const [resolution, setResolution] = useState("0000 × 0000");
 

@@ -48,6 +48,7 @@ export default function PortfolioHome() {
   const reduced = useReducedMotionPreference();
   const desktopFullFrame = useDesktopFullFrame();
   const [state, dispatch] = useReducer(portfolioReducer, initialPortfolioState);
+  const [previewedProject, setPreviewedProject] = useState<ProjectId | null>(null);
   const [focusPoint, setFocusPoint] = useState<Point | null>(null);
   const [focusFrame, setFocusFrame] = useState<number | null>(null);
   const timer = useRef<number | null>(null);
@@ -77,12 +78,18 @@ export default function PortfolioHome() {
 
   const preview = useCallback((id: ProjectId, point: Point) => {
     dispatch({ type: "PREVIEW", projectId: id });
+    setPreviewedProject(id);
     setFocusPoint(point);
     setFocusFrame(
       desktopFullFrame ? KV_SYNC_PROJECT_FRAMES[id] : KV_PROJECT_FRAMES[id],
     );
     router.prefetch(getProjectById(id).href);
   }, [desktopFullFrame, router]);
+
+  const resumePointer = useCallback(() => {
+    setPreviewedProject(null);
+    setFocusFrame(null);
+  }, []);
 
   const open = useCallback((id: ProjectId) => {
     if (timer.current !== null) window.clearTimeout(timer.current);
@@ -96,7 +103,9 @@ export default function PortfolioHome() {
   return (
     <main className={styles.home} data-phase={state.phase} data-project={state.activeProject}>
       <PortfolioChrome
-        activeIndex={PROJECTS.findIndex(({ id }) => id === state.activeProject)}
+        activeIndex={previewedProject === null
+          ? null
+          : PROJECTS.findIndex(({ id }) => id === previewedProject)}
       />
       <div className={styles.previewStage}>
         <ProjectPreview project={getProjectById(state.activeProject)} />
@@ -117,7 +126,14 @@ export default function PortfolioHome() {
           />
         )}
       </div>
-      <ProjectSelector projects={PROJECTS} activeProject={state.activeProject} onPreview={preview} onOpen={open} onResumePointer={() => setFocusFrame(null)} />
+      <ProjectSelector
+        projects={PROJECTS}
+        activeProject={state.activeProject}
+        previewedProject={previewedProject}
+        onPreview={preview}
+        onOpen={open}
+        onResumePointer={resumePointer}
+      />
     </main>
   );
 }

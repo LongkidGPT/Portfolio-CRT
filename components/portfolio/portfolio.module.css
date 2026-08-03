@@ -187,7 +187,7 @@
 }
 .projectLink:hover,
 .projectLink:focus-visible,
-.projectLink[aria-current="page"] { z-index: 1; }
+.projectLink[data-previewed] { z-index: 1; }
 .projectLink:focus-visible,
 .carouselControls button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .buttonArtwork {
@@ -209,10 +209,10 @@
 }
 .projectLink:hover .buttonArtwork img[data-state="default"],
 .projectLink:focus-visible .buttonArtwork img[data-state="default"],
-.projectLink[aria-current="page"] .buttonArtwork img[data-state="default"] { opacity: 0; }
+.projectLink[data-previewed] .buttonArtwork img[data-state="default"] { opacity: 0; }
 .projectLink:hover .buttonArtwork img[data-state="active"],
 .projectLink:focus-visible .buttonArtwork img[data-state="active"],
-.projectLink[aria-current="page"] .buttonArtwork img[data-state="active"] { opacity: 1; }
+.projectLink[data-previewed] .buttonArtwork img[data-state="active"] { opacity: 1; }
 .mobileMeta,
 .carouselControls { display: none; }
 
