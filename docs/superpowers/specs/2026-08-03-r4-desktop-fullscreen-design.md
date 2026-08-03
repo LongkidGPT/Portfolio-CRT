@@ -10,7 +10,7 @@ Replace the formal desktop homepage's R3 21:9 frame sequence with the supplied R
 - SHA-256: `01c513e369a7e7140f87f5a07ac80bca1cf495d9f92c26dc0c212038def98677`
 - Dimensions: 1280 × 720
 - Aspect ratio: 16:9
-- Frame rate: 60 fps
+- Nominal stream rate: 60/1; average decoded rate: 11580/481 (about 24.075 fps)
 - Decoded frames: 193
 
 The asset pipeline must reject a source whose fingerprint, dimensions, or decoded frame count differs from these values.
@@ -22,7 +22,7 @@ The formal desktop homepage uses `cover`, not `contain`:
 - the Canvas always fills the complete viewport;
 - a 16:9 viewport shows the complete R4 frame;
 - non-16:9 viewports crop excess image at the edges and never add letterboxing;
-- the existing head anchor, approximately 59.8% from the left and 42.3% from the top, is used as the crop focus so the character remains visually stable when the viewport ratio changes;
+- the visually measured R4 screen center, approximately 61.4% from the left and 47.8% from the top, is used as the crop focus so the character remains visually stable when the viewport ratio changes;
 - crop offsets are clamped so the rendered image always covers the Canvas.
 
 This rule prioritizes fullscreen composition over preservation of every source pixel. R4's 1280 × 720 source resolves the aspect-ratio problem, but it cannot provide native 4K pixel density when enlarged beyond its source resolution.
