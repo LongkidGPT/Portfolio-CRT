@@ -116,6 +116,14 @@
 - Fonts/typography: the label remains monospaced, with size reduced only to fit the longer name. Spacing/layout rhythm: icon and label retain the original button anchors. Colors/tokens: default gray and active white/blue states match the supplied artwork. Image quality: both states are native `576 × 168` PNGs with preserved transparency. Copy/content: the visible and accessible label remains `DESIGN LOGIC`.
 - Browser inspection confirmed exactly two raster state images, no runtime label overlay, correct natural dimensions, and no console errors or warnings.
 
+### Pass 8 — blocked
+
+- The user-supplied `DESIGN LOGIC.jpg` was replaced from `/Users/jade/Desktop/Longkid Folder/AIGC/Portflio Test N/KV首屏/子页面/DESIGN LOGIC.jpg`.
+- Source and runtime asset are both `2880 × 12170`; their SHA-256 values match exactly: `ccf72de1f18c8160b9e0bc72855066258cb388d67174a52e48d7a2ad153f7a90`.
+- Source visual inspection passed, and the existing route still points to `/kv/cases/design-logic.jpg` without layout or code changes.
+- Browser-rendered capture is blocked because the in-app browser denied access to the local preview during this pass. No alternate browser or workaround was used.
+- Remaining validation: open the local preview and visually confirm the newly uploaded asset after browser permission is available.
+
 ## Open questions
 
 - None for the confirmed desktop scope. Mobile remains intentionally outside this pass.
@@ -133,4 +141,4 @@
 
 - P3: final micro-adjustments can be made after the user reviews the live desktop preview at their exact monitor size.
 
-final result: passed
+final result: blocked
