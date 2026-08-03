@@ -10,11 +10,12 @@ import {
   KV_SYNC_HEIGHT,
   KV_SYNC_NEUTRAL_FRAME,
   KV_SYNC_WIDTH,
+  angleForKvSyncPointer,
   frameForKvSyncPointer,
   kvSyncFrameSrc,
   stepKvSyncFrame,
 } from "@/lib/portfolio/kv-sync-test";
-import { pointerAngle, type Point } from "@/lib/portfolio/sprite";
+import type { Point } from "@/lib/portfolio/sprite";
 
 export default function KvSyncTest() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -147,9 +148,9 @@ export default function KvSyncTest() {
         x: bounds.left + content.x + content.width * KV_SYNC_HEAD_ANCHOR.x,
         y: bounds.top + content.y + content.height * KV_SYNC_HEAD_ANCHOR.y,
       };
-      const angle = pointerAngle(pointer, anchor);
       const normalizedX = (pointer.x - anchor.x) / content.width;
       const normalizedY = (pointer.y - anchor.y) / content.height;
+      const angle = angleForKvSyncPointer(normalizedX, normalizedY);
       return {
         angle,
         frame: frameForKvSyncPointer(angle, normalizedX, normalizedY),

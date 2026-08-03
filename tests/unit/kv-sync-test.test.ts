@@ -5,6 +5,7 @@ import {
   KV_SYNC_HEAD_ANCHOR,
   KV_SYNC_HEIGHT,
   KV_SYNC_WIDTH,
+  angleForKvSyncPointer,
   frameForKvSyncAngle,
   frameForKvSyncPointer,
   kvSyncFrameSrc,
@@ -28,12 +29,38 @@ describe("KV synchronization test mapping", () => {
 
   it.each([
     [0, 52],
-    [90, 24],
-    [180, 152],
-    [270, 96],
+    [45, 36],
+    [90, 20],
+    [135, 156],
+    [180, 144],
+    [225, 124],
+    [270, 100],
+    [315, 76],
     [360, 52],
-  ])("maps %d degrees to source frame %d", (angle, frame) => {
+  ])("maps %d degrees to its visually calibrated R3 frame %d", (angle, frame) => {
     expect(frameForKvSyncAngle(angle)).toBe(frame);
+  });
+
+  it.each([
+    [0.402, -0.423, 45],
+    [0.402, 0.577, 135],
+    [-0.598, 0.577, 225],
+    [-0.598, -0.423, 315],
+    [0.402, 0, 90],
+    [0, 0.577, 180],
+  ])(
+    "normalizes a 21:9 edge vector (%f, %f) to %d degrees",
+    (normalizedX, normalizedY, angle) => {
+      expect(angleForKvSyncPointer(normalizedX, normalizedY)).toBeCloseTo(
+        angle,
+        5,
+      );
+    },
+  );
+
+  it("keeps the visual bottom-right corner on the R3 down-right keyframe", () => {
+    const angle = angleForKvSyncPointer(0.402, 0.577);
+    expect(frameForKvSyncPointer(angle, 0.402, 0.577)).toBe(156);
   });
 
   it("keeps the complete monitor area on the neutral frame", () => {
@@ -42,13 +69,13 @@ describe("KV synchronization test mapping", () => {
   });
 
   it("keeps clear horizontal pointer positions facing horizontally", () => {
-    expect(frameForKvSyncPointer(90, 0.3, 0)).toBe(24);
-    expect(frameForKvSyncPointer(270, -0.3, 0)).toBe(96);
+    expect(frameForKvSyncPointer(90, 0.3, 0)).toBe(20);
+    expect(frameForKvSyncPointer(270, -0.3, 0)).toBe(100);
   });
 
   it("preserves vertical tracking outside the monitor area", () => {
     expect(frameForKvSyncPointer(0, 0, -0.3)).toBe(52);
-    expect(frameForKvSyncPointer(180, 0, 0.3)).toBe(152);
+    expect(frameForKvSyncPointer(180, 0, 0.3)).toBe(144);
   });
 
   it("blends continuously outside the neutral monitor boundary", () => {

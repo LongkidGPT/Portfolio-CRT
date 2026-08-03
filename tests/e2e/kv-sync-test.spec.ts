@@ -17,9 +17,13 @@ test("renders complete synchronized source frames on the isolated route", async 
 
   for (const [x, y, frame] of [
     [879, 10, "52"],
-    [1450, 266, "24"],
-    [879, 620, "152"],
-    [20, 266, "96"],
+    [1469, 1, "36"],
+    [1469, 266, "20"],
+    [1469, 629, "156"],
+    [879, 629, "144"],
+    [1, 629, "124"],
+    [1, 266, "100"],
+    [1, 1, "76"],
     [880, 270, "174"],
   ] as const) {
     await page.mouse.move(x, y);

@@ -11,13 +11,13 @@ const KV_SYNC_NEUTRAL_BLEND = 0.5;
 
 const FULL_FRAME_KEYS = [
   [0, 52],
-  [45, 38],
-  [90, 24],
-  [135, 178],
-  [180, 152],
-  [225, 118],
-  [270, 96],
-  [315, 74],
+  [45, 36],
+  [90, 20],
+  [135, 156],
+  [180, 144],
+  [225, 124],
+  [270, 100],
+  [315, 76],
   [360, 52],
 ] as const;
 
@@ -58,6 +58,27 @@ export function frameForKvSyncAngle(angle: number): number {
   }
 
   return FULL_FRAME_KEYS[0][1];
+}
+
+export function angleForKvSyncPointer(
+  normalizedX: number,
+  normalizedY: number,
+): number {
+  const scaledX =
+    normalizedX /
+    (normalizedX >= 0
+      ? 1 - KV_SYNC_HEAD_ANCHOR.x
+      : KV_SYNC_HEAD_ANCHOR.x);
+  const scaledY =
+    normalizedY /
+    (normalizedY >= 0
+      ? 1 - KV_SYNC_HEAD_ANCHOR.y
+      : KV_SYNC_HEAD_ANCHOR.y);
+
+  return (
+    (Math.atan2(scaledX, -scaledY) * 180) / Math.PI +
+    360
+  ) % 360;
 }
 
 export function frameForKvSyncPointer(
