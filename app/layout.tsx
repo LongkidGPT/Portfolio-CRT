@@ -23,6 +23,7 @@ export default function RootLayout({
     <html
       lang="zh-CN"
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
       <body className="bg-bg font-sans text-ink antialiased">
         {children}
