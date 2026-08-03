@@ -1,7 +1,7 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import R3Portrait from "@/components/portfolio/R3Portrait";
+import FullFramePortrait from "@/components/portfolio/FullFramePortrait";
 
 const canvasBounds = {
   left: 0,
@@ -58,14 +58,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("R3Portrait", () => {
-  it("draws the complete neutral frame before preloading directions", () => {
+describe("FullFramePortrait", () => {
+  it("covers a wide desktop with the neutral R4 frame", () => {
     const { drawImage, FakeImage, sources } = installCanvasHarness();
 
-    render(<R3Portrait motionReduced />);
+    render(<FullFramePortrait motionReduced />);
 
     const canvas = screen.getByRole("img", {
-      name: "Interactive R3 full-frame portrait",
+      name: "Interactive full-frame KV portrait",
     });
     expect(canvas).toHaveAttribute("data-frame", "174");
     expect(sources[0]).toBe("/kv-sync-test/frames/frame-174.webp");
@@ -73,20 +73,34 @@ describe("R3Portrait", () => {
       expect.any(FakeImage),
       0,
       0,
-      1470,
-      630,
+      1280,
+      720,
       0,
-      0,
+      expect.closeTo(-94.11, 2),
       1470,
-      630,
+      expect.closeTo(826.88, 2),
     );
+  });
+
+  it("uses the visible viewport edge for the right-facing target", () => {
+    const { callbacks } = installCanvasHarness();
+    render(<FullFramePortrait />);
+
+    fireEvent.pointerMove(window, { clientX: 1469, clientY: 301 });
+    act(() => callbacks.shift()?.(1000 / 60));
+
+    expect(
+      screen.getByRole("img", {
+        name: "Interactive full-frame KV portrait",
+      }),
+    ).toHaveAttribute("data-target-frame", "20");
   });
 
   it("eases to a fixed project frame instead of following the pointer", () => {
     const { callbacks } = installCanvasHarness();
-    const { rerender } = render(<R3Portrait />);
+    const { rerender } = render(<FullFramePortrait />);
 
-    rerender(<R3Portrait fixedFrame={144} />);
+    rerender(<FullFramePortrait fixedFrame={144} />);
 
     act(() => {
       let timestamp = 0;
@@ -99,7 +113,7 @@ describe("R3Portrait", () => {
     });
 
     const canvas = screen.getByRole("img", {
-      name: "Interactive R3 full-frame portrait",
+      name: "Interactive full-frame KV portrait",
     });
     expect(canvas).toHaveAttribute("data-target-frame", "144");
     expect(canvas).toHaveAttribute("data-frame", "144");

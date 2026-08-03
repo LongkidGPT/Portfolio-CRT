@@ -34,13 +34,13 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-test("uses the verified R3 renderer only on the formal desktop home", () => {
+test("uses the full-frame renderer only on the formal desktop home", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
 
   render(<PortfolioHome />);
 
   expect(
-    screen.getByRole("img", { name: "Interactive R3 full-frame portrait" }),
+    screen.getByRole("img", { name: "Interactive full-frame KV portrait" }),
   ).toBeInTheDocument();
   expect(
     screen.queryByRole("img", { name: "Interactive CRT portrait" }),
@@ -66,11 +66,11 @@ test("keeps the legacy portrait renderer below the desktop breakpoint", () => {
     screen.getByRole("img", { name: "Interactive CRT portrait" }),
   ).toBeInTheDocument();
   expect(
-    screen.queryByRole("img", { name: "Interactive R3 full-frame portrait" }),
+    screen.queryByRole("img", { name: "Interactive full-frame KV portrait" }),
   ).not.toBeInTheDocument();
 });
 
-test("locks the R3 target to the hovered formal project", () => {
+test("locks the full-frame target to the hovered formal project", () => {
   const callbacks: FrameRequestCallback[] = [];
   const context = { clearRect: vi.fn(), drawImage: vi.fn() };
 
@@ -109,7 +109,7 @@ test("locks the R3 target to the hovered formal project", () => {
   act(() => callbacks.shift()?.(1000 / 60));
 
   expect(
-    screen.getByRole("img", { name: "Interactive R3 full-frame portrait" }),
+    screen.getByRole("img", { name: "Interactive full-frame KV portrait" }),
   ).toHaveAttribute("data-target-frame", "134");
 });
 

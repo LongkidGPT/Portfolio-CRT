@@ -8,9 +8,9 @@ import type { Point } from "@/lib/portfolio/sprite";
 import { KV_PROJECT_FRAMES } from "@/lib/portfolio/kv";
 import { KV_SYNC_PROJECT_FRAMES } from "@/lib/portfolio/kv-sync-test";
 import PortfolioChrome from "./PortfolioChrome";
+import FullFramePortrait from "./FullFramePortrait";
 import ProjectPreview from "./ProjectPreview";
 import ProjectSelector from "./ProjectSelector";
-import R3Portrait from "./R3Portrait";
 import SpritePortrait from "./SpritePortrait";
 import styles from "./portfolio.module.css";
 
@@ -27,7 +27,7 @@ function useReducedMotionPreference() {
   return reduced;
 }
 
-function useDesktopR3() {
+function useDesktopFullFrame() {
   const [desktop, setDesktop] = useState(true);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function PortfolioHome() {
   const router = useRouter();
   const pathname = usePathname();
   const reduced = useReducedMotionPreference();
-  const desktopR3 = useDesktopR3();
+  const desktopFullFrame = useDesktopFullFrame();
   const [state, dispatch] = useReducer(portfolioReducer, initialPortfolioState);
   const [focusPoint, setFocusPoint] = useState<Point | null>(null);
   const [focusFrame, setFocusFrame] = useState<number | null>(null);
@@ -64,12 +64,12 @@ export default function PortfolioHome() {
   }, [pathname, state.phase]);
 
   useEffect(() => {
-    if (desktopR3) return;
+    if (desktopFullFrame) return;
     if (!window.matchMedia?.("(pointer: fine)").matches) return;
     const move = (event: PointerEvent) => setFocusPoint({ x: event.clientX, y: event.clientY });
     window.addEventListener("pointermove", move, { passive: true });
     return () => window.removeEventListener("pointermove", move);
-  }, [desktopR3]);
+  }, [desktopFullFrame]);
 
   useEffect(() => () => {
     if (timer.current !== null) window.clearTimeout(timer.current);
@@ -79,10 +79,10 @@ export default function PortfolioHome() {
     dispatch({ type: "PREVIEW", projectId: id });
     setFocusPoint(point);
     setFocusFrame(
-      desktopR3 ? KV_SYNC_PROJECT_FRAMES[id] : KV_PROJECT_FRAMES[id],
+      desktopFullFrame ? KV_SYNC_PROJECT_FRAMES[id] : KV_PROJECT_FRAMES[id],
     );
     router.prefetch(getProjectById(id).href);
-  }, [desktopR3, router]);
+  }, [desktopFullFrame, router]);
 
   const open = useCallback((id: ProjectId) => {
     if (timer.current !== null) window.clearTimeout(timer.current);
@@ -102,8 +102,8 @@ export default function PortfolioHome() {
         <ProjectPreview project={getProjectById(state.activeProject)} />
       </div>
       <div className={styles.portraitStage}>
-        {desktopR3 ? (
-          <R3Portrait
+        {desktopFullFrame ? (
+          <FullFramePortrait
             fixedFrame={focusFrame}
             motionReduced={reduced}
             className={styles.portrait}

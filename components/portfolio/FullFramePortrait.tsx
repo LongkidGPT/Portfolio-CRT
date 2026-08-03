@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { containRect } from "@/lib/portfolio/kv";
+import { coverRect } from "@/lib/portfolio/kv";
 import {
   KV_SYNC_FRAME_COUNT,
   KV_SYNC_HEAD_ANCHOR,
@@ -16,7 +16,7 @@ import {
 } from "@/lib/portfolio/kv-sync-test";
 import type { Point } from "@/lib/portfolio/sprite";
 
-export interface R3Diagnostics {
+export interface FrameDiagnostics {
   angle: number | null;
   frame: number;
   targetFrame: number;
@@ -24,21 +24,21 @@ export interface R3Diagnostics {
   errors: number;
 }
 
-interface R3PortraitProps {
+interface FullFramePortraitProps {
   fixedFrame?: number | null;
   motionReduced?: boolean;
   className?: string;
   ariaLabel?: string;
-  onDiagnostics?: (value: R3Diagnostics) => void;
+  onDiagnostics?: (value: FrameDiagnostics) => void;
 }
 
-export default function R3Portrait({
+export default function FullFramePortrait({
   fixedFrame = null,
   motionReduced = false,
   className,
-  ariaLabel = "Interactive R3 full-frame portrait",
+  ariaLabel = "Interactive full-frame KV portrait",
   onDiagnostics,
-}: R3PortraitProps) {
+}: FullFramePortraitProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fixedFrameRef = useRef(fixedFrame);
   const motionReducedRef = useRef(motionReduced);
@@ -67,7 +67,7 @@ export default function R3Portrait({
     let cancelled = false;
     let visible = document.visibilityState === "visible";
     let lastTimestamp = 0;
-    let diagnostics: R3Diagnostics = {
+    let diagnostics: FrameDiagnostics = {
       angle: null,
       frame: KV_SYNC_NEUTRAL_FRAME,
       targetFrame: KV_SYNC_NEUTRAL_FRAME,
@@ -75,7 +75,7 @@ export default function R3Portrait({
       errors: 0,
     };
 
-    const publishDiagnostics = (next: Partial<R3Diagnostics>) => {
+    const publishDiagnostics = (next: Partial<FrameDiagnostics>) => {
       const updated = { ...diagnostics, ...next };
       const changed =
         updated.angle !== diagnostics.angle ||
@@ -109,11 +109,12 @@ export default function R3Portrait({
       const image = images[frame];
       if (!image?.complete || frame === drawnFrame) return false;
 
-      const destination = containRect(
+      const destination = coverRect(
         KV_SYNC_WIDTH,
         KV_SYNC_HEIGHT,
         canvas.width,
         canvas.height,
+        KV_SYNC_HEAD_ANCHOR,
       );
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(
@@ -174,18 +175,12 @@ export default function R3Portrait({
       }
 
       const bounds = canvas.getBoundingClientRect();
-      const content = containRect(
-        KV_SYNC_WIDTH,
-        KV_SYNC_HEIGHT,
-        bounds.width,
-        bounds.height,
-      );
       const anchor = {
-        x: bounds.left + content.x + content.width * KV_SYNC_HEAD_ANCHOR.x,
-        y: bounds.top + content.y + content.height * KV_SYNC_HEAD_ANCHOR.y,
+        x: bounds.left + bounds.width * KV_SYNC_HEAD_ANCHOR.x,
+        y: bounds.top + bounds.height * KV_SYNC_HEAD_ANCHOR.y,
       };
-      const normalizedX = (pointer.x - anchor.x) / content.width;
-      const normalizedY = (pointer.y - anchor.y) / content.height;
+      const normalizedX = (pointer.x - anchor.x) / bounds.width;
+      const normalizedY = (pointer.y - anchor.y) / bounds.height;
       const angle = angleForKvSyncPointer(normalizedX, normalizedY);
       return {
         angle,

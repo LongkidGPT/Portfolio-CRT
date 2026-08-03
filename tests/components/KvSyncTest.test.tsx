@@ -58,12 +58,12 @@ test("draws the complete neutral source frame before preloading directions", () 
     expect.any(FakeImage),
     0,
     0,
-    1470,
-    630,
+    1280,
+    720,
     0,
-    0,
+    expect.closeTo(-94.11, 2),
     1470,
-    630,
+    expect.closeTo(826.88, 2),
   );
 
   requestFrame.mockRestore();
