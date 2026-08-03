@@ -17,11 +17,11 @@ import { shortestFrameDelta } from "@/lib/portfolio/sprite";
 describe("KV synchronization test mapping", () => {
   it("uses every frame from the 193-frame source video", () => {
     expect(KV_SYNC_FRAME_COUNT).toBe(193);
-    expect([KV_SYNC_WIDTH, KV_SYNC_HEIGHT]).toEqual([1470, 630]);
-    expect(KV_SYNC_HEAD_ANCHOR).toEqual({ x: 0.598, y: 0.423 });
+    expect([KV_SYNC_WIDTH, KV_SYNC_HEIGHT]).toEqual([1280, 720]);
+    expect(KV_SYNC_HEAD_ANCHOR).toEqual({ x: 0.614, y: 0.478 });
   });
 
-  it("assigns each formal control to its hand-calibrated R3 pose", () => {
+  it("assigns each formal control to its hand-calibrated R4 pose", () => {
     expect(KV_SYNC_PROJECT_FRAMES).toEqual({
       about: 124,
       business: 134,
@@ -48,19 +48,19 @@ describe("KV synchronization test mapping", () => {
     [270, 100],
     [315, 76],
     [360, 52],
-  ])("maps %d degrees to its visually calibrated R3 frame %d", (angle, frame) => {
+  ])("maps %d degrees to its visually calibrated R4 frame %d", (angle, frame) => {
     expect(frameForKvSyncAngle(angle)).toBe(frame);
   });
 
   it.each([
-    [0.402, -0.423, 45],
-    [0.402, 0.577, 135],
-    [-0.598, 0.577, 225],
-    [-0.598, -0.423, 315],
-    [0.402, 0, 90],
-    [0, 0.577, 180],
+    [0.386, -0.478, 45],
+    [0.386, 0.522, 135],
+    [-0.614, 0.522, 225],
+    [-0.614, -0.478, 315],
+    [0.386, 0, 90],
+    [0, 0.522, 180],
   ])(
-    "normalizes a 21:9 edge vector (%f, %f) to %d degrees",
+    "normalizes a viewport edge vector (%f, %f) to %d degrees",
     (normalizedX, normalizedY, angle) => {
       expect(angleForKvSyncPointer(normalizedX, normalizedY)).toBeCloseTo(
         angle,
@@ -69,9 +69,9 @@ describe("KV synchronization test mapping", () => {
     },
   );
 
-  it("keeps the visual bottom-right corner on the R3 down-right keyframe", () => {
-    const angle = angleForKvSyncPointer(0.402, 0.577);
-    expect(frameForKvSyncPointer(angle, 0.402, 0.577)).toBe(156);
+  it("keeps the visual bottom-right corner on the R4 down-right keyframe", () => {
+    const angle = angleForKvSyncPointer(0.386, 0.522);
+    expect(frameForKvSyncPointer(angle, 0.386, 0.522)).toBe(156);
   });
 
   it("keeps the complete monitor area on the neutral frame", () => {

@@ -10,15 +10,15 @@ describe("KV full-frame sync assets", () => {
     expect(existsSync(manifestPath), "sync manifest must exist").toBe(true);
 
     const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  expect(manifest).toMatchObject({
-    frameCount: 193,
-    width: 1470,
-    height: 630,
-    sourceFile: "首屏头部转动效果（R3）.mp4",
-    sourceSha256:
-      "b126bb9da72963a61f75c49edaea561cef0e40dcbfcda1224e6bffd1cd09cd20",
-    framePattern: "/kv-sync-test/frames/frame-%03d.webp",
-  });
+    expect(manifest).toMatchObject({
+      frameCount: 193,
+      width: 1280,
+      height: 720,
+      sourceFile: "首屏头部转动效果（R4）.mp4",
+      sourceSha256:
+        "01c513e369a7e7140f87f5a07ac80bca1cf495d9f92c26dc0c212038def98677",
+      framePattern: "/kv-sync-test/frames/frame-%03d.webp",
+    });
 
     for (let index = 0; index < 193; index += 1) {
       expect(

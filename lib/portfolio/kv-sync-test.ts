@@ -2,10 +2,10 @@ import { shortestFrameDelta } from "@/lib/portfolio/sprite";
 import type { ProjectId } from "@/lib/portfolio/projects";
 
 export const KV_SYNC_FRAME_COUNT = 193;
-export const KV_SYNC_WIDTH = 1470;
-export const KV_SYNC_HEIGHT = 630;
+export const KV_SYNC_WIDTH = 1280;
+export const KV_SYNC_HEIGHT = 720;
 export const KV_SYNC_NEUTRAL_FRAME = 174;
-export const KV_SYNC_HEAD_ANCHOR = { x: 0.598, y: 0.423 } as const;
+export const KV_SYNC_HEAD_ANCHOR = { x: 0.614, y: 0.478 } as const;
 export const KV_SYNC_PROJECT_FRAMES = {
   about: 124,
   business: 134,
