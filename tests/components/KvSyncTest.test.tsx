@@ -35,10 +35,10 @@ test("draws the complete neutral source frame before preloading directions", () 
     .mockReturnValue({
       left: 0,
       top: 0,
-      right: 1280,
-      bottom: 720,
-      width: 1280,
-      height: 720,
+      right: 1470,
+      bottom: 630,
+      width: 1470,
+      height: 630,
       x: 0,
       y: 0,
       toJSON: () => ({}),
@@ -58,12 +58,12 @@ test("draws the complete neutral source frame before preloading directions", () 
     expect.any(FakeImage),
     0,
     0,
-    1280,
-    720,
+    1470,
+    630,
     0,
     0,
-    1280,
-    720,
+    1470,
+    630,
   );
 
   requestFrame.mockRestore();

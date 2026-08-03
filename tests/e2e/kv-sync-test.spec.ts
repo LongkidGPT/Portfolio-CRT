@@ -16,14 +16,14 @@ test("renders complete synchronized source frames on the isolated route", async 
   await expect(page.locator("[data-nextjs-dialog]")).toHaveCount(0);
 
   for (const [x, y, frame] of [
-    [735, 10, "65"],
-    [1400, 208, "30"],
-    [735, 620, "138"],
-    [70, 208, "103"],
-    [1200, 380, "30"],
-    [800, 280, "174"],
+    [879, 10, "52"],
+    [1450, 266, "24"],
+    [879, 620, "152"],
+    [20, 266, "96"],
+    [880, 270, "174"],
   ] as const) {
     await page.mouse.move(x, y);
+    await expect(canvas).toHaveAttribute("data-target-frame", frame);
     await expect(canvas).toHaveAttribute("data-frame", frame);
     await expect(canvas).toHaveAttribute("data-errors", "0");
   }

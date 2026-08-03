@@ -13,9 +13,9 @@ import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const FRAME_COUNT = 193;
-const SOURCE_NAME = "首屏头部转动效果（需要除背景）.mp4";
+const SOURCE_NAME = "首屏头部转动效果（R3）.mp4";
 const SOURCE_SHA256 =
-  "5ee41d57459185ee198f2b6fbd93b864633d4303bc3ccb295207beee553e6ca6";
+  "b126bb9da72963a61f75c49edaea561cef0e40dcbfcda1224e6bffd1cd09cd20";
 const sourceCandidates = [
   resolve(process.cwd(), "..", "KV首屏", SOURCE_NAME),
   resolve(process.cwd(), "..", "..", "..", "KV首屏", SOURCE_NAME),
@@ -73,7 +73,7 @@ const [{ width, height, avg_frame_rate: averageFrameRate, nb_read_frames }] =
   probe.streams;
 const decodedFrameCount = Number(nb_read_frames);
 
-if (width !== 1280 || height !== 720 || decodedFrameCount !== FRAME_COUNT) {
+if (width !== 1470 || height !== 630 || decodedFrameCount !== FRAME_COUNT) {
   throw new Error(
     `Unexpected source: ${width}x${height}, ${decodedFrameCount} frames`,
   );

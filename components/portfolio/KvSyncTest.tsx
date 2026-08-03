@@ -12,6 +12,7 @@ import {
   KV_SYNC_WIDTH,
   frameForKvSyncPointer,
   kvSyncFrameSrc,
+  stepKvSyncFrame,
 } from "@/lib/portfolio/kv-sync-test";
 import { pointerAngle, type Point } from "@/lib/portfolio/sprite";
 
@@ -32,11 +33,13 @@ export default function KvSyncTest() {
     const images = new Array<HTMLImageElement | undefined>(KV_SYNC_FRAME_COUNT);
     let pointer: Point | null = null;
     let drawnFrame = -1;
+    let displayFrame = KV_SYNC_NEUTRAL_FRAME;
     let loadedCount = 0;
     let errorCount = 0;
     let animationFrame = 0;
     let cancelled = false;
     let visible = document.visibilityState === "visible";
+    let lastTimestamp = 0;
 
     const updateDiagnostics = (angle: number | null, frame: number) => {
       canvas.dataset.frame = String(frame);
@@ -153,12 +156,20 @@ export default function KvSyncTest() {
       };
     };
 
-    const tick = () => {
+    const tick = (timestamp: number) => {
       if (cancelled) return;
       if (visible) {
         const next = target();
-        drawFrame(next.frame, next.angle);
+        const elapsed = lastTimestamp > 0 ? timestamp - lastTimestamp : 1000 / 60;
+        displayFrame = stepKvSyncFrame(displayFrame, next.frame, elapsed);
+        const roundedFrame =
+          Math.round(displayFrame) % KV_SYNC_FRAME_COUNT;
+        canvas.dataset.targetFrame = String(
+          Math.round(next.frame) % KV_SYNC_FRAME_COUNT,
+        );
+        drawFrame(roundedFrame, next.angle);
       }
+      lastTimestamp = timestamp;
       animationFrame = window.requestAnimationFrame(tick);
     };
 
@@ -167,9 +178,13 @@ export default function KvSyncTest() {
     };
     const handleVisibility = () => {
       visible = document.visibilityState === "visible";
+      lastTimestamp = 0;
     };
     const handleResize = () => {
-      const previous = drawnFrame < 0 ? KV_SYNC_NEUTRAL_FRAME : drawnFrame;
+      const previous =
+        drawnFrame < 0
+          ? KV_SYNC_NEUTRAL_FRAME
+          : Math.round(displayFrame) % KV_SYNC_FRAME_COUNT;
       resizeCanvas();
       drawFrame(previous);
     };

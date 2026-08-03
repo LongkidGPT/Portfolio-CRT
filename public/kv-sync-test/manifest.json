@@ -1,9 +1,9 @@
 {
   "frameCount": 193,
-  "width": 1280,
-  "height": 720,
-  "sourceFile": "首屏头部转动效果（需要除背景）.mp4",
-  "sourceSha256": "5ee41d57459185ee198f2b6fbd93b864633d4303bc3ccb295207beee553e6ca6",
+  "width": 1470,
+  "height": 630,
+  "sourceFile": "首屏头部转动效果（R3）.mp4",
+  "sourceSha256": "b126bb9da72963a61f75c49edaea561cef0e40dcbfcda1224e6bffd1cd09cd20",
   "frameRate": 24.074844074844076,
   "framePattern": "/kv-sync-test/frames/frame-%03d.webp"
 }
