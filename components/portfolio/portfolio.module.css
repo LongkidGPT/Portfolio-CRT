@@ -392,7 +392,7 @@
   --ink: #202322;
   --muted: #7f8482;
   min-height: 100dvh;
-  background: #eceeed;
+  background: #f8fafc;
   color: #202322;
   font-family: var(--font-mono);
 }
@@ -443,6 +443,16 @@
 .caseTemplate {
   width: min(calc(100% - 48px), 870px);
   margin: 0 auto;
+}
+.brandSystemCase {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  background: #f8fafc;
+}
+.brandSystemCase img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .caseHero {
   display: grid;

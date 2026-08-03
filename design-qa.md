@@ -70,6 +70,18 @@
 - Component interaction evidence covers BUSINESS pointer enter followed by pointer leave and asserts the visible heading returns to `我是KID（龙昊翔）`.
 - Browser-rendered neutral evidence: `/private/tmp/portfolio-neutral-about-down40.png`; console contained no errors or warnings.
 
+### Pass 5 — passed
+
+- Supplied BRAND SYSTEM artwork: `/Users/jade/Desktop/Longkid Folder/AIGC/Portflio Test N/KV首屏/BRAND SYSTEM/goal 01.jpg` (`2880 × 28394`, authored at `2×`).
+- Runtime asset is an exact copy at `/kv/cases/brand-system/goal-01.jpg`; it renders as one continuous case-study image at a maximum CSS width of `1440px`, without rebuilding or reflowing its contents.
+- Both the direct route and intercepted homepage overlay use `#F8FAFC`; browser-computed background was `rgb(248, 250, 252)`.
+- Actual homepage click flow was verified through the unique `Open BRAND SYSTEM` control. The intercepted subpage opens at the top of the artwork and retains the existing close/return control.
+- Browser evidence:
+  - direct route: `/private/tmp/portfolio-brand-system-top.png`
+  - intercepted route: `/private/tmp/portfolio-brand-system-overlay-top.png`
+  - source/implementation comparison: `/private/tmp/qa-brand-system-top-comparison.png`
+- The only intentional difference in the comparison is the app-level `CLOSE ×` control over the intercepted view; it sits outside the supplied artwork. Console contained no errors or warnings.
+
 ## Open questions
 
 - None for the confirmed desktop scope. Mobile remains intentionally outside this pass.
@@ -81,6 +93,7 @@
 - [x] Move the header arrow with the active route.
 - [x] Enlarge and align desktop rulers while preserving mobile behavior.
 - [x] Verify routes, overlay state, console, tests, lint, and production build.
+- [x] Render the supplied BRAND SYSTEM case study unchanged on the approved cool-white subpage background.
 
 ## Follow-up polish
 

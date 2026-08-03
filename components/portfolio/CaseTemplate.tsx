@@ -4,6 +4,22 @@ import MediaPlaceholder from "./MediaPlaceholder";
 import styles from "./portfolio.module.css";
 
 export default function CaseTemplate({ project }: { project: ProjectDefinition }) {
+  if (project.id === "brand-system") {
+    return (
+      <article className={styles.brandSystemCase}>
+        {/* Supplied case-study artwork is intentionally rendered at its native 2× layout width. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/kv/cases/brand-system/goal-01.jpg"
+          alt="Brand system case study"
+          width="2880"
+          height="28394"
+          decoding="async"
+        />
+      </article>
+    );
+  }
+
   const cases = PROJECTS.filter((item) => item.kind === "case");
   const index = cases.findIndex((item) => item.id === project.id);
   const next = cases[(index + 1) % cases.length];

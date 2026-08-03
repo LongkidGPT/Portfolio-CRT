@@ -19,6 +19,17 @@ test("case template renders labeled media requirements", () => {
   ).toBeInTheDocument();
 });
 
+test("brand system case uses the supplied full-page artwork", () => {
+  render(<CaseTemplate project={getProjectById("brand-system")} />);
+
+  expect(
+    screen.getByRole("img", { name: "Brand system case study" }),
+  ).toHaveAttribute("src", "/kv/cases/brand-system/goal-01.jpg");
+  expect(
+    screen.queryByRole("navigation", { name: "Case chapters" }),
+  ).not.toBeInTheDocument();
+});
+
 test("about template exposes the approved profile sections", () => {
   render(<AboutTemplate />);
   expect(screen.getByRole("heading", { name: "Profile" })).toBeInTheDocument();

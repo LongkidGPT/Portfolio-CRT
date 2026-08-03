@@ -26,3 +26,9 @@ test("desktop preview copy sits forty pixels below the two-button upward offset"
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
   expect(mobile).toMatch(/\.previewStage\s*\{[^}]*transform:\s*none/s);
 });
+
+test("case page surfaces use the approved cool-white background", () => {
+  expect(css).toMatch(
+    /\.standaloneCase,\s*\.overlay\s*\{[^}]*background:\s*#f8fafc;/s,
+  );
+});
