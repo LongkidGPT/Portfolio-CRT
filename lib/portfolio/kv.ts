@@ -1,3 +1,5 @@
+import type { Point } from "@/lib/portfolio/sprite";
+
 export const KV_FRAME_COUNT = 72;
 export const KV_WIDTH = 1470;
 export const KV_HEIGHT = 630;
@@ -38,6 +40,27 @@ export function containRect(
   return {
     x: (targetWidth - width) / 2,
     y: (targetHeight - height) / 2,
+    width,
+    height,
+  };
+}
+
+export function coverRect(
+  sourceWidth: number,
+  sourceHeight: number,
+  targetWidth: number,
+  targetHeight: number,
+  focus: Point,
+): Rect {
+  const scale = Math.max(targetWidth / sourceWidth, targetHeight / sourceHeight);
+  const width = sourceWidth * scale;
+  const height = sourceHeight * scale;
+  const minX = targetWidth - width;
+  const minY = targetHeight - height;
+
+  return {
+    x: Math.max(minX, Math.min(0, focus.x * (targetWidth - width))),
+    y: Math.max(minY, Math.min(0, focus.y * (targetHeight - height))),
     width,
     height,
   };

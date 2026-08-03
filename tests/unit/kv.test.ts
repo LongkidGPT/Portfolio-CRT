@@ -6,6 +6,7 @@ import {
   KV_PROJECT_FRAMES,
   KV_WIDTH,
   containRect,
+  coverRect,
   kvFrameSrc,
   portraitRect,
 } from "@/lib/portfolio/kv";
@@ -45,6 +46,42 @@ describe("KV frame helpers", () => {
     expect(result.width).toBe(390);
     expect(result.height).toBeCloseTo(167.14, 2);
   });
+
+  test.each([
+    {
+      target: [1920, 1080],
+      want: { x: 0, y: 0, width: 1920, height: 1080 },
+    },
+    {
+      target: [1440, 900],
+      want: { x: -98.24, y: 0, width: 1600, height: 900 },
+    },
+    {
+      target: [1440, 960],
+      want: { x: -163.73, y: 0, width: 1706.67, height: 960 },
+    },
+    {
+      target: [1470, 630],
+      want: { x: 0, y: -94.11, width: 1470, height: 826.88 },
+    },
+  ])(
+    "covers $target while preserving the R4 focal point",
+    ({ target: [width, height], want }) => {
+      const result = coverRect(1280, 720, width, height, {
+        x: 0.614,
+        y: 0.478,
+      });
+
+      expect(result.x).toBeCloseTo(want.x, 2);
+      expect(result.y).toBeCloseTo(want.y, 2);
+      expect(result.width).toBeCloseTo(want.width, 2);
+      expect(result.height).toBeCloseTo(want.height, 2);
+      expect(result.x).toBeLessThanOrEqual(0);
+      expect(result.y).toBeLessThanOrEqual(0);
+      expect(result.x + result.width).toBeGreaterThanOrEqual(width);
+      expect(result.y + result.height).toBeGreaterThanOrEqual(height);
+    },
+  );
 
   test("places the transparent portrait to match the desktop composition", () => {
     const result = portraitRect(2048, 853);
