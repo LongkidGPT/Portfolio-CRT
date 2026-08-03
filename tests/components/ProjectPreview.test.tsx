@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import { expect, test } from "vitest";
 import ProjectPreview from "@/components/portfolio/ProjectPreview";
 import { getProjectById } from "@/lib/portfolio/projects";

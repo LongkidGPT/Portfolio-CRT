@@ -139,7 +139,7 @@
 .previewDesktop { display: block; }
 .previewMobile { display: none; }
 .previewEyebrow {
-  font-size: clamp(14px, 1.25vw, 24px);
+  font-size: clamp(14px, 0.94vw, 18px);
   line-height: 1;
   letter-spacing: 0.02em;
 }
@@ -159,13 +159,13 @@
   background: currentColor;
 }
 .previewSubhead {
-  margin-top: clamp(38px, 4.45vh, 48px);
+  margin-top: clamp(28px, 3.7vh, 32px);
   font-size: clamp(14px, 0.94vw, 18px);
   line-height: 1.42;
 }
 .previewBody {
-  margin-top: clamp(24px, 3vh, 33px);
-  font-size: clamp(10px, 0.63vw, 12px);
+  margin-top: clamp(16px, 2.25vh, 18px);
+  font-size: clamp(10px, 0.68vw, 13px);
   line-height: 2.05;
 }
 .previewMobile h1 { font-size: clamp(16px, 1.2vw, 25px); line-height: 1.15; letter-spacing: -0.04em; }
