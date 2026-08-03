@@ -1,10 +1,18 @@
 import { shortestFrameDelta } from "@/lib/portfolio/sprite";
+import type { ProjectId } from "@/lib/portfolio/projects";
 
 export const KV_SYNC_FRAME_COUNT = 193;
 export const KV_SYNC_WIDTH = 1470;
 export const KV_SYNC_HEIGHT = 630;
 export const KV_SYNC_NEUTRAL_FRAME = 174;
 export const KV_SYNC_HEAD_ANCHOR = { x: 0.598, y: 0.423 } as const;
+export const KV_SYNC_PROJECT_FRAMES = {
+  about: 124,
+  business: 134,
+  "brand-system": 144,
+  "product-launch": 150,
+  "launch-event": 156,
+} as const satisfies Record<ProjectId, number>;
 
 const KV_SYNC_NEUTRAL_ZONE = { x: 0.14, y: 0.18 } as const;
 const KV_SYNC_NEUTRAL_BLEND = 0.5;

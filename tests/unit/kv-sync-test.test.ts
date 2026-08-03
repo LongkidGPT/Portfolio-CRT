@@ -4,6 +4,7 @@ import {
   KV_SYNC_FRAME_COUNT,
   KV_SYNC_HEAD_ANCHOR,
   KV_SYNC_HEIGHT,
+  KV_SYNC_PROJECT_FRAMES,
   KV_SYNC_WIDTH,
   angleForKvSyncPointer,
   frameForKvSyncAngle,
@@ -18,6 +19,16 @@ describe("KV synchronization test mapping", () => {
     expect(KV_SYNC_FRAME_COUNT).toBe(193);
     expect([KV_SYNC_WIDTH, KV_SYNC_HEIGHT]).toEqual([1470, 630]);
     expect(KV_SYNC_HEAD_ANCHOR).toEqual({ x: 0.598, y: 0.423 });
+  });
+
+  it("assigns each formal control to its hand-calibrated R3 pose", () => {
+    expect(KV_SYNC_PROJECT_FRAMES).toEqual({
+      about: 124,
+      business: 134,
+      "brand-system": 144,
+      "product-launch": 150,
+      "launch-event": 156,
+    });
   });
 
   it("normalizes frame paths around the sequence boundary", () => {
