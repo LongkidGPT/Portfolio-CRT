@@ -104,16 +104,17 @@
 .ruler {
   position: absolute;
   z-index: 8;
-  top: 34%;
+  top: 40.5%;
   display: flex;
   flex-direction: column;
   gap: clamp(10px, 1.05vh, 17px);
   width: 180px;
   opacity: 0.72;
+  transform: scale(1.3);
   transition: opacity 260ms ease;
 }
-.ruler[data-side="left"] { left: clamp(24px, 2.1vw, 48px); align-items: flex-start; }
-.ruler[data-side="right"] { right: clamp(24px, 2.1vw, 48px); align-items: flex-end; }
+.ruler[data-side="left"] { left: clamp(24px, 2.1vw, 48px); align-items: flex-start; transform-origin: top left; }
+.ruler[data-side="right"] { right: clamp(24px, 2.1vw, 48px); align-items: flex-end; transform-origin: top right; }
 .ruler span {
   display: block;
   height: 1px;
@@ -309,7 +310,7 @@
   .contact { display: none; }
   .identity span,
   .time span { margin-top: 2px; }
-  .ruler { top: 28%; width: 56px; gap: 7px; }
+  .ruler { top: 28%; width: 56px; gap: 7px; transform: none; }
   .ruler[data-side="left"] { left: 18px; }
   .ruler[data-side="right"] { right: 18px; }
   .ruler span { max-width: 100%; }
