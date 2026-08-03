@@ -14,7 +14,9 @@ for (const viewport of [
       viewport: window.innerWidth,
     }));
     expect(sizes.content).toBeLessThanOrEqual(sizes.viewport);
-    const portrait = page.getByRole("img", { name: "Interactive CRT portrait" });
+    const portrait = page.getByRole("img", {
+      name: /Interactive (?:full-frame KV|CRT) portrait/,
+    });
     await expect(portrait).toBeVisible();
     const portraitBounds = await portrait.boundingBox();
     expect(portraitBounds?.width).toBeGreaterThanOrEqual(viewport.width - 1);

@@ -74,6 +74,62 @@ test("fills standard and wide desktop viewports without letterboxing", async ({
   }
 });
 
+test("restores the neutral selector and copies contact details", async ({
+  page,
+  context,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop");
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto("/");
+
+  const selector = page.getByRole("navigation", { name: "Portfolio projects" });
+  await expect(selector.locator("a[data-previewed]")).toHaveCount(0);
+
+  for (const side of ["left", "right"] as const) {
+    const widths = await page
+      .locator(`[aria-hidden="true"][data-side="${side}"] span`)
+      .evaluateAll((lines) => lines.map((line) => getComputedStyle(line).width));
+    expect(new Set(widths)).toEqual(new Set(["18px"]));
+  }
+
+  const business = page.getByRole("link", { name: "Open BUSINESS" });
+  await business.hover();
+  await expect(business).toHaveAttribute("data-previewed", "");
+
+  await page.mouse.move(200, 180);
+  await expect(selector.locator("a[data-previewed]")).toHaveCount(0);
+
+  for (const [name, value] of [
+    ["Copy email address", "longkid@sohu.com"],
+    ["Copy phone number", "18520224719"],
+    ["Copy WeChat ID", "lkchat1980"],
+  ] as const) {
+    await page.getByRole("button", { name }).click();
+    await expect(page.getByText("COPIED")).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(value);
+  }
+});
+
+test("pointer navigation does not retain a project focus frame", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop");
+  await page.goto("/");
+
+  await page.getByRole("link", { name: "Open BUSINESS" }).click();
+  await expect(page).toHaveURL(/\/work\/business$/);
+  await expect(page.getByRole("dialog", { name: "Business Context" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page).toHaveURL(/\/$/);
+
+  const business = page.getByRole("link", { name: "Open BUSINESS" });
+  await expect(business).not.toBeFocused();
+  expect(
+    await business.evaluate((element) => getComputedStyle(element).outlineStyle),
+  ).toBe("none");
+});
+
 test("opens and closes a shareable project overlay", async ({ page }) => {
   await page.goto("/");
   if (await page.getByRole("button", { name: "Next project" }).isVisible()) {
