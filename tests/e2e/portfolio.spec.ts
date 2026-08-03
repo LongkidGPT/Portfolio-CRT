@@ -1,14 +1,14 @@
 import { expect, test } from "@playwright/test";
 
-test("tracks the pointer and locks all five R3 project poses", async ({
+test("tracks the pointer and locks all five R4 project poses", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop");
-  await page.setViewportSize({ width: 1470, height: 630 });
+  await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto("/");
 
   const portrait = page.getByRole("img", {
-    name: "Interactive R3 full-frame portrait",
+    name: "Interactive full-frame KV portrait",
   });
   await expect(portrait).toHaveAttribute("data-loaded", "193", {
     timeout: 15_000,
@@ -16,11 +16,11 @@ test("tracks the pointer and locks all five R3 project poses", async ({
   await expect(portrait).toHaveAttribute("data-errors", "0");
 
   const pointerTargets = [
-    { point: { x: 879, y: 0 }, frame: "52" },
-    { point: { x: 1469, y: 266 }, frame: "20" },
-    { point: { x: 879, y: 629 }, frame: "144" },
-    { point: { x: 0, y: 266 }, frame: "100" },
-    { point: { x: 879, y: 266 }, frame: "174" },
+    { point: { x: 1179, y: 0 }, frame: "52" },
+    { point: { x: 1919, y: 516 }, frame: "20" },
+    { point: { x: 1179, y: 1079 }, frame: "144" },
+    { point: { x: 0, y: 516 }, frame: "100" },
+    { point: { x: 1179, y: 516 }, frame: "174" },
   ];
 
   for (const target of pointerTargets) {
@@ -41,8 +41,37 @@ test("tracks the pointer and locks all five R3 project poses", async ({
     await expect(portrait).toHaveAttribute("data-target-frame", frame);
   }
 
-  await page.mouse.move(879, 266);
+  await page.mouse.move(1179, 516);
   await expect(portrait).toHaveAttribute("data-target-frame", "174");
+});
+
+test("fills standard and wide desktop viewports without letterboxing", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop");
+
+  for (const viewport of [
+    { width: 1920, height: 1080 },
+    { width: 1440, height: 900 },
+    { width: 1440, height: 960 },
+    { width: 1470, height: 630 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    const portrait = page.getByRole("img", {
+      name: "Interactive full-frame KV portrait",
+    });
+    await expect(portrait).toHaveAttribute("data-loaded", "193", {
+      timeout: 15_000,
+    });
+    await expect(portrait).toHaveAttribute("data-errors", "0");
+    expect(await portrait.boundingBox()).toMatchObject({
+      x: 0,
+      y: 0,
+      width: viewport.width,
+      height: viewport.height,
+    });
+  }
 });
 
 test("opens and closes a shareable project overlay", async ({ page }) => {
@@ -55,7 +84,7 @@ test("opens and closes a shareable project overlay", async ({ page }) => {
   await expect(page).toHaveURL(/\/$/);
   const portraitOpacity = await page
     .getByRole("img", {
-      name: /Interactive (?:R3 full-frame|CRT) portrait/,
+      name: /Interactive (?:full-frame KV|CRT) portrait/,
     })
     .evaluate((element) => Number.parseFloat(getComputedStyle(element.parentElement!).opacity));
   expect(portraitOpacity).toBeGreaterThan(0);
@@ -70,7 +99,7 @@ test("opens and closes a shareable project overlay", async ({ page }) => {
   await page.waitForTimeout(120);
   const returnOpacity = await page
     .getByRole("img", {
-      name: /Interactive (?:R3 full-frame|CRT) portrait/,
+      name: /Interactive (?:full-frame KV|CRT) portrait/,
     })
     .evaluate((element) => Number.parseFloat(getComputedStyle(element.parentElement!).opacity));
   expect(returnOpacity).toBeGreaterThan(0);

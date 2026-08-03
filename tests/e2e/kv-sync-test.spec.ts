@@ -14,17 +14,23 @@ test("renders complete synchronized source frames on the isolated route", async 
   await expect(canvas).toHaveAttribute("data-loaded", "193");
   await expect(canvas).toHaveAttribute("data-errors", "0");
   await expect(page.locator("[data-nextjs-dialog]")).toHaveCount(0);
+  expect(await canvas.boundingBox()).toMatchObject({
+    x: 0,
+    y: 0,
+    width: 1470,
+    height: 630,
+  });
 
   for (const [x, y, frame] of [
-    [879, 10, "52"],
+    [903, 1, "52"],
     [1469, 1, "36"],
-    [1469, 266, "20"],
+    [1469, 301, "20"],
     [1469, 629, "156"],
-    [879, 629, "144"],
+    [903, 629, "144"],
     [1, 629, "124"],
-    [1, 266, "100"],
+    [1, 301, "100"],
     [1, 1, "76"],
-    [880, 270, "174"],
+    [903, 301, "174"],
   ] as const) {
     await page.mouse.move(x, y);
     await expect(canvas).toHaveAttribute("data-target-frame", frame);
