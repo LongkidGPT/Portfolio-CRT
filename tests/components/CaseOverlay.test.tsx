@@ -32,6 +32,19 @@ test("close button has an accessible name", () => {
   expect(screen.getByRole("button", { name: "Close project" })).toBeInTheDocument();
 });
 
+test("can visually hide the close control without removing it", () => {
+  render(
+    <CaseOverlay label="Kid Long profile" showCloseControl={false}>
+      <h1>Kid Long profile</h1>
+    </CaseOverlay>,
+  );
+
+  expect(screen.getByRole("button", { name: "Close project" })).toHaveAttribute(
+    "data-visual-control",
+    "hidden",
+  );
+});
+
 test("plays the close transition before returning to the homepage", () => {
   vi.useFakeTimers();
   render(<CaseOverlay label="Business Context"><h1>Business Context</h1></CaseOverlay>);

@@ -43,8 +43,9 @@
 .chrome a { display: block; }
 .chrome strong { font-weight: 600; }
 .identity span,
-.workNav a,
+.navUnselected,
 .time span { color: var(--muted); }
+.navSelected { color: var(--ink); font-weight: 600; }
 .workNav,
 .contact { justify-self: start; }
 .contactActions {
@@ -385,6 +386,9 @@
 
 .standaloneCase,
 .overlay {
+  --paper: #eceeed;
+  --ink: #202322;
+  --muted: #7f8482;
   min-height: 100dvh;
   background: #eceeed;
   color: #202322;
@@ -416,6 +420,15 @@
   cursor: pointer;
 }
 .closeOverlay { left: auto; right: 24px; }
+.visuallyHidden {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 .overlay {
   position: fixed;

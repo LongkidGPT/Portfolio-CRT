@@ -9,10 +9,12 @@ export default function CaseOverlay({
   label,
   children,
   fallbackHref = "/",
+  showCloseControl = true,
 }: {
   label: string;
   children: React.ReactNode;
   fallbackHref?: string;
+  showCloseControl?: boolean;
 }) {
   const router = useRouter();
   const reduced = Boolean(useReducedMotion());
@@ -68,7 +70,16 @@ export default function CaseOverlay({
       transition={{ duration: reduced ? 0.1 : isClosing ? 0.32 : 0.46 }}
       onClick={(event) => event.stopPropagation()}
     >
-      <button ref={closeButton} className={styles.closeOverlay} type="button" aria-label="Close project" onClick={close}>CLOSE ×</button>
+      <button
+        ref={closeButton}
+        className={`${styles.closeOverlay} ${showCloseControl ? "" : styles.visuallyHidden}`}
+        type="button"
+        aria-label="Close project"
+        data-visual-control={showCloseControl ? "visible" : "hidden"}
+        onClick={close}
+      >
+        CLOSE ×
+      </button>
       {children}
     </motion.div>
   );
