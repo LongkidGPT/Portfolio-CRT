@@ -17,3 +17,12 @@ test("mobile rulers retain their original dimensions and vertical position", () 
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
   expect(mobile).toMatch(/\.ruler\s*\{[^}]*top:\s*28%;[^}]*transform:\s*none/s);
 });
+
+test("desktop preview copy moves upward by exactly two responsive button heights", () => {
+  expect(css).toMatch(
+    /\.previewStage\s*\{[^}]*transform:\s*translateY\(clamp\(-112px,\s*-11vh,\s*-92px\)\)/s,
+  );
+
+  const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
+  expect(mobile).toMatch(/\.previewStage\s*\{[^}]*transform:\s*none/s);
+});

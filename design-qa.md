@@ -12,6 +12,7 @@
   - `/private/tmp/portfolio-home-about-after-1920x806.png`
   - `/private/tmp/portfolio-business-hover-1280x720.png`
   - `/private/tmp/portfolio-about-route-1280x720.png`
+  - `/private/tmp/portfolio-copy-shift-up-1280x720.png`
 - Full-view evidence: `/private/tmp/portfolio-home-full-stable-1920x1080.png`
 - Focused comparison evidence:
   - before: `/private/tmp/qa-about-before-normalized.png`
@@ -53,6 +54,13 @@
 - Intercepted ABOUT overlay retains the shared header, visually hides its close control, and remains escapable.
 - Console: no browser errors or warnings were recorded after navigation and overlay checks.
 - Automated verification: `92` unit/component tests passed; ESLint passed; production build passed.
+
+### Pass 3 — passed
+
+- User-directed positional override: move only the central copy group upward by two current desktop button heights while keeping the portrait, selector, and rulers fixed.
+- Implementation uses `translateY(clamp(-112px, -11vh, -92px))`, matching twice the desktop button rule `clamp(46px, 5.5vh, 56px)`.
+- Browser evidence at the active desktop viewport measured a `46px` button and a `-92px` copy transform. Mobile explicitly resets the transform to `none`.
+- Post-change evidence: `/private/tmp/portfolio-copy-shift-up-1280x720.png`.
 
 ## Open questions
 

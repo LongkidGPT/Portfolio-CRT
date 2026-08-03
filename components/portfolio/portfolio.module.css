@@ -132,6 +132,7 @@
   top: 40.5%;
   left: 31.6%;
   width: min(19.2vw, 368px);
+  transform: translateY(clamp(-112px, -11vh, -92px));
   transition: opacity 260ms ease;
 }
 .preview h1,
@@ -314,7 +315,7 @@
   .ruler[data-side="left"] { left: 18px; }
   .ruler[data-side="right"] { right: 18px; }
   .ruler span { max-width: 100%; }
-  .previewStage { top: auto; bottom: 31.5%; left: 22px; width: min(62vw, 270px); }
+  .previewStage { top: auto; bottom: 31.5%; left: 22px; width: min(62vw, 270px); transform: none; }
   .previewDesktop { display: none; }
   .previewMobile { display: block; }
   .previewMobile h1 { font-size: 18px; }
