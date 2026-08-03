@@ -13,6 +13,7 @@
   - `/private/tmp/portfolio-business-hover-1280x720.png`
   - `/private/tmp/portfolio-about-route-1280x720.png`
   - `/private/tmp/portfolio-copy-shift-up-1280x720.png`
+  - `/private/tmp/portfolio-neutral-about-down40.png`
 - Full-view evidence: `/private/tmp/portfolio-home-full-stable-1920x1080.png`
 - Focused comparison evidence:
   - before: `/private/tmp/qa-about-before-normalized.png`
@@ -61,6 +62,13 @@
 - Implementation uses `translateY(clamp(-112px, -11vh, -92px))`, matching twice the desktop button rule `clamp(46px, 5.5vh, 56px)`.
 - Browser evidence at the active desktop viewport measured a `46px` button and a `-92px` copy transform. Mobile explicitly resets the transform to `none`.
 - Post-change evidence: `/private/tmp/portfolio-copy-shift-up-1280x720.png`.
+
+### Pass 4 — passed
+
+- User-directed position refinement: the central copy group now sits `40px` below the Pass 3 position. Browser measurement at the active desktop viewport confirms the transform changed from `-92px` to `-52px`.
+- Neutral interaction behavior: leaving any project button clears its selected artwork/ruler state and restores the `ABOUT ME` copy instead of retaining the last project copy.
+- Component interaction evidence covers BUSINESS pointer enter followed by pointer leave and asserts the visible heading returns to `我是KID（龙昊翔）`.
+- Browser-rendered neutral evidence: `/private/tmp/portfolio-neutral-about-down40.png`; console contained no errors or warnings.
 
 ## Open questions
 

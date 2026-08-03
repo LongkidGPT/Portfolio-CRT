@@ -87,6 +87,7 @@ export default function PortfolioHome() {
   }, [desktopFullFrame, router]);
 
   const resumePointer = useCallback(() => {
+    dispatch({ type: "PREVIEW", projectId: "about" });
     setPreviewedProject(null);
     setFocusFrame(null);
   }, []);

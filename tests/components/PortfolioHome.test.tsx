@@ -113,6 +113,22 @@ test("locks the full-frame target to the hovered formal project", () => {
   ).toHaveAttribute("data-target-frame", "134");
 });
 
+test("restores the ABOUT ME copy after the pointer leaves a project button", () => {
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+  render(<PortfolioHome />);
+  const business = screen.getByRole("link", { name: "Open BUSINESS" });
+
+  fireEvent.pointerEnter(business);
+  expect(
+    screen.getByRole("heading", { name: "业务洞察与设计目标" }),
+  ).toBeInTheDocument();
+
+  fireEvent.pointerLeave(business);
+  expect(
+    screen.getByRole("heading", { name: "我是KID（龙昊翔）" }),
+  ).toBeInTheDocument();
+});
+
 test("renders the portfolio identity and five approved entry links", () => {
   const getContext = vi
     .spyOn(HTMLCanvasElement.prototype, "getContext")

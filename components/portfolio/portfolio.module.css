@@ -132,7 +132,7 @@
   top: 40.5%;
   left: 31.6%;
   width: min(19.2vw, 368px);
-  transform: translateY(clamp(-112px, -11vh, -92px));
+  transform: translateY(calc(clamp(-112px, -11vh, -92px) + 40px));
   transition: opacity 260ms ease;
 }
 .preview h1,

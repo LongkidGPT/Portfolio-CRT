@@ -18,9 +18,9 @@ test("mobile rulers retain their original dimensions and vertical position", () 
   expect(mobile).toMatch(/\.ruler\s*\{[^}]*top:\s*28%;[^}]*transform:\s*none/s);
 });
 
-test("desktop preview copy moves upward by exactly two responsive button heights", () => {
+test("desktop preview copy sits forty pixels below the two-button upward offset", () => {
   expect(css).toMatch(
-    /\.previewStage\s*\{[^}]*transform:\s*translateY\(clamp\(-112px,\s*-11vh,\s*-92px\)\)/s,
+    /\.previewStage\s*\{[^}]*transform:\s*translateY\(calc\(clamp\(-112px,\s*-11vh,\s*-92px\)\s*\+\s*40px\)\)/s,
   );
 
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
