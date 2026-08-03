@@ -1,5 +1,5 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { beforeEach, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import PortfolioHome from "@/components/portfolio/PortfolioHome";
 
 const navigation = vi.hoisted(() => ({
@@ -15,6 +15,102 @@ vi.mock("next/navigation", () => ({
 beforeEach(() => {
   navigation.push.mockReset();
   navigation.prefetch.mockReset();
+  vi.stubGlobal("matchMedia", (query: string) => ({
+    matches:
+      query === "(min-width: 768px)" || query === "(pointer: fine)",
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+  vi.useRealTimers();
+});
+
+test("uses the verified R3 renderer only on the formal desktop home", () => {
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+
+  render(<PortfolioHome />);
+
+  expect(
+    screen.getByRole("img", { name: "Interactive R3 full-frame portrait" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByRole("img", { name: "Interactive CRT portrait" }),
+  ).not.toBeInTheDocument();
+});
+
+test("keeps the legacy portrait renderer below the desktop breakpoint", () => {
+  vi.stubGlobal("matchMedia", (query: string) => ({
+    matches: query === "(pointer: fine)",
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+
+  render(<PortfolioHome />);
+
+  expect(
+    screen.getByRole("img", { name: "Interactive CRT portrait" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByRole("img", { name: "Interactive R3 full-frame portrait" }),
+  ).not.toBeInTheDocument();
+});
+
+test("locks the R3 target to the hovered formal project", () => {
+  const callbacks: FrameRequestCallback[] = [];
+  const context = { clearRect: vi.fn(), drawImage: vi.fn() };
+
+  class FakeImage {
+    complete = true;
+    onload: (() => void) | null = null;
+    onerror: (() => void) | null = null;
+
+    set src(_value: string) {
+      this.onload?.();
+    }
+  }
+
+  vi.stubGlobal("Image", FakeImage);
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
+    context as unknown as CanvasRenderingContext2D,
+  );
+  vi.spyOn(HTMLCanvasElement.prototype, "getBoundingClientRect").mockReturnValue({
+    left: 0,
+    top: 0,
+    right: 1470,
+    bottom: 630,
+    width: 1470,
+    height: 630,
+    x: 0,
+    y: 0,
+    toJSON: () => ({}),
+  });
+  vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+    callbacks.push(callback);
+    return callbacks.length;
+  });
+
+  render(<PortfolioHome />);
+  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open BUSINESS" }));
+  act(() => callbacks.shift()?.(1000 / 60));
+
+  expect(
+    screen.getByRole("img", { name: "Interactive R3 full-frame portrait" }),
+  ).toHaveAttribute("data-target-frame", "134");
 });
 
 test("renders the portfolio identity and five approved entry links", () => {
@@ -46,5 +142,4 @@ test("holds navigation until the portrait exit transition completes", () => {
   expect(navigation.push).toHaveBeenCalledWith("/work/business");
 
   getContext.mockRestore();
-  vi.useRealTimers();
 });
