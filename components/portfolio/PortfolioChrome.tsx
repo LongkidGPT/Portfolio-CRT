@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { rulerWidthsForIndex } from "@/lib/portfolio/interactions";
+import ContactActions from "./ContactActions";
 import styles from "./portfolio.module.css";
 
 function formatTime(date: Date) {
@@ -54,7 +55,7 @@ export default function PortfolioChrome({ activeIndex }: { activeIndex: number |
         </nav>
         <div className={styles.contact}>
           <strong>CONTACT</strong>
-          <a href="mailto:long.kidq@gmail.com" aria-label="Email Kid Long">✉</a>
+          <ContactActions />
         </div>
         <div className={styles.time}>
           <strong>LET&apos;S TALK, ME</strong><span>{time} GMT+8</span>
