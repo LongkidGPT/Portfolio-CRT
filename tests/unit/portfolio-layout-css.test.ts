@@ -36,10 +36,10 @@ test("mobile carousel and controls remain anchored to the viewport bottom", () =
     /\.selector\s*\{[^}]*top:\s*auto;[^}]*bottom:\s*max\(5svh,\s*env\(safe-area-inset-bottom\)\)/s,
   );
   expect(mobile).toMatch(
-    /\.mobileControlsArtwork\s*\{[^}]*width:\s*clamp\(210px,\s*72vw,\s*340px\)/s,
+    /\.carouselControls\s*\{[^}]*width:\s*clamp\(210px,\s*72vw,\s*340px\)/s,
   );
   expect(mobile).toMatch(
-    /\.mobileControlsArtwork\s*\{[^}]*margin:\s*9\.3vw auto 0/s,
+    /\.carouselControls\s*\{[^}]*margin:\s*9\.3vw auto 0/s,
   );
 });
 

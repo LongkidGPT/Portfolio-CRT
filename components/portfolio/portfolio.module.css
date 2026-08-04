@@ -434,12 +434,51 @@
   .projectLink[data-previewed] .mobileCardArtwork img[data-state="default"] { opacity: 0; }
   .projectLink[data-previewed] .mobileCardArtwork img[data-state="active"] { opacity: 1; }
   .mobileControlsArtwork {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+  }
+  .carouselControls {
+    position: relative;
     display: block;
     width: clamp(210px, 72vw, 340px);
-    height: auto;
+    aspect-ratio: 1837 / 260;
     margin: 9.3vw auto 0;
   }
-  .carouselControls { display: none; }
+  .carouselControls > button {
+    position: absolute;
+    z-index: 2;
+    top: -8px;
+    bottom: -8px;
+    width: 20%;
+    border: 0;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+    font-size: 0;
+    padding: 0;
+  }
+  .carouselControls > button:first-of-type { left: 0; }
+  .carouselControls > button:last-of-type { right: 0; }
+  .dots {
+    position: absolute;
+    z-index: 2;
+    top: -8px;
+    right: 20%;
+    bottom: -8px;
+    left: 20%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .dots button {
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+  }
   .resolution { display: none; }
 }
 

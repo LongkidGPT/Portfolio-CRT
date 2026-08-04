@@ -82,6 +82,31 @@ test("fills standard and wide desktop viewports without letterboxing", async ({
   }
 });
 
+test("mobile controls and swipe preview adjacent project cards", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile");
+  await page.goto("/");
+
+  const selector = page.getByRole("navigation", { name: "Portfolio projects" });
+  await page.getByRole("button", { name: "Next project" }).click();
+  const designLogic = page.getByRole("link", { name: "Open DESIGN LOGIC" });
+  await expect(designLogic).toHaveAttribute("data-previewed", "");
+  await expect(
+    page.getByRole("heading", { name: "业务洞察与设计目标" }),
+  ).toBeVisible();
+  await expect(
+    designLogic.locator('[src="/kv-mobile/cards/design-logic-active.png"]'),
+  ).toHaveCSS("opacity", "1");
+
+  const viewport = selector.locator("div").first();
+  await viewport.dispatchEvent("pointerdown", { clientX: 300 });
+  await viewport.dispatchEvent("pointerup", { clientX: 100 });
+  await expect(
+    page.getByRole("link", { name: "Open BRAND SYSTEM" }),
+  ).toHaveAttribute("data-previewed", "");
+});
+
 test("restores the neutral selector and copies contact details", async ({
   page,
   context,

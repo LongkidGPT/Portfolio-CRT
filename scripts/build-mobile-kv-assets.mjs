@@ -32,8 +32,8 @@ const CARD_DIR = join(OUTPUT_ROOT, "cards");
 const cards = {
   "about-default.png": ["WHITE", "ABOUT ME WP.png"],
   "about-active.png": ["BLACK", "ABOUT ME BP.png"],
-  "design-logic-default.png": ["WHITE", "BUSINESS WP.png"],
-  "design-logic-active.png": ["BLACK", "BUSINESS BP.png"],
+  "design-logic-default.png": ["WHITE", "DESIGN LOGIC WP.png"],
+  "design-logic-active.png": ["BLACK", "DESIGN LOGIC BP.png"],
   "brand-system-default.png": ["WHITE", "BRAND SYSTEM WP.png"],
   "brand-system-active.png": ["BLACK", "BRAND SYSTEM BP.png"],
   "product-launch-default.png": ["WHITE", "PRODUCT LAUNCH WP.png"],

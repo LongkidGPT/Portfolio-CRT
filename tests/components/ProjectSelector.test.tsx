@@ -137,3 +137,28 @@ test("keyboard activation preserves keyboard focus", () => {
 
   expect(business).toHaveFocus();
 });
+
+test("mobile carousel controls preview adjacent projects and wrap", async () => {
+  const onPreview = vi.fn();
+  render(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="about"
+      previewedProject={null}
+      onPreview={onPreview}
+      onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
+    />,
+  );
+
+  await userEvent.click(screen.getByRole("button", { name: "Next project" }));
+  expect(onPreview).toHaveBeenLastCalledWith("business", expect.any(Object));
+
+  await userEvent.click(
+    screen.getByRole("button", { name: "Previous project" }),
+  );
+  expect(onPreview).toHaveBeenLastCalledWith(
+    "launch-event",
+    expect.any(Object),
+  );
+});

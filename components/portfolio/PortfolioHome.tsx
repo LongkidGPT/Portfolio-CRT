@@ -76,10 +76,11 @@ export default function PortfolioHome() {
   }, [desktopFullFrame, router]);
 
   const resumePointer = useCallback(() => {
+    if (!desktopFullFrame) return;
     dispatch({ type: "PREVIEW", projectId: "about" });
     setPreviewedProject(null);
     setFocusFrame(null);
-  }, []);
+  }, [desktopFullFrame]);
 
   const open = useCallback((id: ProjectId) => {
     if (timer.current !== null) window.clearTimeout(timer.current);

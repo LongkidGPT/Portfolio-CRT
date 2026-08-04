@@ -123,16 +123,16 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
           ))}
         </div>
       </div>
-      {/* Supplied mobile control artwork; interaction is connected in the carousel step. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className={styles.mobileControlsArtwork}
-        src="/kv-mobile/controls.png"
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-      />
       <div className={styles.carouselControls}>
+        {/* Supplied visual remains untouched; transparent controls sit above it. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className={styles.mobileControlsArtwork}
+          src="/kv-mobile/controls.png"
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+        />
         <button type="button" aria-label="Previous project" onClick={(event) => previewIndex(activeIndex - 1, event.currentTarget)}>←</button>
         <div className={styles.dots}>
           {projects.map((project, index) => (
