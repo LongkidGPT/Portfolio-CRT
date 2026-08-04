@@ -49,12 +49,11 @@ test.each([
 
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {
   render(<AboutTemplate />);
-  expect(screen.getByRole("img", { name: "Kid Long profile and experience" })).toHaveAttribute(
+  expect(screen.getByRole("img", { name: "Kid Long visual designer portrait" })).toHaveAttribute(
     "src",
-    "/kv/cases/about-me.png",
+    "/kv/cases/about-crt.png",
   );
-  expect(screen.getByRole("heading", { name: "Experience" })).toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: "Contact" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "我是KID（龙昊翔）" })).toBeInTheDocument();
   expect(screen.getByRole("slider", { name: "Career timeline" })).toHaveAttribute(
     "aria-valuenow",
     "2014",
@@ -63,9 +62,5 @@ test("about template links experience rows to the ruler and rebuilds the contact
     screen.getByRole("button", { name: "2023–2026 Anker Innovations" }),
   ).toBeInTheDocument();
   expect(screen.getByTestId("about-contact-card")).toBeInTheDocument();
-  expect(screen.getByRole("img", { name: "Kid Long visual designer portrait" })).toHaveAttribute(
-    "src",
-    "/kv-mobile/frames/frame-063.webp",
-  );
-  expect(document.querySelector('[data-about-layout="mobile"]')).toBeInTheDocument();
+  expect(document.querySelector('[data-about-layout="shared"]')).toBeInTheDocument();
 });
