@@ -27,8 +27,10 @@ export default function MobileFramePortrait({ className }: Props) {
       if (cancelled || !image.complete) return;
       const bounds = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.max(1, Math.round(bounds.width * dpr));
-      canvas.height = Math.max(1, Math.round(bounds.height * dpr));
+      const displayWidth = Math.max(1, bounds.width);
+      const displayHeight = displayWidth * (MOBILE_KV_HEIGHT / MOBILE_KV_WIDTH);
+      canvas.width = Math.max(1, Math.round(displayWidth * dpr));
+      canvas.height = Math.max(1, Math.round(displayHeight * dpr));
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(
         image,
@@ -66,6 +68,7 @@ export default function MobileFramePortrait({ className }: Props) {
       aria-label="Mobile full-frame KV portrait"
       data-frame={MOBILE_KV_NEUTRAL_FRAME}
       data-loaded="0"
+      data-source-ratio="9:16"
     />
   );
 }

@@ -64,7 +64,7 @@ test("uses the dedicated mobile full-frame renderer below the desktop breakpoint
 
   expect(
     screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
-  ).toBeInTheDocument();
+  ).toHaveAttribute("data-source-ratio", "9:16");
   expect(
     screen.queryByRole("img", { name: "Interactive full-frame KV portrait" }),
   ).not.toBeInTheDocument();

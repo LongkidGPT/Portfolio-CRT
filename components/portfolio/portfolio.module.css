@@ -303,8 +303,9 @@
 
 @media (max-width: 767px) {
   .home {
+    --mobile-mask-line: 61.8svh;
     min-height: 100svh;
-    background: #eceeed;
+    background: #edefef;
   }
   .chrome {
     inset: max(22px, env(safe-area-inset-top)) 20px auto;
@@ -319,7 +320,7 @@
   .time span { margin-top: 2px; }
   .ruler { display: none; }
   .previewStage {
-    top: 11.4%;
+    top: 13.6%;
     bottom: auto;
     left: 17%;
     width: 66%;
@@ -357,10 +358,19 @@
     line-height: 1.7;
   }
   .portraitStage {
-    inset: 0;
+    inset: 0 0 auto;
     width: auto;
-    clip-path: inset(0 0 23% 0);
+    height: var(--mobile-mask-line);
+    overflow: hidden;
     transform: none;
+  }
+  .portrait {
+    position: absolute;
+    top: 3svh;
+    left: -9%;
+    width: 118%;
+    height: auto;
+    aspect-ratio: 9 / 16;
   }
   .home[data-phase="zooming"] .portraitStage,
   .home[data-phase="open"] .portraitStage {
@@ -370,19 +380,20 @@
   }
   .selector {
     right: auto;
-    bottom: max(24px, env(safe-area-inset-bottom));
+    top: var(--mobile-mask-line);
+    bottom: auto;
     left: 0;
     width: 100%;
   }
-  .selectorViewport { overflow: hidden; padding-inline: 15vw; touch-action: pan-y; }
+  .selectorViewport { overflow: hidden; padding-inline: 2vw; touch-action: pan-y; }
   .selectorTrack {
     display: flex;
-    gap: 3vw;
-    transform: translateX(calc(var(--active-index) * -73vw));
+    gap: 4vw;
+    transform: translateX(calc(var(--active-index) * -92vw));
     transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .projectLink {
-    flex: 0 0 70vw;
+    flex: 0 0 88vw;
     height: auto;
     align-items: stretch;
     padding: 0;
@@ -405,15 +416,13 @@
     inset: 0;
     opacity: 0;
   }
-  .projectLink[data-current] .mobileCardArtwork img[data-state="default"],
   .projectLink[data-previewed] .mobileCardArtwork img[data-state="default"] { opacity: 0; }
-  .projectLink[data-current] .mobileCardArtwork img[data-state="active"],
   .projectLink[data-previewed] .mobileCardArtwork img[data-state="active"] { opacity: 1; }
   .mobileControlsArtwork {
     display: block;
-    width: 59vw;
+    width: 72vw;
     height: auto;
-    margin: clamp(44px, 7svh, 68px) auto 0;
+    margin: 24vw auto 0;
   }
   .carouselControls { display: none; }
   .resolution { display: none; }

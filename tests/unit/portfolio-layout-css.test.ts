@@ -18,6 +18,13 @@ test("mobile removes desktop rulers from the dedicated phone composition", () =>
   expect(mobile).toMatch(/\.ruler\s*\{[^}]*display:\s*none/s);
 });
 
+test("mobile preserves the 9:16 video ratio and uses the approved mask color", () => {
+  const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
+  expect(mobile).toMatch(/\.home\s*\{[^}]*background:\s*#edefef/s);
+  expect(mobile).toMatch(/\.portrait\s*\{[^}]*aspect-ratio:\s*9\s*\/\s*16/s);
+  expect(mobile).toMatch(/--mobile-mask-line:\s*61\.8svh/);
+});
+
 test("desktop preview copy sits forty pixels below the two-button upward offset", () => {
   expect(css).toMatch(
     /\.previewStage\s*\{[^}]*transform:\s*translateY\(calc\(clamp\(-112px,\s*-11vh,\s*-92px\)\s*\+\s*40px\)\)/s,
