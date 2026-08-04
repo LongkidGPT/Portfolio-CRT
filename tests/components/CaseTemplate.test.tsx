@@ -32,6 +32,21 @@ test.each([
   },
 );
 
+test.each([
+  ["business", "/kv/cases/design-logic-mobile.png"],
+  ["brand-system", "/kv/cases/brand-system-mobile.png"],
+  ["product-launch", "/kv/cases/product-launch-mobile.png"],
+  ["launch-event", "/kv/cases/launch-event-mobile.png"],
+] as const)("%s exposes its supplied mobile artwork below 768px", (id, src) => {
+  const { container } = render(<CaseTemplate project={getProjectById(id)} />);
+
+  expect(container.querySelector("source")).toHaveAttribute("srcset", src);
+  expect(container.querySelector("source")).toHaveAttribute(
+    "media",
+    "(max-width: 767px)",
+  );
+});
+
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {
   render(<AboutTemplate />);
   expect(screen.getByRole("img", { name: "Kid Long profile and experience" })).toHaveAttribute(

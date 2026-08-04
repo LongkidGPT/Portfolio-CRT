@@ -24,6 +24,11 @@ export interface CaseArtwork {
   alt: string;
   width: number;
   height: number;
+  mobile: {
+    src: `/kv/cases/${string}`;
+    width: number;
+    height: number;
+  };
 }
 
 export interface ProjectDefinition {
@@ -84,6 +89,11 @@ export const PROJECTS = [
       alt: "Design logic case study",
       width: 2880,
       height: 12170,
+      mobile: {
+        src: "/kv/cases/design-logic-mobile.png",
+        width: 1170,
+        height: 5539,
+      },
     },
     media: [
       {
@@ -124,6 +134,11 @@ export const PROJECTS = [
       alt: "Brand system case study",
       width: 2880,
       height: 28394,
+      mobile: {
+        src: "/kv/cases/brand-system-mobile.png",
+        width: 1170,
+        height: 15239,
+      },
     },
     media: [
       {
@@ -167,6 +182,11 @@ export const PROJECTS = [
       alt: "Product launch case study",
       width: 2397,
       height: 32768,
+      mobile: {
+        src: "/kv/cases/product-launch-mobile.png",
+        width: 1170,
+        height: 21137,
+      },
     },
     media: [
       {
@@ -207,6 +227,11 @@ export const PROJECTS = [
       alt: "Launch event case study",
       width: 2880,
       height: 19500,
+      mobile: {
+        src: "/kv/cases/launch-event-mobile.png",
+        width: 1170,
+        height: 10466,
+      },
     },
     media: [
       {
