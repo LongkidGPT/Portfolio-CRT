@@ -18,11 +18,23 @@ test("mobile removes desktop rulers from the dedicated phone composition", () =>
   expect(mobile).toMatch(/\.ruler\s*\{[^}]*display:\s*none/s);
 });
 
-test("mobile preserves the 9:16 video ratio and uses the approved mask color", () => {
+test("mobile preserves the 9:16 video ratio and fades into the approved mask color", () => {
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
   expect(mobile).toMatch(/\.home\s*\{[^}]*background:\s*#edefef/s);
   expect(mobile).toMatch(/\.portrait\s*\{[^}]*aspect-ratio:\s*9\s*\/\s*16/s);
-  expect(mobile).toMatch(/--mobile-mask-line:\s*61\.8svh/);
+  expect(mobile).toMatch(
+    /\.portraitStage::after\s*\{[^}]*linear-gradient\([^)]*rgba\(237,\s*239,\s*239,\s*0\)\s*0%[^)]*#edefef\s*25%[^)]*#edefef\s*100%/s,
+  );
+});
+
+test("mobile carousel and controls remain anchored to the viewport bottom", () => {
+  const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
+  expect(mobile).toMatch(
+    /\.selector\s*\{[^}]*top:\s*auto;[^}]*bottom:\s*max\(5svh,\s*env\(safe-area-inset-bottom\)\)/s,
+  );
+  expect(mobile).toMatch(
+    /\.mobileControlsArtwork\s*\{[^}]*width:\s*clamp\(210px,\s*72vw,\s*340px\)/s,
+  );
 });
 
 test("desktop preview copy sits forty pixels below the two-button upward offset", () => {

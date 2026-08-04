@@ -303,7 +303,6 @@
 
 @media (max-width: 767px) {
   .home {
-    --mobile-mask-line: 61.8svh;
     min-height: 100svh;
     background: #edefef;
   }
@@ -358,15 +357,31 @@
     line-height: 1.7;
   }
   .portraitStage {
-    inset: 0 0 auto;
+    inset: 0;
     width: auto;
-    height: var(--mobile-mask-line);
+    height: auto;
     overflow: hidden;
     transform: none;
   }
+  .portraitStage::after {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 42svh;
+    background: linear-gradient(
+      180deg,
+      rgba(237, 239, 239, 0) 0%,
+      #edefef 25%,
+      #edefef 100%
+    );
+    content: "";
+    pointer-events: none;
+  }
   .portrait {
     position: absolute;
-    top: 3svh;
+    top: 0;
     left: -9%;
     width: 118%;
     height: auto;
@@ -380,8 +395,8 @@
   }
   .selector {
     right: auto;
-    top: var(--mobile-mask-line);
-    bottom: auto;
+    top: auto;
+    bottom: max(5svh, env(safe-area-inset-bottom));
     left: 0;
     width: 100%;
   }
@@ -420,9 +435,9 @@
   .projectLink[data-previewed] .mobileCardArtwork img[data-state="active"] { opacity: 1; }
   .mobileControlsArtwork {
     display: block;
-    width: 72vw;
+    width: clamp(210px, 72vw, 340px);
     height: auto;
-    margin: 24vw auto 0;
+    margin: clamp(118px, 42vw, 260px) auto 0;
   }
   .carouselControls { display: none; }
   .resolution { display: none; }
