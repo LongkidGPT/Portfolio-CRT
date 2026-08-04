@@ -41,6 +41,14 @@ test("tracks the pointer and locks all five R4 project poses", async ({
     await expect(portrait).toHaveAttribute("data-target-frame", frame);
   }
 
+  const designLogicBox = await page
+    .getByRole("link", { name: "Open DESIGN LOGIC" })
+    .boundingBox();
+  const brandSystemBox = await page
+    .getByRole("link", { name: "Open BRAND SYSTEM" })
+    .boundingBox();
+  expect(designLogicBox?.width).toBeCloseTo(brandSystemBox?.width ?? 0, 1);
+
   await page.mouse.move(1179, 516);
   await expect(portrait).toHaveAttribute("data-target-frame", "174");
 });

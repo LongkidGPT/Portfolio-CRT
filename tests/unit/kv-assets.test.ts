@@ -2,6 +2,14 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
+function readPngSize(path: string) {
+  const buffer = readFileSync(path);
+  return {
+    width: buffer.readUInt32BE(16),
+    height: buffer.readUInt32BE(20),
+  };
+}
+
 describe("generated KV assets", () => {
   const root = join(process.cwd(), "public", "kv");
   const manifestPath = join(root, "manifest.json");
@@ -44,6 +52,20 @@ describe("generated KV assets", () => {
         true,
       );
       expect(existsSync(join(root, "buttons", `${id}-active.png`))).toBe(true);
+    }
+  });
+
+  it("keeps DESIGN LOGIC the same native size as BRAND SYSTEM", () => {
+    for (const state of ["default", "active"]) {
+      const designLogic = readPngSize(
+        join(root, "buttons", `design-logic-${state}.png`),
+      );
+      const brandSystem = readPngSize(
+        join(root, "buttons", `brand-system-${state}.png`),
+      );
+
+      expect(designLogic).toEqual(brandSystem);
+      expect(designLogic).toEqual({ width: 692, height: 168 });
     }
   });
 });

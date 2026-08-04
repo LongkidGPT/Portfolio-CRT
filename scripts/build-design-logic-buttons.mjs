@@ -1,8 +1,4 @@
-import fs from "node:fs/promises";
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-const { createCanvas, loadImage } = require("@napi-rs/canvas");
+import sharp from "sharp";
 
 const [defaultSource, activeSource, defaultOutput, activeOutput] =
   process.argv.slice(2);
@@ -19,25 +15,33 @@ const variants = [
 ];
 
 for (const variant of variants) {
-  const source = await loadImage(variant.source);
-  if (source.width !== 576 || source.height !== 168) {
+  const source = sharp(variant.source);
+  const metadata = await source.metadata();
+  if (metadata.width !== 692 || metadata.height !== 168) {
     throw new Error(
-      `Expected a 576×168 source, got ${source.width}×${source.height}`,
+      `Expected a 692×168 source, got ${metadata.width}×${metadata.height}`,
     );
   }
 
-  const canvas = createCanvas(source.width, source.height);
-  const context = canvas.getContext("2d");
-  context.drawImage(source, 0, 0);
+  const background = await source
+    .clone()
+    .extract({ left: 650, top: 84, width: 1, height: 1 })
+    .resize(530, 98, { kernel: "nearest" })
+    .png()
+    .toBuffer();
+  const label = Buffer.from(`
+    <svg width="530" height="98" xmlns="http://www.w3.org/2000/svg">
+      <text x="24" y="49" fill="${variant.textColor}"
+        font-family="Menlo, monospace" font-size="47"
+        dominant-baseline="middle">DESIGN LOGIC</text>
+    </svg>
+  `);
 
-  const [red, green, blue, alpha] = context.getImageData(500, 84, 1, 1).data;
-  context.fillStyle = `rgba(${red},${green},${blue},${alpha / 255})`;
-  context.fillRect(145, 35, 414, 98);
-
-  context.fillStyle = variant.textColor;
-  context.font = "47px Menlo";
-  context.textBaseline = "middle";
-  context.fillText("DESIGN LOGIC", 169, 84);
-
-  await fs.writeFile(variant.output, canvas.toBuffer("image/png"));
+  await source
+    .composite([
+      { input: background, left: 145, top: 35 },
+      { input: label, left: 145, top: 35 },
+    ])
+    .png()
+    .toFile(variant.output);
 }
