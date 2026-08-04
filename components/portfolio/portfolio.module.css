@@ -572,6 +572,7 @@
   overflow: hidden;
   background: #f8fafc;
 }
+.aboutMobile { display: none; }
 .aboutArtwork > img {
   display: block;
   width: 100%;
@@ -852,34 +853,90 @@
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .aboutSection { grid-template-columns: 30px 1fr; }
   .aboutSection p { grid-column: 2; }
-  .aboutTimelineOverlay {
-    top: 64.9%;
-    right: 10%;
-    width: 80%;
-    height: 15.5%;
+  .aboutArtwork { display: none; }
+  .aboutMobile {
+    display: block;
+    min-height: 100svh;
+    padding: 104px 16px 28px;
+    background: #f8fafc;
+    color: #202322;
+    font-family: var(--font-sans);
   }
-  .experienceRows {
-    right: 10%;
-    left: 10%;
+  .aboutMobileIntro > p:first-child {
+    margin: 0;
+    font: 12px/1.2 var(--font-mono);
   }
-  .experienceRowTarget span { left: -12px; }
-  .experienceTimeline { height: clamp(78px, 21vw, 120px); }
-  .timelineTicks { inset: 10% 0 38%; }
-  .timelineMarker { bottom: 38%; }
-  .timelineMarker::before {
-    border-top-width: 6px;
-    border-right-width: 5px;
-    border-left-width: 5px;
+  .aboutMobileIntro h1 {
+    max-width: 8ch;
+    margin: 24px 0 0;
+    font-size: clamp(44px, 12.3vw, 54px);
+    font-weight: 700;
+    line-height: .96;
+    letter-spacing: -.04em;
   }
-  .aboutContactMask {
-    right: 9%;
-    left: 9%;
+  .aboutMobileIntro h2 {
+    margin: 22px 0 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
   }
-  .aboutContactCard {
-    left: 10%;
-    width: 80%;
-    border-radius: 6px;
+  .aboutMobileBody {
+    max-width: 34ch;
+    margin: 18px 0 0;
+    color: #4f5452;
+    font-size: 15px;
+    line-height: 1.85;
   }
+  .aboutMobilePortrait {
+    height: 126vw;
+    margin: 42px -16px 0;
+    overflow: hidden;
+    background: #edefef;
+  }
+  .aboutMobilePortrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: translateY(-6%);
+  }
+  .aboutMobileExperience { margin-top: 62px; }
+  .aboutMobileExperience > h2 {
+    margin: 0 0 18px;
+    font: 12px/1 var(--font-mono);
+  }
+  .aboutMobileExperience > div { border-top: 1px solid #bcc1bf; }
+  .aboutMobileExperience article {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 6px 10px;
+    padding: 18px 0;
+    border-bottom: 1px solid #bcc1bf;
+  }
+  .aboutMobileExperience span,
+  .aboutMobileExperience strong,
+  .aboutMobileExperience small {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  .aboutMobileExperience span { grid-row: 1 / span 2; color: #858a88; font-family: var(--font-mono); }
+  .aboutMobileExperience strong { font-weight: 500; }
+  .aboutMobileExperience small { color: #858a88; }
+  .aboutMobileContact {
+    display: grid;
+    gap: 32px;
+    margin-top: 72px;
+    padding: 28px 24px;
+    border-radius: 10px;
+    background: #242424;
+    color: #f8fafc;
+  }
+  .aboutMobileContact p,
+  .aboutMobileContact h2 { margin: 0; }
+  .aboutMobileContact p { color: #a1a4a3; font: 11px/1.4 var(--font-mono); }
+  .aboutMobileContact h2 { margin-top: 12px; font-size: 18px; font-weight: 400; }
+  .aboutMobileContact address { display: grid; gap: 10px; font: normal 10px/1.4 var(--font-mono); }
+  .aboutMobileContact address a,
+  .aboutMobileContact address span { color: #aeb1b0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

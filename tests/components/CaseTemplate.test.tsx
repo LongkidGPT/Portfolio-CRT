@@ -63,4 +63,9 @@ test("about template links experience rows to the ruler and rebuilds the contact
     screen.getByRole("button", { name: "2023–2026 Anker Innovations" }),
   ).toBeInTheDocument();
   expect(screen.getByTestId("about-contact-card")).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "Kid Long visual designer portrait" })).toHaveAttribute(
+    "src",
+    "/kv-mobile/frames/frame-063.webp",
+  );
+  expect(document.querySelector('[data-about-layout="mobile"]')).toBeInTheDocument();
 });
