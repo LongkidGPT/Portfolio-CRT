@@ -291,7 +291,8 @@
 .mobileMeta,
 .carouselControls,
 .mobileCardArtwork,
-.mobileControlsArtwork { display: none; }
+.mobileControlsArtwork,
+.activeDot { display: none; }
 
 @media (max-width: 1100px) {
   .chrome { grid-template-columns: 1fr 1fr auto; }
@@ -440,6 +441,20 @@
     aspect-ratio: 1837 / 260;
     margin: 9.3vw auto 0;
   }
+  .activeDot {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: calc(30.05% + var(--active-index) * 5.826%);
+    display: block;
+    width: 5.4%;
+    height: 17%;
+    border-radius: 999px;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+    transition: left 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
   .carouselControls > button {
     position: absolute;
     z-index: 2;
@@ -477,7 +492,8 @@
 @media (prefers-reduced-motion: reduce) {
   .portraitStage,
   .selectorTrack,
-  .projectLink { transition-duration: 100ms; }
+  .projectLink,
+  .activeDot { transition-duration: 100ms; }
 }
 
 .standaloneCase,

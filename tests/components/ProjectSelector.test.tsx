@@ -183,3 +183,35 @@ test("mobile carousel controls preview adjacent projects and wrap", async () => 
     expect.any(Object),
   );
 });
+
+test("positions the mobile indicator from the active project index", () => {
+  const { container, rerender } = render(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="about"
+      previewedProject={null}
+      onPreview={vi.fn()}
+      onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
+    />,
+  );
+
+  expect(container.querySelector('[aria-hidden="true"][style]')).toHaveStyle(
+    "--active-index: 0",
+  );
+
+  rerender(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="brand-system"
+      previewedProject="brand-system"
+      onPreview={vi.fn()}
+      onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
+    />,
+  );
+
+  expect(container.querySelector('[aria-hidden="true"][style]')).toHaveStyle(
+    "--active-index: 2",
+  );
+});

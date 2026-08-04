@@ -135,6 +135,11 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
           aria-hidden="true"
           draggable={false}
         />
+        <span
+          className={styles.activeDot}
+          style={{ "--active-index": activeIndex } as CSSProperties}
+          aria-hidden="true"
+        />
         <button type="button" aria-label="Previous project" onClick={(event) => previewIndex(activeIndex - 1, event.currentTarget)}>←</button>
         <div className={styles.dots}>
           {projects.map((project, index) => (
