@@ -369,7 +369,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    height: 42svh;
+    height: calc(42svh - 32.7vw);
     background: linear-gradient(
       180deg,
       rgba(237, 239, 239, 0) 0%,
@@ -437,7 +437,7 @@
     display: block;
     width: clamp(210px, 72vw, 340px);
     height: auto;
-    margin: clamp(118px, 42vw, 260px) auto 0;
+    margin: 9.3vw auto 0;
   }
   .carouselControls { display: none; }
   .resolution { display: none; }

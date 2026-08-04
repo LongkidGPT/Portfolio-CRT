@@ -25,6 +25,9 @@ test("mobile preserves the 9:16 video ratio and fades into the approved mask col
   expect(mobile).toMatch(
     /\.portraitStage::after\s*\{[^}]*linear-gradient\([^)]*rgba\(237,\s*239,\s*239,\s*0\)\s*0%[^)]*#edefef\s*25%[^)]*#edefef\s*100%/s,
   );
+  expect(mobile).toMatch(
+    /\.portraitStage::after\s*\{[^}]*height:\s*calc\(42svh\s*-\s*32\.7vw\)/s,
+  );
 });
 
 test("mobile carousel and controls remain anchored to the viewport bottom", () => {
@@ -34,6 +37,9 @@ test("mobile carousel and controls remain anchored to the viewport bottom", () =
   );
   expect(mobile).toMatch(
     /\.mobileControlsArtwork\s*\{[^}]*width:\s*clamp\(210px,\s*72vw,\s*340px\)/s,
+  );
+  expect(mobile).toMatch(
+    /\.mobileControlsArtwork\s*\{[^}]*margin:\s*9\.3vw auto 0/s,
   );
 });
 
