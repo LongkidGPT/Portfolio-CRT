@@ -124,6 +124,15 @@
 - Browser-rendered capture is blocked because the in-app browser denied access to the local preview during this pass. No alternate browser or workaround was used.
 - Remaining validation: open the local preview and visually confirm the newly uploaded asset after browser permission is available.
 
+### Pass 9 — passed
+
+- ABOUT ME now uses the supplied `/KV首屏/子页面/about me.png` artwork (`2880 × 2907`) as the visual source of truth at `/kv/cases/about-me.png`.
+- The static ruler embedded in the artwork is covered by a real interactive ruler on the approved `#F8FAFC` subpage surface. Its initial state matches the comp at `2014`, with a five-year visible window (`2012–2016`).
+- Pointer scrubbing maps the horizontal ruler area across the full `2012–2026` career range. The red marker, visible year window, and nearby tick heights update together; browser interaction verified a pointer move changed the accessible value from `2014` to `2023`.
+- Keyboard support: arrow keys move by one quarter, and Home/End jump to `2012`/`2026`. Reduced-motion users receive immediate state changes without transition animation.
+- Full-page browser evidence confirms the supplied portrait, copy, experience rows, ruler, and contact panel preserve the authored spacing and proportions. Browser console showed no application error overlay.
+- Verification: 100 component/unit tests passed, ESLint passed, and the production build completed successfully.
+
 ## Open questions
 
 - None for the confirmed desktop scope. Mobile remains intentionally outside this pass.
@@ -141,4 +150,4 @@
 
 - P3: final micro-adjustments can be made after the user reviews the live desktop preview at their exact monitor size.
 
-final result: blocked
+final result: passed

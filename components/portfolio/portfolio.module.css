@@ -454,6 +454,99 @@
   width: 100%;
   height: auto;
 }
+.aboutArtwork {
+  position: relative;
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  overflow: hidden;
+  background: #f8fafc;
+}
+.aboutArtwork > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+}
+.aboutTimelineOverlay {
+  position: absolute;
+  z-index: 2;
+  top: 65.4%;
+  right: 15.8%;
+  width: 67.1%;
+  height: 14.6%;
+  display: grid;
+  align-items: center;
+  background: #f8fafc;
+}
+.experienceTimeline {
+  position: relative;
+  width: 100%;
+  height: clamp(112px, 10.5vw, 164px);
+  cursor: ew-resize;
+  outline: none;
+  touch-action: pan-y;
+}
+.experienceTimeline:focus-visible {
+  outline: 1px solid rgba(32, 35, 34, 0.52);
+  outline-offset: 12px;
+}
+.timelineTicks {
+  position: absolute;
+  inset: 9% 0 34%;
+  display: grid;
+  grid-template-columns: repeat(49, 1fr);
+  align-items: end;
+  gap: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.timelineTicks span {
+  justify-self: center;
+  width: 1px;
+  height: 100%;
+  background: #c9cecc;
+  transform: scaleY(var(--tick-scale));
+  transform-origin: bottom;
+  transition: transform 100ms linear, background-color 100ms linear;
+}
+.timelineTicks .timelineYearTick { background: #6f7472; }
+.timelineMarker {
+  --marker-progress: .5;
+  position: absolute;
+  z-index: 2;
+  top: 4%;
+  bottom: 34%;
+  left: calc(var(--marker-progress) * 100%);
+  width: 2px;
+  background: #ff1717;
+  transform: translateX(-1px);
+  transition: left 100ms linear;
+}
+.timelineMarker::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-top: 9px solid #ff1717;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  content: "";
+  transform: translate(-50%, -1px);
+}
+.timelineYears {
+  position: absolute;
+  inset: auto 0 6%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  color: #9ba09e;
+  font-family: var(--font-mono);
+  font-size: clamp(8px, .7vw, 11px);
+  line-height: 1;
+}
+.timelineYears span { justify-self: center; }
+.timelineYears span:first-child { justify-self: start; }
+.timelineYears span:last-child { justify-self: end; }
 .caseHero {
   display: grid;
   min-height: 0;
@@ -535,4 +628,23 @@
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .aboutSection { grid-template-columns: 30px 1fr; }
   .aboutSection p { grid-column: 2; }
+  .aboutTimelineOverlay {
+    top: 64.9%;
+    right: 10%;
+    width: 80%;
+    height: 15.5%;
+  }
+  .experienceTimeline { height: clamp(78px, 21vw, 120px); }
+  .timelineTicks { inset: 10% 0 38%; }
+  .timelineMarker { bottom: 38%; }
+  .timelineMarker::before {
+    border-top-width: 6px;
+    border-right-width: 5px;
+    border-left-width: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timelineTicks span,
+  .timelineMarker { transition: none; }
 }

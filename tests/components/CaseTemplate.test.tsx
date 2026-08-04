@@ -32,9 +32,16 @@ test.each([
   },
 );
 
-test("about template exposes the approved profile sections", () => {
+test("about template uses the supplied artwork and an interactive experience ruler", () => {
   render(<AboutTemplate />);
-  expect(screen.getByRole("heading", { name: "Profile" })).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "Kid Long profile and experience" })).toHaveAttribute(
+    "src",
+    "/kv/cases/about-me.png",
+  );
   expect(screen.getByRole("heading", { name: "Experience" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Contact" })).toBeInTheDocument();
+  expect(screen.getByRole("slider", { name: "Career timeline" })).toHaveAttribute(
+    "aria-valuenow",
+    "2014",
+  );
 });

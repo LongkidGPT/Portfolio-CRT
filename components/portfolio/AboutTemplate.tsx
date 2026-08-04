@@ -1,24 +1,36 @@
+import ExperienceTimeline from "./ExperienceTimeline";
 import styles from "./portfolio.module.css";
-
-const sections = [
-  ["Profile", "PROFILE COPY / CONTENT PENDING"],
-  ["Capabilities", "CAPABILITY MATRIX / CONTENT PENDING"],
-  ["Experience", "EXPERIENCE TIMELINE / CONTENT PENDING"],
-  ["Education", "EDUCATION DETAILS / CONTENT PENDING"],
-  ["Contact", "CONTACT DETAILS / CONTENT PENDING"],
-] as const;
 
 export default function AboutTemplate() {
   return (
-    <article className={styles.caseTemplate}>
-      <header className={styles.caseHero}>
-        <p>ABOUT / KID LONG</p><h1>Visual designer building systems for product launch.</h1>
-      </header>
-      {sections.map(([title, copy], index) => (
-        <section className={styles.aboutSection} key={title}>
-          <span>0{index + 1}</span><h2>{title}</h2><p>{copy}</p>
-        </section>
-      ))}
+    <article className={styles.aboutArtwork}>
+      <div className={styles.visuallyHidden}>
+        <h1>我是 KID（龙昊翔），人类 · 资深视觉设计师</h1>
+        <p>
+          10+ 年视觉设计与品牌营销经验，擅长消费电子营销视觉、品牌视觉语言、
+          DTC 电商页面与 AI 创意生产流程。
+        </p>
+        <h2>Experience</h2>
+        <p>
+          Anker Innovations、Linsy、Extend、GREY-DPI 与 UNI Group，2012 至 2026。
+        </p>
+        <h2>Contact</h2>
+        <p>longkid@sohu.com，微信 lkchat1980，电话 18520224719。</p>
+      </div>
+
+      {/* The supplied artwork remains the visual source of truth; only its static ruler is replaced below. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/kv/cases/about-me.png"
+        alt="Kid Long profile and experience"
+        width="2880"
+        height="2907"
+        decoding="async"
+      />
+
+      <div className={styles.aboutTimelineOverlay}>
+        <ExperienceTimeline />
+      </div>
     </article>
   );
 }
