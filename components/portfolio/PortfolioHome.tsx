@@ -4,8 +4,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { PROJECTS, getProjectById, type ProjectId } from "@/lib/portfolio/projects";
 import { initialPortfolioState, portfolioReducer } from "@/lib/portfolio/state";
-import { KV_PROJECT_FRAMES } from "@/lib/portfolio/kv";
 import { KV_SYNC_PROJECT_FRAMES } from "@/lib/portfolio/kv-sync-test";
+import { MOBILE_KV_PROJECT_FRAMES } from "@/lib/portfolio/kv-mobile";
 import PortfolioChrome from "./PortfolioChrome";
 import FullFramePortrait from "./FullFramePortrait";
 import MobileFramePortrait from "./MobileFramePortrait";
@@ -70,7 +70,7 @@ export default function PortfolioHome() {
     dispatch({ type: "PREVIEW", projectId: id });
     setPreviewedProject(id);
     setFocusFrame(
-      desktopFullFrame ? KV_SYNC_PROJECT_FRAMES[id] : KV_PROJECT_FRAMES[id],
+      desktopFullFrame ? KV_SYNC_PROJECT_FRAMES[id] : null,
     );
     router.prefetch(getProjectById(id).href);
   }, [desktopFullFrame, router]);
@@ -109,7 +109,11 @@ export default function PortfolioHome() {
             className={styles.portrait}
           />
         ) : (
-          <MobileFramePortrait className={styles.portrait} />
+          <MobileFramePortrait
+            fixedFrame={MOBILE_KV_PROJECT_FRAMES[state.activeProject]}
+            motionReduced={reduced}
+            className={styles.portrait}
+          />
         )}
       </div>
       <ProjectSelector

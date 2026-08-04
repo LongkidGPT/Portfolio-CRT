@@ -66,11 +66,35 @@ test("uses the dedicated mobile full-frame renderer below the desktop breakpoint
     screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
   ).toHaveAttribute("data-source-ratio", "9:16");
   expect(
+    screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
+  ).toHaveAttribute("data-target-frame", "63");
+  expect(
     screen.queryByRole("img", { name: "Interactive full-frame KV portrait" }),
   ).not.toBeInTheDocument();
   expect(
     screen.queryByRole("img", { name: "Interactive CRT portrait" }),
   ).not.toBeInTheDocument();
+});
+
+test("syncs the mobile portrait target with the selected project", async () => {
+  vi.stubGlobal("matchMedia", (query: string) => ({
+    matches: query === "(pointer: fine)",
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+
+  render(<PortfolioHome />);
+  fireEvent.click(screen.getByRole("button", { name: "Next project" }));
+
+  expect(
+    screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
+  ).toHaveAttribute("data-target-frame", "135");
 });
 
 test("locks the full-frame target to the hovered formal project", () => {
