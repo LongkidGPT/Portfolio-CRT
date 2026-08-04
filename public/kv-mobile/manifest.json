@@ -1,0 +1,10 @@
+{
+  "frameCount": 193,
+  "width": 720,
+  "height": 1280,
+  "neutralFrame": 124,
+  "sourceFile": "首屏头部转动效果（PHO）需要添加遮罩.mp4",
+  "sourceSha256": "04a443366681b76dc4e7d9f6442bf6f73c88eca5ce739ef296c26ff14feca803",
+  "frameRate": "11580/481",
+  "framePattern": "/kv-mobile/frames/frame-%03d.webp"
+}

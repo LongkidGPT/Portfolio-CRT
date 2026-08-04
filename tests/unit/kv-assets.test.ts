@@ -69,3 +69,39 @@ describe("generated KV assets", () => {
     }
   });
 });
+
+describe("generated mobile KV assets", () => {
+  const root = join(process.cwd(), "public", "kv-mobile");
+
+  it("contains the 720×1280 PHO sequence and supplied mobile cards", () => {
+    const manifest = JSON.parse(
+      readFileSync(join(root, "manifest.json"), "utf8"),
+    );
+    expect(manifest).toMatchObject({
+      frameCount: 193,
+      width: 720,
+      height: 1280,
+      neutralFrame: 124,
+      framePattern: "/kv-mobile/frames/frame-%03d.webp",
+    });
+
+    for (let index = 0; index < 193; index += 1) {
+      expect(
+        existsSync(
+          join(root, "frames", `frame-${String(index).padStart(3, "0")}.webp`),
+        ),
+      ).toBe(true);
+    }
+
+    for (const id of [
+      "about",
+      "design-logic",
+      "brand-system",
+      "product-launch",
+      "launch-event",
+    ]) {
+      expect(existsSync(join(root, "cards", `${id}-default.png`))).toBe(true);
+      expect(existsSync(join(root, "cards", `${id}-active.png`))).toBe(true);
+    }
+  });
+});

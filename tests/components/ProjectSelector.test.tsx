@@ -65,7 +65,13 @@ test("renders the supplied default and active artwork for each project", () => {
     "src",
     "/kv/buttons/design-logic-active.png",
   );
-  expect(business.querySelectorAll("img")).toHaveLength(2);
+  expect(business.querySelectorAll("img")).toHaveLength(4);
+  expect(
+    business.querySelector('[src="/kv-mobile/cards/design-logic-default.png"]'),
+  ).toBeInTheDocument();
+  expect(
+    business.querySelector('[src="/kv-mobile/cards/design-logic-active.png"]'),
+  ).toBeInTheDocument();
   expect(screen.queryByText("DESIGN LOGIC")).not.toBeInTheDocument();
   expect(business).toHaveAttribute("data-previewed");
   expect(screen.getByRole("link", { name: "Open ABOUT" })).not.toHaveAttribute(

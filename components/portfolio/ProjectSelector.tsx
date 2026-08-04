@@ -62,6 +62,7 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
               className={styles.projectLink}
               aria-label={`Open ${project.label}`}
               data-project-id={project.id}
+              data-current={project.id === activeProject ? "" : undefined}
               data-previewed={project.id === previewedProject ? "" : undefined}
               onPointerEnter={(event) => onPreview(project.id, center(event.currentTarget))}
               onPointerLeave={onResumePointer}
@@ -97,6 +98,23 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
                   data-state="active"
                 />
               </span>
+              <span className={styles.mobileCardArtwork} aria-hidden="true">
+                {/* Mobile card artwork is supplied at final size and state. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/kv-mobile/cards/${project.id === "business" ? "design-logic" : project.id}-default.png`}
+                  alt=""
+                  draggable={false}
+                  data-state="default"
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/kv-mobile/cards/${project.id === "business" ? "design-logic" : project.id}-active.png`}
+                  alt=""
+                  draggable={false}
+                  data-state="active"
+                />
+              </span>
               <span className={styles.mobileMeta}>
                 <strong>{project.title}</strong><small>{project.year}</small>
                 <small>{project.summary}</small><b>VIEW ↗</b>
@@ -105,6 +123,15 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
           ))}
         </div>
       </div>
+      {/* Supplied mobile control artwork; interaction is connected in the carousel step. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className={styles.mobileControlsArtwork}
+        src="/kv-mobile/controls.png"
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+      />
       <div className={styles.carouselControls}>
         <button type="button" aria-label="Previous project" onClick={(event) => previewIndex(activeIndex - 1, event.currentTarget)}>←</button>
         <div className={styles.dots}>

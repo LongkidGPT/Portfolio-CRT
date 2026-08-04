@@ -4,14 +4,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { PROJECTS, getProjectById, type ProjectId } from "@/lib/portfolio/projects";
 import { initialPortfolioState, portfolioReducer } from "@/lib/portfolio/state";
-import type { Point } from "@/lib/portfolio/sprite";
 import { KV_PROJECT_FRAMES } from "@/lib/portfolio/kv";
 import { KV_SYNC_PROJECT_FRAMES } from "@/lib/portfolio/kv-sync-test";
 import PortfolioChrome from "./PortfolioChrome";
 import FullFramePortrait from "./FullFramePortrait";
+import MobileFramePortrait from "./MobileFramePortrait";
 import ProjectPreview from "./ProjectPreview";
 import ProjectSelector from "./ProjectSelector";
-import SpritePortrait from "./SpritePortrait";
 import styles from "./portfolio.module.css";
 
 function useReducedMotionPreference() {
@@ -49,7 +48,6 @@ export default function PortfolioHome() {
   const desktopFullFrame = useDesktopFullFrame();
   const [state, dispatch] = useReducer(portfolioReducer, initialPortfolioState);
   const [previewedProject, setPreviewedProject] = useState<ProjectId | null>(null);
-  const [focusPoint, setFocusPoint] = useState<Point | null>(null);
   const [focusFrame, setFocusFrame] = useState<number | null>(null);
   const timer = useRef<number | null>(null);
 
@@ -64,22 +62,13 @@ export default function PortfolioHome() {
     }
   }, [pathname, state.phase]);
 
-  useEffect(() => {
-    if (desktopFullFrame) return;
-    if (!window.matchMedia?.("(pointer: fine)").matches) return;
-    const move = (event: PointerEvent) => setFocusPoint({ x: event.clientX, y: event.clientY });
-    window.addEventListener("pointermove", move, { passive: true });
-    return () => window.removeEventListener("pointermove", move);
-  }, [desktopFullFrame]);
-
   useEffect(() => () => {
     if (timer.current !== null) window.clearTimeout(timer.current);
   }, []);
 
-  const preview = useCallback((id: ProjectId, point: Point) => {
+  const preview = useCallback((id: ProjectId) => {
     dispatch({ type: "PREVIEW", projectId: id });
     setPreviewedProject(id);
-    setFocusPoint(point);
     setFocusFrame(
       desktopFullFrame ? KV_SYNC_PROJECT_FRAMES[id] : KV_PROJECT_FRAMES[id],
     );
@@ -119,12 +108,7 @@ export default function PortfolioHome() {
             className={styles.portrait}
           />
         ) : (
-          <SpritePortrait
-            focusPoint={focusPoint}
-            focusFrame={focusFrame}
-            motionReduced={reduced}
-            className={styles.portrait}
-          />
+          <MobileFramePortrait className={styles.portrait} />
         )}
       </div>
       <ProjectSelector

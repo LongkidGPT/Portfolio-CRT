@@ -289,7 +289,9 @@
 .projectLink:focus-visible .buttonArtwork img[data-state="active"],
 .projectLink[data-previewed] .buttonArtwork img[data-state="active"] { opacity: 1; }
 .mobileMeta,
-.carouselControls { display: none; }
+.carouselControls,
+.mobileCardArtwork,
+.mobileControlsArtwork { display: none; }
 
 @media (max-width: 1100px) {
   .chrome { grid-template-columns: 1fr 1fr auto; }
@@ -302,29 +304,62 @@
 @media (max-width: 767px) {
   .home {
     min-height: 100svh;
-    background:
-      radial-gradient(circle at 50% 33%, #f8f9f8 0, transparent 40%),
-      linear-gradient(180deg, #dfe2e1 0%, #f2f3f2 100%);
+    background: #eceeed;
   }
-  .chrome { inset: 18px 18px auto; grid-template-columns: 1fr auto; gap: 20px; font-size: 10px; }
-  .workNav,
-  .contact { display: none; }
+  .chrome {
+    inset: max(22px, env(safe-area-inset-top)) 20px auto;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    font-size: clamp(10px, 2.85vw, 12px);
+  }
+  .workNav { display: block; justify-self: end; }
+  .contact,
+  .time { display: none; }
   .identity span,
   .time span { margin-top: 2px; }
-  .ruler { top: 28%; width: 56px; gap: 7px; transform: none; }
-  .ruler[data-side="left"] { left: 18px; }
-  .ruler[data-side="right"] { right: 18px; }
-  .ruler span { max-width: 100%; }
-  .previewStage { top: auto; bottom: 31.5%; left: 22px; width: min(62vw, 270px); transform: none; }
-  .previewDesktop { display: none; }
-  .previewMobile { display: block; }
-  .previewMobile h1 { font-size: 18px; }
-  .projectYear,
-  .projectSummary { font-size: 10px; }
-  .projectSummary { max-width: 29ch; margin-top: 9px !important; }
+  .ruler { display: none; }
+  .previewStage {
+    top: 11.4%;
+    bottom: auto;
+    left: 17%;
+    width: 66%;
+    transform: none;
+  }
+  .previewDesktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8vw;
+    align-items: start;
+  }
+  .previewMobile { display: none; }
+  .previewEyebrow {
+    grid-column: 1;
+    font-size: clamp(10px, 2.7vw, 12px);
+  }
+  .previewHeadline {
+    grid-column: 1;
+    margin-top: 10px !important;
+    font-size: clamp(16px, 4.8vw, 21px);
+    line-height: 1.3;
+  }
+  .previewDivider { display: none; }
+  .previewSubhead {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+    font-size: clamp(10px, 2.8vw, 12px);
+    line-height: 1.38;
+  }
+  .previewBody {
+    grid-column: 2;
+    margin-top: 12px;
+    font-size: clamp(7px, 1.9vw, 9px);
+    line-height: 1.7;
+  }
   .portraitStage {
     inset: 0;
     width: auto;
+    clip-path: inset(0 0 23% 0);
     transform: none;
   }
   .home[data-phase="zooming"] .portraitStage,
@@ -333,50 +368,54 @@
     transform: scale(1.42);
     filter: blur(7px);
   }
-  .selector { right: auto; bottom: 28px; left: 0; width: 100%; }
-  .selectorViewport { overflow: hidden; padding-inline: 18px; touch-action: pan-y; }
+  .selector {
+    right: auto;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    left: 0;
+    width: 100%;
+  }
+  .selectorViewport { overflow: hidden; padding-inline: 15vw; touch-action: pan-y; }
   .selectorTrack {
     display: flex;
-    gap: 10px;
-    transform: translateX(calc(var(--active-index) * (-82vw - 10px)));
+    gap: 3vw;
+    transform: translateX(calc(var(--active-index) * -73vw));
     transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .projectLink {
-    flex: 0 0 82vw;
-    height: 116px;
-    align-items: flex-start;
-    padding: 14px;
-  }
-  .buttonArtwork { height: 42px; }
-  .mobileMeta {
-    display: grid;
-    flex: 1;
-    grid-template-columns: 1fr auto;
-    gap: 4px 12px;
-    color: var(--ink);
-  }
-  .mobileMeta strong { font-size: 12px; }
-  .mobileMeta small { grid-column: 1 / -1; color: var(--muted); font-size: 9px; line-height: 1.35; }
-  .mobileMeta b { grid-column: 2; grid-row: 1; font-size: 9px; }
-  .carouselControls {
-    display: grid;
-    grid-template-columns: 34px 1fr 34px;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 18px 0;
-  }
-  .carouselControls > button { height: 26px; border: 0; background: transparent; }
-  .dots { display: flex; justify-content: center; gap: 6px; }
-  .dots button {
-    width: 5px;
-    height: 5px;
-    border: 0;
-    border-radius: 999px;
-    background: #9a9f9d;
+    flex: 0 0 70vw;
+    height: auto;
+    align-items: stretch;
     padding: 0;
-    transition: width 180ms ease;
   }
-  .dots button[aria-pressed="true"] { width: 22px; background: var(--ink); }
+  .buttonArtwork,
+  .mobileMeta { display: none; }
+  .mobileCardArtwork {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+  .mobileCardArtwork img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+  }
+  .mobileCardArtwork img[data-state="active"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+  .projectLink[data-current] .mobileCardArtwork img[data-state="default"],
+  .projectLink[data-previewed] .mobileCardArtwork img[data-state="default"] { opacity: 0; }
+  .projectLink[data-current] .mobileCardArtwork img[data-state="active"],
+  .projectLink[data-previewed] .mobileCardArtwork img[data-state="active"] { opacity: 1; }
+  .mobileControlsArtwork {
+    display: block;
+    width: 59vw;
+    height: auto;
+    margin: clamp(44px, 7svh, 68px) auto 0;
+  }
+  .carouselControls { display: none; }
   .resolution { display: none; }
 }
 

@@ -47,7 +47,7 @@ test("uses the full-frame renderer only on the formal desktop home", () => {
   ).not.toBeInTheDocument();
 });
 
-test("keeps the legacy portrait renderer below the desktop breakpoint", () => {
+test("uses the dedicated mobile full-frame renderer below the desktop breakpoint", () => {
   vi.stubGlobal("matchMedia", (query: string) => ({
     matches: query === "(pointer: fine)",
     media: query,
@@ -63,10 +63,13 @@ test("keeps the legacy portrait renderer below the desktop breakpoint", () => {
   render(<PortfolioHome />);
 
   expect(
-    screen.getByRole("img", { name: "Interactive CRT portrait" }),
+    screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
   ).toBeInTheDocument();
   expect(
     screen.queryByRole("img", { name: "Interactive full-frame KV portrait" }),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole("img", { name: "Interactive CRT portrait" }),
   ).not.toBeInTheDocument();
 });
 

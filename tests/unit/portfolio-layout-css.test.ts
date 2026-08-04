@@ -13,9 +13,9 @@ test("desktop rulers align to the preview top and scale uniformly by 30 percent"
   expect(css).toMatch(/\.ruler\[data-side="right"\][^{]*\{[^}]*transform-origin:\s*top right/s);
 });
 
-test("mobile rulers retain their original dimensions and vertical position", () => {
+test("mobile removes desktop rulers from the dedicated phone composition", () => {
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
-  expect(mobile).toMatch(/\.ruler\s*\{[^}]*top:\s*28%;[^}]*transform:\s*none/s);
+  expect(mobile).toMatch(/\.ruler\s*\{[^}]*display:\s*none/s);
 });
 
 test("desktop preview copy sits forty pixels below the two-button upward offset", () => {
