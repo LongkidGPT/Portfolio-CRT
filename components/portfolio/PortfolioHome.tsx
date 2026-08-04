@@ -116,6 +116,7 @@ export default function PortfolioHome() {
         projects={PROJECTS}
         activeProject={state.activeProject}
         previewedProject={previewedProject}
+        activatedProject={state.phase === "zooming" ? state.activeProject : null}
         onPreview={preview}
         onOpen={open}
         onResumePointer={resumePointer}

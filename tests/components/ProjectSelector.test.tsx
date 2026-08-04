@@ -80,6 +80,27 @@ test("renders the supplied default and active artwork for each project", () => {
   expect(business).not.toHaveAttribute("aria-current");
 });
 
+test("uses active mobile artwork only for an activated project", () => {
+  render(
+    <ProjectSelector
+      projects={PROJECTS}
+      activeProject="business"
+      previewedProject="business"
+      activatedProject="business"
+      onPreview={vi.fn()}
+      onOpen={vi.fn()}
+      onResumePointer={vi.fn()}
+    />,
+  );
+
+  expect(
+    screen.getByRole("link", { name: "Open DESIGN LOGIC" }),
+  ).toHaveAttribute("data-activated");
+  expect(
+    screen.getByRole("link", { name: "Open ABOUT" }),
+  ).not.toHaveAttribute("data-activated");
+});
+
 test("returns control to free pointer tracking after leaving a project", () => {
   const onResumePointer = vi.fn();
   render(

@@ -431,8 +431,8 @@
     inset: 0;
     opacity: 0;
   }
-  .projectLink[data-previewed] .mobileCardArtwork img[data-state="default"] { opacity: 0; }
-  .projectLink[data-previewed] .mobileCardArtwork img[data-state="active"] { opacity: 1; }
+  .projectLink[data-activated] .mobileCardArtwork img[data-state="default"] { opacity: 0; }
+  .projectLink[data-activated] .mobileCardArtwork img[data-state="active"] { opacity: 1; }
   .mobileControlsArtwork {
     position: absolute;
     inset: 0;

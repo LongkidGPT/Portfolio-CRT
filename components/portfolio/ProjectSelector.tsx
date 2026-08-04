@@ -11,6 +11,7 @@ interface Props {
   projects: readonly ProjectDefinition[];
   activeProject: ProjectId;
   previewedProject: ProjectId | null;
+  activatedProject?: ProjectId | null;
   onPreview: (id: ProjectId, point: Point) => void;
   onOpen: (id: ProjectId) => void;
   onResumePointer: () => void;
@@ -21,7 +22,7 @@ function center(element: HTMLElement): Point {
   return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
 }
 
-export default function ProjectSelector({ projects, activeProject, previewedProject, onPreview, onOpen, onResumePointer }: Props) {
+export default function ProjectSelector({ projects, activeProject, previewedProject, activatedProject = null, onPreview, onOpen, onResumePointer }: Props) {
   const drag = useRef<{ x: number; time: number } | null>(null);
   const didDrag = useRef(false);
   const activeIndex = Math.max(0, projects.findIndex(({ id }) => id === activeProject));
@@ -64,6 +65,7 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
               data-project-id={project.id}
               data-current={project.id === activeProject ? "" : undefined}
               data-previewed={project.id === previewedProject ? "" : undefined}
+              data-activated={project.id === activatedProject ? "" : undefined}
               onPointerEnter={(event) => onPreview(project.id, center(event.currentTarget))}
               onPointerLeave={onResumePointer}
               onTouchStart={(event) => onPreview(project.id, center(event.currentTarget))}

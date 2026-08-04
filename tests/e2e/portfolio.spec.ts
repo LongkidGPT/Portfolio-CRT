@@ -96,8 +96,11 @@ test("mobile controls and swipe preview adjacent project cards", async ({
     page.getByRole("heading", { name: "业务洞察与设计目标" }),
   ).toBeVisible();
   await expect(
-    designLogic.locator('[src="/kv-mobile/cards/design-logic-active.png"]'),
+    designLogic.locator('[src="/kv-mobile/cards/design-logic-default.png"]'),
   ).toHaveCSS("opacity", "1");
+  await expect(
+    designLogic.locator('[src="/kv-mobile/cards/design-logic-active.png"]'),
+  ).toHaveCSS("opacity", "0");
 
   const viewport = selector.locator("div").first();
   await viewport.dispatchEvent("pointerdown", { clientX: 300 });
