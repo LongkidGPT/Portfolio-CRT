@@ -142,6 +142,12 @@
 - The supplied contact artwork is now clipped into a four-corner card, with responsive `7–12px` corner radius, and is repositioned exactly `50px` farther from the preceding timeline area.
 - Verification: 102 component/unit tests passed, ESLint passed, and the production build completed successfully.
 
+### Pass 11 — passed
+
+- Corrected the experience arrow's shared row origin from `43.95%` to `44.28%`, aligning all five arrow centers to the actual `107px` source-row rhythm rather than the earlier approximate overlay box.
+- Replaced the baseline-dependent text glyph with a geometrically drawn horizontal arrow, eliminating font ascent/descent drift while preserving the reference weight and size.
+- Hover, focus, and linked timeline states all use the same centered arrow geometry.
+
 ## Open questions
 
 - None for the confirmed desktop scope. Mobile remains intentionally outside this pass.

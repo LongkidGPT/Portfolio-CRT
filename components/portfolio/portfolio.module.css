@@ -481,7 +481,7 @@
 .experienceRows {
   position: absolute;
   z-index: 5;
-  top: 43.95%;
+  top: 44.28%;
   right: 16.7%;
   left: 16.7%;
   height: 18.4%;
@@ -502,13 +502,38 @@
   position: absolute;
   top: 50%;
   left: -18px;
-  color: #202322;
-  font-family: var(--font-mono);
-  font-size: clamp(10px, .85vw, 14px);
+  width: clamp(9px, .78vw, 12px);
+  height: clamp(6px, .52vw, 8px);
+  color: transparent;
+  font-size: 0;
   opacity: 0;
   transform: translateY(-50%);
   transition: opacity 100ms linear;
 }
+.experienceRowTarget span::before,
+.experienceRowTarget span::after {
+  position: absolute;
+  right: 0;
+  content: "";
+}
+.experienceRowTarget span::before {
+  top: 50%;
+  left: 0;
+  height: 1px;
+  background: #202322;
+  transform: translateY(-.5px);
+}
+.experienceRowTarget span::after {
+  top: 50%;
+  width: 45%;
+  aspect-ratio: 1;
+  border-top: 1px solid #202322;
+  border-right: 1px solid #202322;
+  transform: translateY(-50%) rotate(45deg);
+  transform-origin: center;
+}
+.experienceRowTarget:hover span,
+.experienceRowTarget:focus span,
 .experienceRowTarget[aria-current="true"] span { opacity: 1; }
 .experienceTimeline {
   position: relative;

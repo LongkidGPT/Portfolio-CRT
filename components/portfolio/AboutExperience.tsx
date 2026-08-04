@@ -42,12 +42,14 @@ export default function AboutExperience() {
               setActiveIndex(index);
               setActiveYear(Math.min(experience.start + 0.5, experience.end));
             }}
-            onPointerLeave={() => setActiveIndex(null)}
+            onClick={() => {
+              setActiveIndex(index);
+              setActiveYear(Math.min(experience.start + 0.5, experience.end));
+            }}
             onFocus={() => {
               setActiveIndex(index);
               setActiveYear(Math.min(experience.start + 0.5, experience.end));
             }}
-            onBlur={() => setActiveIndex(null)}
           >
             <span aria-hidden="true">→</span>
           </button>
