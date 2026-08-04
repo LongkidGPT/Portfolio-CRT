@@ -133,6 +133,15 @@
 - Full-page browser evidence confirms the supplied portrait, copy, experience rows, ruler, and contact panel preserve the authored spacing and proportions. Browser console showed no application error overlay.
 - Verification: 100 component/unit tests passed, ESLint passed, and the production build completed successfully.
 
+### Pass 10 — passed
+
+- Corrected the ABOUT interaction model from free pointer mapping to a bidirectional experience/ruler relationship.
+- Hovering or focusing any of the five supplied experience rows now moves the ruler to that role's date range and displays a single arrow at the left edge of the matching row.
+- The ruler uses a fixed red marker with a translated monthly track beneath it. It exposes `grab`/`grabbing` cursors and only changes while the primary pointer is held; dragging left advances the years and dragging right reverses them.
+- Browser drag verification moved the ruler from `2014` to `2015` and selected `2015–2018 GREY-DPI`, confirming the reverse ruler-to-row mapping.
+- The supplied contact artwork is now clipped into a four-corner card, with responsive `7–12px` corner radius, and is repositioned exactly `50px` farther from the preceding timeline area.
+- Verification: 102 component/unit tests passed, ESLint passed, and the production build completed successfully.
+
 ## Open questions
 
 - None for the confirmed desktop scope. Mobile remains intentionally outside this pass.

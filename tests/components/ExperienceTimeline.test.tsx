@@ -1,13 +1,41 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
-import ExperienceTimeline from "@/components/portfolio/ExperienceTimeline";
+import AboutExperience from "@/components/portfolio/AboutExperience";
+
+test("hovering a role slides the ruler to its time range", () => {
+  render(<AboutExperience />);
+  const anker = screen.getByRole("button", { name: "2023–2026 Anker Innovations" });
+
+  fireEvent.pointerEnter(anker);
+
+  expect(anker).toHaveAttribute("aria-current", "true");
+  expect(screen.getByRole("slider", { name: "Career timeline" })).toHaveAttribute(
+    "aria-valuenow",
+    "2023.5",
+  );
+});
+
+test("dragging the ruler in reverse selects the matching role", () => {
+  render(<AboutExperience />);
+  const ruler = screen.getByRole("slider", { name: "Career timeline" });
+  Object.defineProperty(ruler, "getBoundingClientRect", {
+    value: () => ({ left: 0, width: 1000 }),
+  });
+
+  fireEvent.pointerDown(ruler, { clientX: 500, pointerId: 1 });
+  fireEvent.pointerMove(ruler, { clientX: -500, pointerId: 1 });
+  fireEvent.pointerUp(ruler, { pointerId: 1 });
+
+  expect(ruler).toHaveAttribute("aria-valuenow", "2018");
+  expect(screen.getByRole("button", { name: "2018–2021 Extend" })).toHaveAttribute(
+    "aria-current",
+    "true",
+  );
+});
 
 test("career ruler supports keyboard scrubbing", () => {
-  render(<ExperienceTimeline />);
+  render(<AboutExperience />);
   const ruler = screen.getByRole("slider", { name: "Career timeline" });
-
-  fireEvent.keyDown(ruler, { key: "ArrowRight" });
-  expect(ruler).toHaveAttribute("aria-valuenow", "2014.25");
 
   fireEvent.keyDown(ruler, { key: "End" });
   expect(ruler).toHaveAttribute("aria-valuenow", "2026");

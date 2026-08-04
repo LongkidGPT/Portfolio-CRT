@@ -32,7 +32,7 @@ test.each([
   },
 );
 
-test("about template uses the supplied artwork and an interactive experience ruler", () => {
+test("about template links experience rows to the ruler and rebuilds the contact card", () => {
   render(<AboutTemplate />);
   expect(screen.getByRole("img", { name: "Kid Long profile and experience" })).toHaveAttribute(
     "src",
@@ -44,4 +44,8 @@ test("about template uses the supplied artwork and an interactive experience rul
     "aria-valuenow",
     "2014",
   );
+  expect(
+    screen.getByRole("button", { name: "2023–2026 Anker Innovations" }),
+  ).toBeInTheDocument();
+  expect(screen.getByTestId("about-contact-card")).toBeInTheDocument();
 });

@@ -469,7 +469,7 @@
 }
 .aboutTimelineOverlay {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   top: 65.4%;
   right: 15.8%;
   width: 67.1%;
@@ -478,27 +478,90 @@
   align-items: center;
   background: #f8fafc;
 }
+.experienceRows {
+  position: absolute;
+  z-index: 5;
+  top: 43.95%;
+  right: 16.7%;
+  left: 16.7%;
+  height: 18.4%;
+}
+.experienceRowTarget {
+  position: absolute;
+  top: calc(var(--experience-index) * 20%);
+  left: 0;
+  width: 100%;
+  height: 20%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  cursor: default;
+  padding: 0;
+}
+.experienceRowTarget span {
+  position: absolute;
+  top: 50%;
+  left: -18px;
+  color: #202322;
+  font-family: var(--font-mono);
+  font-size: clamp(10px, .85vw, 14px);
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 100ms linear;
+}
+.experienceRowTarget[aria-current="true"] span { opacity: 1; }
 .experienceTimeline {
   position: relative;
   width: 100%;
   height: clamp(112px, 10.5vw, 164px);
-  cursor: ew-resize;
+  overflow: hidden;
+  cursor: grab;
   outline: none;
   touch-action: pan-y;
+  user-select: none;
 }
+.experienceTimeline::before,
+.experienceTimeline::after {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  width: 7%;
+  pointer-events: none;
+  content: "";
+}
+.experienceTimeline::before {
+  left: 0;
+  background: linear-gradient(90deg, #f8fafc 24%, rgba(248, 250, 252, 0));
+}
+.experienceTimeline::after {
+  right: 0;
+  background: linear-gradient(270deg, #f8fafc 24%, rgba(248, 250, 252, 0));
+}
+.experienceTimeline[data-dragging="true"] { cursor: grabbing; }
 .experienceTimeline:focus-visible {
   outline: 1px solid rgba(32, 35, 34, 0.52);
   outline-offset: 12px;
 }
+.timelineTrack {
+  --timeline-position: .142857;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 350%;
+  transform: translateX(calc(var(--timeline-position) * -100%));
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.experienceTimeline[data-dragging="true"] .timelineTrack { transition-duration: 80ms; }
 .timelineTicks {
   position: absolute;
   inset: 9% 0 34%;
   display: grid;
-  grid-template-columns: repeat(49, 1fr);
+  grid-template-columns: repeat(169, 1fr);
   align-items: end;
   gap: 0;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 .timelineTicks span {
   justify-self: center;
@@ -510,17 +573,26 @@
   transition: transform 100ms linear, background-color 100ms linear;
 }
 .timelineTicks .timelineYearTick { background: #6f7472; }
-.timelineMarker {
-  --marker-progress: .5;
+.timelineYears {
   position: absolute;
-  z-index: 2;
+  inset: auto 0 6%;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  color: #9ba09e;
+  font-family: var(--font-mono);
+  font-size: clamp(8px, .7vw, 11px);
+  line-height: 1;
+}
+.timelineYears span { justify-self: center; }
+.timelineMarker {
+  position: absolute;
+  z-index: 4;
   top: 4%;
   bottom: 34%;
-  left: calc(var(--marker-progress) * 100%);
+  left: 50%;
   width: 2px;
   background: #ff1717;
   transform: translateX(-1px);
-  transition: left 100ms linear;
 }
 .timelineMarker::before {
   position: absolute;
@@ -534,19 +606,35 @@
   content: "";
   transform: translate(-50%, -1px);
 }
-.timelineYears {
+.aboutContactMask {
   position: absolute;
-  inset: auto 0 6%;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  color: #9ba09e;
-  font-family: var(--font-mono);
-  font-size: clamp(8px, .7vw, 11px);
-  line-height: 1;
+  z-index: 3;
+  top: 78.8%;
+  right: 15.7%;
+  left: 15.7%;
+  height: 12.4%;
+  background: #f8fafc;
 }
-.timelineYears span { justify-self: center; }
-.timelineYears span:first-child { justify-self: start; }
-.timelineYears span:last-child { justify-self: end; }
+.aboutContactCard {
+  position: absolute;
+  z-index: 4;
+  top: calc(79.29% + 50px);
+  left: 16.74%;
+  width: 66.53%;
+  aspect-ratio: 1916 / 305;
+  overflow: hidden;
+  border-radius: clamp(7px, .75vw, 12px);
+  background: #242424;
+}
+.aboutContactCard img {
+  position: absolute;
+  top: -755.74%;
+  left: -25.16%;
+  display: block;
+  width: 150.31%;
+  max-width: none;
+  height: auto;
+}
 .caseHero {
   display: grid;
   min-height: 0;
@@ -634,6 +722,11 @@
     width: 80%;
     height: 15.5%;
   }
+  .experienceRows {
+    right: 10%;
+    left: 10%;
+  }
+  .experienceRowTarget span { left: -12px; }
   .experienceTimeline { height: clamp(78px, 21vw, 120px); }
   .timelineTicks { inset: 10% 0 38%; }
   .timelineMarker { bottom: 38%; }
@@ -642,9 +735,19 @@
     border-right-width: 5px;
     border-left-width: 5px;
   }
+  .aboutContactMask {
+    right: 9%;
+    left: 9%;
+  }
+  .aboutContactCard {
+    left: 10%;
+    width: 80%;
+    border-radius: 6px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .timelineTicks span,
-  .timelineMarker { transition: none; }
+  .timelineTrack,
+  .experienceRowTarget span { transition: none; }
 }

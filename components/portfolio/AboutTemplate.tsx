@@ -1,4 +1,4 @@
-import ExperienceTimeline from "./ExperienceTimeline";
+import AboutExperience from "./AboutExperience";
 import styles from "./portfolio.module.css";
 
 export default function AboutTemplate() {
@@ -28,8 +28,13 @@ export default function AboutTemplate() {
         decoding="async"
       />
 
-      <div className={styles.aboutTimelineOverlay}>
-        <ExperienceTimeline />
+      <AboutExperience />
+
+      <div className={styles.aboutContactMask} aria-hidden="true" />
+      <div className={styles.aboutContactCard} data-testid="about-contact-card">
+        {/* Reuse the supplied contact artwork while clipping it into the corrected card geometry. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/kv/cases/about-me.png" alt="" width="2880" height="2907" />
       </div>
     </article>
   );
