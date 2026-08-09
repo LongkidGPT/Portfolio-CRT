@@ -38,6 +38,13 @@ export type AnalyticsEvent =
     })
   | (AnalyticsEventBase & { event: "portfolio_session_ended" });
 
+type AnalyticsEnvelopeKeys = keyof AnalyticsEventBase;
+export type AnalyticsEventDetails = AnalyticsEvent extends infer Event
+  ? Event extends AnalyticsEvent
+    ? Omit<Event, AnalyticsEnvelopeKeys>
+    : never
+  : never;
+
 export interface PublicPostHogConfig {
   token: string;
   host: string;

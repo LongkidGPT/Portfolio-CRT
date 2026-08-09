@@ -10,11 +10,13 @@ import {
 } from "@/lib/analytics/identity";
 import type {
   AnalyticsEvent,
+  AnalyticsEventDetails,
   ContactType,
   PublicPostHogConfig,
 } from "@/lib/analytics/types";
 import type { ProjectId } from "@/lib/portfolio/projects";
 import { AnalyticsContext } from "./useAnalytics";
+import CaseProgressTracker from "./CaseProgressTracker";
 
 const BRANCH_STORAGE_KEY = "kid-portfolio-branch-v1";
 
@@ -47,7 +49,7 @@ export default function AnalyticsProvider({
     return branch;
   }, [pathname]);
 
-  const capture = useCallback((details: Omit<AnalyticsEvent, "branch_id" | "visitor_id" | "session_id" | "pathname" | "timestamp">) => {
+  const capture = useCallback((details: AnalyticsEventDetails) => {
     if (!identity.current) return;
     sendAnalyticsEvent(
       resolvedConfig,
@@ -108,5 +110,19 @@ export default function AnalyticsProvider({
     }),
   }), [branchId, capture]);
 
-  return <AnalyticsContext.Provider value={value}>{children}</AnalyticsContext.Provider>;
+  const trackCaseProgress = useCallback((projectId: ProjectId, maxDepth: number, activeDwellMs: number) => {
+    capture({
+      event: "portfolio_case_progress",
+      project_id: projectId,
+      max_scroll_depth: maxDepth,
+      active_dwell_ms: activeDwellMs,
+    });
+  }, [capture]);
+
+  return (
+    <AnalyticsContext.Provider value={value}>
+      <CaseProgressTracker pathname={pathname} onProgress={trackCaseProgress} />
+      {children}
+    </AnalyticsContext.Provider>
+  );
 }

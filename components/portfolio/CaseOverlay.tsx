@@ -69,6 +69,7 @@ export default function CaseOverlay({
       }
       transition={{ duration: reduced ? 0.1 : isClosing ? 0.32 : 0.46 }}
       onClick={(event) => event.stopPropagation()}
+      data-analytics-scroll-root
     >
       <button
         ref={closeButton}
