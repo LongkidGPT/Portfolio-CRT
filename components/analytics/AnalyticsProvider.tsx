@@ -14,6 +14,7 @@ import type {
   PublicPostHogConfig,
 } from "@/lib/analytics/types";
 import type { ProjectId } from "@/lib/portfolio/projects";
+import type { JourneyMatrixSnapshot } from "@/lib/analytics/types";
 import { AnalyticsContext } from "./useAnalytics";
 import CaseProgressTracker from "./CaseProgressTracker";
 import { createActiveDwellClock } from "@/lib/analytics/measurements";
@@ -141,6 +142,7 @@ export default function AnalyticsProvider({
     maxDepth: number,
     activeDwellMs: number,
     segmentDwellMs: number[],
+    journeyMatrix: JourneyMatrixSnapshot,
   ) => {
     capture({
       event: "portfolio_case_progress",
@@ -149,6 +151,7 @@ export default function AnalyticsProvider({
       max_scroll_depth: maxDepth,
       active_dwell_ms: activeDwellMs,
       segment_dwell_ms: segmentDwellMs,
+      journey_matrix: journeyMatrix,
     });
   }, [capture]);
 

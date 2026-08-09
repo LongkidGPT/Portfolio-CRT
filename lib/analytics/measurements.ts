@@ -56,6 +56,18 @@ export function segmentIndexAtViewportCenter({
   );
 }
 
+export function sectionIndexAtViewportCenter(
+  { scrollTop, scrollHeight, clientHeight }: ScrollMetrics,
+  sectionEnds: readonly number[],
+) {
+  if (sectionEnds.length === 0) return 0;
+  const center = scrollHeight > 0
+    ? Math.min(scrollHeight, Math.max(0, scrollTop + clientHeight / 2)) / scrollHeight
+    : 0;
+  const index = sectionEnds.findIndex((end) => center <= end);
+  return index === -1 ? sectionEnds.length - 1 : index;
+}
+
 export function createSegmentDwellTracker(now: () => number = () => performance.now()) {
   const dwell = Array.from({ length: HEATMAP_SEGMENT_COUNT }, () => 0);
   let activeIndex: number | null = null;

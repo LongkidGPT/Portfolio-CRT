@@ -36,6 +36,7 @@ export type AnalyticsEvent =
       max_scroll_depth: number;
       active_dwell_ms: number;
       segment_dwell_ms: number[];
+      journey_matrix: JourneyMatrixSnapshot;
     })
   | (AnalyticsEventBase & { event: "portfolio_session_ended" });
 
@@ -69,6 +70,7 @@ export interface PostHogEventRow {
   maxScrollDepth?: number;
   activeDwellMs?: number;
   segmentDwellMs?: number[];
+  journeyMatrix?: JourneyMatrixSnapshot;
 }
 
 export interface ProjectAnalyticsMeasurement {
@@ -76,6 +78,7 @@ export interface ProjectAnalyticsMeasurement {
   activeDwellMs: number;
   maxDepth: number;
   segmentDwellMs?: number[];
+  journeyMatrix?: JourneyMatrixSnapshot;
 }
 
 export interface SessionAnalyticsSummary {

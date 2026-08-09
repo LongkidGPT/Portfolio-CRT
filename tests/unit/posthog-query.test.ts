@@ -15,6 +15,7 @@ test("queries the PostHog project with a server-only key and bounded branch pred
       null,
       "case-view-1",
       "[0,1000,0,0,0,0,0,0,0,0]",
+      "{\"sectionLabels\":[\"OVERVIEW\",\"SYSTEM\"],\"bucketMs\":5000,\"cells\":[[5000,0],[0,2000]]}",
     ]],
   }), { status: 200, headers: { "Content-Type": "application/json" } }));
 
@@ -31,6 +32,7 @@ test("queries the PostHog project with a server-only key and bounded branch pred
   expect(query).toContain("properties.branch_id = '/anker-visual'");
   expect(query).toContain("properties.case_view_id");
   expect(query).toContain("properties.segment_dwell_ms");
+  expect(query).toContain("properties.journey_matrix");
   expect(query).not.toContain("portfolio_contact_clicked");
   expect(query).not.toContain("properties.contact_type");
   expect(query).toContain("LIMIT 5000");
@@ -39,6 +41,11 @@ test("queries the PostHog project with a server-only key and bounded branch pred
     visitorId: "visitor-a",
     caseViewId: "case-view-1",
     segmentDwellMs: [0, 1000, 0, 0, 0, 0, 0, 0, 0, 0],
+    journeyMatrix: {
+      sectionLabels: ["OVERVIEW", "SYSTEM"],
+      bucketMs: 5000,
+      cells: [[5000, 0], [0, 2000]],
+    },
   });
 });
 
@@ -56,6 +63,7 @@ test("drops malformed heatmap arrays while keeping legacy case metrics", async (
       42000,
       null,
       "[1000,-1]",
+      "{\"sectionLabels\":[],\"bucketMs\":0,\"cells\":[]}",
     ]],
   }), { status: 200, headers: { "Content-Type": "application/json" } }));
 
@@ -67,6 +75,7 @@ test("drops malformed heatmap arrays while keeping legacy case metrics", async (
 
   expect(event).toMatchObject({ maxScrollDepth: 84, activeDwellMs: 42000 });
   expect(event.segmentDwellMs).toBeUndefined();
+  expect(event.journeyMatrix).toBeUndefined();
 });
 
 test("rejects an unsafe branch before making a request", async () => {

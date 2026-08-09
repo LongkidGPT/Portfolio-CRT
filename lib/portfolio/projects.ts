@@ -49,6 +49,7 @@ export interface ProjectDefinition {
   buttonDefault: `/kv/buttons/${string}-default.png`;
   buttonActive: `/kv/buttons/${string}-active.png`;
   caseArtwork?: CaseArtwork;
+  analyticsSections: readonly { label: string; end: number }[];
   media: readonly MediaSlot[];
 }
 
@@ -73,6 +74,11 @@ export const PROJECTS = [
     kind: "about",
     buttonDefault: "/kv/buttons/about-default.png",
     buttonActive: "/kv/buttons/about-active.png",
+    analyticsSections: [
+      { label: "PROFILE", end: 0.32 },
+      { label: "EXPERIENCE", end: 0.82 },
+      { label: "CONTACT", end: 1 },
+    ],
     media: [],
   },
   {
@@ -98,6 +104,15 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/design-logic-default.png",
     buttonActive: "/kv/buttons/design-logic-active.png",
+    analyticsSections: [
+      { label: "OVERVIEW", end: 0.14 },
+      { label: "BUSINESS CHAIN", end: 0.3 },
+      { label: "BUSINESS ANALYSIS", end: 0.46 },
+      { label: "USER NEEDS", end: 0.62 },
+      { label: "EXHIBITION JOURNEY", end: 0.78 },
+      { label: "COMPETITOR", end: 0.92 },
+      { label: "DESIGN GOAL", end: 1 },
+    ],
     caseArtwork: {
       src: "/kv/cases/design-logic.png",
       alt: "Design logic case study",
@@ -147,6 +162,13 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/brand-system-default.png",
     buttonActive: "/kv/buttons/brand-system-active.png",
+    analyticsSections: [
+      { label: "OVERVIEW", end: 0.18 },
+      { label: "BRAND STRATEGY", end: 0.42 },
+      { label: "VISUAL SYSTEM", end: 0.62 },
+      { label: "APPLICATION", end: 0.86 },
+      { label: "OUTCOME", end: 1 },
+    ],
     caseArtwork: {
       src: "/kv/cases/brand-system.png",
       alt: "Brand system case study",
@@ -199,6 +221,14 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/product-launch-default.png",
     buttonActive: "/kv/buttons/product-launch-active.png",
+    analyticsSections: [
+      { label: "OVERVIEW", end: 0.16 },
+      { label: "PRODUCT VALUE", end: 0.34 },
+      { label: "CAMPAIGN SYSTEM", end: 0.56 },
+      { label: "CONTENT DESIGN", end: 0.74 },
+      { label: "DTC CONVERSION", end: 0.92 },
+      { label: "OUTCOME", end: 1 },
+    ],
     caseArtwork: {
       src: "/kv/cases/product-launch.png",
       alt: "Product launch case study",
@@ -248,6 +278,14 @@ export const PROJECTS = [
     kind: "case",
     buttonDefault: "/kv/buttons/launch-event-default.png",
     buttonActive: "/kv/buttons/launch-event-active.png",
+    analyticsSections: [
+      { label: "OVERVIEW", end: 0.16 },
+      { label: "EVENT STRATEGY", end: 0.34 },
+      { label: "CONTENT SYSTEM", end: 0.54 },
+      { label: "VISUAL SYSTEM", end: 0.72 },
+      { label: "TOUCHPOINTS", end: 0.9 },
+      { label: "OUTCOME", end: 1 },
+    ],
     caseArtwork: {
       src: "/kv/cases/launch-event.png",
       alt: "Launch event case study",
