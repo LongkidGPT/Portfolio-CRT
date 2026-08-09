@@ -20,10 +20,18 @@ function optionalNumber(value: unknown) {
 }
 
 function optionalHeatmap(value: unknown) {
-  return Array.isArray(value)
-    && value.length === 10
-    && value.every((item) => typeof item === "number" && Number.isFinite(item) && item >= 0)
-    ? value as number[]
+  let candidate = value;
+  if (typeof value === "string") {
+    try {
+      candidate = JSON.parse(value) as unknown;
+    } catch {
+      return undefined;
+    }
+  }
+  return Array.isArray(candidate)
+    && candidate.length === 10
+    && candidate.every((item) => typeof item === "number" && Number.isFinite(item) && item >= 0)
+    ? candidate as number[]
     : undefined;
 }
 
