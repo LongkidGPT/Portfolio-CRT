@@ -14,9 +14,18 @@ const SUMMARY: BranchAnalyticsSummary = {
       startedAt: "2026-08-09T10:00:00.000Z",
       lastSeenAt: "2026-08-09T10:01:00.000Z",
       activeDwellMs: 58000,
-      projectClicks: { about: 1, business: 2, "brand-system": 1, "product-launch": 0, "launch-event": 0 },
-      cases: { "brand-system": { maxDepth: 84, activeDwellMs: 42000 } },
-      contactClicks: { email: 1, phone: 0, wechat: 1 },
+      projects: {
+        about: { clicks: 1, activeDwellMs: 0, maxDepth: 0 },
+        business: { clicks: 2, activeDwellMs: 0, maxDepth: 0 },
+        "brand-system": {
+          clicks: 1,
+          activeDwellMs: 42000,
+          maxDepth: 84,
+          segmentDwellMs: [0, 1000, 4000, 8000, 12000, 9000, 5000, 2000, 1000, 0],
+        },
+        "product-launch": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
+        "launch-event": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
+      },
     }],
   }],
 };
@@ -39,10 +48,32 @@ test("loads the current branch and expands into anonymized detail", async () => 
   fireEvent.click(screen.getByRole("button", { name: /live signal/i }));
   expect(await screen.findByText("VISITOR-02")).toBeVisible();
   expect(screen.getByText("DESIGN LOGIC")).toBeVisible();
-  expect(screen.getByText("2 CLICKS")).toBeVisible();
-  expect(screen.getByText("BRAND SYSTEM · 84%")).toBeVisible();
   expect(screen.getByText("ACTIVE 00:58")).toBeVisible();
+  expect(screen.queryByText("BRANCH")).not.toBeInTheDocument();
+  expect(screen.queryByText("TOTAL VISITS")).not.toBeInTheDocument();
+  expect(screen.queryByText(/CONTACT CLICKS/i)).not.toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole("button", { name: /brand system metrics/i }));
+  expect(screen.getByText("1 CLICK")).toBeVisible();
+  expect(screen.getByText("00:42")).toBeVisible();
+  expect(screen.getByText("84%")).toBeVisible();
+  expect(screen.getAllByRole("img", { name: /page segment/i })).toHaveLength(10);
   expect(screen.queryByText(/HOME DEPTH/i)).not.toBeInTheDocument();
+});
+
+test("keeps only one project metrics row expanded", async () => {
+  const fetcher = vi.fn().mockImplementation(async () => new Response(JSON.stringify(SUMMARY), { status: 200 }));
+  render(<AnalyticsCard branchId="/anker-visual" fetcher={fetcher} />);
+  fireEvent.click(screen.getByRole("button", { name: /live signal/i }));
+  await screen.findByText("VISITOR-02");
+
+  fireEvent.click(screen.getByRole("button", { name: /brand system metrics/i }));
+  expect(screen.getByText("84%")).toBeVisible();
+  fireEvent.click(screen.getByRole("button", { name: /design logic metrics/i }));
+
+  expect(screen.queryByText("84%")).not.toBeInTheDocument();
+  expect(screen.getByText("2 CLICKS")).toBeVisible();
+  expect(screen.getByText("NO HEATMAP DATA")).toBeVisible();
 });
 
 test("refreshes every thirty seconds only while expanded", async () => {
