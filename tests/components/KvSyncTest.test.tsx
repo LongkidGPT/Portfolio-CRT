@@ -52,14 +52,14 @@ test("draws the complete neutral source frame before preloading directions", () 
   const canvas = screen.getByRole("img", {
     name: "Full-frame KV synchronization test",
   });
-  expect(canvas).toHaveAttribute("data-frame", "174");
-  expect(sources[0]).toBe("/kv-sync-test/frames/frame-174.webp");
+  expect(canvas).toHaveAttribute("data-frame", "80");
+  expect(sources[0]).toBe("/kv-desktop-r5/frames/frame-080.webp");
   expect(drawImage).toHaveBeenCalledWith(
     expect.any(FakeImage),
     0,
     0,
-    1280,
-    720,
+    1920,
+    1080,
     0,
     expect.closeTo(-94.11, 2),
     1470,

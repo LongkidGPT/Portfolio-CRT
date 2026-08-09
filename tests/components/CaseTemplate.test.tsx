@@ -5,10 +5,10 @@ import CaseTemplate from "@/components/portfolio/CaseTemplate";
 import { getProjectById } from "@/lib/portfolio/projects";
 
 test.each([
-  ["business", "Design logic case study", "/kv/cases/design-logic.jpg", "2880", "12170"],
-  ["brand-system", "Brand system case study", "/kv/cases/brand-system.jpg", "2880", "28394"],
-  ["product-launch", "Product launch case study", "/kv/cases/product-launch.png", "2397", "32768"],
-  ["launch-event", "Launch event case study", "/kv/cases/launch-event.png", "2880", "19500"],
+  ["business", "Design logic case study", "/kv/cases/design-logic.png", "5760", "22882"],
+  ["brand-system", "Brand system case study", "/kv/cases/brand-system.png", "3299", "32768"],
+  ["product-launch", "Product launch case study", "/kv/cases/product-launch.png", "2375", "32768"],
+  ["launch-event", "Launch event case study", "/kv/cases/launch-event.png", "4786", "32768"],
 ] as const)(
   "%s case uses its supplied full-page artwork",
   (id, accessibleName, src, width, height) => {
@@ -33,11 +33,11 @@ test.each([
 );
 
 test.each([
-  ["business", "/kv/cases/design-logic-mobile.png"],
-  ["brand-system", "/kv/cases/brand-system-mobile.png"],
-  ["product-launch", "/kv/cases/product-launch-mobile.png"],
-  ["launch-event", "/kv/cases/launch-event-mobile.png"],
-] as const)("%s exposes its supplied mobile artwork below 768px", (id, src) => {
+  ["business", "/kv/cases/design-logic-mobile.png", "4560", "22192"],
+  ["brand-system", "/kv/cases/brand-system-mobile.png", "2618", "32768"],
+  ["product-launch", "/kv/cases/product-launch-mobile.png", "1887", "32768"],
+  ["launch-event", "/kv/cases/launch-event-mobile.png", "3789", "32768"],
+] as const)("%s exposes its supplied mobile artwork below 768px", (id, src, width, height) => {
   const { container } = render(<CaseTemplate project={getProjectById(id)} />);
 
   expect(container.querySelector("source")).toHaveAttribute("srcset", src);
@@ -45,22 +45,43 @@ test.each([
     "media",
     "(max-width: 767px)",
   );
+  expect(container.querySelector("source")).toHaveAttribute("width", width);
+  expect(container.querySelector("source")).toHaveAttribute("height", height);
 });
 
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {
-  render(<AboutTemplate />);
+  const { container } = render(<AboutTemplate />);
+  expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
+    "src",
+    "/kv/cases/about-background.png",
+  );
+  expect(screen.getByTestId("about-desktop-canvas")).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "Kid Long CRT portrait" })).toHaveAttribute(
+    "src",
+    "/kv/cases/about-crt-desktop.png",
+  );
+  expect(screen.getByRole("img", { name: "Kid Long contact information" })).toHaveAttribute(
+    "src",
+    "/kv/cases/about-contact.png",
+  );
   expect(screen.getByRole("img", { name: "Kid Long visual designer portrait" })).toHaveAttribute(
     "src",
     "/kv/cases/about-crt.png",
   );
-  expect(screen.getByRole("heading", { name: "我是KID（龙昊翔）" })).toBeInTheDocument();
-  expect(screen.getByRole("slider", { name: "Career timeline" })).toHaveAttribute(
+  expect(screen.getAllByRole("heading", { name: "我是KID（龙昊翔）" })).toHaveLength(2);
+  expect(screen.getAllByText("SENIOR VISUAL DESIGNER")).toHaveLength(2);
+  expect(screen.getAllByRole("slider", { name: "Career timeline" })).toHaveLength(2);
+  expect(screen.getAllByRole("slider", { name: "Career timeline" })[0]).toHaveAttribute(
     "aria-valuenow",
     "2014",
   );
-  expect(
-    screen.getByRole("button", { name: "2023–2026 Anker Innovations" }),
-  ).toBeInTheDocument();
-  expect(screen.getByTestId("about-contact-card")).toBeInTheDocument();
-  expect(document.querySelector('[data-about-layout="shared"]')).toBeInTheDocument();
+  expect(screen.getAllByRole("button", { name: "2023–2026 Anker Innovations" })).toHaveLength(2);
+  expect(screen.getByRole("img", { name: "Kid Long mobile contact information" })).toHaveAttribute(
+    "src",
+    "/kv/cases/about-contact-mobile.png",
+  );
+  expect(screen.queryByTestId("about-contact-card")).not.toBeInTheDocument();
+  expect(document.querySelector('[data-about-layout="desktop-editable"]')).toBeInTheDocument();
+  expect(document.querySelector('[data-about-layout="mobile-html"]')).toBeInTheDocument();
+  expect(container.querySelector('img[src="/kv/cases/about-desktop.png"]')).not.toBeInTheDocument();
 });

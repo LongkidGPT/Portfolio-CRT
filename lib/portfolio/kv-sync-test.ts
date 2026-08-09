@@ -2,31 +2,33 @@ import { shortestFrameDelta } from "@/lib/portfolio/sprite";
 import type { ProjectId } from "@/lib/portfolio/projects";
 
 export const KV_SYNC_FRAME_COUNT = 193;
-export const KV_SYNC_WIDTH = 1280;
-export const KV_SYNC_HEIGHT = 720;
-export const KV_SYNC_NEUTRAL_FRAME = 174;
+export const KV_SYNC_WIDTH = 1920;
+export const KV_SYNC_HEIGHT = 1080;
+export const KV_SYNC_NEUTRAL_FRAME = 80;
 export const KV_SYNC_HEAD_ANCHOR = { x: 0.614, y: 0.478 } as const;
 export const KV_SYNC_PROJECT_FRAMES = {
-  about: 124,
-  business: 134,
-  "brand-system": 144,
-  "product-launch": 150,
-  "launch-event": 156,
+  about: 118,
+  business: 128,
+  "brand-system": 140,
+  "product-launch": 154,
+  "launch-event": 157,
 } as const satisfies Record<ProjectId, number>;
 
 const KV_SYNC_NEUTRAL_ZONE = { x: 0.14, y: 0.18 } as const;
 const KV_SYNC_NEUTRAL_BLEND = 0.5;
+const KV_SYNC_RIGHT_FRAME_BAND = [49, 59, 69] as const;
+const KV_SYNC_LEFT_FRAME_BAND = [93, 105, 118] as const;
 
 const FULL_FRAME_KEYS = [
-  [0, 52],
-  [45, 36],
-  [90, 20],
-  [135, 156],
-  [180, 144],
-  [225, 124],
-  [270, 100],
-  [315, 76],
-  [360, 52],
+  [0, 73],
+  [45, 65],
+  [90, 64],
+  [135, 154],
+  [180, 140],
+  [225, 118],
+  [270, 117],
+  [315, 93],
+  [360, 73],
 ] as const;
 
 function normalizeFrameValue(frame: number): number {
@@ -36,11 +38,30 @@ function normalizeFrameValue(frame: number): number {
   );
 }
 
+function frameWithinSideBand(
+  normalizedY: number,
+  [top, middle, bottom]: readonly [number, number, number],
+): number {
+  if (normalizedY <= 0) {
+    const progress = Math.min(
+      1,
+      Math.max(0, -normalizedY / KV_SYNC_HEAD_ANCHOR.y),
+    );
+    return middle + (top - middle) * progress;
+  }
+
+  const progress = Math.min(
+    1,
+    Math.max(0, normalizedY / (1 - KV_SYNC_HEAD_ANCHOR.y)),
+  );
+  return middle + (bottom - middle) * progress;
+}
+
 export function kvSyncFrameSrc(frame: number): string {
   const normalized =
     Math.round(normalizeFrameValue(frame)) % KV_SYNC_FRAME_COUNT;
 
-  return `/kv-sync-test/frames/frame-${normalized.toString().padStart(3, "0")}.webp`;
+  return `/kv-desktop-r5/frames/frame-${normalized.toString().padStart(3, "0")}.webp`;
 }
 
 export function frameForKvSyncAngle(angle: number): number {
@@ -101,6 +122,14 @@ export function frameForKvSyncPointer(
 
   if (zoneDistance <= 1) {
     return KV_SYNC_NEUTRAL_FRAME;
+  }
+
+  if (normalizedX > KV_SYNC_NEUTRAL_ZONE.x) {
+    return frameWithinSideBand(normalizedY, KV_SYNC_RIGHT_FRAME_BAND);
+  }
+
+  if (normalizedX < -KV_SYNC_NEUTRAL_ZONE.x) {
+    return frameWithinSideBand(normalizedY, KV_SYNC_LEFT_FRAME_BAND);
   }
 
   const directionalFrame = frameForKvSyncAngle(angle);

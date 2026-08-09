@@ -18,6 +18,25 @@ test("mobile removes desktop rulers from the dedicated phone composition", () =>
   expect(mobile).toMatch(/\.ruler\s*\{[^}]*display:\s*none/s);
 });
 
+test("mobile about follows the supplied 390 pixel composition", () => {
+  const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
+  expect(mobile).toMatch(
+    /\.aboutPage\s*\{[^}]*padding:\s*0 clamp\(24px,\s*9\.49vw,\s*56px\) 39px/s,
+  );
+  expect(mobile).toMatch(
+    /\.aboutHero\s*\{[^}]*position:\s*relative;[^}]*min-height:\s*87\.18vw/s,
+  );
+  expect(mobile).toMatch(
+    /\.aboutPortrait\s*\{[^}]*position:\s*absolute;[^}]*top:\s*22\.3vw;[^}]*right:\s*0;[^}]*width:\s*30\.77vw/s,
+  );
+  expect(mobile).toMatch(
+    /\.experienceRowTarget\s*\{[^}]*min-height:\s*64px;[^}]*grid-template-columns:\s*44% 56%/s,
+  );
+  expect(mobile).toMatch(
+    /\.aboutMobileContact\s*\{[^}]*width:\s*100%;[^}]*margin:\s*51px 0 0/s,
+  );
+});
+
 test("mobile preserves the 9:16 video ratio and fades into the approved mask color", () => {
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
   expect(mobile).toMatch(/\.home\s*\{[^}]*background:\s*#edefef/s);
@@ -52,8 +71,44 @@ test("desktop preview copy sits forty pixels below the two-button upward offset"
   expect(mobile).toMatch(/\.previewStage\s*\{[^}]*transform:\s*none/s);
 });
 
+test("desktop preview copy shifts fifty pixels left without changing mobile", () => {
+  expect(css).toMatch(
+    /\.previewStage\s*\{[^}]*left:\s*calc\(31\.6%\s*-\s*50px\)/s,
+  );
+
+  const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
+  expect(mobile).toMatch(/\.previewStage\s*\{[^}]*left:\s*17%/s);
+});
+
 test("case page surfaces use the approved cool-white background", () => {
   expect(css).toMatch(
     /\.standaloneCase,\s*\.overlay\s*\{[^}]*background:\s*#f8fafc;/s,
   );
+});
+
+test("desktop case artwork fills every viewport width", () => {
+  expect(css).toMatch(/\.caseArtwork\s*\{[^}]*width:\s*100%/s);
+  expect(css).not.toMatch(/\.caseArtwork\s*\{[^}]*width:\s*min\(100%,\s*1440px\)/s);
+});
+
+test("about background fills the viewport while content keeps its desktop canvas", () => {
+  expect(css).toMatch(/\.aboutStandalone\s*\{[^}]*padding-top:\s*0/s);
+  expect(css).toMatch(/\.aboutDesktopPage\s*\{[^}]*width:\s*100%/s);
+  expect(css).toMatch(/\.aboutDesktopPage\s*\{[^}]*--career-baseline:\s*46\.77%/s);
+  expect(css).toMatch(
+    /\.aboutDesktopCanvas\s*\{[^}]*width:\s*min\(100%,\s*1440px\);[^}]*aspect-ratio:\s*5760\s*\/\s*6786/s,
+  );
+  expect(css).toMatch(/\.aboutDesktopBackground\s*\{[^}]*width:\s*100%;[^}]*height:\s*100%/s);
+});
+
+test("about portrait keeps the career baseline and the rule stops at its left edge", () => {
+  expect(css).toMatch(/\.aboutDesktopHero\s*\{[^}]*height:\s*var\(--career-baseline\)/s);
+  expect(css).toMatch(/\.aboutDesktopPortrait\s*\{[^}]*top:\s*auto;[^}]*bottom:\s*0/s);
+  expect(css).toMatch(/\.aboutCareerHeading\s*\{[^}]*width:\s*40\.85%/s);
+  expect(css).toMatch(/\.aboutCareerHeading span\s*\{[^}]*display:\s*block/s);
+});
+
+test("timeline year labels reserve enough vertical line box", () => {
+  expect(css).toMatch(/\.timelineYears\s*\{[^}]*height:\s*1\.5em;[^}]*line-height:\s*1\.5/s);
+  expect(css).toMatch(/\.timelineYears span\s*\{[^}]*top:\s*0/s);
 });

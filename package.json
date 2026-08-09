@@ -5,6 +5,7 @@
   "scripts": {
     "assets:kv": "node scripts/build-kv-assets.mjs",
     "assets:kv-sync-test": "node scripts/build-kv-sync-test-assets.mjs",
+    "assets:kv-desktop-r5": "node scripts/build-kv-desktop-r5-assets.mjs",
     "assets:kv-mobile": "node scripts/build-mobile-kv-assets.mjs",
     "dev": "next dev --webpack",
     "build": "next build",

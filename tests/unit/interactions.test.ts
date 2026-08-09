@@ -13,8 +13,11 @@ describe("rulerWidthsForIndex", () => {
     expect(rulerWidthsForIndex(4, "left").indexOf(168)).toBe(6);
   });
 
-  it("mirrors the ruler movement on the right side", () => {
-    expect(rulerWidthsForIndex(0, "right").indexOf(168)).toBe(6);
-    expect(rulerWidthsForIndex(4, "right").indexOf(168)).toBe(2);
+  it("keeps the left and right rulers symmetric for every project", () => {
+    for (let projectIndex = 0; projectIndex < 5; projectIndex += 1) {
+      expect(rulerWidthsForIndex(projectIndex, "right")).toEqual(
+        rulerWidthsForIndex(projectIndex, "left"),
+      );
+    }
   });
 });

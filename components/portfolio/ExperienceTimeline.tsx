@@ -120,7 +120,17 @@ export default function ExperienceTimeline({
         </div>
 
         <div className={styles.timelineYears}>
-          {years.map((year) => <span key={year}>{year}</span>)}
+          {years.map((year) => (
+            <span
+              key={year}
+              data-timeline-year={year}
+              style={{
+                "--year-position": `${((year - FIRST_YEAR) / (LAST_YEAR - FIRST_YEAR)) * 100}%`,
+              } as CSSProperties}
+            >
+              {year}
+            </span>
+          ))}
         </div>
       </div>
 

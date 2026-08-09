@@ -82,6 +82,21 @@ test("fills standard and wide desktop viewports without letterboxing", async ({
   }
 });
 
+test("centers the full desktop project-card group", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+
+  const cards = page.getByRole("navigation", { name: "Portfolio projects" }).locator("a");
+  const first = await cards.first().boundingBox();
+  const last = await cards.last().boundingBox();
+
+  expect(first).not.toBeNull();
+  expect(last).not.toBeNull();
+  const groupCenter = ((first?.x ?? 0) + (last?.x ?? 0) + (last?.width ?? 0)) / 2;
+  expect(groupCenter).toBeCloseTo(720, 0);
+});
+
 test("mobile controls and swipe preview adjacent project cards", async ({
   page,
 }, testInfo) => {

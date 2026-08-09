@@ -39,6 +39,9 @@ yarn-error.log*
 test-results/
 playwright-report/
 
+# Netlify local state and generated deployment artifacts
+.netlify/
+
 # vercel
 .vercel
 

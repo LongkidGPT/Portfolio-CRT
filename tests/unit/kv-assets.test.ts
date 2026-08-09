@@ -55,17 +55,35 @@ describe("generated KV assets", () => {
     }
   });
 
-  it("keeps DESIGN LOGIC the same native size as BRAND SYSTEM", () => {
-    for (const state of ["default", "active"]) {
-      const designLogic = readPngSize(
-        join(root, "buttons", `design-logic-${state}.png`),
-      );
-      const brandSystem = readPngSize(
-        join(root, "buttons", `brand-system-${state}.png`),
-      );
+  it("uses the approved high-resolution desktop artwork for every project state", () => {
+    const expectedSizes = {
+      about: { width: 1152, height: 336 },
+      "design-logic": { width: 1364, height: 336 },
+      "brand-system": { width: 1384, height: 336 },
+      "product-launch": { width: 1484, height: 336 },
+      "launch-event": { width: 1376, height: 336 },
+    } as const;
 
-      expect(designLogic).toEqual(brandSystem);
-      expect(designLogic).toEqual({ width: 692, height: 168 });
+    for (const [id, expectedSize] of Object.entries(expectedSizes)) {
+      for (const state of ["default", "active"]) {
+        expect(readPngSize(join(root, "buttons", `${id}-${state}.png`))).toEqual(
+          expectedSize,
+        );
+      }
+    }
+  });
+
+  it("uses the latest supplied desktop case-study artwork", () => {
+    const cases = join(root, "cases");
+    const expectedSizes = {
+      "design-logic.png": { width: 5760, height: 22882 },
+      "brand-system.png": { width: 3299, height: 32768 },
+      "product-launch.png": { width: 2375, height: 32768 },
+      "launch-event.png": { width: 4786, height: 32768 },
+    } as const;
+
+    for (const [filename, expectedSize] of Object.entries(expectedSizes)) {
+      expect(readPngSize(join(cases, filename))).toEqual(expectedSize);
     }
   });
 });
@@ -102,6 +120,23 @@ describe("generated mobile KV assets", () => {
     ]) {
       expect(existsSync(join(root, "cards", `${id}-default.png`))).toBe(true);
       expect(existsSync(join(root, "cards", `${id}-active.png`))).toBe(true);
+    }
+  });
+
+  it("uses the latest 1378×342 mobile card artwork for both states", () => {
+    for (const id of [
+      "about",
+      "design-logic",
+      "brand-system",
+      "product-launch",
+      "launch-event",
+    ]) {
+      for (const state of ["default", "active"]) {
+        expect(readPngSize(join(root, "cards", `${id}-${state}.png`))).toEqual({
+          width: 1378,
+          height: 342,
+        });
+      }
     }
   });
 });

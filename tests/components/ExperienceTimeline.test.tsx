@@ -40,3 +40,17 @@ test("career ruler supports keyboard scrubbing", () => {
   fireEvent.keyDown(ruler, { key: "End" });
   expect(ruler).toHaveAttribute("aria-valuenow", "2026");
 });
+
+test("timeline year labels align to their matching year ticks", () => {
+  render(<AboutExperience />);
+
+  expect(document.querySelector('[data-timeline-year="2012"]')).toHaveStyle({
+    "--year-position": "0%",
+  });
+  expect(document.querySelector('[data-timeline-year="2014"]')).toHaveStyle({
+    "--year-position": "14.285714285714285%",
+  });
+  expect(document.querySelector('[data-timeline-year="2026"]')).toHaveStyle({
+    "--year-position": "100%",
+  });
+});

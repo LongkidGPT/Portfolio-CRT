@@ -27,6 +27,49 @@ describe("project registry", () => {
     expect(getProjectById("business").label).toBe("DESIGN LOGIC");
   });
 
+  it("stores the approved two-layer mobile preview copy", () => {
+    expect(
+      PROJECTS.map(({ id, mobilePreviewCopy }) => ({ id, mobilePreviewCopy })),
+    ).toEqual([
+      {
+        id: "about",
+        mobilePreviewCopy: {
+          firstLayer: "VISUAL DESIGNER",
+          secondLayer: "我是KID（龙昊翔）",
+        },
+      },
+      {
+        id: "business",
+        mobilePreviewCopy: {
+          firstLayer: "DESIGN LOGIC",
+          secondLayer: "将复杂业务问题转化为清晰的设计方向",
+        },
+      },
+      {
+        id: "brand-system",
+        mobilePreviewCopy: {
+          firstLayer: "DESIGN GOAL 01",
+          secondLayer: "Anker innovations 视觉符号系统构建",
+        },
+      },
+      {
+        id: "product-launch",
+        mobilePreviewCopy: {
+          firstLayer: "DESIGN GOAL 02",
+          secondLayer:
+            "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
+        },
+      },
+      {
+        id: "launch-event",
+        mobilePreviewCopy: {
+          firstLayer: "DESIGN GOAL 03",
+          secondLayer: "IFA 全球发布会传播与内容系统",
+        },
+      },
+    ]);
+  });
+
   it("stores the approved structured desktop preview copy", () => {
     expect(PROJECTS.map(({ id, previewCopy }) => ({ id, previewCopy }))).toEqual([
       {

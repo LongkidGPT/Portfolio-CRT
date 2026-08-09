@@ -4,7 +4,7 @@ import styles from "@/components/portfolio/portfolio.module.css";
 
 export default function AboutPage() {
   return (
-    <main className={styles.standaloneCase}>
+    <main className={`${styles.standaloneCase} ${styles.aboutStandalone}`}>
       <PortfolioHeader />
       <AboutTemplate />
     </main>

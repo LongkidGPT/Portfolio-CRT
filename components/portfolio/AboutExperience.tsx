@@ -53,7 +53,7 @@ function experienceAt(year: number) {
   return experiences.findIndex(({ start, end }) => year >= start && year <= end);
 }
 
-export default function AboutExperience() {
+export default function AboutExperience({ desktop = false }: { desktop?: boolean }) {
   const [activeYear, setActiveYear] = useState(DEFAULT_YEAR);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const activateYear = (year: number) => {
@@ -62,7 +62,10 @@ export default function AboutExperience() {
   };
 
   return (
-    <section className={styles.aboutExperience} aria-label="Work experience">
+    <section
+      className={`${styles.aboutExperience} ${desktop ? styles.aboutExperienceDesktop : ""}`}
+      aria-label="Work experience"
+    >
       <div className={styles.experienceRows}>
         {experiences.map((experience, index) => (
           <button

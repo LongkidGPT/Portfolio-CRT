@@ -31,7 +31,7 @@ test("renders the approved business hierarchy as real text", () => {
   expect(container.querySelector('img[src*="/copy/"]')).toBeNull();
 });
 
-test("keeps about body optional and preserves legacy mobile metadata", () => {
+test("renders the approved two-layer mobile about copy", () => {
   const { container } = render(
     <ProjectPreview project={getProjectById("about")} />,
   );
@@ -44,11 +44,21 @@ test("keeps about body optional and preserves legacy mobile metadata", () => {
   expect(desktop!.querySelector('[data-preview-body="true"]')).toBeNull();
   expect(within(desktop!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
   expect(mobile).not.toBeNull();
-  expect(within(mobile!).getByLabelText("Kid Long")).toBeVisible();
-  expect(within(mobile!).getByLabelText("2007—Present")).toBeVisible();
+  expect(within(mobile!).getByLabelText("VISUAL DESIGNER")).toBeVisible();
+  expect(within(mobile!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
+});
+
+test("renders the approved two-layer mobile product launch copy", () => {
+  const { container } = render(
+    <ProjectPreview project={getProjectById("product-launch")} />,
+  );
+  const mobile = container.querySelector('[data-preview-layout="mobile"]');
+
+  expect(mobile).not.toBeNull();
+  expect(within(mobile!).getByLabelText("DESIGN GOAL 02")).toBeVisible();
   expect(
     within(mobile!).getByLabelText(
-      "Profile, capabilities, experience and contact.",
+      "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
     ),
   ).toBeVisible();
 });

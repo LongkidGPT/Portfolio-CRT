@@ -67,14 +67,14 @@ describe("FullFramePortrait", () => {
     const canvas = screen.getByRole("img", {
       name: "Interactive full-frame KV portrait",
     });
-    expect(canvas).toHaveAttribute("data-frame", "174");
-    expect(sources[0]).toBe("/kv-sync-test/frames/frame-174.webp");
+    expect(canvas).toHaveAttribute("data-frame", "80");
+    expect(sources[0]).toBe("/kv-desktop-r5/frames/frame-080.webp");
     expect(drawImage).toHaveBeenCalledWith(
       expect.any(FakeImage),
       0,
       0,
-      1280,
-      720,
+      1920,
+      1080,
       0,
       expect.closeTo(-94.11, 2),
       1470,
@@ -93,7 +93,7 @@ describe("FullFramePortrait", () => {
       screen.getByRole("img", {
         name: "Interactive full-frame KV portrait",
       }),
-    ).toHaveAttribute("data-target-frame", "20");
+    ).toHaveAttribute("data-target-frame", "59");
   });
 
   it("eases to a fixed project frame instead of following the pointer", () => {
@@ -104,7 +104,7 @@ describe("FullFramePortrait", () => {
 
     act(() => {
       let timestamp = 0;
-      for (let index = 0; index < 40; index += 1) {
+      for (let index = 0; index < 60; index += 1) {
         const callback = callbacks.shift();
         if (!callback) break;
         timestamp += 1000 / 60;

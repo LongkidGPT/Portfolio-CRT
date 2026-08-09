@@ -19,6 +19,11 @@ export interface PreviewCopy {
   bodyLines: readonly string[];
 }
 
+export interface MobilePreviewCopy {
+  firstLayer: string;
+  secondLayer: string;
+}
+
 export interface CaseArtwork {
   src: `/kv/cases/${string}`;
   alt: string;
@@ -38,6 +43,7 @@ export interface ProjectDefinition {
   year: string;
   summary: string;
   previewCopy: PreviewCopy;
+  mobilePreviewCopy: MobilePreviewCopy;
   href: "/about" | `/work/${Exclude<ProjectId, "about">}`;
   kind: "about" | "case";
   buttonDefault: `/kv/buttons/${string}-default.png`;
@@ -58,6 +64,10 @@ export const PROJECTS = [
       headlineLines: ["我是KID（龙昊翔）"],
       subheadLines: ["一个人类 · 资深视觉设计师"],
       bodyLines: [],
+    },
+    mobilePreviewCopy: {
+      firstLayer: "VISUAL DESIGNER",
+      secondLayer: "我是KID（龙昊翔）",
     },
     href: "/about",
     kind: "about",
@@ -80,19 +90,23 @@ export const PROJECTS = [
         "观察，建立从业务目标到视觉系统策略的判断依据。",
       ],
     },
+    mobilePreviewCopy: {
+      firstLayer: "DESIGN LOGIC",
+      secondLayer: "将复杂业务问题转化为清晰的设计方向",
+    },
     href: "/work/business",
     kind: "case",
     buttonDefault: "/kv/buttons/design-logic-default.png",
     buttonActive: "/kv/buttons/design-logic-active.png",
     caseArtwork: {
-      src: "/kv/cases/design-logic.jpg",
+      src: "/kv/cases/design-logic.png",
       alt: "Design logic case study",
-      width: 2880,
-      height: 12170,
+      width: 5760,
+      height: 22882,
       mobile: {
         src: "/kv/cases/design-logic-mobile.png",
-        width: 1170,
-        height: 5539,
+        width: 4560,
+        height: 22192,
       },
     },
     media: [
@@ -125,19 +139,23 @@ export const PROJECTS = [
         "可继承、多触点可复用的视觉符号规则。",
       ],
     },
+    mobilePreviewCopy: {
+      firstLayer: "DESIGN GOAL 01",
+      secondLayer: "Anker innovations 视觉符号系统构建",
+    },
     href: "/work/brand-system",
     kind: "case",
     buttonDefault: "/kv/buttons/brand-system-default.png",
     buttonActive: "/kv/buttons/brand-system-active.png",
     caseArtwork: {
-      src: "/kv/cases/brand-system.jpg",
+      src: "/kv/cases/brand-system.png",
       alt: "Brand system case study",
-      width: 2880,
-      height: 28394,
+      width: 3299,
+      height: 32768,
       mobile: {
         src: "/kv/cases/brand-system-mobile.png",
-        width: 1170,
-        height: 15239,
+        width: 2618,
+        height: 32768,
       },
     },
     media: [
@@ -173,6 +191,10 @@ export const PROJECTS = [
         "更清晰的品类角色。",
       ],
     },
+    mobilePreviewCopy: {
+      firstLayer: "DESIGN GOAL 02",
+      secondLayer: "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
+    },
     href: "/work/product-launch",
     kind: "case",
     buttonDefault: "/kv/buttons/product-launch-default.png",
@@ -180,12 +202,12 @@ export const PROJECTS = [
     caseArtwork: {
       src: "/kv/cases/product-launch.png",
       alt: "Product launch case study",
-      width: 2397,
+      width: 2375,
       height: 32768,
       mobile: {
         src: "/kv/cases/product-launch-mobile.png",
-        width: 1170,
-        height: 21137,
+        width: 1887,
+        height: 32768,
       },
     },
     media: [
@@ -218,6 +240,10 @@ export const PROJECTS = [
         "可延展、可连续传播的内容系统。",
       ],
     },
+    mobilePreviewCopy: {
+      firstLayer: "DESIGN GOAL 03",
+      secondLayer: "IFA 全球发布会传播与内容系统",
+    },
     href: "/work/launch-event",
     kind: "case",
     buttonDefault: "/kv/buttons/launch-event-default.png",
@@ -225,12 +251,12 @@ export const PROJECTS = [
     caseArtwork: {
       src: "/kv/cases/launch-event.png",
       alt: "Launch event case study",
-      width: 2880,
-      height: 19500,
+      width: 4786,
+      height: 32768,
       mobile: {
         src: "/kv/cases/launch-event-mobile.png",
-        width: 1170,
-        height: 10466,
+        width: 3789,
+        height: 32768,
       },
     },
     media: [

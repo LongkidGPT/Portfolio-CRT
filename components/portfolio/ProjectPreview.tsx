@@ -12,6 +12,7 @@ function ReelLines({ lines }: { lines: readonly string[] }) {
 
 export default function ProjectPreview({ project }: { project: ProjectDefinition }) {
   const copy = project.previewCopy;
+  const mobileCopy = project.mobilePreviewCopy;
 
   return (
     <section className={styles.preview} aria-live="polite">
@@ -38,9 +39,12 @@ export default function ProjectPreview({ project }: { project: ProjectDefinition
           )}
         </div>
         <div className={styles.previewMobile} data-preview-layout="mobile">
-          <h1><ReelText text={project.title} /></h1>
-          <p className={styles.projectYear}><ReelText text={project.year} /></p>
-          <p className={styles.projectSummary}><ReelText text={project.summary} /></p>
+          <p className={styles.mobilePreviewFirst}>
+            <ReelText text={mobileCopy.firstLayer} />
+          </p>
+          <h1 className={styles.mobilePreviewSecond}>
+            <ReelText text={mobileCopy.secondLayer} />
+          </h1>
         </div>
       </div>
     </section>
