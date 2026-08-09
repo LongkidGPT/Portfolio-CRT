@@ -19,6 +19,11 @@ const SUMMARY = {
           activeDwellMs: 42000,
           maxDepth: 84,
           segmentDwellMs: [0, 1000, 4000, 8000, 12000, 9000, 5000, 2000, 1000, 0],
+          journeyMatrix: {
+            sectionLabels: ["OVERVIEW", "VISUAL SYSTEM"],
+            bucketMs: 5000,
+            cells: [[5000, 1000, 0], [0, 4000, 5000]],
+          },
         },
         "product-launch": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
         "launch-event": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
@@ -51,7 +56,9 @@ test("captures explicit project and case events and renders the branch card", as
   await expect(panel.getByText("1 CLICK")).toBeVisible();
   await expect(panel.getByText("00:42")).toBeVisible();
   await expect(panel.getByText("84%")).toBeVisible();
-  await expect(panel.getByRole("img", { name: /page segment/i })).toHaveCount(10);
+  await expect(panel.getByText("OVERVIEW")).toBeVisible();
+  await expect(panel.getByText("VISUAL SYSTEM")).toBeVisible();
+  await expect(panel.getByRole("img", { name: /dwell/i })).toHaveCount(6);
 
   const box = await panel.boundingBox();
   const viewport = page.viewportSize()!;
@@ -74,6 +81,11 @@ test("captures explicit project and case events and renders the branch card", as
       project_id: "business",
       case_view_id: expect.any(String),
       segment_dwell_ms: expect.any(Array),
+      journey_matrix: expect.objectContaining({
+        sectionLabels: expect.any(Array),
+        bucketMs: 5000,
+        cells: expect.any(Array),
+      }),
     });
     expect(progress?.properties.segment_dwell_ms).toHaveLength(10);
   }

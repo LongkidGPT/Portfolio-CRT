@@ -2,10 +2,32 @@ import { expect, test } from "vitest";
 import {
   calculateScrollDepth,
   createActiveDwellClock,
+  createJourneyMatrixTracker,
   createSegmentDwellTracker,
   projectIdFromPathname,
   segmentIndexAtViewportCenter,
 } from "@/lib/analytics/measurements";
+
+test("splits foreground dwell across chronological buckets and semantic sections", () => {
+  let now = 0;
+  const tracker = createJourneyMatrixTracker(["HERO", "APPROACH"], () => now, 5000);
+
+  tracker.start(0);
+  now = 7000;
+  tracker.move(1);
+  now = 12000;
+  tracker.pause();
+  now = 22000;
+
+  expect(tracker.read()).toEqual({
+    sectionLabels: ["HERO", "APPROACH"],
+    bucketMs: 5000,
+    cells: [
+      [5000, 2000, 0],
+      [0, 3000, 2000],
+    ],
+  });
+});
 
 test("calculates maximum document progress against the scrollable distance", () => {
   expect(calculateScrollDepth({ scrollTop: 450, scrollHeight: 1000, clientHeight: 500 })).toBe(90);

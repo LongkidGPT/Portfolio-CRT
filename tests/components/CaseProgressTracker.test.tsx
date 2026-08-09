@@ -36,6 +36,17 @@ test("reports increasing overlay progress without lowering the recorded maximum"
     80,
     0,
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    {
+      sectionLabels: ["OVERVIEW", "BRAND STRATEGY", "VISUAL SYSTEM", "APPLICATION", "OUTCOME"],
+      bucketMs: 5000,
+      cells: [
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+      ],
+    },
   );
   const caseViewId = onProgress.mock.calls.at(-1)?.[1];
 
@@ -52,5 +63,16 @@ test("reports increasing overlay progress without lowering the recorded maximum"
     80,
     15000,
     [0, 0, 0, 15000, 0, 0, 0, 0, 0, 0],
+    {
+      sectionLabels: ["OVERVIEW", "BRAND STRATEGY", "VISUAL SYSTEM", "APPLICATION", "OUTCOME"],
+      bucketMs: 5000,
+      cells: [
+        [0, 0, 0],
+        [5000, 5000, 5000],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ],
+    },
   );
 });

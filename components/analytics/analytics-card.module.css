@@ -33,6 +33,16 @@
 .heatmap { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; height: 34px; }
 .heatmapCell { display: block; min-width: 0; border-radius: 1px; background: #343736; }
 .emptyGroup { display: grid; min-height: 34px; place-items: center start; margin: 0; color: #737875; font-size: 9px; }
+.journeyViewport { overflow-x: auto; border: 1px solid rgba(36, 122, 211, .22); border-radius: 5px; background: rgba(5, 19, 20, .48); scrollbar-color: #247ad3 transparent; scrollbar-width: thin; }
+.journeyMatrix { min-width: max(100%, calc(100px + var(--journey-columns) * 27px)); padding: 7px; }
+.journeyAxis, .journeyRow { display: grid; grid-template-columns: 92px minmax(0, 1fr); }
+.journeyAxis { min-height: 20px; align-items: start; color: #5d7777; font-size: 7px; letter-spacing: .1em; }
+.journeyAxis > div { display: flex; justify-content: space-between; }
+.journeyRow { min-height: 28px; border-top: 1px solid rgba(36, 122, 211, .15); }
+.journeyLabel { display: flex; align-items: center; overflow: hidden; padding-right: 8px; color: #6f8583; font-size: 7px; letter-spacing: .08em; text-overflow: ellipsis; white-space: nowrap; }
+.journeyCells { display: grid; grid-template-columns: repeat(var(--journey-columns), minmax(24px, 1fr)); }
+.journeyCell { display: block; min-width: 0; border-left: 1px solid rgba(36, 122, 211, .12); background: rgba(36, 122, 211, .025); box-shadow: inset 0 0 8px rgba(36, 122, 211, .04); }
+.journeyCell[style] { box-shadow: 0 0 12px rgba(36, 122, 211, .22); }
 .launcher:focus-visible, .header button:focus-visible, .visitors button:focus-visible, .projectToggle:focus-visible { outline: 2px solid #247ad3; outline-offset: 2px; }
 @media (max-width: 767px) {
   .shell { right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); }

@@ -25,6 +25,11 @@ test("builds anonymized per-session project metrics and de-duplicates view snaps
       maxScrollDepth: 45,
       activeDwellMs: 12000,
       segmentDwellMs: [3000, 9000, 0, 0, 0, 0, 0, 0, 0, 0],
+      journeyMatrix: {
+        sectionLabels: ["OVERVIEW", "SYSTEM"],
+        bucketMs: 5000,
+        cells: [[5000, 0], [0, 2000]],
+      },
     }),
     row({
       event: "portfolio_case_progress",
@@ -34,6 +39,11 @@ test("builds anonymized per-session project metrics and de-duplicates view snaps
       maxScrollDepth: 84,
       activeDwellMs: 42000,
       segmentDwellMs: [3000, 9000, 12000, 11000, 7000, 0, 0, 0, 0, 0],
+      journeyMatrix: {
+        sectionLabels: ["OVERVIEW", "SYSTEM"],
+        bucketMs: 5000,
+        cells: [[5000, 1000, 0], [0, 4000, 5000]],
+      },
     }),
     row({
       event: "portfolio_case_progress",
@@ -43,6 +53,11 @@ test("builds anonymized per-session project metrics and de-duplicates view snaps
       maxScrollDepth: 60,
       activeDwellMs: 15000,
       segmentDwellMs: [0, 0, 0, 0, 1000, 6000, 4000, 2000, 1000, 1000],
+      journeyMatrix: {
+        sectionLabels: ["OVERVIEW", "SYSTEM"],
+        bucketMs: 5000,
+        cells: [[2000, 0], [3000, 5000]],
+      },
     }),
     row({
       event: "portfolio_case_progress",
@@ -70,6 +85,11 @@ test("builds anonymized per-session project metrics and de-duplicates view snaps
         activeDwellMs: 57000,
         maxDepth: 84,
         segmentDwellMs: [3000, 9000, 12000, 11000, 8000, 6000, 4000, 2000, 1000, 1000],
+        journeyMatrix: {
+          sectionLabels: ["OVERVIEW", "SYSTEM"],
+          bucketMs: 5000,
+          cells: [[5000, 1000, 0, 2000, 0], [0, 4000, 5000, 3000, 5000]],
+        },
       },
       "product-launch": { clicks: 0, activeDwellMs: 5000, maxDepth: 50 },
       "launch-event": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },

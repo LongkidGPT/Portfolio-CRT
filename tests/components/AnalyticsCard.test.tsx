@@ -22,6 +22,11 @@ const SUMMARY: BranchAnalyticsSummary = {
           activeDwellMs: 42000,
           maxDepth: 84,
           segmentDwellMs: [0, 1000, 4000, 8000, 12000, 9000, 5000, 2000, 1000, 0],
+          journeyMatrix: {
+            sectionLabels: ["OVERVIEW", "VISUAL SYSTEM"],
+            bucketMs: 5000,
+            cells: [[5000, 1000, 0], [0, 4000, 5000]],
+          },
         },
         "product-launch": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
         "launch-event": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
@@ -57,7 +62,9 @@ test("loads the current branch and expands into anonymized detail", async () => 
   expect(screen.getByText("1 CLICK")).toBeVisible();
   expect(screen.getByText("00:42")).toBeVisible();
   expect(screen.getByText("84%")).toBeVisible();
-  expect(screen.getAllByRole("img", { name: /page segment/i })).toHaveLength(10);
+  expect(screen.getByText("OVERVIEW")).toBeVisible();
+  expect(screen.getByText("VISUAL SYSTEM")).toBeVisible();
+  expect(screen.getAllByRole("img", { name: /dwell/i })).toHaveLength(6);
   expect(screen.queryByText(/HOME DEPTH/i)).not.toBeInTheDocument();
 });
 

@@ -4,12 +4,14 @@ import type {
   PostHogEventRow,
   ProjectAnalyticsMeasurement,
   SessionAnalyticsSummary,
+  JourneyMatrixSnapshot,
 } from "./types";
 
 interface CaseViewSnapshot {
   maxDepth: number;
   activeDwellMs: number;
   segmentDwellMs?: number[];
+  journeyMatrix?: JourneyMatrixSnapshot;
 }
 
 interface MutableProject {
@@ -45,6 +47,22 @@ function mergeSegments(previous: number[] | undefined, next: number[] | undefine
   return previous.map((value, index) => Math.max(value, next[index] ?? 0));
 }
 
+function combineJourneys(views: CaseViewSnapshot[]) {
+  const journeys = views.flatMap(({ journeyMatrix }) => journeyMatrix ? [journeyMatrix] : []);
+  if (journeys.length === 0) return undefined;
+  const [first] = journeys;
+  const compatible = journeys.filter((journey) => journey.bucketMs === first.bucketMs
+    && journey.sectionLabels.length === first.sectionLabels.length
+    && journey.sectionLabels.every((label, index) => label === first.sectionLabels[index]));
+  return {
+    sectionLabels: [...first.sectionLabels],
+    bucketMs: first.bucketMs,
+    cells: first.sectionLabels.map((_, rowIndex) => compatible.flatMap(
+      (journey) => journey.cells[rowIndex] ?? [],
+    )),
+  } satisfies JourneyMatrixSnapshot;
+}
+
 function finalizeProject(project: MutableProject): ProjectAnalyticsMeasurement {
   const views = Array.from(project.views.values());
   const heatmaps = views.flatMap(({ segmentDwellMs }) => segmentDwellMs ? [segmentDwellMs] : []);
@@ -54,12 +72,14 @@ function finalizeProject(project: MutableProject): ProjectAnalyticsMeasurement {
       Array.from({ length: 10 }, () => 0),
     )
     : undefined;
+  const journeyMatrix = combineJourneys(views);
 
   return {
     clicks: project.clicks,
     activeDwellMs: views.reduce((total, view) => total + view.activeDwellMs, 0),
     maxDepth: views.reduce((maximum, view) => Math.max(maximum, view.maxDepth), 0),
     ...(segmentDwellMs ? { segmentDwellMs } : {}),
+    ...(journeyMatrix ? { journeyMatrix } : {}),
   };
 }
 
@@ -112,6 +132,7 @@ export function buildBranchSummary(rows: PostHogEventRow[], branchId: string): B
         maxDepth: Math.max(previous.maxDepth, row.maxScrollDepth ?? 0),
         activeDwellMs: Math.max(previous.activeDwellMs, row.activeDwellMs ?? 0),
         segmentDwellMs: mergeSegments(previous.segmentDwellMs, row.segmentDwellMs),
+        journeyMatrix: row.journeyMatrix ?? previous.journeyMatrix,
       });
     }
     if (row.event === "portfolio_session_progress") {

@@ -4,11 +4,14 @@ import { useEffect } from "react";
 import {
   calculateScrollDepth,
   createActiveDwellClock,
+  createJourneyMatrixTracker,
   createSegmentDwellTracker,
   projectIdFromPathname,
   segmentIndexAtViewportCenter,
+  sectionIndexAtViewportCenter,
 } from "@/lib/analytics/measurements";
-import type { ProjectId } from "@/lib/portfolio/projects";
+import type { JourneyMatrixSnapshot } from "@/lib/analytics/types";
+import { getProjectById, type ProjectId } from "@/lib/portfolio/projects";
 
 export default function CaseProgressTracker({
   pathname,
@@ -22,6 +25,7 @@ export default function CaseProgressTracker({
     maxDepth: number,
     activeDwellMs: number,
     segmentDwellMs: number[],
+    journeyMatrix: JourneyMatrixSnapshot,
   ) => void;
   now?: () => number;
 }) {
@@ -33,6 +37,8 @@ export default function CaseProgressTracker({
     const target: Window | HTMLElement = root ?? window;
     const clock = createActiveDwellClock(now);
     const segmentTracker = createSegmentDwellTracker(now);
+    const sections = getProjectById(projectId).analyticsSections;
+    const journeyTracker = createJourneyMatrixTracker(sections.map(({ label }) => label), now);
     const caseViewId = crypto.randomUUID();
     let maxDepth = 0;
     let lastReportedDepth = -5;
@@ -59,14 +65,23 @@ export default function CaseProgressTracker({
       maxDepth = Math.max(maxDepth, calculateScrollDepth(metrics));
       if (!force && maxDepth < lastReportedDepth + 5) return;
       lastReportedDepth = maxDepth;
-      onProgress(projectId, caseViewId, maxDepth, clock.read(), segmentTracker.read());
+      onProgress(
+        projectId,
+        caseViewId,
+        maxDepth,
+        clock.read(),
+        segmentTracker.read(),
+        journeyTracker.read(),
+      );
     };
 
     const schedule = () => {
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
-        segmentTracker.move(segmentIndexAtViewportCenter(readMetrics()));
+        const metrics = readMetrics();
+        segmentTracker.move(segmentIndexAtViewportCenter(metrics));
+        journeyTracker.move(sectionIndexAtViewportCenter(metrics, sections.map(({ end }) => end)));
         emit();
       });
     };
@@ -75,16 +90,25 @@ export default function CaseProgressTracker({
       if (document.visibilityState === "hidden") {
         clock.pause();
         segmentTracker.pause();
+        journeyTracker.pause();
         emit(true);
       } else {
         clock.start();
         segmentTracker.start(segmentIndexAtViewportCenter(readMetrics()));
+        journeyTracker.start(sectionIndexAtViewportCenter(
+          readMetrics(),
+          sections.map(({ end }) => end),
+        ));
       }
     };
 
     if (document.visibilityState !== "hidden") {
       clock.start();
       segmentTracker.start(segmentIndexAtViewportCenter(readMetrics()));
+      journeyTracker.start(sectionIndexAtViewportCenter(
+        readMetrics(),
+        sections.map(({ end }) => end),
+      ));
     }
     target.addEventListener("scroll", schedule, { passive: true });
     document.addEventListener("visibilitychange", visibilityChanged);
@@ -94,6 +118,7 @@ export default function CaseProgressTracker({
     return () => {
       clock.pause();
       segmentTracker.pause();
+      journeyTracker.pause();
       emit(true);
       target.removeEventListener("scroll", schedule);
       document.removeEventListener("visibilitychange", visibilityChanged);

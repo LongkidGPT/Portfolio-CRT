@@ -1,5 +1,10 @@
 import { isValidBranchId } from "./identity";
-import { ANALYTICS_EVENT_NAMES, type AnalyticsEventName, type PostHogEventRow } from "./types";
+import {
+  ANALYTICS_EVENT_NAMES,
+  type AnalyticsEventName,
+  type JourneyMatrixSnapshot,
+  type PostHogEventRow,
+} from "./types";
 
 export interface PostHogServerConfig {
   personalApiKey: string;
@@ -35,6 +40,29 @@ function optionalHeatmap(value: unknown) {
     : undefined;
 }
 
+function optionalJourneyMatrix(value: unknown): JourneyMatrixSnapshot | undefined {
+  let candidate = value;
+  if (typeof value === "string") {
+    try {
+      candidate = JSON.parse(value) as unknown;
+    } catch {
+      return undefined;
+    }
+  }
+  if (!candidate || typeof candidate !== "object") return undefined;
+  const { sectionLabels, bucketMs, cells } = candidate as Partial<JourneyMatrixSnapshot>;
+  if (!Array.isArray(sectionLabels) || sectionLabels.length < 1 || sectionLabels.length > 12) return undefined;
+  if (!sectionLabels.every((label) => typeof label === "string" && label.length > 0 && label.length <= 40)) return undefined;
+  if (typeof bucketMs !== "number" || !Number.isFinite(bucketMs) || bucketMs < 1000 || bucketMs > 60000) return undefined;
+  if (!Array.isArray(cells) || cells.length !== sectionLabels.length) return undefined;
+  const width = Array.isArray(cells[0]) ? cells[0].length : -1;
+  if (width < 1 || width > 120) return undefined;
+  if (!cells.every((row) => Array.isArray(row)
+    && row.length === width
+    && row.every((item) => typeof item === "number" && Number.isFinite(item) && item >= 0))) return undefined;
+  return { sectionLabels: [...sectionLabels], bucketMs, cells: cells.map((row) => [...row]) };
+}
+
 export async function queryBranchEvents(
   config: PostHogServerConfig,
   branchId: string,
@@ -42,7 +70,7 @@ export async function queryBranchEvents(
 ) {
   if (!isValidBranchId(branchId)) throw new TypeError("Invalid branch");
   const events = ANALYTICS_EVENT_NAMES.map((name) => `'${name}'`).join(", ");
-  const query = `SELECT event, toString(timestamp), properties.branch_id, properties.visitor_id, properties.session_id, properties.pathname, properties.project_id, properties.max_scroll_depth, properties.active_dwell_ms, properties.case_view_id, properties.segment_dwell_ms FROM events WHERE properties.branch_id = '${branchId}' AND event IN (${events}) ORDER BY timestamp ASC LIMIT 5000`;
+  const query = `SELECT event, toString(timestamp), properties.branch_id, properties.visitor_id, properties.session_id, properties.pathname, properties.project_id, properties.max_scroll_depth, properties.active_dwell_ms, properties.case_view_id, properties.segment_dwell_ms, properties.journey_matrix FROM events WHERE properties.branch_id = '${branchId}' AND event IN (${events}) ORDER BY timestamp ASC LIMIT 5000`;
   const response = await fetcher(`${queryHost(config.host)}/api/projects/${encodeURIComponent(config.projectId)}/query/`, {
     method: "POST",
     headers: {
@@ -55,7 +83,7 @@ export async function queryBranchEvents(
   if (!response.ok) throw new Error(`PostHog query failed: ${response.status}`);
   const body = await response.json() as { results?: unknown[][] };
   return (body.results ?? []).flatMap((values): PostHogEventRow[] => {
-    const [event, timestamp, rowBranch, visitorId, sessionId, pathname, projectId, depth, dwell, caseViewId, segmentDwellMs] = values;
+    const [event, timestamp, rowBranch, visitorId, sessionId, pathname, projectId, depth, dwell, caseViewId, segmentDwellMs, journeyMatrix] = values;
     if (!ANALYTICS_EVENT_NAMES.includes(event as AnalyticsEventName)) return [];
     if (![timestamp, rowBranch, visitorId, sessionId, pathname].every((value) => typeof value === "string")) return [];
     return [{
@@ -70,6 +98,7 @@ export async function queryBranchEvents(
       maxScrollDepth: optionalNumber(depth),
       activeDwellMs: optionalNumber(dwell),
       segmentDwellMs: optionalHeatmap(segmentDwellMs),
+      journeyMatrix: optionalJourneyMatrix(journeyMatrix),
     }];
   });
 }
