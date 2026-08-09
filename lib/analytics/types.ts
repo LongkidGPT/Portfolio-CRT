@@ -2,6 +2,7 @@ import type { ProjectId } from "@/lib/portfolio/projects";
 
 export const ANALYTICS_EVENT_NAMES = [
   "portfolio_session_started",
+  "portfolio_session_progress",
   "portfolio_project_clicked",
   "portfolio_case_progress",
   "portfolio_contact_clicked",
@@ -21,6 +22,10 @@ interface AnalyticsEventBase {
 
 export type AnalyticsEvent =
   | (AnalyticsEventBase & { event: "portfolio_session_started" })
+  | (AnalyticsEventBase & {
+      event: "portfolio_session_progress";
+      active_dwell_ms: number;
+    })
   | (AnalyticsEventBase & {
       event: "portfolio_project_clicked";
       project_id: ProjectId;
@@ -48,4 +53,37 @@ export type AnalyticsEventDetails = AnalyticsEvent extends infer Event
 export interface PublicPostHogConfig {
   token: string;
   host: string;
+}
+
+export interface PostHogEventRow {
+  event: AnalyticsEventName;
+  timestamp: string;
+  branchId: string;
+  visitorId: string;
+  sessionId: string;
+  pathname: string;
+  projectId?: ProjectId;
+  maxScrollDepth?: number;
+  activeDwellMs?: number;
+  contactType?: ContactType;
+}
+
+export type ProjectClickCounts = Record<ProjectId, number>;
+export type ContactClickCounts = Record<ContactType, number>;
+
+export interface SessionAnalyticsSummary {
+  label: string;
+  startedAt: string;
+  lastSeenAt: string;
+  activeDwellMs: number;
+  projectClicks: ProjectClickCounts;
+  cases: Partial<Record<ProjectId, { maxDepth: number; activeDwellMs: number }>>;
+  contactClicks: ContactClickCounts;
+}
+
+export interface BranchAnalyticsSummary {
+  branchId: string;
+  totalVisits: number;
+  updatedAt: string | null;
+  visitors: Array<{ label: string; sessions: SessionAnalyticsSummary[] }>;
 }

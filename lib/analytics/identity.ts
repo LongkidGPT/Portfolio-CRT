@@ -1,6 +1,10 @@
 const VISITOR_STORAGE_KEY = "kid-portfolio-visitor-id-v1";
 const SAFE_BRANCH_PATTERN = /^\/[a-z0-9/_-]*$/;
 
+export function isValidBranchId(value: string) {
+  return SAFE_BRANCH_PATTERN.test(value) && !value.includes("//");
+}
+
 interface StorageLike {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
@@ -15,7 +19,7 @@ function safePath(pathname: string | undefined) {
   try {
     const decoded = decodeURIComponent(pathname).trim().toLowerCase();
     const normalized = decoded === "/" ? "/" : decoded.replace(/\/+$/, "");
-    return SAFE_BRANCH_PATTERN.test(normalized) ? normalized : null;
+    return isValidBranchId(normalized) ? normalized : null;
   } catch {
     return null;
   }

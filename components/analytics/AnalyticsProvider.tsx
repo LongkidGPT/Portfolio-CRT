@@ -17,6 +17,7 @@ import type {
 import type { ProjectId } from "@/lib/portfolio/projects";
 import { AnalyticsContext } from "./useAnalytics";
 import CaseProgressTracker from "./CaseProgressTracker";
+import { createActiveDwellClock } from "@/lib/analytics/measurements";
 
 const BRANCH_STORAGE_KEY = "kid-portfolio-branch-v1";
 
@@ -96,6 +97,32 @@ export default function AnalyticsProvider({
     window.addEventListener("pagehide", endSession);
     return () => window.removeEventListener("pagehide", endSession);
   }, [branchId, capture, resolvedConfig]);
+
+  useEffect(() => {
+    const clock = createActiveDwellClock(() => Date.now());
+    const report = () => capture({
+      event: "portfolio_session_progress",
+      active_dwell_ms: clock.read(),
+    });
+    const visibilityChanged = () => {
+      if (document.visibilityState === "hidden") {
+        clock.pause();
+        report();
+      } else {
+        clock.start();
+      }
+    };
+
+    if (document.visibilityState !== "hidden") clock.start();
+    document.addEventListener("visibilitychange", visibilityChanged);
+    const timer = window.setInterval(report, 15_000);
+    return () => {
+      clock.pause();
+      report();
+      document.removeEventListener("visibilitychange", visibilityChanged);
+      window.clearInterval(timer);
+    };
+  }, [capture]);
 
   const value = useMemo(() => ({
     branchId,

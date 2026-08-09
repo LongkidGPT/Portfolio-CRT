@@ -89,3 +89,31 @@ test("tracks a deliberate project activation with its approved id and label", as
     );
   });
 });
+
+test("reports foreground session dwell without counting hidden-tab time", async () => {
+  vi.useFakeTimers();
+  render(
+    <AnalyticsProvider config={{ token: "phc_test", host: "https://us.i.posthog.com" }}>
+      <Probe />
+    </AnalyticsProvider>,
+  );
+
+  vi.advanceTimersByTime(15_000);
+  expect(sendAnalyticsEvent).toHaveBeenCalledWith(
+    expect.anything(),
+    expect.objectContaining({
+      event: "portfolio_session_progress",
+      active_dwell_ms: 15_000,
+    }),
+    expect.anything(),
+  );
+
+  Object.defineProperty(document, "visibilityState", { value: "hidden", configurable: true });
+  document.dispatchEvent(new Event("visibilitychange"));
+  vi.advanceTimersByTime(30_000);
+  const progress = vi.mocked(sendAnalyticsEvent).mock.calls
+    .map(([, event]) => event)
+    .filter((event) => event.event === "portfolio_session_progress");
+  expect(progress.at(-1)).toMatchObject({ active_dwell_ms: 15_000 });
+  vi.useRealTimers();
+});
