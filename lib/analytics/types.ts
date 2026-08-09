@@ -51,6 +51,12 @@ export interface PublicPostHogConfig {
   host: string;
 }
 
+export interface JourneyMatrixSnapshot {
+  sectionLabels: string[];
+  bucketMs: number;
+  cells: number[][];
+}
+
 export interface PostHogEventRow {
   event: AnalyticsEventName;
   timestamp: string;
