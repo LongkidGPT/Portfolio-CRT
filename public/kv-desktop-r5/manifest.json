@@ -1,0 +1,10 @@
+{
+  "frameCount": 193,
+  "width": 1920,
+  "height": 1080,
+  "sourceFile": "首屏头部转动效果（R5）.mp4",
+  "sourceSha256": "305a6908c394df837e0ec870c29948ae2dbcca93ac5bf543776e5eb28bb3d2c8",
+  "frameRate": 24.074844074844076,
+  "quality": 86,
+  "framePattern": "/kv-desktop-r5/frames/frame-%03d.webp"
+}
