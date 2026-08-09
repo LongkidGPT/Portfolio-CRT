@@ -14,7 +14,7 @@ test("queries the PostHog project with a server-only key and bounded branch pred
       null,
       null,
       "case-view-1",
-      [0, 1000, 0, 0, 0, 0, 0, 0, 0, 0],
+      "[0,1000,0,0,0,0,0,0,0,0]",
     ]],
   }), { status: 200, headers: { "Content-Type": "application/json" } }));
 
@@ -55,7 +55,7 @@ test("drops malformed heatmap arrays while keeping legacy case metrics", async (
       84,
       42000,
       null,
-      [1000, -1],
+      "[1000,-1]",
     ]],
   }), { status: 200, headers: { "Content-Type": "application/json" } }));
 
