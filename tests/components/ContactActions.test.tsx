@@ -38,7 +38,7 @@ test.each([
   ["Copy email address", "longkid@sohu.com", "email"],
   ["Copy phone number", "18520224719", "phone"],
   ["Copy WeChat ID", "lkchat1980", "wechat"],
-] as const)("%s copies its exact value and records the contact type", async (name, value, type) => {
+] as const)("%s copies its exact value without recording contact analytics", async (name, value) => {
   render(<ContactActions />);
 
   await act(async () => {
@@ -46,7 +46,7 @@ test.each([
   });
 
   expect(copyText).toHaveBeenCalledWith(value);
-  expect(analytics.trackContactClick).toHaveBeenCalledWith(type);
+  expect(analytics.trackContactClick).not.toHaveBeenCalled();
   expect(screen.getByText("COPIED")).toBeVisible();
 });
 

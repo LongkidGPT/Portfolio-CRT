@@ -1,25 +1,28 @@
 # PostHog Visitor Analytics Verification
 
-Date: 2026-08-09
+Updated: 2026-08-10
 
 ## Automated verification
 
-- `npm test`: 36 test files passed, 175 tests passed.
+- `npm test`: 37 test files passed, 183 tests passed.
 - `npm run lint`: 0 errors; one pre-existing unused-parameter warning remains in `lib/portfolio/interactions.ts`.
 - `npm run build`: production build passed; `/api/analytics/summary` is emitted as a dynamic server route.
-- `npx playwright test --config=playwright.analytics.config.ts`: desktop and mobile analytics flows passed (2/2).
+- `npx playwright test --config=playwright.analytics.config.ts`: desktop and mobile Live Signal flows passed (2/2).
 
 ## Analytics E2E coverage
 
 - Public `LIVE SIGNAL` launcher and summary render from the branch API.
-- `VISITOR-02` labels and per-case maximum depth render without exposing raw visitor IDs.
+- `VISITOR-02` labels and per-project metrics render without exposing raw visitor, session, or case-view IDs.
 - The card stays inside desktop and mobile viewports.
+- Expanded header omits `BRANCH`, `/`, and `TOTAL VISITS`; the response and panel omit Contact metrics.
+- Only one project accordion opens at a time and contains clicks, active dwell, completion, and ten heatmap segments.
 - Clicking `DESIGN LOGIC` emits exactly one `portfolio_project_clicked` event with the stable `/` branch ID.
-- Desktop case scrolling emits `portfolio_case_progress`.
+- Desktop case scrolling emits `portfolio_case_progress` with an anonymous `case_view_id` and ten cumulative segment dwell values.
+- Legacy case events without segment data retain dwell and completion and render `NO HEATMAP DATA`.
 
-## External setup still required
+## Production configuration
 
-The local suite intercepts PostHog network traffic. Real production ingestion and query results require the five values documented in `.env.example` to be configured in Netlify, followed by a rebuild/deploy.
+PostHog ingestion, server query credentials, project ID, host, and card visibility are configured in Netlify. Production verification after this change must confirm that a fresh visit returns a ten-value heatmap from `/api/analytics/summary?branch=%2F`.
 
 ## Existing suite note
 

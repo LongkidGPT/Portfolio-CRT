@@ -19,6 +19,14 @@ function optionalNumber(value: unknown) {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
 
+function optionalHeatmap(value: unknown) {
+  return Array.isArray(value)
+    && value.length === 10
+    && value.every((item) => typeof item === "number" && Number.isFinite(item) && item >= 0)
+    ? value as number[]
+    : undefined;
+}
+
 export async function queryBranchEvents(
   config: PostHogServerConfig,
   branchId: string,
@@ -26,7 +34,7 @@ export async function queryBranchEvents(
 ) {
   if (!isValidBranchId(branchId)) throw new TypeError("Invalid branch");
   const events = ANALYTICS_EVENT_NAMES.map((name) => `'${name}'`).join(", ");
-  const query = `SELECT event, toString(timestamp), properties.branch_id, properties.visitor_id, properties.session_id, properties.pathname, properties.project_id, properties.max_scroll_depth, properties.active_dwell_ms, properties.contact_type FROM events WHERE properties.branch_id = '${branchId}' AND event IN (${events}) ORDER BY timestamp ASC LIMIT 5000`;
+  const query = `SELECT event, toString(timestamp), properties.branch_id, properties.visitor_id, properties.session_id, properties.pathname, properties.project_id, properties.max_scroll_depth, properties.active_dwell_ms, properties.case_view_id, properties.segment_dwell_ms FROM events WHERE properties.branch_id = '${branchId}' AND event IN (${events}) ORDER BY timestamp ASC LIMIT 5000`;
   const response = await fetcher(`${queryHost(config.host)}/api/projects/${encodeURIComponent(config.projectId)}/query/`, {
     method: "POST",
     headers: {
@@ -39,7 +47,7 @@ export async function queryBranchEvents(
   if (!response.ok) throw new Error(`PostHog query failed: ${response.status}`);
   const body = await response.json() as { results?: unknown[][] };
   return (body.results ?? []).flatMap((values): PostHogEventRow[] => {
-    const [event, timestamp, rowBranch, visitorId, sessionId, pathname, projectId, depth, dwell, contactType] = values;
+    const [event, timestamp, rowBranch, visitorId, sessionId, pathname, projectId, depth, dwell, caseViewId, segmentDwellMs] = values;
     if (!ANALYTICS_EVENT_NAMES.includes(event as AnalyticsEventName)) return [];
     if (![timestamp, rowBranch, visitorId, sessionId, pathname].every((value) => typeof value === "string")) return [];
     return [{
@@ -50,9 +58,10 @@ export async function queryBranchEvents(
       sessionId: sessionId as string,
       pathname: pathname as string,
       projectId: optionalString(projectId) as PostHogEventRow["projectId"],
+      caseViewId: optionalString(caseViewId),
       maxScrollDepth: optionalNumber(depth),
       activeDwellMs: optionalNumber(dwell),
-      contactType: optionalString(contactType) as PostHogEventRow["contactType"],
+      segmentDwellMs: optionalHeatmap(segmentDwellMs),
     }];
   });
 }

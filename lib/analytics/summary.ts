@@ -1,28 +1,73 @@
 import { PROJECTS, type ProjectId } from "@/lib/portfolio/projects";
 import type {
   BranchAnalyticsSummary,
-  ContactClickCounts,
   PostHogEventRow,
-  ProjectClickCounts,
+  ProjectAnalyticsMeasurement,
   SessionAnalyticsSummary,
 } from "./types";
 
-function emptyProjectClicks(): ProjectClickCounts {
-  return Object.fromEntries(PROJECTS.map(({ id }) => [id, 0])) as ProjectClickCounts;
+interface CaseViewSnapshot {
+  maxDepth: number;
+  activeDwellMs: number;
+  segmentDwellMs?: number[];
 }
 
-function emptyContactClicks(): ContactClickCounts {
-  return { email: 0, phone: 0, wechat: 0 };
+interface MutableProject {
+  clicks: number;
+  views: Map<string, CaseViewSnapshot>;
 }
 
-interface MutableSession extends SessionAnalyticsSummary {
+interface MutableSession {
   rawId: string;
+  label: string;
+  startedAt: string;
+  lastSeenAt: string;
+  activeDwellMs: number;
+  projects: Record<ProjectId, MutableProject>;
 }
 
 interface MutableVisitor {
   rawId: string;
   firstSeenAt: string;
   sessions: Map<string, MutableSession>;
+}
+
+function emptyMutableProjects() {
+  return Object.fromEntries(PROJECTS.map(({ id }) => [id, {
+    clicks: 0,
+    views: new Map<string, CaseViewSnapshot>(),
+  }])) as Record<ProjectId, MutableProject>;
+}
+
+function mergeSegments(previous: number[] | undefined, next: number[] | undefined) {
+  if (!next) return previous;
+  if (!previous) return [...next];
+  return previous.map((value, index) => Math.max(value, next[index] ?? 0));
+}
+
+function finalizeProject(project: MutableProject): ProjectAnalyticsMeasurement {
+  const views = Array.from(project.views.values());
+  const heatmaps = views.flatMap(({ segmentDwellMs }) => segmentDwellMs ? [segmentDwellMs] : []);
+  const segmentDwellMs = heatmaps.length > 0
+    ? heatmaps.reduce(
+      (total, heatmap) => total.map((value, index) => value + (heatmap[index] ?? 0)),
+      Array.from({ length: 10 }, () => 0),
+    )
+    : undefined;
+
+  return {
+    clicks: project.clicks,
+    activeDwellMs: views.reduce((total, view) => total + view.activeDwellMs, 0),
+    maxDepth: views.reduce((maximum, view) => Math.max(maximum, view.maxDepth), 0),
+    ...(segmentDwellMs ? { segmentDwellMs } : {}),
+  };
+}
+
+function finalizeProjects(projects: Record<ProjectId, MutableProject>) {
+  return Object.fromEntries(PROJECTS.map(({ id }) => [id, finalizeProject(projects[id])])) as Record<
+    ProjectId,
+    ProjectAnalyticsMeasurement
+  >;
 }
 
 export function buildBranchSummary(rows: PostHogEventRow[], branchId: string): BranchAnalyticsSummary {
@@ -49,30 +94,28 @@ export function buildBranchSummary(rows: PostHogEventRow[], branchId: string): B
         startedAt: row.timestamp,
         lastSeenAt: row.timestamp,
         activeDwellMs: 0,
-        projectClicks: emptyProjectClicks(),
-        cases: {},
-        contactClicks: emptyContactClicks(),
+        projects: emptyMutableProjects(),
       };
       visitor.sessions.set(row.sessionId, session);
     }
     session.lastSeenAt = row.timestamp;
 
     const projectId = row.projectId;
-    if (row.event === "portfolio_project_clicked" && projectId && projectId in session.projectClicks) {
-      session.projectClicks[projectId as ProjectId] += 1;
+    if (row.event === "portfolio_project_clicked" && projectId && projectId in session.projects) {
+      session.projects[projectId as ProjectId].clicks += 1;
     }
-    if (row.event === "portfolio_case_progress" && row.projectId) {
-      const previous = session.cases[row.projectId] ?? { maxDepth: 0, activeDwellMs: 0 };
-      session.cases[row.projectId] = {
+    if (row.event === "portfolio_case_progress" && projectId && projectId in session.projects) {
+      const project = session.projects[projectId as ProjectId];
+      const viewKey = row.caseViewId ?? `legacy:${projectId}`;
+      const previous = project.views.get(viewKey) ?? { maxDepth: 0, activeDwellMs: 0 };
+      project.views.set(viewKey, {
         maxDepth: Math.max(previous.maxDepth, row.maxScrollDepth ?? 0),
         activeDwellMs: Math.max(previous.activeDwellMs, row.activeDwellMs ?? 0),
-      };
+        segmentDwellMs: mergeSegments(previous.segmentDwellMs, row.segmentDwellMs),
+      });
     }
     if (row.event === "portfolio_session_progress") {
       session.activeDwellMs = Math.max(session.activeDwellMs, row.activeDwellMs ?? 0);
-    }
-    if (row.event === "portfolio_contact_clicked" && row.contactType) {
-      session.contactClicks[row.contactType] += 1;
     }
   }
 
@@ -84,14 +127,12 @@ export function buildBranchSummary(rows: PostHogEventRow[], branchId: string): B
       chronological.forEach((session, index) => { session.label = `VISIT-${String(index + 1).padStart(2, "0")}`; });
       return {
         label: `VISITOR-${String(visitorIndex + 1).padStart(2, "0")}`,
-        sessions: chronological.reverse().map((session) => ({
+        sessions: chronological.reverse().map((session): SessionAnalyticsSummary => ({
           label: session.label,
           startedAt: session.startedAt,
           lastSeenAt: session.lastSeenAt,
           activeDwellMs: session.activeDwellMs,
-          projectClicks: session.projectClicks,
-          cases: session.cases,
-          contactClicks: session.contactClicks,
+          projects: finalizeProjects(session.projects),
         })),
       };
     });

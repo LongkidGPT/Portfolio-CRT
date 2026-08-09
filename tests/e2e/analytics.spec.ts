@@ -11,9 +11,18 @@ const SUMMARY = {
       startedAt: "2026-08-09T10:00:00.000Z",
       lastSeenAt: "2026-08-09T10:01:00.000Z",
       activeDwellMs: 58000,
-      projectClicks: { about: 1, business: 2, "brand-system": 1, "product-launch": 0, "launch-event": 0 },
-      cases: { "brand-system": { maxDepth: 84, activeDwellMs: 42000 } },
-      contactClicks: { email: 1, phone: 0, wechat: 1 },
+      projects: {
+        about: { clicks: 1, activeDwellMs: 0, maxDepth: 0 },
+        business: { clicks: 2, activeDwellMs: 0, maxDepth: 0 },
+        "brand-system": {
+          clicks: 1,
+          activeDwellMs: 42000,
+          maxDepth: 84,
+          segmentDwellMs: [0, 1000, 4000, 8000, 12000, 9000, 5000, 2000, 1000, 0],
+        },
+        "product-launch": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
+        "launch-event": { clicks: 0, activeDwellMs: 0, maxDepth: 0 },
+      },
     }],
   }],
 };
@@ -33,9 +42,17 @@ test("captures explicit project and case events and renders the branch card", as
   await expect(launcher).toContainText("12");
   await launcher.click();
   await expect(page.getByText("VISITOR-02")).toBeVisible();
-  await expect(page.getByText("BRAND SYSTEM · 84%")).toBeVisible();
 
   const panel = page.getByRole("region", { name: "Live Signal analytics panel" });
+  await expect(panel.getByText("BRANCH", { exact: true })).toHaveCount(0);
+  await expect(panel.getByText("TOTAL VISITS", { exact: true })).toHaveCount(0);
+  await expect(panel.getByText(/CONTACT CLICKS/i)).toHaveCount(0);
+  await panel.getByRole("button", { name: /brand system metrics/i }).click();
+  await expect(panel.getByText("1 CLICK")).toBeVisible();
+  await expect(panel.getByText("00:42")).toBeVisible();
+  await expect(panel.getByText("84%")).toBeVisible();
+  await expect(panel.getByRole("img", { name: /page segment/i })).toHaveCount(10);
+
   const box = await panel.boundingBox();
   const viewport = page.viewportSize()!;
   expect(box).not.toBeNull();
@@ -52,5 +69,12 @@ test("captures explicit project and case events and renders the branch card", as
     const scroller = page.locator("[data-analytics-scroll-root]");
     await scroller.evaluate((element) => { element.scrollTop = Math.max(1, element.scrollHeight / 2); element.dispatchEvent(new Event("scroll")); });
     await expect.poll(() => events.some(({ event }) => event === "portfolio_case_progress")).toBe(true);
+    const progress = events.findLast(({ event }) => event === "portfolio_case_progress");
+    expect(progress?.properties).toMatchObject({
+      project_id: "business",
+      case_view_id: expect.any(String),
+      segment_dwell_ms: expect.any(Array),
+    });
+    expect(progress?.properties.segment_dwell_ms).toHaveLength(10);
   }
 });

@@ -11,7 +11,6 @@ import {
 import type {
   AnalyticsEvent,
   AnalyticsEventDetails,
-  ContactType,
   PublicPostHogConfig,
 } from "@/lib/analytics/types";
 import type { ProjectId } from "@/lib/portfolio/projects";
@@ -134,18 +133,22 @@ export default function AnalyticsProvider({
       project_id: project.id,
       project_label: project.label,
     }),
-    trackContactClick: (type: ContactType) => capture({
-      event: "portfolio_contact_clicked",
-      contact_type: type,
-    }),
   }), [branchId, capture]);
 
-  const trackCaseProgress = useCallback((projectId: ProjectId, maxDepth: number, activeDwellMs: number) => {
+  const trackCaseProgress = useCallback((
+    projectId: ProjectId,
+    caseViewId: string,
+    maxDepth: number,
+    activeDwellMs: number,
+    segmentDwellMs: number[],
+  ) => {
     capture({
       event: "portfolio_case_progress",
       project_id: projectId,
+      case_view_id: caseViewId,
       max_scroll_depth: maxDepth,
       active_dwell_ms: activeDwellMs,
+      segment_dwell_ms: segmentDwellMs,
     });
   }, [capture]);
 

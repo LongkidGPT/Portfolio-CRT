@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { copyText } from "@/lib/portfolio/clipboard";
-import { useAnalytics } from "@/components/analytics/useAnalytics";
-import type { ContactType } from "@/lib/analytics/types";
 import styles from "./portfolio.module.css";
 
 const CONTACT_ACTIONS = [
@@ -28,7 +26,6 @@ const CONTACT_ACTIONS = [
 ] as const;
 
 export default function ContactActions() {
-  const { trackContactClick } = useAnalytics();
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | null>(null);
 
@@ -36,7 +33,7 @@ export default function ContactActions() {
     if (timer.current !== null) window.clearTimeout(timer.current);
   }, []);
 
-  const copy = async (value: string, type: ContactType) => {
+  const copy = async (value: string) => {
     try {
       await copyText(value);
     } catch {
@@ -44,7 +41,6 @@ export default function ContactActions() {
     }
 
     setCopied(true);
-    trackContactClick(type);
     if (timer.current !== null) window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1200);
   };
@@ -56,7 +52,7 @@ export default function ContactActions() {
           key={action.label}
           type="button"
           aria-label={action.label}
-          onClick={() => void copy(action.value, action.type)}
+          onClick={() => void copy(action.value)}
         >
           {/* Supplied raster artwork must retain its original pixels. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}

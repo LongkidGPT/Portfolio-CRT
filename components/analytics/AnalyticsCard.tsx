@@ -1,8 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { PROJECTS } from "@/lib/portfolio/projects";
+import { PROJECTS, type ProjectId } from "@/lib/portfolio/projects";
 import type { BranchAnalyticsSummary } from "@/lib/analytics/types";
+import ProjectHeatmap from "./ProjectHeatmap";
 import styles from "./analytics-card.module.css";
 
 type LoadState = "loading" | "ready" | "empty" | "error";
@@ -13,15 +14,12 @@ function formatDuration(milliseconds: number) {
   return `${String(minutes).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
-function projectLabel(projectId: string) {
-  return PROJECTS.find(({ id }) => id === projectId)?.label ?? projectId.toUpperCase();
-}
-
 export default function AnalyticsCard({ branchId, fetcher = fetch }: { branchId: string; fetcher?: typeof fetch }) {
   const [expanded, setExpanded] = useState(false);
   const [state, setState] = useState<LoadState>("loading");
   const [summary, setSummary] = useState<BranchAnalyticsSummary | null>(null);
   const [selectedVisitor, setSelectedVisitor] = useState<string | null>(null);
+  const [expandedProject, setExpandedProject] = useState<ProjectId | null>(null);
 
   const refresh = useCallback(async (signal?: AbortSignal) => {
     try {
@@ -61,6 +59,11 @@ export default function AnalyticsCard({ branchId, fetcher = fetch }: { branchId:
 
   const visitor = useMemo(() => summary?.visitors.find(({ label }) => label === selectedVisitor) ?? null, [selectedVisitor, summary]);
 
+  const selectVisitor = (label: string) => {
+    setSelectedVisitor(label);
+    setExpandedProject(null);
+  };
+
   return (
     <aside className={styles.shell} data-expanded={expanded ? "" : undefined}>
       {!expanded ? (
@@ -70,8 +73,7 @@ export default function AnalyticsCard({ branchId, fetcher = fetch }: { branchId:
       ) : (
         <section className={styles.panel} aria-label="Live Signal analytics panel">
           <header className={styles.header}>
-            <div><span>LIVE SIGNAL / BRANCH</span><strong>{summary?.branchId ?? branchId}</strong></div>
-            <div className={styles.visitTotal}><span>TOTAL VISITS</span><strong>{summary?.totalVisits ?? "—"}</strong></div>
+            <strong>LIVE SIGNAL</strong>
             <button type="button" aria-label="Close analytics" onClick={() => setExpanded(false)}>×</button>
           </header>
           <div className={styles.body}>
@@ -82,25 +84,42 @@ export default function AnalyticsCard({ branchId, fetcher = fetch }: { branchId:
               <>
                 <nav className={styles.visitors} aria-label="Anonymous visitors">
                   {summary.visitors.map(({ label }) => (
-                    <button key={label} type="button" aria-pressed={label === selectedVisitor} onClick={() => setSelectedVisitor(label)}>{label}</button>
+                    <button key={label} type="button" aria-pressed={label === selectedVisitor} onClick={() => selectVisitor(label)}>{label}</button>
                   ))}
                 </nav>
                 <div className={styles.sessions}>
                   {visitor?.sessions.map((session) => (
                     <article key={`${visitor.label}-${session.label}`} className={styles.session}>
                       <div className={styles.sessionTitle}><strong>{session.label}</strong><span>ACTIVE {formatDuration(session.activeDwellMs)}</span></div>
-                      <div className={styles.group}>
-                        <span className={styles.eyebrow}>HOME PROJECT CLICKS</span>
-                        {PROJECTS.map((project) => <div className={styles.metric} key={project.id}><span>{project.label}</span><b>{session.projectClicks[project.id]} CLICKS</b></div>)}
-                      </div>
-                      <div className={styles.group}>
-                        <span className={styles.eyebrow}>CASE READING</span>
-                        {Object.entries(session.cases).length === 0 && <p className={styles.emptyGroup}>NO CASE OPENED</p>}
-                        {Object.entries(session.cases).map(([projectId, measurement]) => <div className={styles.metric} key={projectId}><span>{projectLabel(projectId)} · {measurement.maxDepth}%</span><b>{formatDuration(measurement.activeDwellMs)}</b></div>)}
-                      </div>
-                      <div className={styles.group}>
-                        <span className={styles.eyebrow}>CONTACT CLICKS</span>
-                        {(["email", "phone", "wechat"] as const).map((type) => <div className={styles.metric} key={type}><span>{type.toUpperCase()}</span><b>{session.contactClicks[type]} CLICKS</b></div>)}
+                      <div className={styles.projects}>
+                        {PROJECTS.map((project) => {
+                          const measurement = session.projects[project.id];
+                          const isOpen = expandedProject === project.id;
+                          return (
+                            <section className={styles.project} key={project.id}>
+                              <button
+                                className={styles.projectToggle}
+                                type="button"
+                                aria-label={`${project.label} metrics`}
+                                aria-expanded={isOpen}
+                                onClick={() => setExpandedProject(isOpen ? null : project.id)}
+                              >
+                                <span>{project.label}</span><i aria-hidden="true">{isOpen ? "−" : "+"}</i>
+                              </button>
+                              {isOpen && (
+                                <div className={styles.projectDetails}>
+                                  <div className={styles.metricGrid}>
+                                    <div><span>CLICKS</span><strong>{measurement.clicks} {measurement.clicks === 1 ? "CLICK" : "CLICKS"}</strong></div>
+                                    <div><span>DWELL</span><strong>{formatDuration(measurement.activeDwellMs)}</strong></div>
+                                    <div><span>COMPLETION</span><strong>{measurement.maxDepth}%</strong></div>
+                                  </div>
+                                  <span className={styles.eyebrow}>HEATMAP / TOP → BOTTOM</span>
+                                  <ProjectHeatmap values={measurement.segmentDwellMs} />
+                                </div>
+                              )}
+                            </section>
+                          );
+                        })}
                       </div>
                     </article>
                   ))}
