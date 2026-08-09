@@ -75,6 +75,10 @@ Every event includes:
 
 Sent once when a portfolio session begins.
 
+### `portfolio_session_progress`
+
+Sent every 15 seconds while the portfolio is in the foreground and when the document becomes hidden. `active_dwell_ms` is the session's accumulated foreground-only time and is treated as a maximum, never as a delta.
+
 ### `portfolio_project_clicked`
 
 Sent when one of the five home project buttons opens its destination. Properties include `project_id` and `project_label`. Each deliberate activation produces one event; hover and focus do not count.
@@ -102,7 +106,7 @@ Best-effort event sent when the page becomes hidden or exits. Final state is als
 - Home-page scroll depth is not displayed or required.
 - Home project clicks are aggregated separately for all five buttons.
 - Case-page depth is the maximum normalized document scroll percentage reached during the session.
-- Case-page dwell time counts only while the document is visible; time spent in a background tab is excluded.
+- Case-page and total session dwell time count only while the document is visible; time spent in a background tab is excluded.
 - Reopening the same case in one session increments its home entry click count but preserves the case's maximum depth and accumulated active dwell time.
 - Contact clicks are counted separately by contact type.
 

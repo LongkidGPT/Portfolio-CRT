@@ -49,11 +49,11 @@ test("refreshes every thirty seconds only while expanded", async () => {
   vi.useFakeTimers();
   const fetcher = vi.fn().mockImplementation(async () => new Response(JSON.stringify(SUMMARY), { status: 200 }));
   render(<AnalyticsCard branchId="/anker-visual" fetcher={fetcher} />);
-  await act(async () => Promise.resolve());
+  await act(async () => { vi.advanceTimersByTime(0); await Promise.resolve(); });
   const initialCalls = fetcher.mock.calls.length;
 
   fireEvent.click(screen.getByRole("button", { name: /live signal/i }));
-  await act(async () => Promise.resolve());
+  await act(async () => { vi.advanceTimersByTime(0); await Promise.resolve(); });
   const expandedCalls = fetcher.mock.calls.length;
   expect(expandedCalls).toBeGreaterThan(initialCalls);
 

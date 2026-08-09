@@ -84,7 +84,15 @@ export function buildBranchSummary(rows: PostHogEventRow[], branchId: string): B
       chronological.forEach((session, index) => { session.label = `VISIT-${String(index + 1).padStart(2, "0")}`; });
       return {
         label: `VISITOR-${String(visitorIndex + 1).padStart(2, "0")}`,
-        sessions: chronological.reverse().map(({ rawId: _rawId, ...session }) => session),
+        sessions: chronological.reverse().map((session) => ({
+          label: session.label,
+          startedAt: session.startedAt,
+          lastSeenAt: session.lastSeenAt,
+          activeDwellMs: session.activeDwellMs,
+          projectClicks: session.projectClicks,
+          cases: session.cases,
+          contactClicks: session.contactClicks,
+        })),
       };
     });
 

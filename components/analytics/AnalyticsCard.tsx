@@ -38,19 +38,23 @@ export default function AnalyticsCard({ branchId, fetcher = fetch }: { branchId:
 
   useEffect(() => {
     const controller = new AbortController();
-    void refresh(controller.signal);
-    return () => controller.abort();
+    const initialRefresh = window.setTimeout(() => void refresh(controller.signal), 0);
+    return () => {
+      window.clearTimeout(initialRefresh);
+      controller.abort();
+    };
   }, [refresh]);
 
   useEffect(() => {
     if (!expanded) return;
     const controller = new AbortController();
-    void refresh(controller.signal);
+    const expandedRefresh = window.setTimeout(() => void refresh(controller.signal), 0);
     const timer = window.setInterval(() => {
       if (document.visibilityState !== "hidden") void refresh(controller.signal);
     }, 30_000);
     return () => {
       controller.abort();
+      window.clearTimeout(expandedRefresh);
       window.clearInterval(timer);
     };
   }, [expanded, refresh]);

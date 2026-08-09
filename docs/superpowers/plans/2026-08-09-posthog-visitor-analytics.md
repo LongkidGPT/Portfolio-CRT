@@ -49,7 +49,7 @@
 
 **Interfaces:**
 - Produces: `normalizeBranchId(pathname, storedBranch?)`, `getOrCreateVisitorId(storage, crypto)`, `createSessionId(crypto)`, `sendAnalyticsEvent(config, event, transport?)`.
-- Produces event names `portfolio_session_started`, `portfolio_project_clicked`, `portfolio_case_progress`, `portfolio_contact_clicked`, `portfolio_session_ended`.
+- Produces event names `portfolio_session_started`, `portfolio_session_progress`, `portfolio_project_clicked`, `portfolio_case_progress`, `portfolio_contact_clicked`, `portfolio_session_ended`.
 
 - [ ] **Step 1: Write failing identity tests**
 
