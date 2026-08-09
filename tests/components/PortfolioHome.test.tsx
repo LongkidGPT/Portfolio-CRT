@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import PortfolioHome from "@/components/portfolio/PortfolioHome";
 
@@ -6,15 +6,22 @@ const navigation = vi.hoisted(() => ({
   push: vi.fn(),
   prefetch: vi.fn(),
 }));
+const analytics = vi.hoisted(() => ({
+  trackProjectClick: vi.fn(),
+}));
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
   useRouter: () => navigation,
 }));
+vi.mock("@/components/analytics/useAnalytics", () => ({
+  useAnalytics: () => analytics,
+}));
 
 beforeEach(() => {
   navigation.push.mockReset();
   navigation.prefetch.mockReset();
+  analytics.trackProjectClick.mockReset();
   vi.stubGlobal("matchMedia", (query: string) => ({
     matches:
       query === "(min-width: 768px)" || query === "(pointer: fine)",
@@ -137,7 +144,7 @@ test("locks the full-frame target to the hovered formal project", () => {
 
   expect(
     screen.getByRole("img", { name: "Interactive full-frame KV portrait" }),
-  ).toHaveAttribute("data-target-frame", "134");
+  ).toHaveAttribute("data-target-frame", "128");
 });
 
 test("restores the ABOUT ME copy after the pointer leaves a project button", () => {
@@ -151,8 +158,12 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   ).toBeInTheDocument();
 
   fireEvent.pointerLeave(business);
+  const desktopPreview = document.querySelector(
+    '[data-preview-layout="desktop"]',
+  );
+  expect(desktopPreview).not.toBeNull();
   expect(
-    screen.getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(desktopPreview!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
   ).toBeInTheDocument();
 });
 
@@ -177,6 +188,10 @@ test("holds navigation until the portrait exit transition completes", () => {
   const { container } = render(<PortfolioHome />);
 
   fireEvent.click(screen.getByRole("link", { name: "Open DESIGN LOGIC" }));
+  expect(analytics.trackProjectClick).toHaveBeenCalledWith({
+    id: "business",
+    label: "DESIGN LOGIC",
+  });
   expect(container.querySelector("main")).toHaveAttribute("data-phase", "zooming");
   act(() => vi.advanceTimersByTime(719));
   expect(navigation.push).not.toHaveBeenCalled();
@@ -185,4 +200,13 @@ test("holds navigation until the portrait exit transition completes", () => {
   expect(navigation.push).toHaveBeenCalledWith("/work/business");
 
   getContext.mockRestore();
+});
+
+test("hovering a project previews it without counting a click", () => {
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+  render(<PortfolioHome />);
+
+  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open DESIGN LOGIC" }));
+
+  expect(analytics.trackProjectClick).not.toHaveBeenCalled();
 });

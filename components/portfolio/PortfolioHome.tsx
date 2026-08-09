@@ -6,6 +6,7 @@ import { PROJECTS, getProjectById, type ProjectId } from "@/lib/portfolio/projec
 import { initialPortfolioState, portfolioReducer } from "@/lib/portfolio/state";
 import { KV_SYNC_PROJECT_FRAMES } from "@/lib/portfolio/kv-sync-test";
 import { MOBILE_KV_PROJECT_FRAMES } from "@/lib/portfolio/kv-mobile";
+import { useAnalytics } from "@/components/analytics/useAnalytics";
 import PortfolioChrome from "./PortfolioChrome";
 import FullFramePortrait from "./FullFramePortrait";
 import MobileFramePortrait from "./MobileFramePortrait";
@@ -46,6 +47,7 @@ export default function PortfolioHome() {
   const pathname = usePathname();
   const reduced = useReducedMotionPreference();
   const desktopFullFrame = useDesktopFullFrame();
+  const { trackProjectClick } = useAnalytics();
   const [state, dispatch] = useReducer(portfolioReducer, initialPortfolioState);
   const [previewedProject, setPreviewedProject] = useState<ProjectId | null>(null);
   const [focusFrame, setFocusFrame] = useState<number | null>(null);
@@ -84,12 +86,14 @@ export default function PortfolioHome() {
 
   const open = useCallback((id: ProjectId) => {
     if (timer.current !== null) window.clearTimeout(timer.current);
+    const project = getProjectById(id);
+    trackProjectClick({ id: project.id, label: project.label });
     dispatch({ type: "OPEN_REQUESTED", projectId: id });
     timer.current = window.setTimeout(
       () => router.push(getProjectById(id).href),
       reduced ? 100 : 720,
     );
-  }, [reduced, router]);
+  }, [reduced, router, trackProjectClick]);
 
   return (
     <main className={styles.home} data-phase={state.phase} data-project={state.activeProject}>

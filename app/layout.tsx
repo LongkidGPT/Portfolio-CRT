@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import AnalyticsProvider from "@/components/analytics/AnalyticsProvider";
 
 export const metadata: Metadata = {
   title: "Kid（龙昊翔）· Visual Systems for Product Launch",
@@ -26,8 +27,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-bg font-sans text-ink antialiased">
-        {children}
-        {overlay}
+        <AnalyticsProvider>
+          {children}
+          {overlay}
+        </AnalyticsProvider>
       </body>
     </html>
   );
