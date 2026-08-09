@@ -20,6 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
   overlay: React.ReactNode;
 }>) {
+  const analyticsCardVisible =
+    process.env.NEXT_PUBLIC_ANALYTICS_CARD_VISIBLE === "true";
   return (
     <html
       lang="zh-CN"
@@ -27,7 +29,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-bg font-sans text-ink antialiased">
-        <AnalyticsProvider>
+        <AnalyticsProvider cardVisible={analyticsCardVisible}>
           {children}
           {overlay}
         </AnalyticsProvider>

@@ -18,6 +18,7 @@ import type { ProjectId } from "@/lib/portfolio/projects";
 import { AnalyticsContext } from "./useAnalytics";
 import CaseProgressTracker from "./CaseProgressTracker";
 import { createActiveDwellClock } from "@/lib/analytics/measurements";
+import AnalyticsCard from "./AnalyticsCard";
 
 const BRANCH_STORAGE_KEY = "kid-portfolio-branch-v1";
 
@@ -35,9 +36,11 @@ interface SessionIdentity {
 export default function AnalyticsProvider({
   children,
   config,
+  cardVisible = false,
 }: {
   children: React.ReactNode;
   config?: PublicPostHogConfig | null;
+  cardVisible?: boolean;
 }) {
   const pathname = usePathname();
   const resolvedConfig = config === undefined ? environmentConfig() : config;
@@ -150,6 +153,7 @@ export default function AnalyticsProvider({
     <AnalyticsContext.Provider value={value}>
       <CaseProgressTracker pathname={pathname} onProgress={trackCaseProgress} />
       {children}
+      {cardVisible ? <AnalyticsCard branchId={branchId} /> : null}
     </AnalyticsContext.Provider>
   );
 }
