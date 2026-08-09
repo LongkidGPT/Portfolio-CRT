@@ -65,14 +65,19 @@ export interface PostHogEventRow {
   segmentDwellMs?: number[];
 }
 
-export type ProjectClickCounts = Record<ProjectId, number>;
+export interface ProjectAnalyticsMeasurement {
+  clicks: number;
+  activeDwellMs: number;
+  maxDepth: number;
+  segmentDwellMs?: number[];
+}
+
 export interface SessionAnalyticsSummary {
   label: string;
   startedAt: string;
   lastSeenAt: string;
   activeDwellMs: number;
-  projectClicks: ProjectClickCounts;
-  cases: Partial<Record<ProjectId, { maxDepth: number; activeDwellMs: number }>>;
+  projects: Record<ProjectId, ProjectAnalyticsMeasurement>;
 }
 
 export interface BranchAnalyticsSummary {
