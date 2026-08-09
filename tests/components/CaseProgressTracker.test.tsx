@@ -13,7 +13,7 @@ test("reports increasing overlay progress without lowering the recorded maximum"
   const onProgress = vi.fn();
   vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
     callback(now);
-    return 1;
+    return 0;
   });
 
   const { container } = render(
@@ -30,13 +30,27 @@ test("reports increasing overlay progress without lowering the recorded maximum"
   });
 
   fireEvent.scroll(scroller);
-  expect(onProgress).toHaveBeenLastCalledWith("brand-system", 80, 0);
+  expect(onProgress).toHaveBeenLastCalledWith(
+    "brand-system",
+    expect.any(String),
+    80,
+    0,
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  );
+  const caseViewId = onProgress.mock.calls.at(-1)?.[1];
 
   scroller.scrollTop = 100;
   fireEvent.scroll(scroller);
-  expect(onProgress).toHaveBeenLastCalledWith("brand-system", 80, 0);
+  expect(onProgress.mock.calls.at(-1)?.[1]).toBe(caseViewId);
+  expect(onProgress.mock.calls.at(-1)?.[2]).toBe(80);
 
   now = 15000;
   act(() => vi.advanceTimersByTime(15000));
-  expect(onProgress).toHaveBeenLastCalledWith("brand-system", 80, 15000);
+  expect(onProgress).toHaveBeenLastCalledWith(
+    "brand-system",
+    caseViewId,
+    80,
+    15000,
+    [0, 0, 0, 15000, 0, 0, 0, 0, 0, 0],
+  );
 });

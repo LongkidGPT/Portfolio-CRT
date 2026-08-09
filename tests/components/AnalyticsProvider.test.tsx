@@ -6,6 +6,30 @@ import { sendAnalyticsEvent } from "@/lib/analytics/client";
 
 vi.mock("next/navigation", () => ({ usePathname: () => "/anker-visual" }));
 vi.mock("@/lib/analytics/client", () => ({ sendAnalyticsEvent: vi.fn() }));
+vi.mock("@/components/analytics/CaseProgressTracker", () => ({
+  default: ({ onProgress }: {
+    onProgress: (
+      projectId: "brand-system",
+      caseViewId: string,
+      maxDepth: number,
+      activeDwellMs: number,
+      segmentDwellMs: number[],
+    ) => void;
+  }) => (
+    <button
+      type="button"
+      onClick={() => onProgress(
+        "brand-system",
+        "case-view-1",
+        84,
+        42000,
+        [0, 1000, 4000, 8000, 12000, 9000, 5000, 2000, 1000, 0],
+      )}
+    >
+      Track case
+    </button>
+  ),
+}));
 
 function Probe() {
   const analytics = useAnalytics();
@@ -84,6 +108,30 @@ test("tracks a deliberate project activation with its approved id and label", as
         event: "portfolio_project_clicked",
         project_id: "brand-system",
         project_label: "BRAND SYSTEM",
+      }),
+      expect.anything(),
+    );
+  });
+});
+
+test("tracks a case view with its ten segment dwell snapshot", async () => {
+  render(
+    <AnalyticsProvider config={{ token: "phc_test", host: "https://us.i.posthog.com" }}>
+      <Probe />
+    </AnalyticsProvider>,
+  );
+  fireEvent.click(screen.getByRole("button", { name: "Track case" }));
+
+  await waitFor(() => {
+    expect(sendAnalyticsEvent).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        event: "portfolio_case_progress",
+        project_id: "brand-system",
+        case_view_id: "case-view-1",
+        max_scroll_depth: 84,
+        active_dwell_ms: 42000,
+        segment_dwell_ms: [0, 1000, 4000, 8000, 12000, 9000, 5000, 2000, 1000, 0],
       }),
       expect.anything(),
     );

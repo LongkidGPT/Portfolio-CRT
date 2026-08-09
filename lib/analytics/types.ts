@@ -5,12 +5,10 @@ export const ANALYTICS_EVENT_NAMES = [
   "portfolio_session_progress",
   "portfolio_project_clicked",
   "portfolio_case_progress",
-  "portfolio_contact_clicked",
   "portfolio_session_ended",
 ] as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENT_NAMES)[number];
-export type ContactType = "email" | "phone" | "wechat";
 
 interface AnalyticsEventBase {
   branch_id: string;
@@ -34,12 +32,10 @@ export type AnalyticsEvent =
   | (AnalyticsEventBase & {
       event: "portfolio_case_progress";
       project_id: ProjectId;
+      case_view_id: string;
       max_scroll_depth: number;
       active_dwell_ms: number;
-    })
-  | (AnalyticsEventBase & {
-      event: "portfolio_contact_clicked";
-      contact_type: ContactType;
+      segment_dwell_ms: number[];
     })
   | (AnalyticsEventBase & { event: "portfolio_session_ended" });
 
@@ -63,14 +59,13 @@ export interface PostHogEventRow {
   sessionId: string;
   pathname: string;
   projectId?: ProjectId;
+  caseViewId?: string;
   maxScrollDepth?: number;
   activeDwellMs?: number;
-  contactType?: ContactType;
+  segmentDwellMs?: number[];
 }
 
 export type ProjectClickCounts = Record<ProjectId, number>;
-export type ContactClickCounts = Record<ContactType, number>;
-
 export interface SessionAnalyticsSummary {
   label: string;
   startedAt: string;
@@ -78,7 +73,6 @@ export interface SessionAnalyticsSummary {
   activeDwellMs: number;
   projectClicks: ProjectClickCounts;
   cases: Partial<Record<ProjectId, { maxDepth: number; activeDwellMs: number }>>;
-  contactClicks: ContactClickCounts;
 }
 
 export interface BranchAnalyticsSummary {
