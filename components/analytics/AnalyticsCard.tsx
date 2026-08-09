@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { PROJECTS, type ProjectId } from "@/lib/portfolio/projects";
 import type { BranchAnalyticsSummary } from "@/lib/analytics/types";
 import ProjectHeatmap from "./ProjectHeatmap";
+import ProjectJourneyMatrix from "./ProjectJourneyMatrix";
 import styles from "./analytics-card.module.css";
 
 type LoadState = "loading" | "ready" | "empty" | "error";
@@ -113,8 +114,12 @@ export default function AnalyticsCard({ branchId, fetcher = fetch }: { branchId:
                                     <div><span>DWELL</span><strong>{formatDuration(measurement.activeDwellMs)}</strong></div>
                                     <div><span>COMPLETION</span><strong>{measurement.maxDepth}%</strong></div>
                                   </div>
-                                  <span className={styles.eyebrow}>HEATMAP / TOP → BOTTOM</span>
-                                  <ProjectHeatmap values={measurement.segmentDwellMs} />
+                                  <span className={styles.eyebrow}>
+                                    {measurement.journeyMatrix ? "BROWSING JOURNEY / SECTION × TIME" : "LEGACY HEATMAP / TOP → BOTTOM"}
+                                  </span>
+                                  {measurement.journeyMatrix
+                                    ? <ProjectJourneyMatrix value={measurement.journeyMatrix} />
+                                    : <ProjectHeatmap values={measurement.segmentDwellMs} />}
                                 </div>
                               )}
                             </section>
