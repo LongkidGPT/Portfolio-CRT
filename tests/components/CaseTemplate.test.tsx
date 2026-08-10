@@ -8,7 +8,7 @@ test.each([
   ["about", "Project overview case study", "/kv/cases/project-overview-r4.png", "5760", "8472"],
   ["business", "Design logic case study", "/kv/cases/design-logic.png", "5760", "22882"],
   ["brand-system", "Brand system case study", "/kv/cases/brand-system.png", "3299", "32768"],
-  ["product-launch", "Product launch case study", "/kv/cases/product-launch.png", "2375", "32768"],
+  ["product-launch", "Product launch case study", "/kv/cases/product-launch-r2.png", "2375", "32768"],
   ["launch-event", "Launch event case study", "/kv/cases/launch-event.png", "4786", "32768"],
 ] as const)(
   "%s case uses its supplied full-page artwork",
@@ -57,7 +57,7 @@ test("PROJECT OVERVIEW blue CTAs link to the four matching case pages", () => {
 test.each([
   ["business", "/kv/cases/design-logic-mobile.png", "4560", "22192"],
   ["brand-system", "/kv/cases/brand-system-mobile.png", "2618", "32768"],
-  ["product-launch", "/kv/cases/product-launch-mobile.png", "1887", "32768"],
+  ["product-launch", "/kv/cases/product-launch-mobile-r2.png", "1887", "32768"],
   ["launch-event", "/kv/cases/launch-event-mobile.png", "3789", "32768"],
 ] as const)("%s exposes its supplied mobile artwork below 768px", (id, src, width, height) => {
   const { container } = render(<CaseTemplate project={getProjectById(id)} />);
@@ -90,6 +90,7 @@ test("uses responsive Netlify Image CDN sources in production", () => {
 
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {
   const { container } = render(<AboutTemplate />);
+  expect(screen.getAllByText("熠思霆创意 Extend")).toHaveLength(2);
   expect(screen.getAllByText(
     "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
   )).toHaveLength(2);

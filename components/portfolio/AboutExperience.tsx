@@ -28,7 +28,7 @@ const experiences = [
     end: 2021,
     years: "2018　–　2021",
     label: "2018–2021 Extend",
-    company: "熠思堡创意 Extend",
+    company: "熠思霆创意 Extend",
     role: "创意设计组长",
   },
   {

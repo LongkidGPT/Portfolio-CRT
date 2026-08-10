@@ -80,7 +80,8 @@ describe("generated KV assets", () => {
       "project-overview-mobile-r4.png": { width: 4560, height: 10790 },
       "design-logic.png": { width: 5760, height: 22882 },
       "brand-system.png": { width: 3299, height: 32768 },
-      "product-launch.png": { width: 2375, height: 32768 },
+      "product-launch-r2.png": { width: 2375, height: 32768 },
+      "product-launch-mobile-r2.png": { width: 1887, height: 32768 },
       "launch-event.png": { width: 4786, height: 32768 },
     } as const;
 
