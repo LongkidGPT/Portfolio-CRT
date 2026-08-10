@@ -58,6 +58,16 @@ Final result: passed.
 - ESLint: 0 errors; one pre-existing unused `_side` warning.
 - Production build: passed.
 
+## ABOUT experience and PRODUCT LAUNCH R2 refresh — 2026-08-11
+
+- Corrected the 2018–2021 company name from `熠思堡创意 Extend` to `熠思霆创意 Extend` in both responsive ABOUT layouts.
+- Latest desktop PRODUCT LAUNCH artwork: `KV首屏/子页面/PRODUCT LAUNCH.png` (2375 × 32768), served as `/kv/cases/product-launch-r2.png`.
+- Latest mobile PRODUCT LAUNCH artwork: `KV首屏/子页面/手机端/PRODUCT LAUNCH MOB.png` (1887 × 32768), served as `/kv/cases/product-launch-mobile-r2.png`.
+- Revisioned URLs prevent stale browser and Netlify Image CDN responses from showing the previous artwork.
+- Unit/component suite: 197/197 passed.
+- ESLint: 0 errors; one pre-existing unused `_side` warning.
+- Production build: passed.
+
 ## PROJECT OVERVIEW case-link hotspots QA — 2026-08-10
 
 - Updated desktop source: `KV首屏/子页面/project overview.png` (5760 × 8472), served as `/kv/cases/project-overview-r2.png`.

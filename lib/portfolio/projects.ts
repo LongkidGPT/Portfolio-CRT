@@ -260,12 +260,12 @@ export const PROJECTS = [
       { label: "OUTCOME", end: 1 },
     ],
     caseArtwork: {
-      src: "/kv/cases/product-launch.png",
+      src: "/kv/cases/product-launch-r2.png",
       alt: "Product launch case study",
       width: 2375,
       height: 32768,
       mobile: {
-        src: "/kv/cases/product-launch-mobile.png",
+        src: "/kv/cases/product-launch-mobile-r2.png",
         width: 1887,
         height: 32768,
       },
