@@ -34,13 +34,13 @@ describe("project registry", () => {
       href: "/work/about",
       kind: "case",
       caseArtwork: {
-        src: "/kv/cases/project-overview.png",
+        src: "/kv/cases/project-overview-r2.png",
         width: 5760,
-        height: 8270,
+        height: 8472,
         mobile: {
-          src: "/kv/cases/project-overview-mobile.png",
+          src: "/kv/cases/project-overview-mobile-r2.png",
           width: 4560,
-          height: 8270,
+          height: 10790,
         },
       },
     });

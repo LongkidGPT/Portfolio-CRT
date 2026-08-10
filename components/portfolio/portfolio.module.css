@@ -578,6 +578,7 @@
   margin: 0 auto;
 }
 .caseArtwork {
+  position: relative;
   width: 100%;
   margin: 0 auto;
   background: #f8fafc;
@@ -587,6 +588,28 @@
   display: block;
   width: 100%;
   height: auto;
+}
+.overviewHotspot {
+  position: absolute;
+  z-index: 2;
+  top: var(--desktop-top);
+  left: var(--desktop-left);
+  width: var(--desktop-width);
+  height: var(--desktop-height);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.overviewHotspot:focus-visible {
+  outline: 2px solid #247ad3;
+  outline-offset: -2px;
+}
+@media (max-width: 767px) {
+  .overviewHotspot {
+    top: var(--mobile-top);
+    left: var(--mobile-left);
+    width: var(--mobile-width);
+    height: var(--mobile-height);
+  }
 }
 .aboutDesktopPage {
   --career-baseline: 46.77%;
