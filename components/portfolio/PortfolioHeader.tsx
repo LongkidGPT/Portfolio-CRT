@@ -43,11 +43,11 @@ export default function PortfolioHeader() {
         </Link>
         <Link
           href="/about"
-          aria-label="ABOUT"
+          aria-label="ABOUT ME"
           aria-current={aboutSelected ? "page" : undefined}
           className={aboutSelected ? styles.navSelected : styles.navUnselected}
         >
-          {aboutSelected ? "→ ABOUT" : "ABOUT"}
+          {aboutSelected ? "→ ABOUT ME" : "ABOUT ME"}
         </Link>
       </nav>
       <div className={styles.contact}>

@@ -57,11 +57,11 @@ describe("generated KV assets", () => {
 
   it("uses the approved high-resolution desktop artwork for every project state", () => {
     const expectedSizes = {
-      about: { width: 1152, height: 336 },
-      "design-logic": { width: 1364, height: 336 },
-      "brand-system": { width: 1384, height: 336 },
-      "product-launch": { width: 1484, height: 336 },
-      "launch-event": { width: 1376, height: 336 },
+      about: { width: 1316, height: 336 },
+      "design-logic": { width: 1532, height: 336 },
+      "brand-system": { width: 1348, height: 336 },
+      "product-launch": { width: 1576, height: 336 },
+      "launch-event": { width: 1524, height: 336 },
     } as const;
 
     for (const [id, expectedSize] of Object.entries(expectedSizes)) {
