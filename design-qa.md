@@ -46,6 +46,18 @@ The small circular `N` badge is the Next.js development indicator and is absent 
 
 Final result: passed.
 
+## ABOUT copy and PROJECT OVERVIEW R3 refresh — 2026-08-11
+
+- ABOUT desktop/mobile introduction remains editable HTML text and now uses the supplied 10+ years visual-design and brand-marketing profile.
+- Latest desktop overview artwork: `KV首屏/子页面/project overview.png` (5760 × 8472), served as `/kv/cases/project-overview-r3.png`.
+- Latest mobile overview artwork: `KV首屏/子页面/手机端/project overview MOB.png` (4560 × 10790), served as `/kv/cases/project-overview-mobile-r3.png`.
+- New revisioned URLs prevent stale browser and Netlify Image CDN responses from showing R2 artwork.
+- All four transparent links were recalibrated from the visible R3 blue-button pixel bounds for desktop and mobile.
+- Link mapping remains: 01 → `/work/business`; 02 → `/work/brand-system`; 03 → `/work/product-launch`; 04 → `/work/launch-event`.
+- Unit/component suite: 197/197 passed.
+- ESLint: 0 errors; one pre-existing unused `_side` warning.
+- Production build: passed.
+
 ## PROJECT OVERVIEW case-link hotspots QA — 2026-08-10
 
 - Updated desktop source: `KV首屏/子页面/project overview.png` (5760 × 8472), served as `/kv/cases/project-overview-r2.png`.

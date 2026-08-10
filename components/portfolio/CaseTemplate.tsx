@@ -18,26 +18,26 @@ const OVERVIEW_LINKS = [
   {
     label: "DESIGN LOGIC",
     href: "/work/business",
-    desktop: { left: 19.0972, top: 61.5666, width: 12.7083, height: 2.3135 },
-    mobile: { left: 9.1228, top: 47.0436, width: 19.7368, height: 4.4856 },
+    desktop: { left: 19.0278, top: 61.5675, width: 12.7778, height: 2.3135 },
+    mobile: { left: 9.0351, top: 47.0065, width: 19.8246, height: 4.5227 },
   },
   {
     label: "BRAND SYSTEM",
     href: "/work/brand-system",
-    desktop: { left: 17.5694, top: 83.4278, width: 9.4444, height: 2.3135 },
-    mobile: { left: 7.193, top: 64.1705, width: 15.614, height: 4.4856 },
+    desktop: { left: 23.3333, top: 83.4278, width: 9.4444, height: 2.3135 },
+    mobile: { left: 14.4737, top: 64.1705, width: 15.614, height: 4.4856 },
   },
   {
     label: "PRODUCT LAUNCH",
     href: "/work/product-launch",
-    desktop: { left: 39.5139, top: 83.4278, width: 9.4444, height: 2.3135 },
-    mobile: { left: 34.9123, top: 64.1705, width: 15.614, height: 4.4856 },
+    desktop: { left: 45.2083, top: 83.4278, width: 9.4444, height: 2.3135 },
+    mobile: { left: 42.1053, top: 64.1705, width: 15.614, height: 4.4856 },
   },
   {
     label: "LAUNCH EVENT",
     href: "/work/launch-event",
-    desktop: { left: 61.3889, top: 83.4278, width: 9.4444, height: 2.3135 },
-    mobile: { left: 62.5439, top: 64.1705, width: 15.614, height: 4.4856 },
+    desktop: { left: 67.0833, top: 83.4278, width: 9.5139, height: 2.3135 },
+    mobile: { left: 69.7368, top: 64.1705, width: 15.7018, height: 4.4856 },
   },
 ] as const;
 

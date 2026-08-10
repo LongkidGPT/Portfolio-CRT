@@ -6,7 +6,7 @@ const ABOUT_HERO_COPY = {
   name: "我是KID（龙昊翔）",
   role: "资深视觉设计师",
   introduction:
-    "以 ANKER INNOVATIONS IFA 2025 全球品牌升级发布会为入口，这个项目展开母品牌视觉系统、SOLIX 新品上市传播、IFA 发布会内容设计▮",
+    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
 } as const;
 
 function aboutImage(src: string, width: number) {
