@@ -8,6 +8,7 @@ import {
   KV_SYNC_HEAD_ANCHOR,
   KV_SYNC_HEIGHT,
   KV_SYNC_NEUTRAL_FRAME,
+  KV_SYNC_PROJECT_FRAMES,
   KV_SYNC_WIDTH,
   angleForKvSyncPointer,
   frameForKvSyncPointer,
@@ -64,6 +65,7 @@ export default function FullFramePortrait({
     let loadedCount = 0;
     let errorCount = 0;
     let animationFrame = 0;
+    let preloadTimer = 0;
     let cancelled = false;
     let visible = document.visibilityState === "visible";
     let lastTimestamp = 0;
@@ -155,15 +157,28 @@ export default function FullFramePortrait({
       image.src = kvSyncFrameSrc(frame);
     };
 
-    const preloadFrames = () => {
+    const preloadPriorityFrames = () => {
       loadFrame(KV_SYNC_NEUTRAL_FRAME);
-      for (let distance = 1; distance <= 96; distance += 1) {
-        loadFrame((KV_SYNC_NEUTRAL_FRAME + distance) % KV_SYNC_FRAME_COUNT);
-        loadFrame(
-          (KV_SYNC_NEUTRAL_FRAME - distance + KV_SYNC_FRAME_COUNT) %
-            KV_SYNC_FRAME_COUNT,
-        );
+      for (const frame of Object.values(KV_SYNC_PROJECT_FRAMES)) loadFrame(frame);
+    };
+
+    let preloadCursor = 0;
+    const preloadRemainingBatch = () => {
+      if (cancelled) return;
+      let loadedThisBatch = 0;
+      while (preloadCursor < KV_SYNC_FRAME_COUNT && loadedThisBatch < 8) {
+        const frame = preloadCursor;
+        preloadCursor += 1;
+        if (images[frame]) continue;
+        loadFrame(frame);
+        loadedThisBatch += 1;
       }
+      if (preloadCursor < KV_SYNC_FRAME_COUNT) {
+        preloadTimer = window.setTimeout(preloadRemainingBatch, 60);
+      }
+    };
+    const scheduleBackgroundPreload = () => {
+      preloadTimer = window.setTimeout(preloadRemainingBatch, 1500);
     };
 
     const pointerTarget = () => {
@@ -196,6 +211,7 @@ export default function FullFramePortrait({
         displayFrame = stepKvSyncFrame(displayFrame, next.frame, elapsed);
         const roundedFrame = Math.round(displayFrame) % KV_SYNC_FRAME_COUNT;
         const roundedTarget = Math.round(next.frame) % KV_SYNC_FRAME_COUNT;
+        loadFrame(roundedFrame);
         publishDiagnostics({ angle: next.angle, targetFrame: roundedTarget });
         drawFrame(roundedFrame, next.angle);
       }
@@ -229,7 +245,9 @@ export default function FullFramePortrait({
     if (finePointer) window.addEventListener("pointermove", handlePointer);
     document.addEventListener("visibilitychange", handleVisibility);
     resizeCanvas();
-    preloadFrames();
+    preloadPriorityFrames();
+    if (document.readyState === "complete") scheduleBackgroundPreload();
+    else window.addEventListener("load", scheduleBackgroundPreload, { once: true });
     animationFrame = window.requestAnimationFrame(tick);
 
     return () => {
@@ -243,6 +261,8 @@ export default function FullFramePortrait({
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handlePointer);
       document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("load", scheduleBackgroundPreload);
+      window.clearTimeout(preloadTimer);
       window.cancelAnimationFrame(animationFrame);
     };
   }, []);

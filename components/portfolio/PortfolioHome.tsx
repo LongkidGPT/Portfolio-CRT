@@ -4,8 +4,20 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { PROJECTS, getProjectById, type ProjectId } from "@/lib/portfolio/projects";
 import { initialPortfolioState, portfolioReducer } from "@/lib/portfolio/state";
-import { KV_SYNC_PROJECT_FRAMES } from "@/lib/portfolio/kv-sync-test";
-import { MOBILE_KV_PROJECT_FRAMES } from "@/lib/portfolio/kv-mobile";
+import {
+  KV_SYNC_HEIGHT,
+  KV_SYNC_NEUTRAL_FRAME,
+  KV_SYNC_PROJECT_FRAMES,
+  KV_SYNC_WIDTH,
+  kvSyncFrameSrc,
+} from "@/lib/portfolio/kv-sync-test";
+import {
+  MOBILE_KV_HEIGHT,
+  MOBILE_KV_NEUTRAL_FRAME,
+  MOBILE_KV_PROJECT_FRAMES,
+  MOBILE_KV_WIDTH,
+  mobileKvFrameSrc,
+} from "@/lib/portfolio/kv-mobile";
 import { useAnalytics } from "@/components/analytics/useAnalytics";
 import PortfolioChrome from "./PortfolioChrome";
 import FullFramePortrait from "./FullFramePortrait";
@@ -28,7 +40,7 @@ function useReducedMotionPreference() {
 }
 
 function useDesktopFullFrame() {
-  const [desktop, setDesktop] = useState(true);
+  const [desktop, setDesktop] = useState<boolean | null>(null);
 
   useEffect(() => {
     const query = window.matchMedia?.("(min-width: 768px)");
@@ -106,7 +118,24 @@ export default function PortfolioHome() {
         <ProjectPreview project={getProjectById(state.activeProject)} />
       </div>
       <div className={styles.portraitStage}>
-        {desktopFullFrame ? (
+        {desktopFullFrame === null ? (
+          <picture>
+            <source
+              media="(max-width: 767px)"
+              srcSet={mobileKvFrameSrc(MOBILE_KV_NEUTRAL_FRAME)}
+              width={MOBILE_KV_WIDTH}
+              height={MOBILE_KV_HEIGHT}
+            />
+            <img
+              className={styles.portrait}
+              src={kvSyncFrameSrc(KV_SYNC_NEUTRAL_FRAME)}
+              width={KV_SYNC_WIDTH}
+              height={KV_SYNC_HEIGHT}
+              alt="Portfolio CRT portrait"
+              decoding="async"
+            />
+          </picture>
+        ) : desktopFullFrame ? (
           <FullFramePortrait
             fixedFrame={focusFrame}
             motionReduced={reduced}

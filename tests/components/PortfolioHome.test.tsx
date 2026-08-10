@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import PortfolioHome from "@/components/portfolio/PortfolioHome";
 
@@ -39,6 +40,13 @@ afterEach(() => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
   vi.useRealTimers();
+});
+
+test("server-renders a responsive neutral portrait before viewport hydration", () => {
+  const html = renderToString(<PortfolioHome />);
+  expect(html).toContain("<picture");
+  expect(html).toContain("(max-width: 767px)");
+  expect(html).not.toContain("<canvas");
 });
 
 test("uses the full-frame renderer only on the formal desktop home", () => {

@@ -49,6 +49,23 @@ test.each([
   expect(container.querySelector("source")).toHaveAttribute("height", height);
 });
 
+test("uses responsive Netlify Image CDN sources in production", () => {
+  const previous = process.env.NETLIFY;
+  process.env.NETLIFY = "true";
+  try {
+    const { container } = render(<CaseTemplate project={getProjectById("brand-system")} />);
+    const source = container.querySelector("source")!;
+    const image = screen.getByRole("img", { name: "Brand system case study" });
+
+    expect(source.getAttribute("srcset")).toContain("/.netlify/images?url=%2Fkv%2Fcases%2Fbrand-system-mobile.png&w=1170&fm=webp&q=86 1170w");
+    expect(image.getAttribute("srcset")).toContain("/.netlify/images?url=%2Fkv%2Fcases%2Fbrand-system.png&w=1740&fm=webp&q=86 1740w");
+    expect(image).toHaveAttribute("sizes", "(max-width: 767px) calc(100vw - 36px), min(calc(100vw - 48px), 870px)");
+  } finally {
+    if (previous === undefined) delete process.env.NETLIFY;
+    else process.env.NETLIFY = previous;
+  }
+});
+
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {
   const { container } = render(<AboutTemplate />);
   expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(

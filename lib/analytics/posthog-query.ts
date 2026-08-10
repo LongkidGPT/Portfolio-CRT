@@ -1,4 +1,5 @@
 import { isValidBranchId } from "./identity";
+import { PUBLIC_ANALYTICS_EPOCH } from "./config";
 import {
   ANALYTICS_EVENT_NAMES,
   type AnalyticsEventName,
@@ -70,7 +71,7 @@ export async function queryBranchEvents(
 ) {
   if (!isValidBranchId(branchId)) throw new TypeError("Invalid branch");
   const events = ANALYTICS_EVENT_NAMES.map((name) => `'${name}'`).join(", ");
-  const query = `SELECT event, toString(timestamp), properties.branch_id, properties.visitor_id, properties.session_id, properties.pathname, properties.project_id, properties.max_scroll_depth, properties.active_dwell_ms, properties.case_view_id, properties.segment_dwell_ms, properties.journey_matrix FROM events WHERE properties.branch_id = '${branchId}' AND event IN (${events}) ORDER BY timestamp ASC LIMIT 5000`;
+  const query = `SELECT event, toString(timestamp), properties.branch_id, properties.visitor_id, properties.session_id, properties.pathname, properties.project_id, properties.max_scroll_depth, properties.active_dwell_ms, properties.case_view_id, properties.segment_dwell_ms, properties.journey_matrix FROM events WHERE properties.branch_id = '${branchId}' AND properties.analytics_epoch = '${PUBLIC_ANALYTICS_EPOCH}' AND event IN (${events}) ORDER BY timestamp ASC LIMIT 5000`;
   const response = await fetcher(`${queryHost(config.host)}/api/projects/${encodeURIComponent(config.projectId)}/query/`, {
     method: "POST",
     headers: {

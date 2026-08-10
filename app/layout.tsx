@@ -22,6 +22,8 @@ export default function RootLayout({
 }>) {
   const analyticsCardVisible =
     process.env.NEXT_PUBLIC_ANALYTICS_CARD_VISIBLE === "true";
+  const allowAutomatedTracking =
+    process.env.NEXT_PUBLIC_ALLOW_AUTOMATED_ANALYTICS === "true";
   return (
     <html
       lang="zh-CN"
@@ -29,7 +31,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-bg font-sans text-ink antialiased">
-        <AnalyticsProvider cardVisible={analyticsCardVisible}>
+        <AnalyticsProvider
+          cardVisible={analyticsCardVisible}
+          allowAutomatedTracking={allowAutomatedTracking}
+        >
           {children}
           {overlay}
         </AnalyticsProvider>

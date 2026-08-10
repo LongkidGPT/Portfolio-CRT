@@ -69,6 +69,7 @@ describe("FullFramePortrait", () => {
     });
     expect(canvas).toHaveAttribute("data-frame", "80");
     expect(sources[0]).toBe("/kv-desktop-r5/frames/frame-080.webp");
+    expect(new Set(sources).size).toBe(6);
     expect(drawImage).toHaveBeenCalledWith(
       expect.any(FakeImage),
       0,
