@@ -15,6 +15,7 @@ export default defineConfig({
       NEXT_PUBLIC_POSTHOG_TOKEN: "phc_browser_test",
       NEXT_PUBLIC_POSTHOG_HOST: "https://us.i.posthog.com",
       NEXT_PUBLIC_ANALYTICS_CARD_VISIBLE: "true",
+      NEXT_PUBLIC_ALLOW_AUTOMATED_ANALYTICS: "true",
     },
   },
   projects: [

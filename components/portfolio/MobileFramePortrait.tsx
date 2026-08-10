@@ -41,6 +41,7 @@ export default function MobileFramePortrait({
     let displayFrame = normalizeMobileKvFrame(fixedFrameRef.current);
     let drawnFrame = -1;
     let animationFrame = 0;
+    let preloadTimer = 0;
     let lastTimestamp = 0;
     let cancelled = false;
     let visible = document.visibilityState === "visible";
@@ -106,10 +107,27 @@ export default function MobileFramePortrait({
       ...Object.values(MOBILE_KV_PROJECT_FRAMES),
     ];
     for (const frame of priorityFrames) loadFrame(frame);
-    for (let distance = 1; distance <= 96; distance += 1) {
-      loadFrame(fixedFrameRef.current + distance);
-      loadFrame(fixedFrameRef.current - distance);
-    }
+
+    let preloadCursor = 0;
+    const preloadRemainingBatch = () => {
+      if (cancelled) return;
+      let loadedThisBatch = 0;
+      while (preloadCursor < MOBILE_KV_FRAME_COUNT && loadedThisBatch < 8) {
+        const frame = preloadCursor;
+        preloadCursor += 1;
+        if (images[frame]) continue;
+        loadFrame(frame);
+        loadedThisBatch += 1;
+      }
+      if (preloadCursor < MOBILE_KV_FRAME_COUNT) {
+        preloadTimer = window.setTimeout(preloadRemainingBatch, 60);
+      }
+    };
+    const scheduleBackgroundPreload = () => {
+      preloadTimer = window.setTimeout(preloadRemainingBatch, 1500);
+    };
+    if (document.readyState === "complete") scheduleBackgroundPreload();
+    else window.addEventListener("load", scheduleBackgroundPreload, { once: true });
 
     const tick = (timestamp: number) => {
       if (cancelled) return;
@@ -154,6 +172,8 @@ export default function MobileFramePortrait({
       observer?.disconnect();
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("load", scheduleBackgroundPreload);
+      window.clearTimeout(preloadTimer);
       window.cancelAnimationFrame(animationFrame);
     };
   }, []);

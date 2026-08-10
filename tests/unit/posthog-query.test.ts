@@ -33,6 +33,7 @@ test("queries the PostHog project with a server-only key and bounded branch pred
   expect(query).toContain("properties.case_view_id");
   expect(query).toContain("properties.segment_dwell_ms");
   expect(query).toContain("properties.journey_matrix");
+  expect(query).toContain("properties.analytics_epoch = 'public-2026-08-10-v1'");
   expect(query).not.toContain("portfolio_contact_clicked");
   expect(query).not.toContain("properties.contact_type");
   expect(query).toContain("LIMIT 5000");

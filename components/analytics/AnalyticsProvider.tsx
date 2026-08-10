@@ -37,13 +37,18 @@ export default function AnalyticsProvider({
   children,
   config,
   cardVisible = false,
+  allowAutomatedTracking = false,
 }: {
   children: React.ReactNode;
   config?: PublicPostHogConfig | null;
   cardVisible?: boolean;
+  allowAutomatedTracking?: boolean;
 }) {
   const pathname = usePathname();
   const resolvedConfig = config === undefined ? environmentConfig() : config;
+  const trackingEnabled = allowAutomatedTracking
+    || typeof navigator === "undefined"
+    || !navigator.webdriver;
   const identity = useRef<SessionIdentity | null>(null);
   const branchId = useMemo(() => {
     if (typeof window === "undefined") return normalizeBranchId(pathname);
@@ -54,6 +59,7 @@ export default function AnalyticsProvider({
   }, [pathname]);
 
   const capture = useCallback((details: AnalyticsEventDetails) => {
+    if (!trackingEnabled) return;
     if (!identity.current) return;
     sendAnalyticsEvent(
       resolvedConfig,
@@ -67,9 +73,10 @@ export default function AnalyticsProvider({
       } as AnalyticsEvent,
       {},
     );
-  }, [branchId, resolvedConfig]);
+  }, [branchId, resolvedConfig, trackingEnabled]);
 
   useEffect(() => {
+    if (!trackingEnabled) return;
     if (!identity.current) {
       identity.current = {
         visitorId: getOrCreateVisitorId(window.localStorage),
@@ -99,9 +106,10 @@ export default function AnalyticsProvider({
 
     window.addEventListener("pagehide", endSession);
     return () => window.removeEventListener("pagehide", endSession);
-  }, [branchId, capture, resolvedConfig]);
+  }, [branchId, capture, resolvedConfig, trackingEnabled]);
 
   useEffect(() => {
+    if (!trackingEnabled) return;
     const clock = createActiveDwellClock(() => Date.now());
     const report = () => capture({
       event: "portfolio_session_progress",
@@ -125,7 +133,7 @@ export default function AnalyticsProvider({
       document.removeEventListener("visibilitychange", visibilityChanged);
       window.clearInterval(timer);
     };
-  }, [capture]);
+  }, [capture, trackingEnabled]);
 
   const value = useMemo(() => ({
     branchId,

@@ -40,6 +40,7 @@ test("sends an explicit event using the public PostHog ingestion contract", asyn
       pathname: "/",
       project_id: "brand-system",
       project_label: "BRAND SYSTEM",
+      analytics_epoch: "public-2026-08-10-v1",
       distinct_id: "visitor-a",
     },
   });

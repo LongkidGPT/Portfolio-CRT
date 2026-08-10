@@ -1,4 +1,5 @@
 import type { AnalyticsEvent, PublicPostHogConfig } from "./types";
+import { PUBLIC_ANALYTICS_EPOCH } from "./config";
 
 interface AnalyticsTransport {
   fetcher?: typeof fetch;
@@ -18,6 +19,7 @@ function payload(config: PublicPostHogConfig, event: AnalyticsEvent) {
     timestamp,
     properties: {
       ...properties,
+      analytics_epoch: PUBLIC_ANALYTICS_EPOCH,
       visitor_id,
       distinct_id: visitor_id,
     },

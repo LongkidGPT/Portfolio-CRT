@@ -71,6 +71,19 @@ beforeEach(() => {
 
 afterEach(() => vi.restoreAllMocks());
 
+test("does not create analytics events for automated browser sessions", async () => {
+  Object.defineProperty(navigator, "webdriver", { value: true, configurable: true });
+  render(
+    <AnalyticsProvider config={{ token: "phc_test", host: "https://us.i.posthog.com" }}>
+      <Probe />
+    </AnalyticsProvider>,
+  );
+
+  await Promise.resolve();
+  expect(sendAnalyticsEvent).not.toHaveBeenCalled();
+  Object.defineProperty(navigator, "webdriver", { value: false, configurable: true });
+});
+
 test("starts one branch-scoped session and exposes the stable branch", async () => {
   render(
     <AnalyticsProvider config={{ token: "phc_test", host: "https://us.i.posthog.com" }}>

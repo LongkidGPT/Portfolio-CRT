@@ -237,6 +237,7 @@
   width: 100%;
   min-width: 0;
   height: 100%;
+  object-fit: cover;
   contain: size layout paint;
   pointer-events: none;
 }
