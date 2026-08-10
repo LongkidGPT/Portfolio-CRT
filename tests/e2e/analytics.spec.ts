@@ -45,6 +45,8 @@ test("captures explicit project and case events and renders the branch card", as
   await page.goto("/");
   const launcher = page.getByRole("button", { name: /open live signal analytics/i });
   await expect(launcher).toContainText("12");
+  const launcherBox = await launcher.boundingBox();
+  expect(Math.round(launcherBox?.width ?? 0)).toBe(testInfo.project.name === "desktop" ? 122 : 108);
   await launcher.click();
   await expect(page.getByText("VISITOR-02")).toBeVisible();
 
