@@ -12,7 +12,7 @@ test("selects WORK on the home and case routes", () => {
   route.pathname = "/";
   const { rerender } = render(<PortfolioHeader />);
   const work = screen.getByRole("link", { name: "WORK @" });
-  const about = screen.getByRole("link", { name: "ABOUT" });
+  const about = screen.getByRole("link", { name: "ABOUT ME" });
 
   expect(work).toHaveTextContent("→ WORK @");
   expect(work).toHaveAttribute("aria-current", "page");
@@ -29,11 +29,11 @@ test("moves the arrow to ABOUT on the profile route", () => {
   route.pathname = "/about";
   render(<PortfolioHeader />);
   const work = screen.getByRole("link", { name: "WORK @" });
-  const about = screen.getByRole("link", { name: "ABOUT" });
+  const about = screen.getByRole("link", { name: "ABOUT ME" });
 
   expect(work).toHaveTextContent("WORK @");
   expect(work).not.toHaveTextContent("→");
   expect(work).not.toHaveAttribute("aria-current");
-  expect(about).toHaveTextContent("→ ABOUT");
+  expect(about).toHaveTextContent("→ ABOUT ME");
   expect(about).toHaveAttribute("aria-current", "page");
 });
