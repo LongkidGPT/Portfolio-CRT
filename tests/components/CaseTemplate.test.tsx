@@ -5,7 +5,7 @@ import CaseTemplate from "@/components/portfolio/CaseTemplate";
 import { getProjectById } from "@/lib/portfolio/projects";
 
 test.each([
-  ["about", "Project overview case study", "/kv/cases/project-overview-r3.png", "5760", "8472"],
+  ["about", "Project overview case study", "/kv/cases/project-overview-r4.png", "5760", "8472"],
   ["business", "Design logic case study", "/kv/cases/design-logic.png", "5760", "22882"],
   ["brand-system", "Brand system case study", "/kv/cases/brand-system.png", "3299", "32768"],
   ["product-launch", "Product launch case study", "/kv/cases/product-launch.png", "2375", "32768"],
