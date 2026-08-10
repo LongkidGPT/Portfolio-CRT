@@ -454,6 +454,7 @@
     width: clamp(210px, 72vw, 340px);
     aspect-ratio: 1837 / 260;
     margin: 9.3vw auto 0;
+    transform: translateY(-10px);
   }
   .activeDot {
     position: absolute;
