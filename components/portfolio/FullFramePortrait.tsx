@@ -178,7 +178,7 @@ export default function FullFramePortrait({
       }
     };
     const scheduleBackgroundPreload = () => {
-      preloadTimer = window.setTimeout(preloadRemainingBatch, 1500);
+      preloadTimer = window.setTimeout(preloadRemainingBatch, 5000);
     };
 
     const pointerTarget = () => {
