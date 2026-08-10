@@ -124,7 +124,7 @@ export default function MobileFramePortrait({
       }
     };
     const scheduleBackgroundPreload = () => {
-      preloadTimer = window.setTimeout(preloadRemainingBatch, 1500);
+      preloadTimer = window.setTimeout(preloadRemainingBatch, 5000);
     };
     if (document.readyState === "complete") scheduleBackgroundPreload();
     else window.addEventListener("load", scheduleBackgroundPreload, { once: true });
