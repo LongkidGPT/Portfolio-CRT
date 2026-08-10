@@ -102,3 +102,26 @@ test("about template links experience rows to the ruler and rebuilds the contact
   expect(document.querySelector('[data-about-layout="mobile-html"]')).toBeInTheDocument();
   expect(container.querySelector('img[src="/kv/cases/about-desktop.png"]')).not.toBeInTheDocument();
 });
+
+test("about template defers and resizes its large raster assets on Netlify", () => {
+  const previous = process.env.NETLIFY;
+  process.env.NETLIFY = "true";
+  try {
+    render(<AboutTemplate />);
+    expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
+      "src",
+      "/.netlify/images?url=%2Fkv%2Fcases%2Fabout-background.png&w=2560&fm=webp&q=90",
+    );
+    expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
+      "loading",
+      "lazy",
+    );
+    expect(screen.getByRole("img", { name: "Kid Long visual designer portrait" })).toHaveAttribute(
+      "src",
+      "/.netlify/images?url=%2Fkv%2Fcases%2Fabout-crt.png&w=720&fm=webp&q=90",
+    );
+  } finally {
+    if (previous === undefined) delete process.env.NETLIFY;
+    else process.env.NETLIFY = previous;
+  }
+});

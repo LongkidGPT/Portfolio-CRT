@@ -9,6 +9,11 @@ const ABOUT_HERO_COPY = {
     "以 ANKER INNOVATIONS IFA 2025 全球品牌升级发布会为入口，这个项目展开母品牌视觉系统、SOLIX 新品上市传播、IFA 发布会内容设计▮",
 } as const;
 
+function aboutImage(src: string, width: number) {
+  if (process.env.NETLIFY !== "true") return src;
+  return `/.netlify/images?url=${encodeURIComponent(src)}&w=${width}&fm=webp&q=90`;
+}
+
 export default function AboutTemplate() {
   return (
     <>
@@ -16,11 +21,12 @@ export default function AboutTemplate() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className={styles.aboutDesktopBackground}
-          src="/kv/cases/about-background.png"
+          src={aboutImage("/kv/cases/about-background.png", 2560)}
           alt=""
           width="10848"
           height="12858"
           decoding="async"
+          loading="lazy"
           data-testid="about-desktop-background"
         />
 
@@ -39,11 +45,12 @@ export default function AboutTemplate() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.aboutDesktopPortrait}
-              src="/kv/cases/about-crt-desktop.png"
+              src={aboutImage("/kv/cases/about-crt-desktop.png", 1200)}
               alt="Kid Long CRT portrait"
               width="4174"
               height="4476"
               decoding="async"
+              loading="lazy"
             />
           </section>
 
@@ -58,11 +65,12 @@ export default function AboutTemplate() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className={styles.aboutDesktopContact}
-            src="/kv/cases/about-contact.png"
+            src={aboutImage("/kv/cases/about-contact.png", 1600)}
             alt="Kid Long contact information"
             width="5745"
             height="918"
             decoding="async"
+            loading="lazy"
           />
         </div>
       </article>
@@ -82,11 +90,12 @@ export default function AboutTemplate() {
           <figure className={styles.aboutPortrait}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/kv/cases/about-crt.png"
+              src={aboutImage("/kv/cases/about-crt.png", 720)}
               alt="Kid Long visual designer portrait"
               width="1797"
               height="1895"
               decoding="async"
+              loading="lazy"
             />
           </figure>
         </section>
@@ -96,11 +105,12 @@ export default function AboutTemplate() {
         <figure className={styles.aboutMobileContact}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/kv/cases/about-contact-mobile.png"
+            src={aboutImage("/kv/cases/about-contact-mobile.png", 720)}
             alt="Kid Long mobile contact information"
             width="1256"
             height="932"
             decoding="async"
+            loading="lazy"
           />
         </figure>
       </article>
