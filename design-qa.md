@@ -46,6 +46,53 @@ The small circular `N` badge is the Next.js development indicator and is absent 
 
 Final result: passed.
 
+## Responsive PROJECT OVERVIEW entry QA — 2026-08-10
+
+- Source desktop artwork: `KV首屏/子页面/project overview.png` (5760 × 8270).
+- Source mobile artwork: `KV首屏/子页面/手机端/project overview MOB.png` (4560 × 8270).
+- Default homepage state retains the editable personal ABOUT ME copy.
+- Selecting the first project swaps desktop copy to PROJECT OVERVIEW and mobile copy to `项目总览 / ANKER INNOVATIONS / IFA 2025 · 全球品牌升级`.
+- First project card routes to `/work/about`; header ABOUT ME continues to route to the independent `/about` profile page.
+- Responsive case page maps the desktop PNG to the fallback image and the supplied mobile PNG to the `(max-width: 767px)` picture source.
+- Browser route verification: `/work/about` loaded both mappings with no console errors.
+- Unit/component suite: 196/196 passed before final semantic label adjustment; rerun recorded in the delivery verification.
+
+Final result: passed.
+
+## Desktop PROJECT OVERVIEW hover-copy QA — 2026-08-10
+
+- Source visual truth: `/var/folders/w3/86hm5rwn3ll4gmnz__7mbh240000gn/T/TemporaryItems/NSIRD_screencaptureui_kiIfFL/截屏2026-08-10 14.15.33.png` (452 × 452).
+- Implementation: `http://127.0.0.1:4178/`.
+- Browser-rendered full view: `/private/tmp/overview-hover-1440x900-final.png` (1440 × 900).
+- Focused implementation crop: `/private/tmp/overview-hover-region-final.png` (452 × 452 CSS crop at 1× density).
+- Focused side-by-side comparison: `/private/tmp/overview-design-comparison.png`.
+- Viewport: 1440 × 900; state: desktop, first project card hovered.
+
+### Findings and comparison history
+
+- [P2 fixed] The first pass inherited the standard 368 px preview width, forcing `IFA 2025 · 全球品牌升级` onto two visual lines and allowing the text to intersect the CRT edge. The overview-only state now uses a 452 px maximum width and shifts 30 px left; the requested second layer remains two lines and clears the portrait.
+- Default/no-hover state still renders the original ABOUT ME copy. Pointer leave restores it immediately.
+- Mobile preview content and the other four project previews are unchanged.
+
+### Required fidelity surfaces
+
+- Fonts and typography: existing portfolio mono font, weights, reel animation, and responsive type scale are preserved; the requested hierarchy maps to eyebrow, two-line headline, subhead, and four-line body.
+- Spacing and layout rhythm: divider and vertical gaps reuse the established preview system; only the overview hover state receives the wider/left-adjusted container needed by the new copy.
+- Colors and visual tokens: existing paper, ink, and muted portfolio tokens remain unchanged.
+- Image quality and asset fidelity: no raster asset or CRT frame was altered in this change.
+- Copy and content: all four supplied layers are present, including the intended headline line break and complete project description.
+
+### Functional review
+
+- Default state → ABOUT ME copy: passed.
+- Hover first card → PROJECT OVERVIEW copy and reel transition: passed.
+- Pointer leave → ABOUT ME copy restored: passed.
+- Browser console errors: none.
+- Unit/component suite: 193/193 passed.
+- Production build: passed.
+
+Final result: passed.
+
 ## Mobile ABOUT reconstruction QA — 2026-08-08
 
 - Source visual truth: `KV首屏/手机端/mob refer.png` (585 × 1482, normalized to 390 × 988 CSS px).

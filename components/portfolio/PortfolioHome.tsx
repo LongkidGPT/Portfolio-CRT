@@ -2,7 +2,13 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { PROJECTS, getProjectById, type ProjectId } from "@/lib/portfolio/projects";
+import {
+  PROJECTS,
+  PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY,
+  PROJECT_OVERVIEW_PREVIEW_COPY,
+  getProjectById,
+  type ProjectId,
+} from "@/lib/portfolio/projects";
 import { initialPortfolioState, portfolioReducer } from "@/lib/portfolio/state";
 import {
   KV_SYNC_HEIGHT,
@@ -108,14 +114,27 @@ export default function PortfolioHome() {
   }, [reduced, router, trackProjectClick]);
 
   return (
-    <main className={styles.home} data-phase={state.phase} data-project={state.activeProject}>
+    <main
+      className={styles.home}
+      data-phase={state.phase}
+      data-project={state.activeProject}
+      data-previewed-project={previewedProject ?? undefined}
+    >
       <PortfolioChrome
         activeIndex={previewedProject === null
           ? null
           : PROJECTS.findIndex(({ id }) => id === previewedProject)}
       />
       <div className={styles.previewStage}>
-        <ProjectPreview project={getProjectById(state.activeProject)} />
+        <ProjectPreview
+          project={getProjectById(state.activeProject)}
+          desktopCopy={previewedProject === "about"
+            ? PROJECT_OVERVIEW_PREVIEW_COPY
+            : undefined}
+          mobileCopy={previewedProject === "about"
+            ? PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY
+            : undefined}
+        />
       </div>
       <div className={styles.portraitStage}>
         {desktopFullFrame === null ? (

@@ -1,4 +1,8 @@
-import type { ProjectDefinition } from "@/lib/portfolio/projects";
+import type {
+  MobilePreviewCopy,
+  PreviewCopy,
+  ProjectDefinition,
+} from "@/lib/portfolio/projects";
 import ReelText from "./ReelText";
 import styles from "./portfolio.module.css";
 
@@ -10,13 +14,24 @@ function ReelLines({ lines }: { lines: readonly string[] }) {
   ));
 }
 
-export default function ProjectPreview({ project }: { project: ProjectDefinition }) {
-  const copy = project.previewCopy;
-  const mobileCopy = project.mobilePreviewCopy;
+export default function ProjectPreview({
+  project,
+  desktopCopy,
+  mobileCopy: mobileCopyOverride,
+}: {
+  project: ProjectDefinition;
+  desktopCopy?: PreviewCopy;
+  mobileCopy?: MobilePreviewCopy;
+}) {
+  const copy = desktopCopy ?? project.previewCopy;
+  const mobileCopy = mobileCopyOverride ?? project.mobilePreviewCopy;
+  const mobileSecondLayer = typeof mobileCopy.secondLayer === "string"
+    ? [mobileCopy.secondLayer]
+    : mobileCopy.secondLayer;
 
   return (
     <section className={styles.preview} aria-live="polite">
-      <div key={project.id}>
+      <div key={`${project.id}:${copy.eyebrow}`}>
         <div className={styles.previewDesktop} data-preview-layout="desktop">
           <p className={styles.previewEyebrow}>
             <ReelText text={copy.eyebrow} />
@@ -43,7 +58,7 @@ export default function ProjectPreview({ project }: { project: ProjectDefinition
             <ReelText text={mobileCopy.firstLayer} />
           </p>
           <h1 className={styles.mobilePreviewSecond}>
-            <ReelText text={mobileCopy.secondLayer} />
+            <ReelLines lines={mobileSecondLayer} />
           </h1>
         </div>
       </div>

@@ -21,7 +21,7 @@ export interface PreviewCopy {
 
 export interface MobilePreviewCopy {
   firstLayer: string;
-  secondLayer: string;
+  secondLayer: string | readonly string[];
 }
 
 export interface CaseArtwork {
@@ -44,7 +44,7 @@ export interface ProjectDefinition {
   summary: string;
   previewCopy: PreviewCopy;
   mobilePreviewCopy: MobilePreviewCopy;
-  href: "/about" | `/work/${Exclude<ProjectId, "about">}`;
+  href: "/about" | `/work/${ProjectId}`;
   kind: "about" | "case";
   buttonDefault: `/kv/buttons/${string}-default.png`;
   buttonActive: `/kv/buttons/${string}-active.png`;
@@ -53,13 +53,30 @@ export interface ProjectDefinition {
   media: readonly MediaSlot[];
 }
 
+export const PROJECT_OVERVIEW_PREVIEW_COPY = {
+  eyebrow: "PROJECT OVERVIEW",
+  headlineLines: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
+  subheadLines: ["母品牌识别 · 子品牌上市 · 发布会传播"],
+  bodyLines: [
+    "项目是 ANKER INNOVATIONS 全球品牌升级、IFA 2025",
+    "官宣。围绕“提升子品牌多品类转化”，拆成三条设计目标，由",
+    "三个子项目分别落地——母品牌识别、SOLIX 子品牌上市、",
+    "IFA 发布会传播；",
+  ],
+} satisfies PreviewCopy;
+
+export const PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY = {
+  firstLayer: "项目总览",
+  secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
+} satisfies MobilePreviewCopy;
+
 export const PROJECTS = [
   {
     id: "about",
-    label: "ABOUT",
-    title: "Kid Long",
-    year: "2007—Present",
-    summary: "Profile, capabilities, experience and contact.",
+    label: "PROJECT OVERVIEW",
+    title: "Project Overview",
+    year: "IFA 2025",
+    summary: "Anker Innovations global brand upgrade and three connected design goals.",
     previewCopy: {
       eyebrow: "VISUAL DESIGNER",
       headlineLines: ["我是KID（龙昊翔）"],
@@ -70,14 +87,27 @@ export const PROJECTS = [
       firstLayer: "VISUAL DESIGNER",
       secondLayer: "我是KID（龙昊翔）",
     },
-    href: "/about",
-    kind: "about",
+    href: "/work/about",
+    kind: "case",
     buttonDefault: "/kv/buttons/about-default.png",
     buttonActive: "/kv/buttons/about-active.png",
+    caseArtwork: {
+      src: "/kv/cases/project-overview.png",
+      alt: "Project overview case study",
+      width: 5760,
+      height: 8270,
+      mobile: {
+        src: "/kv/cases/project-overview-mobile.png",
+        width: 4560,
+        height: 8270,
+      },
+    },
     analyticsSections: [
-      { label: "PROFILE", end: 0.32 },
-      { label: "EXPERIENCE", end: 0.82 },
-      { label: "CONTACT", end: 1 },
+      { label: "OVERVIEW", end: 0.32 },
+      { label: "BUSINESS GOAL", end: 0.44 },
+      { label: "DESIGN LOGIC", end: 0.69 },
+      { label: "CASE PATHS", end: 0.92 },
+      { label: "OUTCOME", end: 1 },
     ],
     media: [],
   },

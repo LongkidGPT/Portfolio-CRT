@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   PROJECTS,
+  PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY,
   getProjectById,
   getProjectByPath,
 } from "@/lib/portfolio/projects";
@@ -25,6 +26,31 @@ describe("project registry", () => {
 
   it("exposes DESIGN LOGIC as the business entry label", () => {
     expect(getProjectById("business").label).toBe("DESIGN LOGIC");
+  });
+
+  it("opens the first project card as the responsive PROJECT OVERVIEW case", () => {
+    expect(getProjectById("about")).toMatchObject({
+      label: "PROJECT OVERVIEW",
+      href: "/work/about",
+      kind: "case",
+      caseArtwork: {
+        src: "/kv/cases/project-overview.png",
+        width: 5760,
+        height: 8270,
+        mobile: {
+          src: "/kv/cases/project-overview-mobile.png",
+          width: 4560,
+          height: 8270,
+        },
+      },
+    });
+  });
+
+  it("stores the selected-state PROJECT OVERVIEW mobile copy separately", () => {
+    expect(PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY).toEqual({
+      firstLayer: "项目总览",
+      secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
+    });
   });
 
   it("stores the approved two-layer mobile preview copy", () => {

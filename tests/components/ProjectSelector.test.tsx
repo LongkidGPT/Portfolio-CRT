@@ -74,7 +74,7 @@ test("renders the supplied default and active artwork for each project", () => {
   ).toBeInTheDocument();
   expect(screen.queryByText("DESIGN LOGIC")).not.toBeInTheDocument();
   expect(business).toHaveAttribute("data-previewed");
-  expect(screen.getByRole("link", { name: "Open ABOUT" })).not.toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open PROJECT OVERVIEW" })).not.toHaveAttribute(
     "data-previewed",
   );
   expect(business).not.toHaveAttribute("aria-current");
@@ -97,7 +97,7 @@ test("uses active mobile artwork only for an activated project", () => {
     screen.getByRole("link", { name: "Open DESIGN LOGIC" }),
   ).toHaveAttribute("data-activated");
   expect(
-    screen.getByRole("link", { name: "Open ABOUT" }),
+    screen.getByRole("link", { name: "Open PROJECT OVERVIEW" }),
   ).not.toHaveAttribute("data-activated");
 });
 
