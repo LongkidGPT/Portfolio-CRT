@@ -76,8 +76,8 @@ describe("generated KV assets", () => {
   it("uses the latest supplied desktop case-study artwork", () => {
     const cases = join(root, "cases");
     const expectedSizes = {
-      "project-overview-r2.png": { width: 5760, height: 8472 },
-      "project-overview-mobile-r2.png": { width: 4560, height: 10790 },
+      "project-overview-r3.png": { width: 5760, height: 8472 },
+      "project-overview-mobile-r3.png": { width: 4560, height: 10790 },
       "design-logic.png": { width: 5760, height: 22882 },
       "brand-system.png": { width: 3299, height: 32768 },
       "product-launch.png": { width: 2375, height: 32768 },

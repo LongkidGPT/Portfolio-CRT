@@ -5,7 +5,7 @@ import CaseTemplate from "@/components/portfolio/CaseTemplate";
 import { getProjectById } from "@/lib/portfolio/projects";
 
 test.each([
-  ["about", "Project overview case study", "/kv/cases/project-overview-r2.png", "5760", "8472"],
+  ["about", "Project overview case study", "/kv/cases/project-overview-r3.png", "5760", "8472"],
   ["business", "Design logic case study", "/kv/cases/design-logic.png", "5760", "22882"],
   ["brand-system", "Brand system case study", "/kv/cases/brand-system.png", "3299", "32768"],
   ["product-launch", "Product launch case study", "/kv/cases/product-launch.png", "2375", "32768"],
@@ -90,6 +90,9 @@ test("uses responsive Netlify Image CDN sources in production", () => {
 
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {
   const { container } = render(<AboutTemplate />);
+  expect(screen.getAllByText(
+    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
+  )).toHaveLength(2);
   expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
     "src",
     "/kv/cases/about-background.png",
