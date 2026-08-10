@@ -43,6 +43,10 @@ test("captures explicit project and case events and renders the branch card", as
   });
 
   await page.goto("/");
+  if (testInfo.project.name === "mobile") {
+    const controls = page.getByRole("button", { name: "Next project" }).locator("..");
+    expect(await controls.evaluate((element) => getComputedStyle(element).transform)).toContain("-10");
+  }
   const launcher = page.getByRole("button", { name: /open live signal analytics/i });
   await expect(launcher).toContainText("12");
   const launcherBox = await launcher.boundingBox();
