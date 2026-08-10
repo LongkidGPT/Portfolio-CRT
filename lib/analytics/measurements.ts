@@ -168,6 +168,7 @@ export function createJourneyMatrixTracker(
 
 const CASE_PATHS: Readonly<Record<string, ProjectId>> = {
   "/about": "about",
+  "/work/about": "about",
   "/work/business": "business",
   "/work/brand-system": "brand-system",
   "/work/product-launch": "product-launch",

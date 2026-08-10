@@ -169,6 +169,12 @@
   font-size: clamp(10px, 0.68vw, 13px);
   line-height: 2.05;
 }
+@media (min-width: 768px) {
+  .home[data-previewed-project="about"] .previewStage {
+    left: calc(31.6% - 80px);
+    width: min(28vw, 452px);
+  }
+}
 .mobilePreviewFirst { font-size: 12px; line-height: 1.2; }
 .mobilePreviewSecond {
   margin-top: 6px !important;

@@ -80,6 +80,12 @@ test("desktop preview copy shifts fifty pixels left without changing mobile", ()
   expect(mobile).toMatch(/\.previewStage\s*\{[^}]*left:\s*17%/s);
 });
 
+test("desktop overview preview widens and clears the portrait edge", () => {
+  expect(css).toMatch(
+    /\.home\[data-previewed-project="about"\] \.previewStage\s*\{[^}]*left:\s*calc\(31\.6%\s*-\s*80px\);[^}]*width:\s*min\(28vw,\s*452px\)/s,
+  );
+});
+
 test("case page surfaces use the approved cool-white background", () => {
   expect(css).toMatch(
     /\.standaloneCase,\s*\.overlay\s*\{[^}]*background:\s*#f8fafc;/s,
