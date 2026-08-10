@@ -1,3 +1,5 @@
+import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { ProjectDefinition } from "@/lib/portfolio/projects";
 import styles from "./portfolio.module.css";
 
@@ -10,6 +12,46 @@ function netlifyImage(src: string, width: number) {
 
 function responsiveSource(src: string, widths: readonly number[]) {
   return widths.map((width) => `${netlifyImage(src, width)} ${width}w`).join(", ");
+}
+
+const OVERVIEW_LINKS = [
+  {
+    label: "DESIGN LOGIC",
+    href: "/work/business",
+    desktop: { left: 19.0972, top: 61.5666, width: 12.7083, height: 2.3135 },
+    mobile: { left: 9.1228, top: 47.0436, width: 19.7368, height: 4.4856 },
+  },
+  {
+    label: "BRAND SYSTEM",
+    href: "/work/brand-system",
+    desktop: { left: 17.5694, top: 83.4278, width: 9.4444, height: 2.3135 },
+    mobile: { left: 7.193, top: 64.1705, width: 15.614, height: 4.4856 },
+  },
+  {
+    label: "PRODUCT LAUNCH",
+    href: "/work/product-launch",
+    desktop: { left: 39.5139, top: 83.4278, width: 9.4444, height: 2.3135 },
+    mobile: { left: 34.9123, top: 64.1705, width: 15.614, height: 4.4856 },
+  },
+  {
+    label: "LAUNCH EVENT",
+    href: "/work/launch-event",
+    desktop: { left: 61.3889, top: 83.4278, width: 9.4444, height: 2.3135 },
+    mobile: { left: 62.5439, top: 64.1705, width: 15.614, height: 4.4856 },
+  },
+] as const;
+
+function hotspotStyle(link: (typeof OVERVIEW_LINKS)[number]) {
+  return {
+    "--desktop-left": `${link.desktop.left}%`,
+    "--desktop-top": `${link.desktop.top}%`,
+    "--desktop-width": `${link.desktop.width}%`,
+    "--desktop-height": `${link.desktop.height}%`,
+    "--mobile-left": `${link.mobile.left}%`,
+    "--mobile-top": `${link.mobile.top}%`,
+    "--mobile-width": `${link.mobile.width}%`,
+    "--mobile-height": `${link.mobile.height}%`,
+  } as CSSProperties;
 }
 
 export default function CaseTemplate({ project }: { project: ProjectDefinition }) {
@@ -45,6 +87,15 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
             decoding="async"
           />
         </picture>
+        {project.id === "about" && OVERVIEW_LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={styles.overviewHotspot}
+            style={hotspotStyle(link)}
+            aria-label={`Open ${link.label} case`}
+          />
+        ))}
       </article>
     );
   }

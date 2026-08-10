@@ -92,14 +92,14 @@ export const PROJECTS = [
     buttonDefault: "/kv/buttons/about-default.png",
     buttonActive: "/kv/buttons/about-active.png",
     caseArtwork: {
-      src: "/kv/cases/project-overview.png",
+      src: "/kv/cases/project-overview-r2.png",
       alt: "Project overview case study",
       width: 5760,
-      height: 8270,
+      height: 8472,
       mobile: {
-        src: "/kv/cases/project-overview-mobile.png",
+        src: "/kv/cases/project-overview-mobile-r2.png",
         width: 4560,
-        height: 8270,
+        height: 10790,
       },
     },
     analyticsSections: [

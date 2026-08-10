@@ -46,6 +46,22 @@ The small circular `N` badge is the Next.js development indicator and is absent 
 
 Final result: passed.
 
+## PROJECT OVERVIEW case-link hotspots QA — 2026-08-10
+
+- Updated desktop source: `KV首屏/子页面/project overview.png` (5760 × 8472), served as `/kv/cases/project-overview-r2.png`.
+- Updated mobile source: `KV首屏/子页面/手机端/project overview MOB.png` (4560 × 10790), served as `/kv/cases/project-overview-mobile-r2.png`.
+- Desktop comparison: `/private/tmp/project-overview-desktop-comparison.png`.
+- Mobile comparison: `/private/tmp/project-overview-mobile-comparison.png`.
+- The supplied raster artwork remains visually unchanged. Four transparent semantic links are positioned over the blue action buttons only.
+- Link mapping: 01 → `/work/business`; 02 → `/work/brand-system`; 03 → `/work/product-launch`; 04 → `/work/launch-event`.
+- Desktop hit targets align with the visible blue buttons. Mobile hit targets expand vertically to approximately 41 px at a 390 px viewport without changing the artwork.
+- Browser navigation check: selecting the 01 button opened `/work/business`.
+- Browser console/runtime errors: none.
+- Unit/component suite: 197/197 passed.
+- Production build: passed.
+
+Final result: passed.
+
 ## Responsive PROJECT OVERVIEW entry QA — 2026-08-10
 
 - Source desktop artwork: `KV首屏/子页面/project overview.png` (5760 × 8270).
