@@ -68,6 +68,14 @@ Final result: passed.
 - ESLint: 0 errors; one pre-existing unused `_side` warning.
 - Production build: passed.
 
+## ABOUT introduction typography and mobile spacing — 2026-08-11
+
+- Desktop introduction typography is fixed at 14px with a 1.9 line height.
+- Mobile introduction uses the supplied concise role-focused copy.
+- Mobile hero bottom padding is 51px, matching the 51px gap between the work-experience list and the contact artwork.
+- Unit/component suite: 198/198 passed.
+- Production build: passed.
+
 ## PROJECT OVERVIEW case-link hotspots QA — 2026-08-10
 
 - Updated desktop source: `KV首屏/子页面/project overview.png` (5760 × 8472), served as `/kv/cases/project-overview-r2.png`.

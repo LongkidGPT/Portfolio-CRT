@@ -672,7 +672,7 @@
 .aboutDesktopIntroduction {
   width: 81.3%;
   color: #3f4341;
-  font: 400 clamp(12px, 1.1vw, 16px)/1.9 var(--font-sans);
+  font: 400 14px/1.9 var(--font-sans);
   text-wrap: pretty;
 }
 .aboutDesktopPortrait {
@@ -1083,7 +1083,8 @@
   .aboutHero {
     position: relative;
     display: block;
-    min-height: 87.18vw;
+    min-height: 0;
+    padding-bottom: 51px;
     border-bottom: 0;
   }
   .aboutHeroCopy {

@@ -24,7 +24,7 @@ test("mobile about follows the supplied 390 pixel composition", () => {
     /\.aboutPage\s*\{[^}]*padding:\s*0 clamp\(24px,\s*9\.49vw,\s*56px\) 39px/s,
   );
   expect(mobile).toMatch(
-    /\.aboutHero\s*\{[^}]*position:\s*relative;[^}]*min-height:\s*87\.18vw/s,
+    /\.aboutHero\s*\{[^}]*position:\s*relative;[^}]*min-height:\s*0;[^}]*padding-bottom:\s*51px/s,
   );
   expect(mobile).toMatch(
     /\.aboutPortrait\s*\{[^}]*position:\s*absolute;[^}]*top:\s*22\.3vw;[^}]*right:\s*0;[^}]*width:\s*30\.77vw/s,
@@ -35,6 +35,10 @@ test("mobile about follows the supplied 390 pixel composition", () => {
   expect(mobile).toMatch(
     /\.aboutMobileContact\s*\{[^}]*width:\s*100%;[^}]*margin:\s*51px 0 0/s,
   );
+});
+
+test("desktop about introduction uses the approved fixed type size", () => {
+  expect(css).toMatch(/\.aboutDesktopIntroduction\s*\{[^}]*font:\s*400 14px\/1\.9/s);
 });
 
 test("mobile preserves the 9:16 video ratio and fades into the approved mask color", () => {
