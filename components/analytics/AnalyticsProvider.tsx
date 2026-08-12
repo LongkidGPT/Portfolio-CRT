@@ -1,12 +1,19 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import { sendAnalyticsEvent } from "@/lib/analytics/client";
 import {
   createSessionId,
   getOrCreateVisitorId,
   normalizeBranchId,
+  resolveDeploymentBranchId,
 } from "@/lib/analytics/identity";
 import type {
   AnalyticsEvent,
@@ -21,6 +28,7 @@ import { createActiveDwellClock } from "@/lib/analytics/measurements";
 import AnalyticsCard from "./AnalyticsCard";
 
 const BRANCH_STORAGE_KEY = "kid-portfolio-branch-v1";
+const subscribeToStaticHostname = () => () => undefined;
 
 function environmentConfig(): PublicPostHogConfig | null {
   const token = process.env.NEXT_PUBLIC_POSTHOG_TOKEN;
@@ -50,13 +58,25 @@ export default function AnalyticsProvider({
     || typeof navigator === "undefined"
     || !navigator.webdriver;
   const identity = useRef<SessionIdentity | null>(null);
-  const branchId = useMemo(() => {
-    if (typeof window === "undefined") return normalizeBranchId(pathname);
-    const stored = window.sessionStorage.getItem(BRANCH_STORAGE_KEY) ?? undefined;
-    const branch = normalizeBranchId(pathname, stored);
-    window.sessionStorage.setItem(BRANCH_STORAGE_KEY, branch);
-    return branch;
-  }, [pathname]);
+  const fallbackBranchId = normalizeBranchId(pathname);
+  const hostname = useSyncExternalStore(
+    subscribeToStaticHostname,
+    () => window.location.hostname,
+    () => "",
+  );
+  const storedBranch = typeof window === "undefined"
+    ? undefined
+    : window.sessionStorage.getItem(BRANCH_STORAGE_KEY) ?? undefined;
+  const resolvedBranchId = hostname
+    ? resolveDeploymentBranchId(hostname, pathname, storedBranch)
+    : null;
+  const branchId = resolvedBranchId ?? fallbackBranchId;
+
+  useEffect(() => {
+    if (resolvedBranchId) {
+      window.sessionStorage.setItem(BRANCH_STORAGE_KEY, resolvedBranchId);
+    }
+  }, [resolvedBranchId]);
 
   const capture = useCallback((details: AnalyticsEventDetails) => {
     if (!trackingEnabled) return;
@@ -76,7 +96,7 @@ export default function AnalyticsProvider({
   }, [branchId, resolvedConfig, trackingEnabled]);
 
   useEffect(() => {
-    if (!trackingEnabled) return;
+    if (!trackingEnabled || !resolvedBranchId) return;
     if (!identity.current) {
       identity.current = {
         visitorId: getOrCreateVisitorId(window.localStorage),
@@ -106,10 +126,10 @@ export default function AnalyticsProvider({
 
     window.addEventListener("pagehide", endSession);
     return () => window.removeEventListener("pagehide", endSession);
-  }, [branchId, capture, resolvedConfig, trackingEnabled]);
+  }, [branchId, capture, resolvedBranchId, resolvedConfig, trackingEnabled]);
 
   useEffect(() => {
-    if (!trackingEnabled) return;
+    if (!trackingEnabled || !resolvedBranchId) return;
     const clock = createActiveDwellClock(() => Date.now());
     const report = () => capture({
       event: "portfolio_session_progress",
@@ -133,7 +153,7 @@ export default function AnalyticsProvider({
       document.removeEventListener("visibilitychange", visibilityChanged);
       window.clearInterval(timer);
     };
-  }, [capture, trackingEnabled]);
+  }, [capture, resolvedBranchId, trackingEnabled]);
 
   const value = useMemo(() => ({
     branchId,
@@ -167,7 +187,7 @@ export default function AnalyticsProvider({
     <AnalyticsContext.Provider value={value}>
       <CaseProgressTracker pathname={pathname} onProgress={trackCaseProgress} />
       {children}
-      {cardVisible ? <AnalyticsCard branchId={branchId} /> : null}
+      {cardVisible && resolvedBranchId ? <AnalyticsCard branchId={branchId} /> : null}
     </AnalyticsContext.Provider>
   );
 }

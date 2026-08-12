@@ -106,6 +106,30 @@ test("starts one branch-scoped session and exposes the stable branch", async () 
   });
 });
 
+test("uses the Netlify branch hostname as the analytics scope", async () => {
+  Object.defineProperty(window, "location", {
+    value: { hostname: "xhs-brand--longkid-portfolio-crt.netlify.app", pathname: "/about" },
+    configurable: true,
+  });
+  render(
+    <AnalyticsProvider config={{ token: "phc_test", host: "https://us.i.posthog.com" }}>
+      <Probe />
+    </AnalyticsProvider>,
+  );
+
+  await waitFor(() => {
+    expect(screen.getByText("/xhs-brand")).toBeVisible();
+    expect(sendAnalyticsEvent).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        event: "portfolio_session_started",
+        branch_id: "/xhs-brand",
+      }),
+      expect.anything(),
+    );
+  });
+});
+
 test("tracks a deliberate project activation with its approved id and label", async () => {
   render(
     <AnalyticsProvider config={{ token: "phc_test", host: "https://us.i.posthog.com" }}>
