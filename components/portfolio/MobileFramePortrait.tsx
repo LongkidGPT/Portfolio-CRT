@@ -11,6 +11,7 @@ import {
   normalizeMobileKvFrame,
   stepMobileKvFrame,
 } from "@/lib/portfolio/kv-mobile";
+import { shortestFrameDelta } from "@/lib/portfolio/sprite";
 
 interface Props {
   className?: string;
@@ -26,10 +27,12 @@ export default function MobileFramePortrait({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fixedFrameRef = useRef(fixedFrame);
   const motionReducedRef = useRef(motionReduced);
+  const requestRenderRef = useRef<() => void>(() => undefined);
 
   useEffect(() => {
     fixedFrameRef.current = normalizeMobileKvFrame(fixedFrame);
     motionReducedRef.current = motionReduced;
+    requestRenderRef.current();
   }, [fixedFrame, motionReduced]);
 
   useEffect(() => {
@@ -41,7 +44,6 @@ export default function MobileFramePortrait({
     let displayFrame = normalizeMobileKvFrame(fixedFrameRef.current);
     let drawnFrame = -1;
     let animationFrame = 0;
-    let preloadTimer = 0;
     let lastTimestamp = 0;
     let cancelled = false;
     let visible = document.visibilityState === "visible";
@@ -108,41 +110,44 @@ export default function MobileFramePortrait({
     ];
     for (const frame of priorityFrames) loadFrame(frame);
 
-    let preloadCursor = 0;
-    const preloadRemainingBatch = () => {
-      if (cancelled) return;
-      let loadedThisBatch = 0;
-      while (preloadCursor < MOBILE_KV_FRAME_COUNT && loadedThisBatch < 8) {
-        const frame = preloadCursor;
-        preloadCursor += 1;
-        if (images[frame]) continue;
-        loadFrame(frame);
-        loadedThisBatch += 1;
-      }
-      if (preloadCursor < MOBILE_KV_FRAME_COUNT) {
-        preloadTimer = window.setTimeout(preloadRemainingBatch, 60);
+    const preloadPath = (from: number, target: number, lookAhead = 10) => {
+      const delta = shortestFrameDelta(target, from, MOBILE_KV_FRAME_COUNT);
+      const direction = Math.sign(delta);
+      const steps = Math.min(Math.ceil(Math.abs(delta)), lookAhead);
+      loadFrame(target);
+      for (let index = 0; index <= steps; index += 1) {
+        loadFrame(from + direction * index);
       }
     };
-    const scheduleBackgroundPreload = () => {
-      preloadTimer = window.setTimeout(preloadRemainingBatch, 5000);
-    };
-    if (document.readyState === "complete") scheduleBackgroundPreload();
-    else window.addEventListener("load", scheduleBackgroundPreload, { once: true });
 
     const tick = (timestamp: number) => {
       if (cancelled) return;
+      animationFrame = 0;
+      let shouldContinue = false;
       if (visible) {
         const target = normalizeMobileKvFrame(fixedFrameRef.current);
         const elapsed = lastTimestamp > 0 ? timestamp - lastTimestamp : 1000 / 60;
         displayFrame = motionReducedRef.current
           ? target
           : stepMobileKvFrame(displayFrame, target, elapsed);
+        const roundedFrame = normalizeMobileKvFrame(Math.round(displayFrame));
+        preloadPath(roundedFrame, target);
         canvas.dataset.targetFrame = String(Math.round(target));
-        drawFrame(displayFrame);
+        drawFrame(roundedFrame);
+        shouldContinue =
+          Math.abs(
+            shortestFrameDelta(target, displayFrame, MOBILE_KV_FRAME_COUNT),
+          ) >= 0.12;
       }
       lastTimestamp = timestamp;
+      if (visible && !motionReducedRef.current && shouldContinue) scheduleTick();
+    };
+
+    const scheduleTick = () => {
+      if (cancelled || animationFrame !== 0) return;
       animationFrame = window.requestAnimationFrame(tick);
     };
+    requestRenderRef.current = scheduleTick;
 
     const handleResize = () => {
       resizeCanvas();
@@ -151,6 +156,7 @@ export default function MobileFramePortrait({
     const handleVisibility = () => {
       visible = document.visibilityState === "visible";
       lastTimestamp = 0;
+      if (visible) scheduleTick();
     };
     const observer = typeof ResizeObserver === "undefined"
       ? null
@@ -160,10 +166,11 @@ export default function MobileFramePortrait({
     window.addEventListener("resize", handleResize);
     document.addEventListener("visibilitychange", handleVisibility);
     resizeCanvas();
-    animationFrame = window.requestAnimationFrame(tick);
+    scheduleTick();
 
     return () => {
       cancelled = true;
+      requestRenderRef.current = () => undefined;
       for (const image of images) {
         if (!image) continue;
         image.onload = null;
@@ -172,8 +179,6 @@ export default function MobileFramePortrait({
       observer?.disconnect();
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibility);
-      window.removeEventListener("load", scheduleBackgroundPreload);
-      window.clearTimeout(preloadTimer);
       window.cancelAnimationFrame(animationFrame);
     };
   }, []);

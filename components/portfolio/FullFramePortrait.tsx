@@ -16,6 +16,7 @@ import {
   stepKvSyncFrame,
 } from "@/lib/portfolio/kv-sync-test";
 import type { Point } from "@/lib/portfolio/sprite";
+import { shortestFrameDelta } from "@/lib/portfolio/sprite";
 
 export interface FrameDiagnostics {
   angle: number | null;
@@ -44,11 +45,13 @@ export default function FullFramePortrait({
   const fixedFrameRef = useRef(fixedFrame);
   const motionReducedRef = useRef(motionReduced);
   const diagnosticsRef = useRef(onDiagnostics);
+  const requestRenderRef = useRef<() => void>(() => undefined);
 
   useEffect(() => {
     fixedFrameRef.current = fixedFrame;
     motionReducedRef.current = motionReduced;
     diagnosticsRef.current = onDiagnostics;
+    requestRenderRef.current();
   }, [fixedFrame, motionReduced, onDiagnostics]);
 
   useEffect(() => {
@@ -65,7 +68,6 @@ export default function FullFramePortrait({
     let loadedCount = 0;
     let errorCount = 0;
     let animationFrame = 0;
-    let preloadTimer = 0;
     let cancelled = false;
     let visible = document.visibilityState === "visible";
     let lastTimestamp = 0;
@@ -136,17 +138,20 @@ export default function FullFramePortrait({
     };
 
     const loadFrame = (frame: number) => {
-      if (images[frame]) return;
+      const normalized =
+        ((Math.round(frame) % KV_SYNC_FRAME_COUNT) + KV_SYNC_FRAME_COUNT) %
+        KV_SYNC_FRAME_COUNT;
+      if (images[normalized]) return;
 
       const image = new Image();
-      images[frame] = image;
+      images[normalized] = image;
       image.onload = () => {
         if (cancelled) return;
         loadedCount += 1;
         publishDiagnostics({ loaded: loadedCount });
-        if (frame === KV_SYNC_NEUTRAL_FRAME || drawnFrame < 0) {
+        if (normalized === KV_SYNC_NEUTRAL_FRAME || drawnFrame < 0) {
           resizeCanvas();
-          drawFrame(frame);
+          drawFrame(normalized);
         }
       };
       image.onerror = () => {
@@ -154,7 +159,7 @@ export default function FullFramePortrait({
         errorCount += 1;
         publishDiagnostics({ errors: errorCount });
       };
-      image.src = kvSyncFrameSrc(frame);
+      image.src = kvSyncFrameSrc(normalized);
     };
 
     const preloadPriorityFrames = () => {
@@ -162,23 +167,14 @@ export default function FullFramePortrait({
       for (const frame of Object.values(KV_SYNC_PROJECT_FRAMES)) loadFrame(frame);
     };
 
-    let preloadCursor = 0;
-    const preloadRemainingBatch = () => {
-      if (cancelled) return;
-      let loadedThisBatch = 0;
-      while (preloadCursor < KV_SYNC_FRAME_COUNT && loadedThisBatch < 8) {
-        const frame = preloadCursor;
-        preloadCursor += 1;
-        if (images[frame]) continue;
-        loadFrame(frame);
-        loadedThisBatch += 1;
+    const preloadPath = (from: number, target: number, lookAhead = 8) => {
+      const delta = shortestFrameDelta(target, from, KV_SYNC_FRAME_COUNT);
+      const direction = Math.sign(delta);
+      const steps = Math.min(Math.ceil(Math.abs(delta)), lookAhead);
+      loadFrame(target);
+      for (let index = 0; index <= steps; index += 1) {
+        loadFrame(from + direction * index);
       }
-      if (preloadCursor < KV_SYNC_FRAME_COUNT) {
-        preloadTimer = window.setTimeout(preloadRemainingBatch, 60);
-      }
-    };
-    const scheduleBackgroundPreload = () => {
-      preloadTimer = window.setTimeout(preloadRemainingBatch, 5000);
     };
 
     const pointerTarget = () => {
@@ -205,26 +201,42 @@ export default function FullFramePortrait({
 
     const tick = (timestamp: number) => {
       if (cancelled) return;
+      animationFrame = 0;
+      let shouldContinue = false;
       if (visible) {
         const next = pointerTarget();
         const elapsed = lastTimestamp > 0 ? timestamp - lastTimestamp : 1000 / 60;
-        displayFrame = stepKvSyncFrame(displayFrame, next.frame, elapsed);
+        displayFrame = motionReducedRef.current
+          ? next.frame
+          : stepKvSyncFrame(displayFrame, next.frame, elapsed);
         const roundedFrame = Math.round(displayFrame) % KV_SYNC_FRAME_COUNT;
         const roundedTarget = Math.round(next.frame) % KV_SYNC_FRAME_COUNT;
-        loadFrame(roundedFrame);
+        preloadPath(roundedFrame, roundedTarget);
         publishDiagnostics({ angle: next.angle, targetFrame: roundedTarget });
         drawFrame(roundedFrame, next.angle);
+        shouldContinue =
+          Math.abs(
+            shortestFrameDelta(next.frame, displayFrame, KV_SYNC_FRAME_COUNT),
+          ) >= 0.12;
       }
       lastTimestamp = timestamp;
+      if (visible && !motionReducedRef.current && shouldContinue) scheduleTick();
+    };
+
+    const scheduleTick = () => {
+      if (cancelled || animationFrame !== 0) return;
       animationFrame = window.requestAnimationFrame(tick);
     };
+    requestRenderRef.current = scheduleTick;
 
     const handlePointer = (event: PointerEvent) => {
       pointer = { x: event.clientX, y: event.clientY };
+      scheduleTick();
     };
     const handleVisibility = () => {
       visible = document.visibilityState === "visible";
       lastTimestamp = 0;
+      if (visible) scheduleTick();
     };
     const handleResize = () => {
       const previous =
@@ -246,12 +258,11 @@ export default function FullFramePortrait({
     document.addEventListener("visibilitychange", handleVisibility);
     resizeCanvas();
     preloadPriorityFrames();
-    if (document.readyState === "complete") scheduleBackgroundPreload();
-    else window.addEventListener("load", scheduleBackgroundPreload, { once: true });
-    animationFrame = window.requestAnimationFrame(tick);
+    scheduleTick();
 
     return () => {
       cancelled = true;
+      requestRenderRef.current = () => undefined;
       for (const image of images) {
         if (!image) continue;
         image.onload = null;
@@ -261,8 +272,6 @@ export default function FullFramePortrait({
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handlePointer);
       document.removeEventListener("visibilitychange", handleVisibility);
-      window.removeEventListener("load", scheduleBackgroundPreload);
-      window.clearTimeout(preloadTimer);
       window.cancelAnimationFrame(animationFrame);
     };
   }, []);

@@ -56,3 +56,22 @@ test("plays the close transition before returning to the homepage", () => {
   expect(back).toHaveBeenCalledOnce();
   vi.useRealTimers();
 });
+
+test("keeps keyboard focus inside the modal", () => {
+  render(
+    <CaseOverlay label="Business Context">
+      <button type="button">Last project action</button>
+    </CaseOverlay>,
+  );
+
+  const close = screen.getByRole("button", { name: "Close project" });
+  const last = screen.getByRole("button", { name: "Last project action" });
+
+  last.focus();
+  fireEvent.keyDown(window, { key: "Tab" });
+  expect(close).toHaveFocus();
+
+  close.focus();
+  fireEvent.keyDown(window, { key: "Tab", shiftKey: true });
+  expect(last).toHaveFocus();
+});

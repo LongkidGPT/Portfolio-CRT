@@ -83,6 +83,40 @@ describe("FullFramePortrait", () => {
     );
   });
 
+  it("does not download the full frame sequence while the page is idle", () => {
+    vi.useFakeTimers();
+    const { sources } = installCanvasHarness();
+
+    render(<FullFramePortrait />);
+    fireEvent.load(window);
+    act(() => vi.advanceTimersByTime(12_000));
+
+    expect(new Set(sources).size).toBe(6);
+    vi.useRealTimers();
+  });
+
+  it("stops the animation loop when reduced motion is enabled", () => {
+    const { callbacks } = installCanvasHarness();
+
+    render(<FullFramePortrait motionReduced />);
+    expect(callbacks).toHaveLength(1);
+
+    act(() => callbacks.shift()?.(1000 / 60));
+
+    expect(callbacks).toHaveLength(0);
+  });
+
+  it("sleeps the animation loop after the portrait reaches its target", () => {
+    const { callbacks } = installCanvasHarness();
+
+    render(<FullFramePortrait />);
+    expect(callbacks).toHaveLength(1);
+
+    act(() => callbacks.shift()?.(1000 / 60));
+
+    expect(callbacks).toHaveLength(0);
+  });
+
   it("uses the visible viewport edge for the right-facing target", () => {
     const { callbacks } = installCanvasHarness();
     render(<FullFramePortrait />);

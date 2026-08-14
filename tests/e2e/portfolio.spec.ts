@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("tracks the pointer and locks all five R4 project poses", async ({
+test("tracks the pointer and locks all five R5 project poses", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop");
@@ -10,17 +10,17 @@ test("tracks the pointer and locks all five R4 project poses", async ({
   const portrait = page.getByRole("img", {
     name: "Interactive full-frame KV portrait",
   });
-  await expect(portrait).toHaveAttribute("data-loaded", "193", {
+  await expect.poll(async () => Number(await portrait.getAttribute("data-loaded")), {
     timeout: 15_000,
-  });
+  }).toBeGreaterThanOrEqual(6);
   await expect(portrait).toHaveAttribute("data-errors", "0");
 
   const pointerTargets = [
-    { point: { x: 1179, y: 0 }, frame: "52" },
-    { point: { x: 1919, y: 516 }, frame: "20" },
-    { point: { x: 1179, y: 1079 }, frame: "144" },
-    { point: { x: 0, y: 516 }, frame: "100" },
-    { point: { x: 1179, y: 516 }, frame: "174" },
+    { point: { x: 1179, y: 0 }, frame: "73" },
+    { point: { x: 1919, y: 516 }, frame: "59" },
+    { point: { x: 1179, y: 1079 }, frame: "140" },
+    { point: { x: 0, y: 516 }, frame: "105" },
+    { point: { x: 1179, y: 516 }, frame: "80" },
   ];
 
   for (const target of pointerTargets) {
@@ -29,11 +29,11 @@ test("tracks the pointer and locks all five R4 project poses", async ({
   }
 
   const projectTargets = [
-    ["ABOUT", "124"],
-    ["DESIGN LOGIC", "134"],
-    ["BRAND SYSTEM", "144"],
-    ["PRODUCT LAUNCH", "150"],
-    ["LAUNCH EVENT", "156"],
+    ["ABOUT", "118"],
+    ["DESIGN LOGIC", "128"],
+    ["BRAND SYSTEM", "140"],
+    ["PRODUCT LAUNCH", "154"],
+    ["LAUNCH EVENT", "157"],
   ] as const;
 
   for (const [label, frame] of projectTargets) {
@@ -50,7 +50,7 @@ test("tracks the pointer and locks all five R4 project poses", async ({
   expect(designLogicBox?.width).toBeCloseTo(brandSystemBox?.width ?? 0, 1);
 
   await page.mouse.move(1179, 516);
-  await expect(portrait).toHaveAttribute("data-target-frame", "174");
+  await expect(portrait).toHaveAttribute("data-target-frame", "80");
 });
 
 test("fills standard and wide desktop viewports without letterboxing", async ({
@@ -69,9 +69,9 @@ test("fills standard and wide desktop viewports without letterboxing", async ({
     const portrait = page.getByRole("img", {
       name: "Interactive full-frame KV portrait",
     });
-    await expect(portrait).toHaveAttribute("data-loaded", "193", {
+    await expect.poll(async () => Number(await portrait.getAttribute("data-loaded")), {
       timeout: 15_000,
-    });
+    }).toBeGreaterThanOrEqual(6);
     await expect(portrait).toHaveAttribute("data-errors", "0");
     expect(await portrait.boundingBox()).toMatchObject({
       x: 0,
@@ -215,6 +215,6 @@ test("opens and closes a shareable project overlay", async ({ page }) => {
 
 test("direct URL renders a standalone case page", async ({ page }) => {
   await page.goto("/work/product-launch");
-  await expect(page.getByRole("heading", { name: "SOLIX Product Launch" })).toBeVisible();
+  await expect(page.getByRole("img", { name: "Product launch case study" })).toBeVisible();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });

@@ -1,7 +1,7 @@
 .home {
   --paper: #eceeed;
   --ink: #202322;
-  --muted: #7f8482;
+  --muted: #666b69;
   position: relative;
   min-height: 100dvh;
   overflow: hidden;
@@ -57,8 +57,8 @@
 }
 .contactActions button {
   display: grid;
-  width: clamp(14px, 0.95vw, 18px);
-  height: clamp(14px, 0.95vw, 18px);
+  width: 24px;
+  height: 24px;
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -75,8 +75,8 @@
 }
 .contactActions img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: clamp(14px, 0.95vw, 18px);
+  height: clamp(14px, 0.95vw, 18px);
   object-fit: contain;
 }
 .copyFeedback {
@@ -335,6 +335,23 @@
     font-size: clamp(10px, 2.85vw, 12px);
   }
   .workNav { display: block; justify-self: end; }
+  .workNav a {
+    position: relative;
+  }
+  .workNav a::before {
+    position: absolute;
+    right: -12px;
+    left: -12px;
+    content: "";
+  }
+  .workNav a:first-child::before {
+    top: -27px;
+    bottom: 0;
+  }
+  .workNav a:last-child::before {
+    top: 0;
+    bottom: -27px;
+  }
   .contact,
   .time { display: none; }
   .identity span,
@@ -363,7 +380,7 @@
   .previewDivider { display: none; }
   .previewSubhead {
     margin-top: 12px;
-    color: rgba(32, 35, 34, 0.5);
+    color: rgba(32, 35, 34, 0.7);
     font-size: 10px;
     line-height: 1.45;
   }
@@ -522,7 +539,7 @@
 .overlay {
   --paper: #eceeed;
   --ink: #202322;
-  --muted: #7f8482;
+  --muted: #666b69;
   min-height: 100dvh;
   background: #f8fafc;
   color: #202322;
@@ -554,7 +571,15 @@
   font-size: 11px;
   cursor: pointer;
 }
-.closeOverlay { left: auto; right: 24px; }
+.backHome { left: 14px; }
+.closeOverlay { left: auto; right: 14px; }
+.backHome,
+.closeOverlay {
+  top: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
+}
 .visuallyHidden {
   position: fixed;
   width: 1px;
@@ -598,6 +623,11 @@
   height: var(--desktop-height);
   border-radius: 2px;
   cursor: pointer;
+}
+.overviewHotspot::before {
+  position: absolute;
+  inset: -8px -4px;
+  content: "";
 }
 .overviewHotspot:focus-visible {
   outline: 2px solid #247ad3;

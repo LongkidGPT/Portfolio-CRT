@@ -19,6 +19,7 @@ export default function CaseOverlay({
   const router = useRouter();
   const reduced = Boolean(useReducedMotion());
   const closeButton = useRef<HTMLButtonElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const closing = useRef(false);
   const closeTimer = useRef<number | null>(null);
   const closeRef = useRef<() => void>(() => undefined);
@@ -45,6 +46,25 @@ export default function CaseOverlay({
     closeButton.current?.focus();
     const keydown = (event: KeyboardEvent) => {
       if (event.key === "Escape") closeRef.current();
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        overlayRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((element) => !element.hasAttribute("hidden"));
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (event.shiftKey && (active === first || !overlayRef.current?.contains(active))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (active === last || !overlayRef.current?.contains(active))) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", keydown);
     return () => {
@@ -57,6 +77,7 @@ export default function CaseOverlay({
 
   return (
     <motion.div
+      ref={overlayRef}
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
