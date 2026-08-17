@@ -3,6 +3,7 @@ import {
   createSessionId,
   getOrCreateVisitorId,
   normalizeBranchId,
+  resolveDeploymentBranchId,
 } from "@/lib/analytics/identity";
 
 describe("analytics identity", () => {
@@ -16,6 +17,10 @@ describe("analytics identity", () => {
     ["/%3Cscript%3E", undefined, "/"],
   ])("normalizes %s with stored branch %s", (pathname, stored, expected) => {
     expect(normalizeBranchId(pathname, stored)).toBe(expected);
+  });
+
+  test("uses the Netlify hostname as the Converge tracking identifier", () => {
+    expect(resolveDeploymentBranchId("converge-ai--longkid-portfolio-crt.netlify.app", "/work/about")).toBe("/converge-ai");
   });
 
   test("persists one anonymous visitor but creates fresh session IDs", () => {
