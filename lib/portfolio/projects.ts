@@ -5,24 +5,6 @@ export type ProjectId =
   | "product-launch"
   | "launch-event";
 
-export type FeaturedCaseChapter = Exclude<ProjectId, "about">;
-
-export const FEATURED_CASE = {
-  label: "FEATURED CASE",
-  client: "ANKER INNOVATIONS",
-  project: "IFA 2025",
-  title: "GLOBAL BRAND UPGRADE",
-  shortTitle: "ANKER INNOVATIONS · IFA 2025",
-  overviewHref: "/work/anker-ifa-2025",
-} as const;
-
-export const FEATURED_CASE_CHAPTER_PATHS = {
-  business: `${FEATURED_CASE.overviewHref}/business`,
-  "brand-system": `${FEATURED_CASE.overviewHref}/brand-system`,
-  "product-launch": `${FEATURED_CASE.overviewHref}/product-launch`,
-  "launch-event": `${FEATURED_CASE.overviewHref}/launch-event`,
-} as const satisfies Record<FeaturedCaseChapter, string>;
-
 export interface MediaSlot {
   id: string;
   label: string;
@@ -40,7 +22,6 @@ export interface PreviewCopy {
 export interface MobilePreviewCopy {
   firstLayer: string;
   secondLayer: string | readonly string[];
-  evidence?: string;
 }
 
 export interface CaseArtwork {
@@ -77,9 +58,7 @@ export interface ProjectDefinition {
   summary: string;
   previewCopy: PreviewCopy;
   mobilePreviewCopy: MobilePreviewCopy;
-  href:
-    | typeof FEATURED_CASE.overviewHref
-    | (typeof FEATURED_CASE_CHAPTER_PATHS)[FeaturedCaseChapter];
+  href: "/about" | `/work/${ProjectId}`;
   kind: "about" | "case";
   buttonDefault: `/kv/buttons/${string}-default.png`;
   buttonActive: `/kv/buttons/${string}-active.png`;
@@ -90,74 +69,74 @@ export interface ProjectDefinition {
 }
 
 export const PROJECT_OVERVIEW_PREVIEW_COPY = {
-  eyebrow: "PROJECT OVERVIEW",
-  headlineLines: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
-  subheadLines: ["母品牌识别 · 子品牌上市 · 发布会传播"],
+  eyebrow: "CREATIVE VISUAL EVIDENCE",
+  headlineLines: ["从品牌系统到", "产品表达与全球传播"],
+  subheadLines: ["可控生成 · 产品叙事 · 多触点内容"],
   bodyLines: [
-    "项目是 ANKER INNOVATIONS 全球品牌升级、IFA 2025",
-    "官宣。围绕“提升子品牌多品类转化”，拆成三条设计目标，由",
-    "三个子项目分别落地——母品牌识别、SOLIX 子品牌上市、",
-    "IFA 发布会传播；",
+    "以 ANKER INNOVATIONS IFA 2025 为主线，分别呈现品牌系统、",
+    "SOLIX 新品上市与 DTC 表达、IFA 全球发布会传播三组真实项目",
+    "证据。每一组都从设计判断走到实际触点与应用结果。",
   ],
 } satisfies PreviewCopy;
 
 export const PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY = {
-  firstLayer: "PROJECT OVERVIEW",
-  secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
+  firstLayer: "CREATIVE VISUAL EVIDENCE",
+  secondLayer: ["品牌系统 · 产品表达", "全球传播"],
 } satisfies MobilePreviewCopy;
+
+export const PORTFOLIO_READING_ORDER = [
+  "about",
+  "brand-system",
+  "product-launch",
+  "launch-event",
+  "business",
+] as const satisfies readonly ProjectId[];
 
 export const PROJECTS = [
   {
     id: "about",
     label: "PROJECT OVERVIEW",
-    title: "Case Overview",
+    title: "Project Overview",
     year: "IFA 2025",
-    summary: "Anker Innovations global brand upgrade and three connected design goals.",
+    summary: "Brand systems, product storytelling and global launch communication.",
     previewCopy: {
-      eyebrow: "SENIOR VISUAL DESIGNER",
-      headlineLines: ["品牌系统、新品上市", "与 DTC 转化设计"],
-      subheadLines: [
-        "10+ 年视觉设计与品牌营销经验",
-        "消费电子 · 家居新零售 · 4A/创意公司",
-      ],
-      bodyLines: [
-        "从业务判断与视觉策略，到品牌语言、新品发布、DTC 页面与",
-        "AI 创意流程，推动多触点设计落地。曾管理 8 人视觉团队。",
-      ],
+      eyebrow: "CREATIVE VISUAL DESIGNER",
+      headlineLines: ["我是KID（龙昊翔）"],
+      subheadLines: ["一个人类 · 品牌与创意视觉设计师"],
+      bodyLines: [],
     },
     mobilePreviewCopy: {
-      firstLayer: "SENIOR VISUAL DESIGNER",
-      secondLayer: ["品牌系统、新品上市", "与 DTC 转化设计"],
-      evidence: "10+ 年经验｜消费电子 · 家居新零售 · 4A",
+      firstLayer: "CREATIVE VISUAL DESIGNER",
+      secondLayer: "我是KID（龙昊翔）",
     },
-    href: FEATURED_CASE.overviewHref,
+    href: "/work/about",
     kind: "case",
     buttonDefault: "/kv/buttons/about-default.png",
     buttonActive: "/kv/buttons/about-active.png",
     recruiterSummary: {
-      title: "ANKER INNOVATIONS",
-      subtitle: "IFA 2025 · 全球品牌升级",
-      objective: "围绕“提升子品牌多品类转化效率”，建立从业务判断、母品牌识别，到子品牌上市与全球发布会传播的完整设计链路。",
-      scope: "业务推导与设计目标 · 母品牌视觉符号系统 · SOLIX 新品上市与 DTC · IFA 全球发布会传播",
+      title: "CONVERGE AI · 创意视觉证据",
+      subtitle: "以 ANKER INNOVATIONS IFA 2025 三组真实项目验证",
+      objective: "用品牌系统、产品表达和全球传播三类项目，说明如何将复杂信息转译为有辨识度、可被理解并能跨触点落地的视觉内容。",
+      scope: "品牌视觉系统与 AIGC 规则 · DTC 产品叙事 · 全球发布会与内容传播",
       showMeta: false,
       contributions: [
         {
-          title: "策略推导",
-          description: "从品牌升级、全球发布与多品牌增长目标出发，识别影响转化的核心问题，并拆解为三条设计目标。",
+          title: "品牌系统",
+          description: "将品牌战略转译为可继承的视觉资产，并以光型样本库、Prompt 模板和人工筛选机制支持稳定应用。",
         },
         {
-          title: "系统联动",
-          description: "以母品牌视觉资产为基础，连接品牌识别、子品牌价值表达与发布会传播，保持三个项目的策略和视觉一致性。",
+          title: "产品表达",
+          description: "围绕 SOLIX 的家庭能源场景重组产品价值、视觉调性与 DTC 信息架构，帮助用户进入购买判断。",
         },
         {
-          title: "项目落地",
-          description: "承接 BRAND SYSTEM、PRODUCT LAUNCH、LAUNCH EVENT 三个子项目，将设计目标落实到品牌、产品与传播触点。",
+          title: "全球传播",
+          description: "将同一视觉系统延展至官网、社媒、直播、Keynote、现场物料与展后内容，保证不同触点的连续性。",
         },
       ],
-      validationLabel: "项目产出",
+      validationLabel: "对应项目",
       validation: [
-        "形成 1 条业务目标、3 条设计目标和 3 个落地项目",
-        "构成“母品牌识别 + 子品牌价值 + 发布会传播”的完整项目结构",
+        "BRAND SYSTEM · PRODUCT LAUNCH · LAUNCH EVENT",
+        "三组项目均保留完整案例与实际应用证据",
       ],
     },
     caseArtwork: {
@@ -182,12 +161,12 @@ export const PROJECTS = [
   },
   {
     id: "business",
-    label: "00 BUSINESS CONTEXT",
+    label: "DESIGN LOGIC",
     title: "Business Context",
     year: "IFA 2025",
     summary: "Business objectives, project framing and design requirements.",
     previewCopy: {
-      eyebrow: "00 BUSINESS CONTEXT",
+      eyebrow: "DESIGN LOGIC",
       headlineLines: ["业务洞察与设计目标"],
       subheadLines: ["将复杂业务问题转化为清晰", "的设计方向"],
       bodyLines: [
@@ -196,10 +175,10 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "00 BUSINESS CONTEXT",
+      firstLayer: "DESIGN LOGIC",
       secondLayer: "将复杂业务问题转化为清晰的设计方向",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS.business,
+    href: "/work/business",
     kind: "case",
     buttonDefault: "/kv/buttons/design-logic-default.png",
     buttonActive: "/kv/buttons/design-logic-active.png",
@@ -265,12 +244,12 @@ export const PROJECTS = [
   },
   {
     id: "brand-system",
-    label: "01 BRAND SYSTEM",
+    label: "BRAND SYSTEM",
     title: "Mother & Sub-brand System",
     year: "IFA 2025",
     summary: "A visual relationship system for Anker and SOLIX.",
     previewCopy: {
-      eyebrow: "01 BRAND SYSTEM",
+      eyebrow: "DESIGN GOAL 01",
       headlineLines: ["建立母子品牌关系，", "提升子品牌认知"],
       subheadLines: ["母品牌视觉符号系统构建"],
       bodyLines: [
@@ -279,16 +258,16 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "01 BRAND SYSTEM",
+      firstLayer: "DESIGN GOAL 01",
       secondLayer: "Anker innovations 视觉符号系统构建",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS["brand-system"],
+    href: "/work/brand-system",
     kind: "case",
     buttonDefault: "/kv/buttons/brand-system-default.png",
     buttonActive: "/kv/buttons/brand-system-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS",
-      subtitle: "母品牌视觉符号系统构建",
+      subtitle: "可控生成的品牌视觉系统",
       objective: "建立清晰的母子品牌关系，让母品牌资产可继承、子品牌表达可区分，并适配多场景与多触点传播。",
       scope: "品牌视觉策略 · 品牌符号模块 · 母子品牌映射规则 · 光型样本库 · AIGC 工作流",
       contributions: [
@@ -346,12 +325,12 @@ export const PROJECTS = [
   },
   {
     id: "product-launch",
-    label: "02 PRODUCT LAUNCH",
+    label: "PRODUCT LAUNCH",
     title: "SOLIX Product Launch",
     year: "IFA 2025",
     summary: "Launch communication, product value and DTC structure.",
     previewCopy: {
-      eyebrow: "02 PRODUCT LAUNCH",
+      eyebrow: "DESIGN GOAL 02",
       headlineLines: ["清晰传达子品牌价值"],
       subheadLines: [
         "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
@@ -363,16 +342,16 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "02 PRODUCT LAUNCH",
+      firstLayer: "DESIGN GOAL 02",
       secondLayer: "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS["product-launch"],
+    href: "/work/product-launch",
     kind: "case",
     buttonDefault: "/kv/buttons/product-launch-default.png",
     buttonActive: "/kv/buttons/product-launch-active.png",
     recruiterSummary: {
       title: "ANKER SOLIX PRIME E10",
-      subtitle: "全球新品上市传播与 DTC 转化设计",
+      subtitle: "把产品价值讲清楚的 DTC 创意表达",
       objective: "降低用户理解成本与购买决策风险，同时强化 SOLIX 在家庭能源系统中的品类价值。",
       scope: "上市视觉策略 · 产品视觉识别 · AIGC 生成规则 · DTC 信息架构与页面设计",
       contributions: [
@@ -431,12 +410,12 @@ export const PROJECTS = [
   },
   {
     id: "launch-event",
-    label: "03 LAUNCH EVENT",
+    label: "LAUNCH EVENT",
     title: "IFA Launch Event",
     year: "IFA 2025",
     summary: "Key visual, event narrative and multi-touchpoint content.",
     previewCopy: {
-      eyebrow: "03 LAUNCH EVENT",
+      eyebrow: "DESIGN GOAL 03",
       headlineLines: ["强化发布会记忆点与", "传播连续性"],
       subheadLines: ["IFA 全球发布会传播与内容系统"],
       bodyLines: [
@@ -445,16 +424,16 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "03 LAUNCH EVENT",
+      firstLayer: "DESIGN GOAL 03",
       secondLayer: "IFA 全球发布会传播与内容系统",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS["launch-event"],
+    href: "/work/launch-event",
     kind: "case",
     buttonDefault: "/kv/buttons/launch-event-default.png",
     buttonActive: "/kv/buttons/launch-event-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS IFA 2025",
-      subtitle: "全球发布会传播与内容系统",
+      subtitle: "全球发布会的多触点创意传播",
       objective: "以 IFA 全球发布会承接品牌升级，强化发布会记忆点，并让品牌、新品内容在展前、展中、展后保持连续传播。",
       scope: "发布会视觉策略 · 主视觉系统 · 展前预热 · Keynote 与现场内容 · 展后 Recap 与官网承接",
       contributions: [
@@ -513,22 +492,6 @@ export const PROJECTS = [
   },
 ] as const satisfies readonly ProjectDefinition[];
 
-export const FEATURED_CASE_NAVIGATION = [
-  { id: "about", label: "OVERVIEW" },
-  { id: "business", label: "00 CONTEXT" },
-  { id: "brand-system", label: "01 BRAND" },
-  { id: "product-launch", label: "02 PRODUCT" },
-  { id: "launch-event", label: "03 EVENT" },
-] as const satisfies readonly { id: ProjectId; label: string }[];
-
-export const LEGACY_PROJECT_REDIRECTS = {
-  about: FEATURED_CASE.overviewHref,
-  business: FEATURED_CASE_CHAPTER_PATHS.business,
-  "brand-system": FEATURED_CASE_CHAPTER_PATHS["brand-system"],
-  "product-launch": FEATURED_CASE_CHAPTER_PATHS["product-launch"],
-  "launch-event": FEATURED_CASE_CHAPTER_PATHS["launch-event"],
-} as const satisfies Record<ProjectId, ProjectDefinition["href"]>;
-
 export function getProjectById(id: ProjectId): ProjectDefinition {
   const project = PROJECTS.find((candidate) => candidate.id === id);
 
@@ -543,10 +506,4 @@ export function getProjectByPath(
   pathname: string,
 ): ProjectDefinition | undefined {
   return PROJECTS.find((project) => project.href === pathname);
-}
-
-export function getProjectByChapterSlug(
-  chapter: string,
-): ProjectDefinition | undefined {
-  return PROJECTS.find((project) => project.id !== "about" && project.id === chapter);
 }

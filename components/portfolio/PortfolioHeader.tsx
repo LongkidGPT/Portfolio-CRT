@@ -30,7 +30,7 @@ export default function PortfolioHeader() {
   return (
     <header className={styles.chrome}>
       <div className={styles.identity}>
-        <strong>KID LONG</strong><span>VISUAL DESIGNER</span>
+        <strong>KID LONG</strong><span>CREATIVE VISUAL DESIGNER</span>
       </div>
       <nav className={styles.workNav} aria-label="Portfolio">
         <Link
