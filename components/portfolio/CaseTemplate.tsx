@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { ProjectDefinition } from "@/lib/portfolio/projects";
+import RecruiterProjectSummary from "./RecruiterProjectSummary";
 import styles from "./portfolio.module.css";
 
 const RESPONSIVE_SIZES =
@@ -66,6 +67,9 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
 
     return (
       <article className={styles.caseArtwork}>
+        {project.recruiterSummary && (
+          <RecruiterProjectSummary summary={project.recruiterSummary} />
+        )}
         <picture>
           <source
             media="(max-width: 767px)"

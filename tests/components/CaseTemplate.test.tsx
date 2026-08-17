@@ -30,6 +30,9 @@ test.each([
     expect(
       screen.queryByRole("navigation", { name: "Case chapters" }),
     ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("progressbar", { name: "Case reading progress" }),
+    ).not.toBeInTheDocument();
   },
 );
 
@@ -52,6 +55,57 @@ test("PROJECT OVERVIEW blue CTAs link to the four matching case pages", () => {
     "href",
     "/work/launch-event",
   );
+});
+
+test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied artwork", () => {
+  const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
+
+  expect(screen.getByRole("heading", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
+  expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
+  expect(screen.getByText("全球新品上市传播与 DTC 转化设计")).toBeInTheDocument();
+  expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
+  expect(screen.queryByText("判断 · 方法 · 价值")).not.toBeInTheDocument();
+  expect(screen.getByText(/页面阅读深度 65%/)).toBeInTheDocument();
+
+  const summary = screen.getByRole("heading", { name: "ANKER SOLIX PRIME E10" }).closest("section");
+  const artwork = screen.getByRole("img", { name: "Product launch case study" });
+  expect(summary?.compareDocumentPosition(artwork) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  expect(container.querySelectorAll("section")).toHaveLength(1);
+});
+
+test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
+  render(<CaseTemplate project={getProjectById("launch-event")} />);
+
+  expect(
+    screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
+  ).toBeInTheDocument();
+  expect(screen.getByText("全球发布会传播与内容系统")).toBeInTheDocument();
+  expect(screen.getByText("传播内容链路")).toBeInTheDocument();
+  expect(screen.getByText(/覆盖展前、展中、展后三个传播阶段/)).toBeInTheDocument();
+});
+
+test("DESIGN LOGIC exposes the confirmed recruiter summary", () => {
+  render(<CaseTemplate project={getProjectById("business")} />);
+
+  expect(
+    screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
+  ).toBeInTheDocument();
+  expect(screen.getByText("业务洞察与设计目标")).toBeInTheDocument();
+  expect(screen.getByText("核心问题定义")).toBeInTheDocument();
+  expect(screen.getByText(/三条设计目标分别进入 BRAND SYSTEM/)).toBeInTheDocument();
+});
+
+test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
+  render(<CaseTemplate project={getProjectById("about")} />);
+
+  expect(
+    screen.getByRole("heading", { name: "ANKER INNOVATIONS" }),
+  ).toBeInTheDocument();
+  expect(screen.getByText("IFA 2025 · 全球品牌升级")).toBeInTheDocument();
+  expect(screen.getByText("系统联动")).toBeInTheDocument();
+  expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();
+  expect(screen.queryByText("业务目标")).not.toBeInTheDocument();
+  expect(screen.queryByText("负责范围")).not.toBeInTheDocument();
 });
 
 test.each([
@@ -91,6 +145,8 @@ test("uses responsive Netlify Image CDN sources in production", () => {
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {
   const { container } = render(<AboutTemplate />);
   expect(screen.getAllByText("熠思霆创意 Extend")).toHaveLength(2);
+  expect(screen.getAllByText("创意设计主管（带8人团队）")).toHaveLength(2);
+  expect(screen.getAllByText("创意设计组长（带4人团队）")).toHaveLength(2);
   expect(screen.getByText(
     "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
   )).toBeInTheDocument();

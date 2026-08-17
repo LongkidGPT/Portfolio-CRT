@@ -21,7 +21,7 @@ const experiences = [
     years: "2021　–　2023",
     label: "2021–2023 Linsy",
     company: "林氏家居 Linsy",
-    role: "创意设计主管",
+    role: "创意设计主管（带8人团队）",
   },
   {
     start: 2018,
@@ -29,7 +29,7 @@ const experiences = [
     years: "2018　–　2021",
     label: "2018–2021 Extend",
     company: "熠思霆创意 Extend",
-    role: "创意设计组长",
+    role: "创意设计组长（带4人团队）",
   },
   {
     start: 2015,
