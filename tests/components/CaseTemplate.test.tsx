@@ -62,7 +62,7 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
 
   expect(screen.getByRole("heading", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
-  expect(screen.getByText("全球新品上市传播与 DTC 转化设计")).toBeInTheDocument();
+  expect(screen.getByText("产品主视觉、场景叙事与上市传播")).toBeInTheDocument();
   expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
   expect(screen.queryByText("判断 · 方法 · 价值")).not.toBeInTheDocument();
   expect(screen.getByText(/页面阅读深度 65%/)).toBeInTheDocument();
@@ -79,7 +79,7 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
   expect(
     screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("全球发布会传播与内容系统")).toBeInTheDocument();
+  expect(screen.getByText("国际发布会的创意统筹与整合执行")).toBeInTheDocument();
   expect(screen.getByText("传播内容链路")).toBeInTheDocument();
   expect(screen.getByText(/覆盖展前、展中、展后三个传播阶段/)).toBeInTheDocument();
 });
@@ -99,11 +99,11 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
   render(<CaseTemplate project={getProjectById("about")} />);
 
   expect(
-    screen.getByRole("heading", { name: "ANKER INNOVATIONS" }),
+    screen.getByRole("heading", { name: "OPPO E0152P · 创意视觉证据" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("IFA 2025 · 全球品牌升级")).toBeInTheDocument();
-  expect(screen.getByText("系统联动")).toBeInTheDocument();
-  expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();
+  expect(screen.getByText("以 ANKER INNOVATIONS IFA 2025 三组真实项目验证")).toBeInTheDocument();
+  expect(screen.getByText("产品创意")).toBeInTheDocument();
+  expect(screen.getByText(/覆盖视觉策略、产品上市与全球发布/)).toBeInTheDocument();
   expect(screen.queryByText("业务目标")).not.toBeInTheDocument();
   expect(screen.queryByText("负责范围")).not.toBeInTheDocument();
 });
