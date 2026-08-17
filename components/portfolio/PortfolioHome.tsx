@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
-  PORTFOLIO_READING_ORDER,
+  PROJECTS,
   PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY,
   PROJECT_OVERVIEW_PREVIEW_COPY,
   getProjectById,
@@ -31,8 +31,6 @@ import MobileFramePortrait from "./MobileFramePortrait";
 import ProjectPreview from "./ProjectPreview";
 import ProjectSelector from "./ProjectSelector";
 import styles from "./portfolio.module.css";
-
-const recruiterProjects = PORTFOLIO_READING_ORDER.map(getProjectById);
 
 function useReducedMotionPreference() {
   const [reduced, setReduced] = useState(false);
@@ -125,7 +123,7 @@ export default function PortfolioHome() {
       <PortfolioChrome
         activeIndex={previewedProject === null
           ? null
-          : recruiterProjects.findIndex(({ id }) => id === previewedProject)}
+          : PROJECTS.findIndex(({ id }) => id === previewedProject)}
       />
       <div className={styles.previewStage}>
         <ProjectPreview
@@ -171,7 +169,7 @@ export default function PortfolioHome() {
         )}
       </div>
       <ProjectSelector
-        projects={recruiterProjects}
+        projects={PROJECTS}
         activeProject={state.activeProject}
         previewedProject={previewedProject}
         activatedProject={state.phase === "zooming" ? state.activeProject : null}
