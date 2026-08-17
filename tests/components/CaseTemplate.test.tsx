@@ -62,7 +62,7 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
 
   expect(screen.getByRole("heading", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
-  expect(screen.getByText("全球新品上市传播与 DTC 转化设计")).toBeInTheDocument();
+  expect(screen.getByText("把产品价值讲清楚的 DTC 创意表达")).toBeInTheDocument();
   expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
   expect(screen.queryByText("判断 · 方法 · 价值")).not.toBeInTheDocument();
   expect(screen.getByText(/页面阅读深度 65%/)).toBeInTheDocument();
@@ -79,7 +79,7 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
   expect(
     screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("全球发布会传播与内容系统")).toBeInTheDocument();
+  expect(screen.getByText("全球发布会的多触点创意传播")).toBeInTheDocument();
   expect(screen.getByText("传播内容链路")).toBeInTheDocument();
   expect(screen.getByText(/覆盖展前、展中、展后三个传播阶段/)).toBeInTheDocument();
 });
@@ -99,11 +99,11 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
   render(<CaseTemplate project={getProjectById("about")} />);
 
   expect(
-    screen.getByRole("heading", { name: "ANKER INNOVATIONS" }),
+    screen.getByRole("heading", { name: "CONVERGE AI · 创意视觉证据" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("IFA 2025 · 全球品牌升级")).toBeInTheDocument();
-  expect(screen.getByText("系统联动")).toBeInTheDocument();
-  expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();
+  expect(screen.getByText("以 ANKER INNOVATIONS IFA 2025 三组真实项目验证")).toBeInTheDocument();
+  expect(screen.getByText("品牌系统")).toBeInTheDocument();
+  expect(screen.getByText(/BRAND SYSTEM · PRODUCT LAUNCH · LAUNCH EVENT/)).toBeInTheDocument();
   expect(screen.queryByText("业务目标")).not.toBeInTheDocument();
   expect(screen.queryByText("负责范围")).not.toBeInTheDocument();
 });
@@ -148,10 +148,10 @@ test("about template links experience rows to the ruler and rebuilds the contact
   expect(screen.getAllByText("创意设计主管（带8人团队）")).toHaveLength(2);
   expect(screen.getAllByText("创意设计组长（带4人团队）")).toHaveLength(2);
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
+    "10+ 年品牌与营销视觉经验，消费电子（Anker）和 4A 出身。做过从 0→1 的品牌视觉体系、全球新品上市与发布会传播，关注让复杂信息有辨识度、可被理解，并落实到真实触点。项目中也会用 AI 建立可控的创意生产规则 ▮",
   )).toBeInTheDocument();
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。精通新品发布视觉、品牌 VI 体系、DTC/电商页面及 AI 创意提效，具备从策略提案到落地闭环的全流程能力。",
+    "10+ 年品牌与营销视觉经验，消费电子（Anker）和 4A 出身。做过 0→1 品牌体系、全球新品上市与发布会传播，关注让复杂信息有辨识度、可被理解，并落实到真实触点；也会用 AI 建立可控的创意生产规则。",
   )).toBeInTheDocument();
   expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
     "src",
@@ -171,7 +171,7 @@ test("about template links experience rows to the ruler and rebuilds the contact
     "/kv/cases/about-crt.png",
   );
   expect(screen.getAllByRole("heading", { name: "我是KID（龙昊翔）" })).toHaveLength(2);
-  expect(screen.getAllByText("SENIOR VISUAL DESIGNER")).toHaveLength(2);
+  expect(screen.getAllByText("CREATIVE VISUAL DESIGNER · BRAND & AI")).toHaveLength(2);
   expect(screen.getAllByRole("slider", { name: "Career timeline" })).toHaveLength(2);
   expect(screen.getAllByRole("slider", { name: "Career timeline" })[0]).toHaveAttribute(
     "aria-valuenow",

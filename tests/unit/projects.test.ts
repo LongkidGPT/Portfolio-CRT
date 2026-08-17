@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   PROJECTS,
   PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY,
+  PORTFOLIO_READING_ORDER,
   getProjectById,
   getProjectByPath,
 } from "@/lib/portfolio/projects";
@@ -46,11 +47,21 @@ describe("project registry", () => {
     });
   });
 
-  it("stores the selected-state PROJECT OVERVIEW mobile copy separately", () => {
+  it("stores the Converge evidence overview mobile copy separately", () => {
     expect(PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY).toEqual({
-      firstLayer: "项目总览",
-      secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
+      firstLayer: "CREATIVE VISUAL EVIDENCE",
+      secondLayer: ["品牌系统 · 产品表达", "全球传播"],
     });
+  });
+
+  it("prioritizes the three creative-visual cases before supporting strategy work", () => {
+    expect(PORTFOLIO_READING_ORDER).toEqual([
+      "about",
+      "brand-system",
+      "product-launch",
+      "launch-event",
+      "business",
+    ]);
   });
 
   it("stores the approved two-layer mobile preview copy", () => {
@@ -60,7 +71,7 @@ describe("project registry", () => {
       {
         id: "about",
         mobilePreviewCopy: {
-          firstLayer: "VISUAL DESIGNER",
+          firstLayer: "CREATIVE VISUAL DESIGNER",
           secondLayer: "我是KID（龙昊翔）",
         },
       },
@@ -101,9 +112,9 @@ describe("project registry", () => {
       {
         id: "about",
         previewCopy: {
-          eyebrow: "VISUAL DESIGNER",
+          eyebrow: "CREATIVE VISUAL DESIGNER",
           headlineLines: ["我是KID（龙昊翔）"],
-          subheadLines: ["一个人类 · 资深视觉设计师"],
+          subheadLines: ["一个人类 · 品牌与创意视觉设计师"],
           bodyLines: [],
         },
       },

@@ -109,7 +109,7 @@ test("syncs the mobile portrait target with the selected project", async () => {
 
   expect(
     screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
-  ).toHaveAttribute("data-target-frame", "135");
+  ).toHaveAttribute("data-target-frame", "131");
 });
 
 test("locks the full-frame target to the hovered formal project", () => {
@@ -175,7 +175,7 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   ).toBeInTheDocument();
 });
 
-test("shows PROJECT OVERVIEW only while the first desktop card is previewed", () => {
+test("shows Converge evidence overview only while the first desktop card is previewed", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   const { container } = render(<PortfolioHome />);
 
@@ -203,25 +203,25 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
   );
 
   expect(
-    within(desktopPreview()!).getByLabelText("PROJECT OVERVIEW"),
+    within(desktopPreview()!).getByLabelText("CREATIVE VISUAL EVIDENCE"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "从品牌系统到产品表达与全球传播",
     }),
   ).toBeInTheDocument();
   expect(
-    within(desktopPreview()!).getByLabelText("母品牌识别 · 子品牌上市 · 发布会传播"),
+    within(desktopPreview()!).getByLabelText("可控生成 · 产品叙事 · 多触点内容"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByLabelText(
-      "项目是 ANKER INNOVATIONS 全球品牌升级、IFA 2025",
+      "以 ANKER INNOVATIONS IFA 2025 为主线，分别呈现品牌系统、",
     ),
   ).toBeInTheDocument();
-  expect(within(mobilePreview()!).getByLabelText("项目总览")).toBeInTheDocument();
+  expect(within(mobilePreview()!).getByLabelText("CREATIVE VISUAL EVIDENCE")).toBeInTheDocument();
   expect(
     within(mobilePreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "品牌系统 · 产品表达全球传播",
     }),
   ).toBeInTheDocument();
 
