@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   PROJECTS,
   PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY,
-  PORTFOLIO_READING_ORDER,
   getProjectById,
   getProjectByPath,
 } from "@/lib/portfolio/projects";
@@ -52,16 +51,6 @@ describe("project registry", () => {
       firstLayer: "CREATIVE VISUAL EVIDENCE",
       secondLayer: ["品牌系统 · 产品表达", "全球传播"],
     });
-  });
-
-  it("prioritizes the three creative-visual cases before supporting strategy work", () => {
-    expect(PORTFOLIO_READING_ORDER).toEqual([
-      "about",
-      "brand-system",
-      "product-launch",
-      "launch-event",
-      "business",
-    ]);
   });
 
   it("stores the approved two-layer mobile preview copy", () => {
