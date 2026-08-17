@@ -3,6 +3,7 @@ import {
   createSessionId,
   getOrCreateVisitorId,
   normalizeBranchId,
+  resolveDeploymentBranchId,
 } from "@/lib/analytics/identity";
 
 describe("analytics identity", () => {
@@ -16,6 +17,14 @@ describe("analytics identity", () => {
     ["/%3Cscript%3E", undefined, "/"],
   ])("normalizes %s with stored branch %s", (pathname, stored, expected) => {
     expect(normalizeBranchId(pathname, stored)).toBe(expected);
+  });
+
+  test.each([
+    ["kimi--longkid-portfolio-crt.netlify.app", "/about", "/", "/kimi"],
+    ["longkid-portfolio-crt.netlify.app", "/", undefined, "/main"],
+    ["localhost:3000", "/kimi", undefined, "/kimi"],
+  ])("resolves deployment %s independently from pathname", (hostname, pathname, stored, expected) => {
+    expect(resolveDeploymentBranchId(hostname, pathname, stored)).toBe(expected);
   });
 
   test("persists one anonymous visitor but creates fresh session IDs", () => {
