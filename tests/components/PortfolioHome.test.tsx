@@ -109,7 +109,7 @@ test("syncs the mobile portrait target with the selected project", async () => {
 
   expect(
     screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
-  ).toHaveAttribute("data-target-frame", "131");
+  ).toHaveAttribute("data-target-frame", "135");
 });
 
 test("locks the full-frame target to the hovered formal project", () => {

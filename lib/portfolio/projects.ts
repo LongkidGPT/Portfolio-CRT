@@ -84,14 +84,6 @@ export const PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY = {
   secondLayer: ["品牌系统 · 产品表达", "全球传播"],
 } satisfies MobilePreviewCopy;
 
-export const PORTFOLIO_READING_ORDER = [
-  "about",
-  "brand-system",
-  "product-launch",
-  "launch-event",
-  "business",
-] as const satisfies readonly ProjectId[];
-
 export const PROJECTS = [
   {
     id: "about",
