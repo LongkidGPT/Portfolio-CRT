@@ -67,30 +67,29 @@ describe("project registry", () => {
       {
         id: "business",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN LOGIC",
-          secondLayer: "将复杂业务问题转化为清晰的设计方向",
+          firstLayer: "STRATEGY TO VISUAL",
+          secondLayer: "从品牌策略到可执行的视觉方向",
         },
       },
       {
         id: "brand-system",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN GOAL 01",
-          secondLayer: "Anker innovations 视觉符号系统构建",
+          firstLayer: "BRAND VISUAL SYSTEM",
+          secondLayer: "从品牌战略语言到跨触点视觉标准",
         },
       },
       {
         id: "product-launch",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN GOAL 02",
-          secondLayer:
-            "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
+          firstLayer: "INTEGRATED BRAND DELIVERY",
+          secondLayer: "Anker SOLIX Prime E10 全球新品整合传播",
         },
       },
       {
         id: "launch-event",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN GOAL 03",
-          secondLayer: "IFA 全球发布会传播与内容系统",
+          firstLayer: "BRAND EXPERIENCE",
+          secondLayer: "把品牌系统带到真实的线下体验",
         },
       },
     ]);
@@ -110,51 +109,48 @@ describe("project registry", () => {
       {
         id: "business",
         previewCopy: {
-          eyebrow: "DESIGN LOGIC",
-          headlineLines: ["业务洞察与设计目标"],
-          subheadLines: ["将复杂业务问题转化为清晰", "的设计方向"],
+          eyebrow: "STRATEGY TO VISUAL",
+          headlineLines: ["从品牌策略到", "可执行的视觉方向"],
+          subheadLines: ["建立跨团队一致的设计判断依据"],
           bodyLines: [
-            "通过业务链路梳理、用户诉求判断、展会触点拆解与竞品",
-            "观察，建立从业务目标到视觉系统策略的判断依据。",
+            "通过业务链路、用户诉求、触点与竞品观察，建立从品牌",
+            "目标到视觉系统策略的判断依据。",
           ],
         },
       },
       {
         id: "brand-system",
         previewCopy: {
-          eyebrow: "DESIGN GOAL 01",
-          headlineLines: ["建立母子品牌关系，", "提升子品牌认知"],
-          subheadLines: ["母品牌视觉符号系统构建"],
+          eyebrow: "BRAND VISUAL SYSTEM",
+          headlineLines: ["从品牌战略语言到", "跨触点视觉标准"],
+          subheadLines: ["Anker Innovations 母品牌视觉系统构建"],
           bodyLines: [
-            "将品牌战略中的“光”，转译为母品牌可承载、子品牌",
-            "可继承、多触点可复用的视觉符号规则。",
+            "将“光”转化为可继承、可复用的视觉规则，并推动品牌",
+            "在产品、传播与线下触点中一致落地。",
           ],
         },
       },
       {
         id: "product-launch",
         previewCopy: {
-          eyebrow: "DESIGN GOAL 02",
-          headlineLines: ["清晰传达子品牌价值"],
-          subheadLines: [
-            "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
-          ],
+          eyebrow: "INTEGRATED BRAND DELIVERY",
+          headlineLines: ["让新品价值在每个触点", "保持清晰一致"],
+          subheadLines: ["Anker SOLIX Prime E10 全球新品整合传播"],
           bodyLines: [
-            "通过 PRIME E10 的上市传播与页面承接，帮助",
-            "ANKER SOLIX 在家庭能源安全与持续供能场景中建立",
-            "更清晰的品类角色。",
+            "以产品价值为主线，统筹 KV、DTC 页面、邮件与社媒素材，",
+            "将上市传播转化为连续的品牌体验。",
           ],
         },
       },
       {
         id: "launch-event",
         previewCopy: {
-          eyebrow: "DESIGN GOAL 03",
-          headlineLines: ["强化发布会记忆点与", "传播连续性"],
-          subheadLines: ["IFA 全球发布会传播与内容系统"],
+          eyebrow: "BRAND EXPERIENCE",
+          headlineLines: ["把品牌系统带到", "真实的线下体验"],
+          subheadLines: ["IFA 全球发布会视觉与内容系统"],
           bodyLines: [
-            "将品牌升级后的视觉系统，转化为发布会可识别、",
-            "可延展、可连续传播的内容系统。",
+            "将升级后的视觉语言延展至展会、倒计时与发布内容，建立",
+            "可识别、可连续传播的品牌体验。",
           ],
         },
       },
