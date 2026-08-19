@@ -166,7 +166,7 @@
 }
 .previewBody {
   margin-top: clamp(16px, 2.25vh, 18px);
-  font-size: clamp(10px, 0.68vw, 13px);
+  font-size: clamp(11px, 0.74vw, 14px);
   line-height: 2.05;
 }
 @media (min-width: 768px) {
@@ -661,7 +661,7 @@
 .recruiterContributionHeading,
 .recruiterValidation > span {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.06em;
 }
 .recruiterSummaryMeta dd {
@@ -909,7 +909,7 @@
 .aboutExperienceDesktop .experienceRowTarget > span,
 .aboutExperienceDesktop .experienceRowTarget > strong,
 .aboutExperienceDesktop .experienceRowTarget > small {
-  font-size: clamp(9px, .82vw, 12px);
+  font-size: clamp(10px, .82vw, 12px);
 }
 .aboutExperienceDesktop .aboutTimelineOverlay {
   width: 87%;
@@ -1027,16 +1027,16 @@
 .experienceRowTarget > strong,
 .experienceRowTarget > small {
   font-family: var(--font-mono);
-  font-size: clamp(10px, .9vw, 13px);
+  font-size: clamp(11px, .9vw, 13px);
   line-height: 1.35;
 }
 .experienceRowTarget > strong { font-weight: 500; }
 .experienceRowTarget > small {
-  color: #858a88;
+  color: #666b69;
   font-weight: 400;
   text-align: right;
 }
-.experienceRowTarget .experienceYears { color: #858a88; }
+.experienceRowTarget .experienceYears { color: #666b69; }
 .experienceRowTarget .experienceArrow {
   position: absolute;
   top: 50%;
@@ -1118,9 +1118,9 @@
   inset: auto 0 1.5%;
   display: block;
   height: 1.5em;
-  color: #9ba09e;
+  color: #6f7472;
   font-family: var(--font-mono);
-  font-size: clamp(8px, .7vw, 11px);
+  font-size: clamp(10px, .7vw, 11px);
   line-height: 1.5;
 }
 .timelineYears span {
@@ -1225,8 +1225,8 @@
 .chapterNav a { border-bottom: 1px solid #777; padding: 18px 24px; font-size: 10px; }
 .caseChapter { padding: clamp(70px, 9vw, 120px) 0; }
 .caseChapter > div { display: flex; gap: 30px; align-items: baseline; }
-.caseChapter h2 { font-size: clamp(28px, 5vw, 84px); font-weight: 500; letter-spacing: -0.06em; }
-.caseChapter > p { color: #777; font-size: 10px; }
+.caseChapter h2 { font-size: clamp(28px, 5vw, 84px); font-weight: 500; letter-spacing: -0.03em; }
+.caseChapter > p { color: #666b69; font-size: 11px; }
 .mediaPlaceholder {
   display: grid;
   place-content: center;
