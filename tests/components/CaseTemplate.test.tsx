@@ -62,8 +62,8 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
 
   expect(screen.getByRole("heading", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
-  expect(screen.getByText("全球新品上市传播与 DTC 转化设计")).toBeInTheDocument();
-  expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
+  expect(screen.getByText("全球新品发布视觉与 DTC 页面设计")).toBeInTheDocument();
+  expect(screen.getByText("视觉风格与质量把控")).toBeInTheDocument();
   expect(screen.queryByText("判断 · 方法 · 价值")).not.toBeInTheDocument();
   expect(screen.getByText(/页面阅读深度 65%/)).toBeInTheDocument();
 
@@ -79,8 +79,8 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
   expect(
     screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("全球发布会传播与内容系统")).toBeInTheDocument();
-  expect(screen.getByText("传播内容链路")).toBeInTheDocument();
+  expect(screen.getByText("IFA 全球发布会主视觉、内容系统与现场体验")).toBeInTheDocument();
+  expect(screen.getByText("线上线下内容统筹")).toBeInTheDocument();
   expect(screen.getByText(/覆盖展前、展中、展后三个传播阶段/)).toBeInTheDocument();
 });
 
@@ -90,8 +90,8 @@ test("DESIGN LOGIC exposes the confirmed recruiter summary", () => {
   expect(
     screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("业务洞察与设计目标")).toBeInTheDocument();
-  expect(screen.getByText("核心问题定义")).toBeInTheDocument();
+  expect(screen.getByText("新品发布的前期规划、创意与视觉方向")).toBeInTheDocument();
+  expect(screen.getByText("视觉方向提案")).toBeInTheDocument();
   expect(screen.getByText(/三条设计目标分别进入 BRAND SYSTEM/)).toBeInTheDocument();
 });
 
@@ -101,9 +101,9 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
   expect(
     screen.getByRole("heading", { name: "ANKER INNOVATIONS" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("IFA 2025 · 全球品牌升级")).toBeInTheDocument();
-  expect(screen.getByText("系统联动")).toBeInTheDocument();
-  expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();
+  expect(screen.getByText("全球新品发布视觉系统")).toBeInTheDocument();
+  expect(screen.getByText("系统建立")).toBeInTheDocument();
+  expect(screen.getByText(/形成从前期判断、系统建立到多触点落地的完整发布链路/)).toBeInTheDocument();
   expect(screen.queryByText("业务目标")).not.toBeInTheDocument();
   expect(screen.queryByText("负责范围")).not.toBeInTheDocument();
 });
@@ -148,10 +148,10 @@ test("about template links experience rows to the ruler and rebuilds the contact
   expect(screen.getAllByText("创意设计主管（带8人团队）")).toHaveLength(2);
   expect(screen.getAllByText("创意设计组长（带4人团队）")).toHaveLength(2);
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
+    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长将复杂产品能力转译为用户能理解的新品体验，覆盖前期创意、视觉方向、风格规范、线上线下内容统筹与最终质量把控；曾主导全球新品上市、DTC 页面与 IFA 发布会传播，并建立 AIGC 探索与人工筛选的生产流程。 ▮",
   )).toBeInTheDocument();
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。精通新品发布视觉、品牌 VI 体系、DTC/电商页面及 AI 创意提效，具备从策略提案到落地闭环的全流程能力。",
+    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。擅长将复杂产品能力转译为新品体验，覆盖创意提案、风格规范、线上线下内容统筹与落地质量把控。",
   )).toBeInTheDocument();
   expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
     "src",
@@ -171,7 +171,7 @@ test("about template links experience rows to the ruler and rebuilds the contact
     "/kv/cases/about-crt.png",
   );
   expect(screen.getAllByRole("heading", { name: "我是KID（龙昊翔）" })).toHaveLength(2);
-  expect(screen.getAllByText("SENIOR VISUAL DESIGNER")).toHaveLength(2);
+  expect(screen.getAllByText("NEW PRODUCT LAUNCH & VISUAL SYSTEMS")).toHaveLength(2);
   expect(screen.getAllByRole("slider", { name: "Career timeline" })).toHaveLength(2);
   expect(screen.getAllByRole("slider", { name: "Career timeline" })[0]).toHaveAttribute(
     "aria-valuenow",

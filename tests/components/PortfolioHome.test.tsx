@@ -161,8 +161,13 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
 
   fireEvent.pointerEnter(business);
+  const selectedDesktopPreview = document.querySelector(
+    '[data-preview-layout="desktop"]',
+  );
   expect(
-    screen.getByRole("heading", { name: "业务洞察与设计目标" }),
+    within(selectedDesktopPreview!).getByRole("heading", {
+      name: "从产品与发布场景定义视觉方向",
+    }),
   ).toBeInTheDocument();
 
   fireEvent.pointerLeave(business);
@@ -207,21 +212,21 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "全球新品发布视觉系统",
     }),
   ).toBeInTheDocument();
   expect(
-    within(desktopPreview()!).getByLabelText("母品牌识别 · 子品牌上市 · 发布会传播"),
+    within(desktopPreview()!).getByLabelText("前期创意 · 品牌语言 · 线上线下发布"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByLabelText(
-      "项目是 ANKER INNOVATIONS 全球品牌升级、IFA 2025",
+      "以 ANKER SOLIX 新品发布为例，将产品价值、视觉方向、",
     ),
   ).toBeInTheDocument();
-  expect(within(mobilePreview()!).getByLabelText("项目总览")).toBeInTheDocument();
+  expect(within(mobilePreview()!).getByLabelText("NEW PRODUCT LAUNCH")).toBeInTheDocument();
   expect(
     within(mobilePreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "新品发布视觉系统从前期创意到线上线下触点",
     }),
   ).toBeInTheDocument();
 

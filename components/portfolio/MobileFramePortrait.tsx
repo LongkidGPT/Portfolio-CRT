@@ -5,7 +5,6 @@ import {
   MOBILE_KV_FRAME_COUNT,
   MOBILE_KV_HEIGHT,
   MOBILE_KV_NEUTRAL_FRAME,
-  MOBILE_KV_PROJECT_FRAMES,
   MOBILE_KV_WIDTH,
   mobileKvFrameSrc,
   normalizeMobileKvFrame,
@@ -104,11 +103,8 @@ export default function MobileFramePortrait({
       image.src = mobileKvFrameSrc(normalized);
     };
 
-    const priorityFrames = [
-      fixedFrameRef.current,
-      ...Object.values(MOBILE_KV_PROJECT_FRAMES),
-    ];
-    for (const frame of priorityFrames) loadFrame(frame);
+    // Keep first paint light: fetch project transition frames only on preview.
+    loadFrame(fixedFrameRef.current);
 
     const preloadPath = (from: number, target: number, lookAhead = 10) => {
       const delta = shortestFrameDelta(target, from, MOBILE_KV_FRAME_COUNT);

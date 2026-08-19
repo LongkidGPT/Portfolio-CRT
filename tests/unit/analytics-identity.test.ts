@@ -3,6 +3,7 @@ import {
   createSessionId,
   getOrCreateVisitorId,
   normalizeBranchId,
+  resolveBranchId,
 } from "@/lib/analytics/identity";
 
 describe("analytics identity", () => {
@@ -16,6 +17,12 @@ describe("analytics identity", () => {
     ["/%3Cscript%3E", undefined, "/"],
   ])("normalizes %s with stored branch %s", (pathname, stored, expected) => {
     expect(normalizeBranchId(pathname, stored)).toBe(expected);
+  });
+
+  test("uses a configured deployment branch before pathname or stored state", () => {
+    expect(resolveBranchId("/work/product-launch", "/", "/dji-product-launch")).toBe(
+      "/dji-product-launch",
+    );
   });
 
   test("persists one anonymous visitor but creates fresh session IDs", () => {

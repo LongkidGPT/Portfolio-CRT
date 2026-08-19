@@ -8,7 +8,6 @@ import {
   KV_SYNC_HEAD_ANCHOR,
   KV_SYNC_HEIGHT,
   KV_SYNC_NEUTRAL_FRAME,
-  KV_SYNC_PROJECT_FRAMES,
   KV_SYNC_WIDTH,
   angleForKvSyncPointer,
   frameForKvSyncPointer,
@@ -164,7 +163,6 @@ export default function FullFramePortrait({
 
     const preloadPriorityFrames = () => {
       loadFrame(KV_SYNC_NEUTRAL_FRAME);
-      for (const frame of Object.values(KV_SYNC_PROJECT_FRAMES)) loadFrame(frame);
     };
 
     const preloadPath = (from: number, target: number, lookAhead = 8) => {
