@@ -46,10 +46,10 @@ describe("project registry", () => {
     });
   });
 
-  it("stores the selected-state PROJECT OVERVIEW mobile copy separately", () => {
+  it("stores the DJI home mobile copy separately", () => {
     expect(PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY).toEqual({
-      firstLayer: "项目总览",
-      secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
+      firstLayer: "GLOBAL PRODUCT LAUNCH & DTC",
+      secondLayer: ["我是KID（龙昊翔）", "新品传播 · 电商活动 · DTC 转化视觉"],
     });
   });
 
@@ -68,14 +68,14 @@ describe("project registry", () => {
         id: "business",
         mobilePreviewCopy: {
           firstLayer: "DESIGN LOGIC",
-          secondLayer: "将复杂业务问题转化为清晰的设计方向",
+          secondLayer: "从产品价值与用户理解到设计判断",
         },
       },
       {
         id: "brand-system",
         mobilePreviewCopy: {
           firstLayer: "DESIGN GOAL 01",
-          secondLayer: "Anker innovations 视觉符号系统构建",
+          secondLayer: "品牌识别与跨市场内容延展",
         },
       },
       {
@@ -83,14 +83,14 @@ describe("project registry", () => {
         mobilePreviewCopy: {
           firstLayer: "DESIGN GOAL 02",
           secondLayer:
-            "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
+            "新品传播与 DTC 转化设计",
         },
       },
       {
         id: "launch-event",
         mobilePreviewCopy: {
           firstLayer: "DESIGN GOAL 03",
-          secondLayer: "IFA 全球发布会传播与内容系统",
+          secondLayer: "全球发布会核心视觉与内容系统",
         },
       },
     ]);
@@ -111,11 +111,11 @@ describe("project registry", () => {
         id: "business",
         previewCopy: {
           eyebrow: "DESIGN LOGIC",
-          headlineLines: ["业务洞察与设计目标"],
-          subheadLines: ["将复杂业务问题转化为清晰", "的设计方向"],
+          headlineLines: ["产品价值与用户理解"],
+          subheadLines: ["新品传播、电商页面与购买路径的设计判断"],
           bodyLines: [
-            "通过业务链路梳理、用户诉求判断、展会触点拆解与竞品",
-            "观察，建立从业务目标到视觉系统策略的判断依据。",
+            "从业务目标、用户场景与产品卖点出发，建立",
+            "可进入新品传播与 DTC 页面设计的判断依据。",
           ],
         },
       },
@@ -123,11 +123,11 @@ describe("project registry", () => {
         id: "brand-system",
         previewCopy: {
           eyebrow: "DESIGN GOAL 01",
-          headlineLines: ["建立母子品牌关系，", "提升子品牌认知"],
-          subheadLines: ["母品牌视觉符号系统构建"],
+          headlineLines: ["建立全球品牌语言，", "支撑多触点传播"],
+          subheadLines: ["品牌识别与跨市场内容延展"],
           bodyLines: [
-            "将品牌战略中的“光”，转译为母品牌可承载、子品牌",
-            "可继承、多触点可复用的视觉符号规则。",
+            "以统一的品牌视觉规则连接产品、电商与传播内容，",
+            "让不同市场和渠道保持一致的识别与表达。",
           ],
         },
       },
@@ -135,14 +135,13 @@ describe("project registry", () => {
         id: "product-launch",
         previewCopy: {
           eyebrow: "DESIGN GOAL 02",
-          headlineLines: ["清晰传达子品牌价值"],
+          headlineLines: ["将产品价值转化为", "用户购买判断"],
           subheadLines: [
             "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
           ],
           bodyLines: [
-            "通过 PRIME E10 的上市传播与页面承接，帮助",
-            "ANKER SOLIX 在家庭能源安全与持续供能场景中建立",
-            "更清晰的品类角色。",
+            "从新品传播到 DTC 页面信息架构，帮助用户理解",
+            "家庭能源场景、产品价值与下一步购买选择。",
           ],
         },
       },
@@ -150,11 +149,11 @@ describe("project registry", () => {
         id: "launch-event",
         previewCopy: {
           eyebrow: "DESIGN GOAL 03",
-          headlineLines: ["强化发布会记忆点与", "传播连续性"],
-          subheadLines: ["IFA 全球发布会传播与内容系统"],
+          headlineLines: ["让新品发布视觉贯穿", "线上线下传播体验"],
+          subheadLines: ["全球发布会核心视觉与内容系统"],
           bodyLines: [
-            "将品牌升级后的视觉系统，转化为发布会可识别、",
-            "可延展、可连续传播的内容系统。",
+            "将主视觉延展至展前、现场与展后内容，建立",
+            "让新品信息在展前、现场与展后持续延展。",
           ],
         },
       },

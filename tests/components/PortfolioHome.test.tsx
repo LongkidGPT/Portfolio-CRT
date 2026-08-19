@@ -162,7 +162,7 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
 
   fireEvent.pointerEnter(business);
   expect(
-    screen.getByRole("heading", { name: "业务洞察与设计目标" }),
+    screen.getByRole("heading", { name: "产品价值与用户理解" }),
   ).toBeInTheDocument();
 
   fireEvent.pointerLeave(business);
@@ -175,7 +175,7 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   ).toBeInTheDocument();
 });
 
-test("shows PROJECT OVERVIEW only while the first desktop card is previewed", () => {
+test("shows DJI home copy while the first desktop card is previewed", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   const { container } = render(<PortfolioHome />);
 
@@ -191,7 +191,7 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
     within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(mobilePreview()!).getByLabelText("我是KID（龙昊翔）"),
   ).toBeInTheDocument();
 
   const overview = screen.getByRole("link", { name: "Open PROJECT OVERVIEW" });
@@ -203,25 +203,27 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
   );
 
   expect(
-    within(desktopPreview()!).getByLabelText("PROJECT OVERVIEW"),
+    within(desktopPreview()!).getByLabelText("GLOBAL PRODUCT LAUNCH & DTC"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "我是KID（龙昊翔）",
     }),
   ).toBeInTheDocument();
   expect(
-    within(desktopPreview()!).getByLabelText("母品牌识别 · 子品牌上市 · 发布会传播"),
+    within(desktopPreview()!).getByLabelText("一个人类 · 资深视觉设计师"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByLabelText(
-      "项目是 ANKER INNOVATIONS 全球品牌升级、IFA 2025",
+      "10+ 年智能硬件品牌视觉经验，聚焦新品传播、",
     ),
   ).toBeInTheDocument();
-  expect(within(mobilePreview()!).getByLabelText("项目总览")).toBeInTheDocument();
+  expect(
+    within(mobilePreview()!).getByLabelText("GLOBAL PRODUCT LAUNCH & DTC"),
+  ).toBeInTheDocument();
   expect(
     within(mobilePreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "我是KID（龙昊翔）新品传播 · 电商活动 · DTC 转化视觉",
     }),
   ).toBeInTheDocument();
 
@@ -233,7 +235,7 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
     within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(mobilePreview()!).getByLabelText("我是KID（龙昊翔）"),
   ).toBeInTheDocument();
 });
 

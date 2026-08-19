@@ -108,7 +108,7 @@ test("mobile controls and swipe preview adjacent project cards", async ({
   const designLogic = page.getByRole("link", { name: "Open DESIGN LOGIC" });
   await expect(designLogic).toHaveAttribute("data-previewed", "");
   await expect(
-    page.getByRole("heading", { name: "业务洞察与设计目标" }),
+    page.getByRole("heading", { name: "产品价值与用户理解" }),
   ).toBeVisible();
   await expect(
     designLogic.locator('[src="/kv-mobile/cards/design-logic-default.png"]'),

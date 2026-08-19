@@ -14,15 +14,14 @@ test("renders the approved business hierarchy as real text", () => {
   expect(desktop).not.toBeNull();
   expect(within(desktop!).getByLabelText("DESIGN LOGIC")).toBeVisible();
   expect(
-    within(desktop!).getByRole("heading", { name: "业务洞察与设计目标" }),
+    within(desktop!).getByRole("heading", { name: "产品价值与用户理解" }),
   ).toBeVisible();
   expect(
-    within(desktop!).getByLabelText("将复杂业务问题转化为清晰"),
+    within(desktop!).getByLabelText("新品传播、电商页面与购买路径的设计判断"),
   ).toBeVisible();
-  expect(within(desktop!).getByLabelText("的设计方向")).toBeVisible();
   expect(
     within(desktop!).getByLabelText(
-      "观察，建立从业务目标到视觉系统策略的判断依据。",
+      "可进入新品传播与 DTC 页面设计的判断依据。",
     ),
   ).toBeVisible();
   expect(
@@ -58,7 +57,7 @@ test("renders the approved two-layer mobile product launch copy", () => {
   expect(within(mobile!).getByLabelText("DESIGN GOAL 02")).toBeVisible();
   expect(
     within(mobile!).getByLabelText(
-      "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
+      "新品传播与 DTC 转化设计",
     ),
   ).toBeVisible();
 });

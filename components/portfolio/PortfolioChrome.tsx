@@ -34,7 +34,7 @@ export default function PortfolioChrome({ activeIndex }: { activeIndex: number |
 
   return (
     <>
-      <PortfolioHeader />
+      <PortfolioHeader roleLabel="GLOBAL PRODUCT LAUNCH & DTC" />
       <Ruler side="left" activeIndex={activeIndex} />
       <Ruler side="right" activeIndex={activeIndex} />
       <div className={styles.resolution}>RES / {resolution}</div>

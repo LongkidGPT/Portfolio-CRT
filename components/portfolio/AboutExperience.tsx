@@ -13,7 +13,7 @@ const experiences = [
     years: "2023　–　2026",
     label: "2023–2026 Anker Innovations",
     company: "安克创新 Anker Innovations",
-    role: "资深视觉设计师",
+    role: "资深视觉设计师 · 新品传播 / DTC",
   },
   {
     start: 2021,
@@ -21,7 +21,7 @@ const experiences = [
     years: "2021　–　2023",
     label: "2021–2023 Linsy",
     company: "林氏家居 Linsy",
-    role: "创意设计主管（带8人团队）",
+    role: "创意设计主管 · 带 8 人团队",
   },
   {
     start: 2018,
@@ -29,7 +29,7 @@ const experiences = [
     years: "2018　–　2021",
     label: "2018–2021 Extend",
     company: "熠思霆创意 Extend",
-    role: "创意设计组长（带4人团队）",
+    role: "创意设计组长 · 整合营销",
   },
   {
     start: 2015,
@@ -37,7 +37,7 @@ const experiences = [
     years: "2015　–　2018",
     label: "2015–2018 GREY-DPI",
     company: "GREY-DPI (wpp)",
-    role: "资深视觉设计师",
+    role: "美术指导 · 品牌传播",
   },
   {
     start: 2012,
@@ -45,7 +45,7 @@ const experiences = [
     years: "2012　–　2015",
     label: "2012–2015 UNI Group",
     company: "同立集团 UNI Group",
-    role: "视觉设计师",
+    role: "视觉设计师 · 品牌传播",
   },
 ] as const;
 
