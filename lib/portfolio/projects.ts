@@ -93,13 +93,13 @@ export const PROJECTS = [
     year: "IFA 2025",
     summary: "Anker Innovations global brand upgrade and three connected design goals.",
     previewCopy: {
-      eyebrow: "VISUAL DESIGNER",
+      eyebrow: "BRAND & AIGC DESIGN",
       headlineLines: ["我是KID（龙昊翔）"],
       subheadLines: ["一个人类 · 资深视觉设计师"],
       bodyLines: [],
     },
     mobilePreviewCopy: {
-      firstLayer: "VISUAL DESIGNER",
+      firstLayer: "BRAND & AIGC DESIGN",
       secondLayer: "我是KID（龙昊翔）",
     },
     href: "/work/about",

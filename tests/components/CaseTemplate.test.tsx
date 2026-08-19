@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import AboutTemplate from "@/components/portfolio/AboutTemplate";
+import { ABOUT_HERO_COPY } from "@/components/portfolio/AboutTemplate";
 import CaseTemplate from "@/components/portfolio/CaseTemplate";
 import { getProjectById } from "@/lib/portfolio/projects";
 
@@ -147,12 +148,8 @@ test("about template links experience rows to the ruler and rebuilds the contact
   expect(screen.getAllByText("熠思霆创意 Extend")).toHaveLength(2);
   expect(screen.getAllByText("创意设计主管（带8人团队）")).toHaveLength(2);
   expect(screen.getAllByText("创意设计组长（带4人团队）")).toHaveLength(2);
-  expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
-  )).toBeInTheDocument();
-  expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。精通新品发布视觉、品牌 VI 体系、DTC/电商页面及 AI 创意提效，具备从策略提案到落地闭环的全流程能力。",
-  )).toBeInTheDocument();
+  expect(screen.getByText(ABOUT_HERO_COPY.introduction)).toBeInTheDocument();
+  expect(screen.getByText(ABOUT_HERO_COPY.mobileIntroduction)).toBeInTheDocument();
   expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
     "src",
     "/kv/cases/about-background.png",
@@ -171,7 +168,7 @@ test("about template links experience rows to the ruler and rebuilds the contact
     "/kv/cases/about-crt.png",
   );
   expect(screen.getAllByRole("heading", { name: "我是KID（龙昊翔）" })).toHaveLength(2);
-  expect(screen.getAllByText("SENIOR VISUAL DESIGNER")).toHaveLength(2);
+  expect(screen.getAllByText(ABOUT_HERO_COPY.eyebrow)).toHaveLength(2);
   expect(screen.getAllByRole("slider", { name: "Career timeline" })).toHaveLength(2);
   expect(screen.getAllByRole("slider", { name: "Career timeline" })[0]).toHaveAttribute(
     "aria-valuenow",

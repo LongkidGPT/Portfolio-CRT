@@ -60,7 +60,7 @@ describe("project registry", () => {
       {
         id: "about",
         mobilePreviewCopy: {
-          firstLayer: "VISUAL DESIGNER",
+          firstLayer: "BRAND & AIGC DESIGN",
           secondLayer: "我是KID（龙昊翔）",
         },
       },
@@ -101,7 +101,7 @@ describe("project registry", () => {
       {
         id: "about",
         previewCopy: {
-          eyebrow: "VISUAL DESIGNER",
+          eyebrow: "BRAND & AIGC DESIGN",
           headlineLines: ["我是KID（龙昊翔）"],
           subheadLines: ["一个人类 · 资深视觉设计师"],
           bodyLines: [],
