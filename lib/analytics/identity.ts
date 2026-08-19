@@ -35,6 +35,14 @@ export function normalizeBranchId(pathname: string, storedBranch?: string) {
   return current;
 }
 
+export function resolveBranchId(
+  pathname: string,
+  storedBranch?: string,
+  configuredBranch?: string,
+) {
+  return safePath(configuredBranch) ?? normalizeBranchId(pathname, storedBranch);
+}
+
 export function getOrCreateVisitorId(
   storage: StorageLike,
   crypto: CryptoLike = globalThis.crypto,

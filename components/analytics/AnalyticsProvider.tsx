@@ -6,7 +6,7 @@ import { sendAnalyticsEvent } from "@/lib/analytics/client";
 import {
   createSessionId,
   getOrCreateVisitorId,
-  normalizeBranchId,
+  resolveBranchId,
 } from "@/lib/analytics/identity";
 import type {
   AnalyticsEvent,
@@ -51,9 +51,10 @@ export default function AnalyticsProvider({
     || !navigator.webdriver;
   const identity = useRef<SessionIdentity | null>(null);
   const branchId = useMemo(() => {
-    if (typeof window === "undefined") return normalizeBranchId(pathname);
+    const configuredBranch = process.env.NEXT_PUBLIC_ANALYTICS_BRANCH_ID;
+    if (typeof window === "undefined") return resolveBranchId(pathname, undefined, configuredBranch);
     const stored = window.sessionStorage.getItem(BRANCH_STORAGE_KEY) ?? undefined;
-    const branch = normalizeBranchId(pathname, stored);
+    const branch = resolveBranchId(pathname, stored, configuredBranch);
     window.sessionStorage.setItem(BRANCH_STORAGE_KEY, branch);
     return branch;
   }, [pathname]);

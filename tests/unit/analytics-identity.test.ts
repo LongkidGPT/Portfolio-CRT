@@ -3,6 +3,7 @@ import {
   createSessionId,
   getOrCreateVisitorId,
   normalizeBranchId,
+  resolveBranchId,
 } from "@/lib/analytics/identity";
 
 describe("analytics identity", () => {
@@ -36,5 +37,11 @@ describe("analytics identity", () => {
     expect(getOrCreateVisitorId(storage, crypto)).toBe("visitor-a");
     expect(createSessionId(crypto)).toBe("session-a");
     expect(createSessionId(crypto)).toBe("session-b");
+  });
+
+  test("uses a configured deployment branch for every route", () => {
+    expect(resolveBranchId("/work/product-launch", "/", "/dji-marketing")).toBe(
+      "/dji-marketing",
+    );
   });
 });
