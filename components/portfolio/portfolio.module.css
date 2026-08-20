@@ -623,6 +623,16 @@
   margin: 0 auto;
   padding: clamp(44px, 5.6vw, 78px) 0 clamp(40px, 4.5vw, 62px);
 }
+.recruiterSummaryWithoutTitle {
+  padding-top: clamp(32px, 3.5vw, 48px);
+}
+.recruiterSummary .recruiterSummaryPath {
+  margin-bottom: clamp(36px, 4.1vw, 56px);
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
 .recruiterSummary p,
 .recruiterSummary h1,
 .recruiterSummary h2,
@@ -649,6 +659,9 @@
   margin-top: clamp(36px, 4.1vw, 56px);
   background: rgba(32, 35, 34, 0.18);
   border-block: 1px solid rgba(32, 35, 34, 0.18);
+}
+.recruiterSummaryWithoutTitle .recruiterSummaryMeta {
+  margin-top: 0;
 }
 .recruiterSummaryMeta > div {
   padding: 18px 28px 20px 0;
@@ -695,7 +708,7 @@
 }
 .recruiterContributions h2 {
   flex: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 1.4;
 }
@@ -712,7 +725,7 @@
   min-width: 0;
   max-width: none;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.8;
 }
 @media (min-width: 1100px) {
@@ -753,6 +766,12 @@
     width: calc(100% - 36px);
     padding: 40px 0 36px;
   }
+  .recruiterSummaryWithoutTitle {
+    padding-top: 28px;
+  }
+  .recruiterSummary .recruiterSummaryPath {
+    margin-bottom: 50px;
+  }
   .recruiterSummaryHeader h1 {
     font-size: 28px;
     line-height: 1.1;
@@ -772,7 +791,7 @@
     border-top: 1px solid rgba(32, 35, 34, 0.18);
   }
   .recruiterContributionHeading {
-    margin-top: 30px;
+    margin-top: 50px;
   }
   .recruiterContributions li {
     grid-template-columns: 34px 1fr;

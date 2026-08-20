@@ -55,6 +55,14 @@ function hotspotStyle(link: (typeof OVERVIEW_LINKS)[number]) {
   } as CSSProperties;
 }
 
+function casePathLabel(project: ProjectDefinition) {
+  const caseIds = ["business", "brand-system", "product-launch", "launch-event"] as const;
+  const index = caseIds.indexOf(project.id as (typeof caseIds)[number]);
+  return index === -1
+    ? undefined
+    : `PROJECT OVERVIEW / ${String(index).padStart(2, "0")} ${project.label}`;
+}
+
 export default function CaseTemplate({ project }: { project: ProjectDefinition }) {
   if (project.caseArtwork) {
     const useImageCdn = process.env.NETLIFY === "true";
@@ -68,7 +76,11 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
     return (
       <article className={styles.caseArtwork}>
         {project.recruiterSummary && (
-          <RecruiterProjectSummary summary={project.recruiterSummary} />
+          <RecruiterProjectSummary
+            summary={project.recruiterSummary}
+            hideTitle={project.id !== "about"}
+            contextLabel={casePathLabel(project)}
+          />
         )}
         <picture>
           <source
