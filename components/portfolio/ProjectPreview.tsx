@@ -28,6 +28,7 @@ export default function ProjectPreview({
   const mobileSecondLayer = typeof mobileCopy.secondLayer === "string"
     ? [mobileCopy.secondLayer]
     : mobileCopy.secondLayer;
+  const hasSubhead = copy.subheadLines.length > 0;
 
   return (
     <section className={styles.preview} aria-live="polite">
@@ -39,14 +40,18 @@ export default function ProjectPreview({
           <h1 className={styles.previewHeadline}>
             <ReelLines lines={copy.headlineLines} />
           </h1>
-          <span
-            className={styles.previewDivider}
-            data-preview-divider="true"
-            aria-hidden="true"
-          />
-          <div className={styles.previewSubhead}>
-            <ReelLines lines={copy.subheadLines} />
-          </div>
+          {hasSubhead && (
+            <>
+              <span
+                className={styles.previewDivider}
+                data-preview-divider="true"
+                aria-hidden="true"
+              />
+              <div className={styles.previewSubhead}>
+                <ReelLines lines={copy.subheadLines} />
+              </div>
+            </>
+          )}
           {copy.bodyLines.length > 0 && (
             <div className={styles.previewBody} data-preview-body="true">
               <ReelLines lines={copy.bodyLines} />
