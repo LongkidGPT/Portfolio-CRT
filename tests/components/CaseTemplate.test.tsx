@@ -61,7 +61,7 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
   const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
 
   expect(screen.getByRole("region", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
-  expect(screen.getByText("PROJECT OVERVIEW / 03 PRODUCT LAUNCH")).toBeInTheDocument();
+  expect(screen.getByText("PROJECT OVERVIEW / 02 PRODUCT LAUNCH")).toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
   expect(screen.queryByText("全球新品上市传播与 DTC 转化设计")).not.toBeInTheDocument();
   expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
@@ -86,10 +86,10 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
 });
 
 test.each([
-  ["business", "PROJECT OVERVIEW / 01 DESIGN LOGIC", "ANKER INNOVATIONS IFA 2025"],
-  ["brand-system", "PROJECT OVERVIEW / 02 BRAND SYSTEM", "ANKER INNOVATIONS"],
-  ["product-launch", "PROJECT OVERVIEW / 03 PRODUCT LAUNCH", "ANKER SOLIX PRIME E10"],
-  ["launch-event", "PROJECT OVERVIEW / 04 LAUNCH EVENT", "ANKER INNOVATIONS IFA 2025"],
+  ["business", "PROJECT OVERVIEW / 00 DESIGN LOGIC", "ANKER INNOVATIONS IFA 2025"],
+  ["brand-system", "PROJECT OVERVIEW / 01 BRAND SYSTEM", "ANKER INNOVATIONS"],
+  ["product-launch", "PROJECT OVERVIEW / 02 PRODUCT LAUNCH", "ANKER SOLIX PRIME E10"],
+  ["launch-event", "PROJECT OVERVIEW / 03 LAUNCH EVENT", "ANKER INNOVATIONS IFA 2025"],
 ] as const)("%s uses a compact case context instead of a repeated title", (id, contextLabel, repeatedTitle) => {
   render(<CaseTemplate project={getProjectById(id)} />);
 

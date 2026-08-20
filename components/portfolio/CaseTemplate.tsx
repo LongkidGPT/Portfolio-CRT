@@ -56,10 +56,10 @@ function hotspotStyle(link: (typeof OVERVIEW_LINKS)[number]) {
 }
 
 const CASE_CONTEXT: Partial<Record<ProjectDefinition["id"], string>> = {
-  business: "PROJECT OVERVIEW / 01 DESIGN LOGIC",
-  "brand-system": "PROJECT OVERVIEW / 02 BRAND SYSTEM",
-  "product-launch": "PROJECT OVERVIEW / 03 PRODUCT LAUNCH",
-  "launch-event": "PROJECT OVERVIEW / 04 LAUNCH EVENT",
+  business: "PROJECT OVERVIEW / 00 DESIGN LOGIC",
+  "brand-system": "PROJECT OVERVIEW / 01 BRAND SYSTEM",
+  "product-launch": "PROJECT OVERVIEW / 02 PRODUCT LAUNCH",
+  "launch-event": "PROJECT OVERVIEW / 03 LAUNCH EVENT",
 };
 
 export default function CaseTemplate({ project }: { project: ProjectDefinition }) {
