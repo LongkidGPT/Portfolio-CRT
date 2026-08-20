@@ -642,6 +642,14 @@
   font-size: clamp(14px, 1.05vw, 17px);
   line-height: 1.5;
 }
+.recruiterSummaryHeader > .recruiterSummaryContext {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  line-height: 1.35;
+}
 .recruiterSummary .recruiterSummaryMeta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -760,9 +768,12 @@
   .recruiterSummaryHeader > p:last-child {
     font-size: 13px;
   }
+  .recruiterSummaryHeader > .recruiterSummaryContext {
+    font-size: 14px;
+  }
   .recruiterSummary .recruiterSummaryMeta {
     grid-template-columns: 1fr;
-    margin-top: 30px;
+    margin-top: 50px;
   }
   .recruiterSummaryMeta > div {
     padding: 15px 0 17px;
@@ -772,7 +783,7 @@
     border-top: 1px solid rgba(32, 35, 34, 0.18);
   }
   .recruiterContributionHeading {
-    margin-top: 30px;
+    margin-top: 50px;
   }
   .recruiterContributions li {
     grid-template-columns: 34px 1fr;

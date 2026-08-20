@@ -55,6 +55,13 @@ function hotspotStyle(link: (typeof OVERVIEW_LINKS)[number]) {
   } as CSSProperties;
 }
 
+const CASE_CONTEXT: Partial<Record<ProjectDefinition["id"], string>> = {
+  business: "PROJECT OVERVIEW / 01 DESIGN LOGIC",
+  "brand-system": "PROJECT OVERVIEW / 02 BRAND SYSTEM",
+  "product-launch": "PROJECT OVERVIEW / 03 PRODUCT LAUNCH",
+  "launch-event": "PROJECT OVERVIEW / 04 LAUNCH EVENT",
+};
+
 export default function CaseTemplate({ project }: { project: ProjectDefinition }) {
   if (project.caseArtwork) {
     const useImageCdn = process.env.NETLIFY === "true";
@@ -68,7 +75,11 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
     return (
       <article className={styles.caseArtwork}>
         {project.recruiterSummary && (
-          <RecruiterProjectSummary summary={project.recruiterSummary} />
+          <RecruiterProjectSummary
+            summary={project.recruiterSummary}
+            contextLabel={CASE_CONTEXT[project.id]}
+            hideTitle={Boolean(CASE_CONTEXT[project.id])}
+          />
         )}
         <picture>
           <source

@@ -60,14 +60,15 @@ test("PROJECT OVERVIEW blue CTAs link to the four matching case pages", () => {
 test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied artwork", () => {
   const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
 
-  expect(screen.getByRole("heading", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
+  expect(screen.getByRole("region", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
+  expect(screen.getByText("PROJECT OVERVIEW / 03 PRODUCT LAUNCH")).toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
-  expect(screen.getByText("全球新品上市传播与 DTC 转化设计")).toBeInTheDocument();
+  expect(screen.queryByText("全球新品上市传播与 DTC 转化设计")).not.toBeInTheDocument();
   expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
   expect(screen.queryByText("判断 · 方法 · 价值")).not.toBeInTheDocument();
   expect(screen.getByText(/页面阅读深度 65%/)).toBeInTheDocument();
 
-  const summary = screen.getByRole("heading", { name: "ANKER SOLIX PRIME E10" }).closest("section");
+  const summary = screen.getByRole("region", { name: "ANKER SOLIX PRIME E10" });
   const artwork = screen.getByRole("img", { name: "Product launch case study" });
   expect(summary?.compareDocumentPosition(artwork) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   expect(container.querySelectorAll("section")).toHaveLength(1);
@@ -77,20 +78,34 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
   render(<CaseTemplate project={getProjectById("launch-event")} />);
 
   expect(
-    screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
+    screen.getByRole("region", { name: "ANKER INNOVATIONS IFA 2025" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("全球发布会传播与内容系统")).toBeInTheDocument();
+  expect(screen.queryByText("全球发布会传播与内容系统")).not.toBeInTheDocument();
   expect(screen.getByText("传播内容链路")).toBeInTheDocument();
   expect(screen.getByText(/覆盖展前、展中、展后三个传播阶段/)).toBeInTheDocument();
+});
+
+test.each([
+  ["business", "PROJECT OVERVIEW / 01 DESIGN LOGIC", "ANKER INNOVATIONS IFA 2025"],
+  ["brand-system", "PROJECT OVERVIEW / 02 BRAND SYSTEM", "ANKER INNOVATIONS"],
+  ["product-launch", "PROJECT OVERVIEW / 03 PRODUCT LAUNCH", "ANKER SOLIX PRIME E10"],
+  ["launch-event", "PROJECT OVERVIEW / 04 LAUNCH EVENT", "ANKER INNOVATIONS IFA 2025"],
+] as const)("%s uses a compact case context instead of a repeated title", (id, contextLabel, repeatedTitle) => {
+  render(<CaseTemplate project={getProjectById(id)} />);
+
+  expect(screen.getByText(contextLabel)).toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: repeatedTitle })).not.toBeInTheDocument();
+  expect(screen.getByText("业务目标")).toBeInTheDocument();
+  expect(screen.getByText("负责范围")).toBeInTheDocument();
 });
 
 test("DESIGN LOGIC exposes the confirmed recruiter summary", () => {
   render(<CaseTemplate project={getProjectById("business")} />);
 
   expect(
-    screen.getByRole("heading", { name: "ANKER INNOVATIONS IFA 2025" }),
+    screen.getByRole("region", { name: "ANKER INNOVATIONS IFA 2025" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("业务洞察与设计目标")).toBeInTheDocument();
+  expect(screen.queryByText("业务洞察与设计目标")).not.toBeInTheDocument();
   expect(screen.getByText("核心问题定义")).toBeInTheDocument();
   expect(screen.getByText(/三条设计目标分别进入 BRAND SYSTEM/)).toBeInTheDocument();
 });
