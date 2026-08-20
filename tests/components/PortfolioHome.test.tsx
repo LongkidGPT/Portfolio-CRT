@@ -155,15 +155,15 @@ test("locks the full-frame target to the hovered formal project", () => {
   ).toHaveAttribute("data-target-frame", "128");
 });
 
-test("restores the ABOUT ME copy after the pointer leaves a project button", () => {
+test("restores the personal introduction after the pointer leaves a project button", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   render(<PortfolioHome />);
   const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
 
   fireEvent.pointerEnter(business);
   expect(
-    screen.getByRole("heading", { name: "产品价值与用户理解" }),
-  ).toBeInTheDocument();
+    screen.getAllByRole("heading", { name: "业务洞察与设计目标" }),
+  ).toHaveLength(2);
 
   fireEvent.pointerLeave(business);
   const desktopPreview = () => document.querySelector(
@@ -175,7 +175,7 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   ).toBeInTheDocument();
 });
 
-test("shows DJI home copy while the first desktop card is previewed", () => {
+test("shows the IFA project overview while the first desktop card is previewed", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   const { container } = render(<PortfolioHome />);
 
@@ -203,27 +203,27 @@ test("shows DJI home copy while the first desktop card is previewed", () => {
   );
 
   expect(
-    within(desktopPreview()!).getByLabelText("GLOBAL PRODUCT LAUNCH & DTC"),
+    within(desktopPreview()!).getByLabelText("PROJECT OVERVIEW"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByRole("heading", {
-      name: "我是KID（龙昊翔）",
+      name: "IFA 2025 全球新品传播与商业化系统",
     }),
   ).toBeInTheDocument();
   expect(
-    within(desktopPreview()!).getByLabelText("一个人类 · 资深视觉设计师"),
+    within(desktopPreview()!).getByLabelText("品牌语言 · 新品发布 · DTC · 线上线下传播"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByLabelText(
-      "10+ 年智能硬件品牌视觉经验，聚焦新品传播、",
+      "围绕 IFA 2025，将品牌语言、产品价值、DTC 页面与发布会内容，",
     ),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByLabelText("GLOBAL PRODUCT LAUNCH & DTC"),
+    within(mobilePreview()!).getByLabelText("PROJECT OVERVIEW"),
   ).toBeInTheDocument();
   expect(
     within(mobilePreview()!).getByRole("heading", {
-      name: "我是KID（龙昊翔）新品传播 · 电商活动 · DTC 转化视觉",
+      name: "全球新品传播与商业化系统从品牌语言到线上线下触点",
     }),
   ).toBeInTheDocument();
 

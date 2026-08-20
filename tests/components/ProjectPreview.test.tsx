@@ -14,10 +14,10 @@ test("renders the approved business hierarchy as real text", () => {
   expect(desktop).not.toBeNull();
   expect(within(desktop!).getByLabelText("DESIGN LOGIC")).toBeVisible();
   expect(
-    within(desktop!).getByRole("heading", { name: "产品价值与用户理解" }),
+    within(desktop!).getByRole("heading", { name: "业务洞察与设计目标" }),
   ).toBeVisible();
   expect(
-    within(desktop!).getByLabelText("新品传播、电商页面与购买路径的设计判断"),
+    within(desktop!).getByLabelText("从产品价值、用户理解到设计方向"),
   ).toBeVisible();
   expect(
     within(desktop!).getByLabelText(
@@ -28,6 +28,18 @@ test("renders the approved business hierarchy as real text", () => {
     desktop!.querySelector('[data-preview-divider="true"]'),
   ).toBeInTheDocument();
   expect(container.querySelector('img[src*="/copy/"]')).toBeNull();
+});
+
+test.each([
+  ["brand-system", "品牌系统与触点应用"],
+  ["product-launch", "新品传播与 DTC 转化"],
+  ["launch-event", "发布会传播与内容系统"],
+] as const)("%s uses its canonical case title on the project overview", (id, title) => {
+  const { container } = render(<ProjectPreview project={getProjectById(id)} />);
+  const desktop = container.querySelector('[data-preview-layout="desktop"]');
+
+  expect(desktop).not.toBeNull();
+  expect(within(desktop!).getByRole("heading", { name: title })).toBeVisible();
 });
 
 test("renders the approved two-layer mobile about copy", () => {
@@ -57,7 +69,7 @@ test("renders the approved two-layer mobile product launch copy", () => {
   expect(within(mobile!).getByLabelText("DESIGN GOAL 02")).toBeVisible();
   expect(
     within(mobile!).getByLabelText(
-      "新品传播与 DTC 转化设计",
+      "新品传播与 DTC 转化",
     ),
   ).toBeVisible();
 });

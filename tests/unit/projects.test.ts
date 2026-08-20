@@ -48,8 +48,8 @@ describe("project registry", () => {
 
   it("stores the DJI home mobile copy separately", () => {
     expect(PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY).toEqual({
-      firstLayer: "GLOBAL PRODUCT LAUNCH & DTC",
-      secondLayer: ["我是KID（龙昊翔）", "新品传播 · 电商活动 · DTC 转化视觉"],
+      firstLayer: "PROJECT OVERVIEW",
+      secondLayer: ["全球新品传播与商业化系统", "从品牌语言到线上线下触点"],
     });
   });
 
@@ -68,29 +68,28 @@ describe("project registry", () => {
         id: "business",
         mobilePreviewCopy: {
           firstLayer: "DESIGN LOGIC",
-          secondLayer: "从产品价值与用户理解到设计判断",
+          secondLayer: "业务洞察与设计目标",
         },
       },
       {
         id: "brand-system",
         mobilePreviewCopy: {
           firstLayer: "DESIGN GOAL 01",
-          secondLayer: "品牌识别与跨市场内容延展",
+          secondLayer: "品牌系统与触点应用",
         },
       },
       {
         id: "product-launch",
         mobilePreviewCopy: {
           firstLayer: "DESIGN GOAL 02",
-          secondLayer:
-            "新品传播与 DTC 转化设计",
+          secondLayer: "新品传播与 DTC 转化",
         },
       },
       {
         id: "launch-event",
         mobilePreviewCopy: {
           firstLayer: "DESIGN GOAL 03",
-          secondLayer: "全球发布会核心视觉与内容系统",
+          secondLayer: "发布会传播与内容系统",
         },
       },
     ]);
@@ -111,8 +110,8 @@ describe("project registry", () => {
         id: "business",
         previewCopy: {
           eyebrow: "DESIGN LOGIC",
-          headlineLines: ["产品价值与用户理解"],
-          subheadLines: ["新品传播、电商页面与购买路径的设计判断"],
+          headlineLines: ["业务洞察与设计目标"],
+          subheadLines: ["从产品价值、用户理解到设计方向"],
           bodyLines: [
             "从业务目标、用户场景与产品卖点出发，建立",
             "可进入新品传播与 DTC 页面设计的判断依据。",
@@ -123,8 +122,8 @@ describe("project registry", () => {
         id: "brand-system",
         previewCopy: {
           eyebrow: "DESIGN GOAL 01",
-          headlineLines: ["建立全球品牌语言，", "支撑多触点传播"],
-          subheadLines: ["品牌识别与跨市场内容延展"],
+          headlineLines: ["品牌系统与触点应用"],
+          subheadLines: ["建立可维护的全球品牌语言"],
           bodyLines: [
             "以统一的品牌视觉规则连接产品、电商与传播内容，",
             "让不同市场和渠道保持一致的识别与表达。",
@@ -135,10 +134,8 @@ describe("project registry", () => {
         id: "product-launch",
         previewCopy: {
           eyebrow: "DESIGN GOAL 02",
-          headlineLines: ["将产品价值转化为", "用户购买判断"],
-          subheadLines: [
-            "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
-          ],
+          headlineLines: ["新品传播与 DTC 转化"],
+          subheadLines: ["将产品价值转为用户购买判断"],
           bodyLines: [
             "从新品传播到 DTC 页面信息架构，帮助用户理解",
             "家庭能源场景、产品价值与下一步购买选择。",
@@ -149,8 +146,8 @@ describe("project registry", () => {
         id: "launch-event",
         previewCopy: {
           eyebrow: "DESIGN GOAL 03",
-          headlineLines: ["让新品发布视觉贯穿", "线上线下传播体验"],
-          subheadLines: ["全球发布会核心视觉与内容系统"],
+          headlineLines: ["发布会传播与内容系统"],
+          subheadLines: ["让新品发布贯穿线上、线下与展后内容"],
           bodyLines: [
             "将主视觉延展至展前、现场与展后内容，建立",
             "让新品信息在展前、现场与展后持续延展。",

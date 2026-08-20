@@ -69,18 +69,18 @@ export interface ProjectDefinition {
 }
 
 export const PROJECT_OVERVIEW_PREVIEW_COPY = {
-  eyebrow: "GLOBAL PRODUCT LAUNCH & DTC",
-  headlineLines: ["我是KID（龙昊翔）"],
-  subheadLines: ["一个人类 · 资深视觉设计师"],
+  eyebrow: "PROJECT OVERVIEW",
+  headlineLines: ["IFA 2025 全球新品", "传播与商业化系统"],
+  subheadLines: ["品牌语言 · 新品发布 · DTC · 线上线下传播"],
   bodyLines: [
-    "10+ 年智能硬件品牌视觉经验，聚焦新品传播、",
-    "电商活动与 DTC 购买路径设计。",
+    "围绕 IFA 2025，将品牌语言、产品价值、DTC 页面与发布会内容，",
+    "组织为同一套全球新品传播与商业化系统。",
   ],
 } satisfies PreviewCopy;
 
 export const PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY = {
-  firstLayer: "GLOBAL PRODUCT LAUNCH & DTC",
-  secondLayer: ["我是KID（龙昊翔）", "新品传播 · 电商活动 · DTC 转化视觉"],
+  firstLayer: "PROJECT OVERVIEW",
+  secondLayer: ["全球新品传播与商业化系统", "从品牌语言到线上线下触点"],
 } satisfies MobilePreviewCopy;
 
 export const PROJECTS = [
@@ -158,8 +158,8 @@ export const PROJECTS = [
     summary: "From product value and user needs to a clear design direction.",
     previewCopy: {
       eyebrow: "DESIGN LOGIC",
-      headlineLines: ["产品价值与用户理解"],
-      subheadLines: ["新品传播、电商页面与购买路径的设计判断"],
+      headlineLines: ["业务洞察与设计目标"],
+      subheadLines: ["从产品价值、用户理解到设计方向"],
       bodyLines: [
         "从业务目标、用户场景与产品卖点出发，建立",
         "可进入新品传播与 DTC 页面设计的判断依据。",
@@ -167,7 +167,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN LOGIC",
-      secondLayer: "从产品价值与用户理解到设计判断",
+      secondLayer: "业务洞察与设计目标",
     },
     href: "/work/business",
     kind: "case",
@@ -175,7 +175,7 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/design-logic-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS IFA 2025",
-      subtitle: "新品商业化与设计判断",
+      subtitle: "业务洞察与设计目标",
       objective: "围绕 IFA 新品发布，梳理品牌、产品与渠道中的传播问题，明确新品价值表达、页面承接与发布传播的设计任务。",
       scope: "业务链路梳理 · 用户场景与产品价值 · 渠道及触点分析 · 竞品观察 · 设计目标定义",
       contributions: [
@@ -241,8 +241,8 @@ export const PROJECTS = [
     summary: "A global visual language connecting brand, product and channel touchpoints.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 01",
-      headlineLines: ["建立全球品牌语言，", "支撑多触点传播"],
-      subheadLines: ["品牌识别与跨市场内容延展"],
+      headlineLines: ["品牌系统与触点应用"],
+      subheadLines: ["建立可维护的全球品牌语言"],
       bodyLines: [
         "以统一的品牌视觉规则连接产品、电商与传播内容，",
         "让不同市场和渠道保持一致的识别与表达。",
@@ -250,7 +250,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN GOAL 01",
-      secondLayer: "品牌识别与跨市场内容延展",
+      secondLayer: "品牌系统与触点应用",
     },
     href: "/work/brand-system",
     kind: "case",
@@ -258,7 +258,7 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/brand-system-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS",
-      subtitle: "全球品牌视觉系统与营销触点应用",
+      subtitle: "品牌系统与触点应用",
       objective: "建立清晰的母子品牌关系，使产品、电商与传播内容在不同市场保持一致表达。",
       scope: "品牌视觉策略 · 核心符号与规范 · 母子品牌映射 · 电商/社媒/发布触点 · AIGC 协同",
       contributions: [
@@ -322,10 +322,8 @@ export const PROJECTS = [
     summary: "SOLIX product launch: product value, DTC information and conversion validation.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 02",
-      headlineLines: ["将产品价值转化为", "用户购买判断"],
-      subheadLines: [
-        "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
-      ],
+      headlineLines: ["新品传播与 DTC 转化"],
+      subheadLines: ["将产品价值转为用户购买判断"],
       bodyLines: [
         "从新品传播到 DTC 页面信息架构，帮助用户理解",
         "家庭能源场景、产品价值与下一步购买选择。",
@@ -333,7 +331,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN GOAL 02",
-      secondLayer: "新品传播与 DTC 转化设计",
+      secondLayer: "新品传播与 DTC 转化",
     },
     href: "/work/product-launch",
     kind: "case",
@@ -341,7 +339,7 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/product-launch-active.png",
     recruiterSummary: {
       title: "ANKER SOLIX PRIME E10",
-      subtitle: "北美新品上市传播与 DTC 转化设计",
+      subtitle: "新品传播与 DTC 转化",
       objective: "围绕北美家庭能源场景，梳理产品价值与页面信息，帮助用户理解产品、完成购买判断。",
       scope: "产品价值梳理 · 创意概念与 KV · 视觉调性与 AIGC 规则 · DTC 信息架构 · 多触点传播延展",
       contributions: [
@@ -406,8 +404,8 @@ export const PROJECTS = [
     summary: "Launch visual and multi-touchpoint content across the event communication journey.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 03",
-      headlineLines: ["让新品发布视觉贯穿", "线上线下传播体验"],
-      subheadLines: ["全球发布会核心视觉与内容系统"],
+      headlineLines: ["发布会传播与内容系统"],
+      subheadLines: ["让新品发布贯穿线上、线下与展后内容"],
       bodyLines: [
         "将主视觉延展至展前、现场与展后内容，建立",
         "让新品信息在展前、现场与展后持续延展。",
@@ -415,7 +413,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN GOAL 03",
-      secondLayer: "全球发布会核心视觉与内容系统",
+      secondLayer: "发布会传播与内容系统",
     },
     href: "/work/launch-event",
     kind: "case",
@@ -423,7 +421,7 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/launch-event-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS IFA 2025",
-      subtitle: "全球新品发布传播与内容系统",
+      subtitle: "发布会传播与内容系统",
       objective: "以 IFA 全球发布会承接品牌升级，强化发布会记忆点，并让品牌、新品内容在展前、展中、展后保持连续传播。",
       scope: "新品发布策略 · 主视觉系统 · 展前预热 · Keynote 与现场内容 · 展后官网与社媒承接",
       contributions: [

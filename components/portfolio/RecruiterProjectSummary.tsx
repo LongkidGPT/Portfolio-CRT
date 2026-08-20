@@ -3,19 +3,35 @@ import styles from "./portfolio.module.css";
 
 export default function RecruiterProjectSummary({
   summary,
+  promoteSubtitle = false,
+  hideTitle = false,
+  contextLabel,
 }: {
   summary: RecruiterSummary;
+  promoteSubtitle?: boolean;
+  hideTitle?: boolean;
+  contextLabel?: string;
 }) {
   return (
     <section
       className={styles.recruiterSummaryShell}
-      aria-labelledby="recruiter-project-title"
-    >
-      <div className={styles.recruiterSummary}>
-        <header className={styles.recruiterSummaryHeader}>
-          <h1 id="recruiter-project-title">{summary.title}</h1>
-          <p>{summary.subtitle}</p>
-        </header>
+      aria-label={hideTitle ? "Recruiter project summary" : undefined}
+      aria-labelledby={hideTitle ? undefined : "recruiter-project-title"}
+      >
+      <div className={`${styles.recruiterSummary} ${hideTitle ? styles.recruiterSummaryWithoutTitle : ""}`}>
+        {contextLabel && <p className={styles.recruiterSummaryPath}>{contextLabel}</p>}
+        {!hideTitle && (
+          <header className={styles.recruiterSummaryHeader}>
+            {promoteSubtitle ? (
+              <h1 id="recruiter-project-title">{summary.subtitle}</h1>
+            ) : (
+              <>
+                <h1 id="recruiter-project-title">{summary.title}</h1>
+                <p>{summary.subtitle}</p>
+              </>
+            )}
+          </header>
+        )}
 
         {summary.showMeta !== false ? (
           <dl className={styles.recruiterSummaryMeta}>

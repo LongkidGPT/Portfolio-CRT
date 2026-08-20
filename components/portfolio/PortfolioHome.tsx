@@ -128,10 +128,10 @@ export default function PortfolioHome() {
       <div className={styles.previewStage}>
         <ProjectPreview
           project={getProjectById(state.activeProject)}
-          desktopCopy={state.activeProject === "about"
+          desktopCopy={state.activeProject === "about" && previewedProject === "about"
             ? PROJECT_OVERVIEW_PREVIEW_COPY
             : undefined}
-          mobileCopy={state.activeProject === "about"
+          mobileCopy={state.activeProject === "about" && previewedProject === "about"
             ? PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY
             : undefined}
         />
