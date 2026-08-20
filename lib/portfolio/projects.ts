@@ -158,8 +158,8 @@ export const PROJECTS = [
     summary: "Business objectives, project framing and design requirements.",
     previewCopy: {
       eyebrow: "DESIGN LOGIC",
-      headlineLines: ["把复杂能力转为用户能理解的表达"],
-      subheadLines: [],
+      headlineLines: ["从产品与发布场景", "定义视觉方向"],
+      subheadLines: ["把复杂能力转为用户能理解的表达"],
       bodyLines: [
         "梳理产品价值、用户理解与线上线下发布场景，确立新品内容、",
         "视觉风格和多触点落地的共同判断。",
@@ -167,7 +167,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN LOGIC",
-      secondLayer: "把复杂能力转为用户能理解的表达",
+      secondLayer: "从产品与发布场景定义视觉方向",
     },
     href: "/work/business",
     kind: "case",
@@ -241,8 +241,8 @@ export const PROJECTS = [
     summary: "A visual relationship system for Anker and SOLIX.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 01",
-      headlineLines: ["品牌视觉语言、规范与多触点维护"],
-      subheadLines: [],
+      headlineLines: ["建立可维护的品牌语言，", "支持新品持续发布"],
+      subheadLines: ["品牌视觉语言、规范与多触点维护"],
       bodyLines: [
         "将品牌战略中的“光”转化为可延展、可维护的视觉语言，",
         "为新品、展会与传播内容提供统一而可更新的风格基础。",
@@ -250,7 +250,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN GOAL 01",
-      secondLayer: "品牌视觉语言、规范与多触点维护",
+      secondLayer: "Anker innovations 品牌视觉语言与维护规范",
     },
     href: "/work/brand-system",
     kind: "case",
@@ -322,8 +322,10 @@ export const PROJECTS = [
     summary: "Launch communication, product value and DTC structure.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 02",
-      headlineLines: ["ANKER SOLIX PRIME E10 全球新品发布视觉与 DTC 页面"],
-      subheadLines: [],
+      headlineLines: ["从产品能力到", "用户能理解的新品体验"],
+      subheadLines: [
+        "ANKER SOLIX PRIME E10 全球新品发布视觉与 DTC 页面",
+      ],
       bodyLines: [
         "围绕 PRIME E10 的产品价值与发布节奏，完成核心视觉、",
         "传播内容与 DTC 页面设计，让新品从认知进入购买判断。",
@@ -331,7 +333,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN GOAL 02",
-      secondLayer: "ANKER SOLIX PRIME E10 全球新品发布视觉与 DTC 页面",
+      secondLayer: "从产品能力到用户能理解的新品体验",
     },
     href: "/work/product-launch",
     kind: "case",
@@ -404,8 +406,8 @@ export const PROJECTS = [
     summary: "Key visual, event narrative and multi-touchpoint content.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 03",
-      headlineLines: ["IFA 全球发布会主视觉、内容系统与现场体验"],
-      subheadLines: [],
+      headlineLines: ["让发布视觉成为品牌与新品", "共同的记忆点"],
+      subheadLines: ["IFA 全球发布会主视觉、内容系统与现场体验"],
       bodyLines: [
         "将品牌视觉语言转化为 IFA 发布会主视觉、预热内容、",
         "现场物料与展后传播，统一展前、展中、展后的表达。",
