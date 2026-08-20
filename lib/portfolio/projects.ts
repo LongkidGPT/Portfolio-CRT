@@ -158,8 +158,8 @@ export const PROJECTS = [
     summary: "From product value and user needs to a clear design direction.",
     previewCopy: {
       eyebrow: "DESIGN LOGIC",
-      headlineLines: ["新品传播、电商页面与购买路径的设计判断"],
-      subheadLines: [],
+      headlineLines: ["产品价值与用户理解"],
+      subheadLines: ["新品传播、电商页面与购买路径的设计判断"],
       bodyLines: [
         "从业务目标、用户场景与产品卖点出发，建立",
         "可进入新品传播与 DTC 页面设计的判断依据。",
@@ -167,7 +167,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN LOGIC",
-      secondLayer: "新品传播、电商页面与购买路径的设计判断",
+      secondLayer: "从产品价值与用户理解到设计判断",
     },
     href: "/work/business",
     kind: "case",
@@ -241,8 +241,8 @@ export const PROJECTS = [
     summary: "A global visual language connecting brand, product and channel touchpoints.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 01",
-      headlineLines: ["品牌识别与跨市场内容延展"],
-      subheadLines: [],
+      headlineLines: ["建立全球品牌语言，", "支撑多触点传播"],
+      subheadLines: ["品牌识别与跨市场内容延展"],
       bodyLines: [
         "以统一的品牌视觉规则连接产品、电商与传播内容，",
         "让不同市场和渠道保持一致的识别与表达。",
@@ -322,8 +322,10 @@ export const PROJECTS = [
     summary: "SOLIX product launch: product value, DTC information and conversion validation.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 02",
-      headlineLines: ["ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计"],
-      subheadLines: [],
+      headlineLines: ["将产品价值转化为", "用户购买判断"],
+      subheadLines: [
+        "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
+      ],
       bodyLines: [
         "从新品传播到 DTC 页面信息架构，帮助用户理解",
         "家庭能源场景、产品价值与下一步购买选择。",
@@ -331,7 +333,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "DESIGN GOAL 02",
-      secondLayer: "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
+      secondLayer: "新品传播与 DTC 转化设计",
     },
     href: "/work/product-launch",
     kind: "case",
@@ -404,8 +406,8 @@ export const PROJECTS = [
     summary: "Launch visual and multi-touchpoint content across the event communication journey.",
     previewCopy: {
       eyebrow: "DESIGN GOAL 03",
-      headlineLines: ["全球发布会核心视觉与内容系统"],
-      subheadLines: [],
+      headlineLines: ["让新品发布视觉贯穿", "线上线下传播体验"],
+      subheadLines: ["全球发布会核心视觉与内容系统"],
       bodyLines: [
         "将主视觉延展至展前、现场与展后内容，建立",
         "让新品信息在展前、现场与展后持续延展。",

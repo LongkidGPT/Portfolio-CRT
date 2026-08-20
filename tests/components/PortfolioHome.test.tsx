@@ -161,13 +161,8 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
 
   fireEvent.pointerEnter(business);
-  const selectedDesktopPreview = document.querySelector(
-    '[data-preview-layout="desktop"]',
-  );
   expect(
-    within(selectedDesktopPreview!).getByRole("heading", {
-      name: "新品传播、电商页面与购买路径的设计判断",
-    }),
+    screen.getByRole("heading", { name: "产品价值与用户理解" }),
   ).toBeInTheDocument();
 
   fireEvent.pointerLeave(business);
