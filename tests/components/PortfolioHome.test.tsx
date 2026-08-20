@@ -166,7 +166,7 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   );
   expect(
     within(selectedDesktopPreview!).getByRole("heading", {
-      name: "从产品与发布场景定义视觉方向",
+      name: "把复杂能力转为用户能理解的表达",
     }),
   ).toBeInTheDocument();
 
