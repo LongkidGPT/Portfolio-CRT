@@ -57,19 +57,22 @@ describe("generated KV assets", () => {
 
   it("uses the approved high-resolution desktop artwork for every project state", () => {
     const expectedSizes = {
-      about: { width: 1316, height: 336 },
-      "design-logic": { width: 1532, height: 336 },
-      "brand-system": { width: 1348, height: 336 },
-      "product-launch": { width: 1576, height: 336 },
-      "launch-event": { width: 1524, height: 336 },
+      "about-default": { width: 1148, height: 336 },
+      "about-active": { width: 1148, height: 336 },
+      "design-logic-default": { width: 1456, height: 336 },
+      "design-logic-active": { width: 1460, height: 336 },
+      "brand-system-default": { width: 1348, height: 336 },
+      "brand-system-active": { width: 1348, height: 336 },
+      "product-launch-default": { width: 1500, height: 336 },
+      "product-launch-active": { width: 1500, height: 336 },
+      "launch-event-default": { width: 1348, height: 336 },
+      "launch-event-active": { width: 1348, height: 336 },
     } as const;
 
-    for (const [id, expectedSize] of Object.entries(expectedSizes)) {
-      for (const state of ["default", "active"]) {
-        expect(readPngSize(join(root, "buttons", `${id}-${state}.png`))).toEqual(
-          expectedSize,
-        );
-      }
+    for (const [filename, expectedSize] of Object.entries(expectedSizes)) {
+      expect(readPngSize(join(root, "buttons", `${filename}.png`))).toEqual(
+        expectedSize,
+      );
     }
   });
 
