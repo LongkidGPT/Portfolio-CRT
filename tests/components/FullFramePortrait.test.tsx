@@ -59,7 +59,7 @@ afterEach(() => {
 });
 
 describe("FullFramePortrait", () => {
-  it("covers a wide desktop while loading only the neutral frame initially", () => {
+  it("covers a wide desktop with the neutral R4 frame", () => {
     const { drawImage, FakeImage, sources } = installCanvasHarness();
 
     render(<FullFramePortrait motionReduced />);
@@ -69,7 +69,7 @@ describe("FullFramePortrait", () => {
     });
     expect(canvas).toHaveAttribute("data-frame", "80");
     expect(sources[0]).toBe("/kv-desktop-r5/frames/frame-080.webp");
-    expect(new Set(sources).size).toBe(1);
+    expect(new Set(sources).size).toBe(6);
     expect(drawImage).toHaveBeenCalledWith(
       expect.any(FakeImage),
       0,
@@ -91,7 +91,7 @@ describe("FullFramePortrait", () => {
     fireEvent.load(window);
     act(() => vi.advanceTimersByTime(12_000));
 
-    expect(new Set(sources).size).toBe(1);
+    expect(new Set(sources).size).toBe(6);
     vi.useRealTimers();
   });
 

@@ -8,7 +8,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-test("loads only the neutral mobile pose before a project is previewed", () => {
+test("only preloads the neutral and five selectable mobile poses before page load", () => {
   const sources: string[] = [];
 
   class FakeImage {
@@ -41,7 +41,7 @@ test("loads only the neutral mobile pose before a project is previewed", () => {
 
   render(<MobileFramePortrait />);
 
-  expect(new Set(sources).size).toBe(1);
+  expect(new Set(sources).size).toBe(6);
 });
 
 test("does not download the full mobile frame sequence while idle", () => {
@@ -80,7 +80,7 @@ test("does not download the full mobile frame sequence while idle", () => {
   fireEvent.load(window);
   act(() => vi.advanceTimersByTime(12_000));
 
-  expect(new Set(sources).size).toBe(1);
+  expect(new Set(sources).size).toBe(6);
   vi.useRealTimers();
 });
 
