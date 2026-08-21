@@ -60,7 +60,7 @@ describe("project registry", () => {
       {
         id: "about",
         mobilePreviewCopy: {
-          firstLayer: "VISUAL DESIGNER",
+          firstLayer: "SENIOR ART DIRECTOR · PRODUCT LAUNCH",
           secondLayer: "我是KID（龙昊翔）",
         },
       },
@@ -101,9 +101,9 @@ describe("project registry", () => {
       {
         id: "about",
         previewCopy: {
-          eyebrow: "VISUAL DESIGNER",
+          eyebrow: "SENIOR ART DIRECTOR · PRODUCT LAUNCH",
           headlineLines: ["我是KID（龙昊翔）"],
-          subheadLines: ["一个人类 · 资深视觉设计师"],
+          subheadLines: ["一个人类 · 产品发布与创意视觉策略"],
           bodyLines: [],
         },
       },

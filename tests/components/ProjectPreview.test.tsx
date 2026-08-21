@@ -44,7 +44,7 @@ test("renders the approved two-layer mobile about copy", () => {
   expect(desktop!.querySelector('[data-preview-body="true"]')).toBeNull();
   expect(within(desktop!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
   expect(mobile).not.toBeNull();
-  expect(within(mobile!).getByLabelText("VISUAL DESIGNER")).toBeVisible();
+  expect(within(mobile!).getByLabelText("SENIOR ART DIRECTOR · PRODUCT LAUNCH")).toBeVisible();
   expect(within(mobile!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
 });
 

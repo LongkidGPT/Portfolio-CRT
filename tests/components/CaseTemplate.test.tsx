@@ -114,11 +114,11 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
   render(<CaseTemplate project={getProjectById("about")} />);
 
   expect(
-    screen.getByRole("heading", { name: "ANKER INNOVATIONS" }),
+    screen.getByRole("heading", { name: "OPPO E0152P · 创意视觉证据" }),
   ).toBeInTheDocument();
-  expect(screen.getByText("IFA 2025 · 全球品牌升级")).toBeInTheDocument();
-  expect(screen.getByText("系统联动")).toBeInTheDocument();
-  expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();
+  expect(screen.getByText("以 ANKER INNOVATIONS IFA 2025 三组真实项目验证")).toBeInTheDocument();
+  expect(screen.getByText("视觉策略")).toBeInTheDocument();
+  expect(screen.getByText(/覆盖视觉策略、产品上市与全球发布的真实执行证据/)).toBeInTheDocument();
   expect(screen.queryByText("业务目标")).not.toBeInTheDocument();
   expect(screen.queryByText("负责范围")).not.toBeInTheDocument();
 });
@@ -163,10 +163,10 @@ test("about template links experience rows to the ruler and rebuilds the contact
   expect(screen.getAllByText("创意设计主管（带8人团队）")).toHaveLength(2);
   expect(screen.getAllByText("创意设计组长（带4人团队）")).toHaveLength(2);
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
+    "10+ 年品牌与营销视觉，4A 美术指导出身，后来在消费电子（Anker）做品牌视觉体系。从用户洞察与市场趋势出发定视觉风格，再落到产品主视觉与多触点，覆盖全球 30+ 市场 ▮",
   )).toBeInTheDocument();
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。精通新品发布视觉、品牌 VI 体系、DTC/电商页面及 AI 创意提效，具备从策略提案到落地闭环的全流程能力。",
+    "10+ 年品牌与营销视觉，4A 美术指导出身，后来在消费电子（Anker）做品牌视觉体系。从用户洞察与市场趋势出发定视觉风格，落到产品主视觉，覆盖全球 30+ 市场。",
   )).toBeInTheDocument();
   expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
     "src",
