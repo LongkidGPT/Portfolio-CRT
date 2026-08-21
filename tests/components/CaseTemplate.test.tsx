@@ -57,6 +57,14 @@ test("PROJECT OVERVIEW blue CTAs link to the four matching case pages", () => {
   );
 });
 
+test("BRAND SYSTEM keeps AI workflow evidence inside its third core contribution", () => {
+  render(<CaseTemplate project={getProjectById("brand-system")} />);
+
+  expect(screen.queryByRole("group", { name: "AI 辅助品牌系统工作流" })).not.toBeInTheDocument();
+  expect(screen.getByText("规模化应用")).toBeInTheDocument();
+  expect(screen.getByText(/团队出图效率提升 36%/)).toBeInTheDocument();
+});
+
 test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied artwork", () => {
   const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
 

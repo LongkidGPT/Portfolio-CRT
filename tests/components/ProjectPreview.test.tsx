@@ -31,7 +31,7 @@ test("renders the approved business hierarchy as real text", () => {
   expect(container.querySelector('img[src*="/copy/"]')).toBeNull();
 });
 
-test("renders the approved two-layer mobile about copy", () => {
+test("keeps the Kimi positioning copy concise while retaining the two-layer mobile about copy", () => {
   const { container } = render(
     <ProjectPreview project={getProjectById("about")} />,
   );
@@ -41,10 +41,13 @@ test("renders the approved two-layer mobile about copy", () => {
   const mobile = container.querySelector('[data-preview-layout="mobile"]');
 
   expect(desktop).not.toBeNull();
-  expect(desktop!.querySelector('[data-preview-body="true"]')).toBeNull();
+  expect(desktop!.querySelector('[data-preview-body="true"]')).toBeInTheDocument();
+  expect(
+    within(desktop!).queryByRole("link", { name: "从 BRAND SYSTEM 开始查看" }),
+  ).not.toBeInTheDocument();
   expect(within(desktop!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
   expect(mobile).not.toBeNull();
-  expect(within(mobile!).getByLabelText("VISUAL DESIGNER")).toBeVisible();
+  expect(within(mobile!).getByLabelText("BRAND SYSTEM · AI WORKFLOW")).toBeVisible();
   expect(within(mobile!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
 });
 

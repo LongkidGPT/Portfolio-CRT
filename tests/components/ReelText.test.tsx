@@ -18,3 +18,13 @@ test("preserves character case and keeps words as non-breaking groups", () => {
   expect(characters[2].textContent).toMatch(/^\d{3}$/);
   expect(screen.getAllByTestId("reel-word")).toHaveLength(2);
 });
+
+test("never exposes a scrambled glyph before the reel settles", () => {
+  render(<ReelText text="KID" />);
+
+  expect(screen.getAllByTestId("reel-character").map((character) => character.textContent)).toEqual([
+    "KKK",
+    "III",
+    "DDD",
+  ]);
+});
