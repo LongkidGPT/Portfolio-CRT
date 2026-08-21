@@ -173,6 +173,10 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   expect(
     within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
   ).toBeInTheDocument();
+  expect(within(desktopPreview()!).getByLabelText("BRAND SYSTEM · AI WORKFLOW")).toBeInTheDocument();
+  expect(
+    within(desktopPreview()!).queryByRole("link", { name: "从 BRAND SYSTEM 开始查看" }),
+  ).not.toBeInTheDocument();
 });
 
 test("shows PROJECT OVERVIEW only while the first desktop card is previewed", () => {

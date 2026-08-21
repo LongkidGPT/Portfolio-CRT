@@ -60,7 +60,7 @@ describe("project registry", () => {
       {
         id: "about",
         mobilePreviewCopy: {
-          firstLayer: "VISUAL DESIGNER",
+          firstLayer: "BRAND SYSTEM · AI WORKFLOW",
           secondLayer: "我是KID（龙昊翔）",
         },
       },
@@ -101,10 +101,13 @@ describe("project registry", () => {
       {
         id: "about",
         previewCopy: {
-          eyebrow: "VISUAL DESIGNER",
+          eyebrow: "BRAND SYSTEM · AI WORKFLOW",
           headlineLines: ["我是KID（龙昊翔）"],
-          subheadLines: ["一个人类 · 资深视觉设计师"],
-          bodyLines: [],
+          subheadLines: ["资深品牌与营销视觉设计师"],
+          bodyLines: [
+            "从 Anker 全球新品、品牌系统与 AIGC 规范中，展示将复杂技术",
+            "转译为可感知品牌表达的方法。",
+          ],
         },
       },
       {

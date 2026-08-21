@@ -4,16 +4,16 @@ import { join } from "node:path";
 import { expect, test } from "vitest";
 
 const expectedHashes: Record<string, string> = {
-  "public/kv/buttons/about-default.png": "37a6c30d266bd519e4acf7e1124b56dd35a30b82d7683b8496a75e97a2e1773a",
-  "public/kv/buttons/about-active.png": "6a99a4d54d234b8c2dfaeb7e1e10146d0718b1fbd6c932d0f19675640b1ca3a9",
-  "public/kv/buttons/design-logic-default.png": "61847c52913807cbab3c94c750e45699e54899ae59d12e6f6f980ce35cecf01d",
-  "public/kv/buttons/design-logic-active.png": "6fab3757acbcd7b3353968f81322968ec088480fc16b60d370f7a1d97e7ce7a3",
-  "public/kv/buttons/brand-system-default.png": "378c82f043a97961747801bd4f19983606f36c2c32ca837235bb3434cafd01d4",
-  "public/kv/buttons/brand-system-active.png": "869633240d25c8b0f242df6f27b600ebd608fcaa7bd07c0c511c27ac9e6b7cf1",
-  "public/kv/buttons/product-launch-default.png": "d9437922cdb8cdce2c2cb6dec6dc8e6b33b279613e8f95cf1c5f93ea5fc0ef54",
-  "public/kv/buttons/product-launch-active.png": "1b66dd7801d486f40f5a286c7103abeb3b09b0db22a22e704df2c347f9bc9dd7",
-  "public/kv/buttons/launch-event-default.png": "d0b04cb97836a2350a80c41a0cc69d709072aea80baa629e28d99a41c829d892",
-  "public/kv/buttons/launch-event-active.png": "efac914ada0971f57ce0a5053b8a3b29fd80ed44ac1f46fe359ee16d69981f14",
+  "public/kv/buttons/about-default.png": "0ad6dcfd5bcd3bb7bab76c9e5c6e5e2987ed845b8a22e9e715a37ee272ca43bc",
+  "public/kv/buttons/about-active.png": "9e7925d7ccc43c09ed529d31e481ef40c7c7f8d48da649f144b4a7fb50ffe556",
+  "public/kv/buttons/design-logic-default.png": "d2228b29e79f4e2fd3b1cc616ca234efab3bf2fe3a388da201da80cc1ce34c6b",
+  "public/kv/buttons/design-logic-active.png": "08fee1a8b9bf9e7eaf7bc78b40c1f6368e7501202cf621a949fac52f60948bc3",
+  "public/kv/buttons/brand-system-default.png": "46209a0e27a42a02afd484af791c7bad6865969a1cef45cc1a3a76b02dce408f",
+  "public/kv/buttons/brand-system-active.png": "ec36f4ddfeeea759f38607e900de0f34505bfc86da1151effead87ccafe0a67a",
+  "public/kv/buttons/product-launch-default.png": "c9237e91bd27294e7c86022c57c68c482ad0488e2e768f00b3b1c99c82899702",
+  "public/kv/buttons/product-launch-active.png": "f578b792206eec73f57a2d5d34fc6b1bfed9b091e115e93e316d4785d49afd37",
+  "public/kv/buttons/launch-event-default.png": "e76445cbd0dea11564e4464592fba1947c546df04e53a3e8973387517546ca13",
+  "public/kv/buttons/launch-event-active.png": "25b20051ff531cbb5f0176547cd0d25c8c84924e91b40b25c5fa012c38fba543",
   "public/kv-mobile/cards/about-default.png": "6f032f7e3663ea0b943690983cf0bcb5eb89b3cd5531d06d5cfe15a14fee9781",
   "public/kv-mobile/cards/about-active.png": "de361c9fd2e4391711181a85f1f3d159cc37f36ba8f040551d68c17a5eed5cf1",
   "public/kv-mobile/cards/design-logic-default.png": "4f689e5534ce44ebfef0d4a975298ae961e5ceff8115c1eae02bf0c45b7f8b7e",
@@ -26,7 +26,7 @@ const expectedHashes: Record<string, string> = {
   "public/kv-mobile/cards/launch-event-active.png": "e3a18e364d385a6eda45454952d957e584c45e628d17858366a2457bb3489986",
 };
 
-test("uses the latest supplied desktop and mobile project card artwork", () => {
+test("uses the formal-master desktop and mobile project card artwork", () => {
   for (const [file, expected] of Object.entries(expectedHashes)) {
     const actual = createHash("sha256")
       .update(readFileSync(join(process.cwd(), file)))
