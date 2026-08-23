@@ -669,72 +669,68 @@
   color: var(--ink);
   backdrop-filter: blur(8px);
 }
-.caseNavigationPrimary {
-  display: grid;
+.caseNavigationInner {
+  display: flex;
   width: min(calc(100% - 48px), 1120px);
+  min-height: 64px;
   margin: 0 auto;
-  grid-template-columns: 190px minmax(0, 1fr);
+  align-items: center;
+  justify-content: space-between;
   gap: 24px;
-  align-items: start;
-  padding: 14px 0 12px;
 }
 .caseBackLink {
-  width: fit-content;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  margin-left: -10px;
   color: var(--muted);
   font-size: 10px;
   letter-spacing: .04em;
-  line-height: 1.4;
+  line-height: 1;
+  white-space: nowrap;
 }
 .caseBackLink:hover,
+.caseBackLink:focus-visible { color: #247ad3; }
 .caseBackLink:focus-visible,
-.caseHierarchy a:hover,
-.caseHierarchy a:focus-visible { color: #247ad3; }
-.caseBackLink:focus-visible,
-.caseHierarchy a:focus-visible,
-.caseChapterNav a:focus-visible {
+.caseChapterNav a:focus-visible,
+.caseChapterMenuButton:focus-visible,
+.caseChapterDrawer button:focus-visible,
+.caseChapterDrawer a:focus-visible {
   outline: 1px solid #247ad3;
-  outline-offset: 3px;
-}
-.caseHierarchy p,
-.caseHierarchy strong { margin: 0; }
-.caseHierarchy p {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: .035em;
-  line-height: 1.35;
-}
-.caseHierarchy strong {
-  display: block;
-  margin-top: 5px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .025em;
-  line-height: 1.4;
+  outline-offset: 2px;
 }
 .caseChapterNav {
   display: flex;
-  width: min(calc(100% - 48px), 1120px);
-  margin: 0 auto;
-  gap: clamp(18px, 2.8vw, 42px);
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(8px, 1.5vw, 20px);
   overflow-x: auto;
-  padding: 0 0 11px 214px;
   scrollbar-width: none;
 }
 .caseChapterNav::-webkit-scrollbar { display: none; }
 .caseChapterNav a {
+  display: inline-flex;
   flex: 0 0 auto;
-  padding-bottom: 3px;
-  border-bottom: 1px solid transparent;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 8px;
+  border-bottom: 2px solid transparent;
   color: var(--muted);
   font-size: 9px;
   letter-spacing: .04em;
-  line-height: 1.2;
+  line-height: 1;
   white-space: nowrap;
 }
 .caseChapterNav a[aria-current="page"] {
   border-bottom-color: #247ad3;
   color: #247ad3;
 }
+.caseMobileCurrent,
+.caseChapterMenuButton,
+.caseChapterDrawerLayer { display: none; }
 .caseArtwork picture { display: block; }
 .caseArtwork img {
   display: block;
@@ -769,13 +765,21 @@
   font-size: clamp(14px, 1.05vw, 17px);
   line-height: 1.5;
 }
-.recruiterSummaryHeader > .recruiterSummaryContext {
+.recruiterSummaryHeader > .recruiterSummaryEyebrow {
   margin: 0;
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 500;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
   letter-spacing: .04em;
   line-height: 1.35;
+}
+.recruiterSummaryHeader > .recruiterSummaryChapterTitle {
+  margin-top: 10px;
+  font-size: clamp(28px, 3.1vw, 48px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
 }
 .recruiterSummary .recruiterSummaryMeta {
   display: grid;
@@ -884,24 +888,118 @@
   outline-offset: -2px;
 }
 @media (max-width: 767px) {
-  .caseNavigationPrimary {
-    width: calc(100% - 36px);
-    grid-template-columns: 1fr;
+  .caseNavigationInner {
+    display: grid;
+    width: calc(100% - 20px);
+    min-height: 56px;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
     gap: 8px;
-    padding: 11px 0 9px;
   }
-  .caseBackLink,
-  .caseHierarchy p { font-size: 9px; }
-  .caseHierarchy strong {
-    margin-top: 3px;
+  .caseBackLink {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+  }
+  .caseBackText { display: none; }
+  .caseMobileCurrent {
+    display: block;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: var(--ink);
     font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .025em;
+    line-height: 1.2;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  .caseChapterNav {
-    width: calc(100% - 36px);
-    gap: 18px;
-    padding: 0 0 9px;
+  .caseChapterNav { display: none; }
+  .caseChapterMenuButton {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(32, 35, 34, .22);
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 9px;
+    letter-spacing: .06em;
+    cursor: pointer;
   }
-  .caseChapterNav a { font-size: 8px; }
+  .caseChapterDrawerLayer {
+    position: fixed;
+    z-index: 80;
+    inset: 0;
+    display: block;
+  }
+  .caseChapterDrawerBackdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: rgba(15, 17, 17, .48);
+  }
+  .caseChapterDrawer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-height: min(72vh, 520px);
+    padding: 14px 18px calc(18px + env(safe-area-inset-bottom));
+    border-radius: 14px 14px 0 0;
+    background: #f8fafc;
+    box-shadow: 0 -4px 8px rgba(15, 17, 17, .14);
+  }
+  .caseChapterDrawer > header {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(32, 35, 34, .16);
+  }
+  .caseChapterDrawer > header p {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: .06em;
+  }
+  .caseChapterDrawer > header button {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .caseChapterDrawer nav { display: block; }
+  .caseChapterDrawer nav a {
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(32, 35, 34, .12);
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: .025em;
+  }
+  .caseChapterDrawer nav a[aria-current="page"] {
+    color: #247ad3;
+    font-weight: 500;
+  }
   .recruiterSummary {
     width: calc(100% - 36px);
     padding: 40px 0 36px;
@@ -913,9 +1011,10 @@
   .recruiterSummaryHeader > p:last-child {
     font-size: 13px;
   }
-  .recruiterSummaryHeader > .recruiterSummaryContext {
+  .recruiterSummaryHeader > .recruiterSummaryEyebrow {
     font-size: 14px;
   }
+  .recruiterSummaryHeader > .recruiterSummaryChapterTitle { display: none; }
   .recruiterSummary .recruiterSummaryMeta {
     grid-template-columns: 1fr;
     margin-top: 50px;

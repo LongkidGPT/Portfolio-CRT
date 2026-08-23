@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import AboutTemplate from "@/components/portfolio/AboutTemplate";
 import CaseTemplate from "@/components/portfolio/CaseTemplate";
@@ -61,7 +61,9 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
   const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
 
   expect(screen.getByRole("region", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
-  expect(screen.getAllByText("PROJECT OVERVIEW / 02 PRODUCT LAUNCH")).toHaveLength(2);
+  expect(screen.getByText("ANKER INNOVATIONS · IFA 2025")).toBeInTheDocument();
+  expect(screen.getAllByText("02 PRODUCT LAUNCH")).toHaveLength(2);
+  expect(screen.queryByText("PROJECT OVERVIEW / 02 PRODUCT LAUNCH")).not.toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
   expect(screen.queryByText("全球新品上市传播与 DTC 转化设计")).not.toBeInTheDocument();
   expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
@@ -86,17 +88,30 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
 });
 
 test.each([
-  ["business", "PROJECT OVERVIEW / 00 BUSINESS CONTEXT", "ANKER INNOVATIONS IFA 2025"],
-  ["brand-system", "PROJECT OVERVIEW / 01 BRAND SYSTEM", "ANKER INNOVATIONS"],
-  ["product-launch", "PROJECT OVERVIEW / 02 PRODUCT LAUNCH", "ANKER SOLIX PRIME E10"],
-  ["launch-event", "PROJECT OVERVIEW / 03 LAUNCH EVENT", "ANKER INNOVATIONS IFA 2025"],
-] as const)("%s uses a compact case context instead of a repeated title", (id, contextLabel, repeatedTitle) => {
+  ["business", "00 BUSINESS CONTEXT", "ANKER INNOVATIONS IFA 2025"],
+  ["brand-system", "01 BRAND SYSTEM", "ANKER INNOVATIONS"],
+  ["product-launch", "02 PRODUCT LAUNCH", "ANKER SOLIX PRIME E10"],
+  ["launch-event", "03 LAUNCH EVENT", "ANKER INNOVATIONS IFA 2025"],
+] as const)("%s uses project attribution and a single chapter title system", (id, chapterTitle, repeatedTitle) => {
   render(<CaseTemplate project={getProjectById(id)} />);
 
-  expect(screen.getAllByText(contextLabel)).toHaveLength(2);
+  expect(screen.getByText("ANKER INNOVATIONS · IFA 2025")).toBeInTheDocument();
+  expect(screen.getAllByText(chapterTitle)).toHaveLength(2);
+  expect(screen.queryByText(`PROJECT OVERVIEW / ${chapterTitle}`)).not.toBeInTheDocument();
   expect(screen.queryByRole("heading", { name: repeatedTitle })).not.toBeInTheDocument();
   expect(screen.getByText("业务目标")).toBeInTheDocument();
   expect(screen.getByText("负责范围")).toBeInTheDocument();
+});
+
+test("mobile chapter menu exposes large chapter choices and marks the current page", () => {
+  render(<CaseTemplate project={getProjectById("product-launch")} />);
+
+  fireEvent.click(screen.getByRole("button", { name: "Open chapter menu" }));
+
+  expect(screen.getByRole("dialog", { name: "CHAPTERS" })).toBeInTheDocument();
+  expect(
+    screen.getByRole("link", { name: /02 PRODUCT LAUNCH/ }),
+  ).toHaveAttribute("aria-current", "page");
 });
 
 test("BUSINESS CONTEXT exposes the confirmed recruiter summary", () => {
