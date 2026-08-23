@@ -33,7 +33,10 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
   };
 
   return (
-    <nav className={styles.selector} aria-label="Portfolio projects">
+    <nav className={styles.selector} aria-label="Featured case chapters">
+      <p className={styles.selectorContext} data-testid="featured-case-context">
+        <span>FEATURED CASE</span> / ANKER INNOVATIONS · IFA 2025
+      </p>
       <div
         className={styles.selectorViewport}
         onPointerDown={(event) => {

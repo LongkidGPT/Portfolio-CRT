@@ -29,7 +29,7 @@ test("tracks the pointer and locks all five R5 project poses", async ({
   }
 
   const projectTargets = [
-    ["ABOUT", "118"],
+    ["CASE OVERVIEW", "118"],
     ["DESIGN LOGIC", "128"],
     ["BRAND SYSTEM", "140"],
     ["PRODUCT LAUNCH", "154"],
@@ -87,7 +87,7 @@ test("centers the full desktop project-card group", async ({ page }, testInfo) =
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
 
-  const cards = page.getByRole("navigation", { name: "Portfolio projects" }).locator("a");
+  const cards = page.getByRole("navigation", { name: "Featured case chapters" }).locator("a");
   const first = await cards.first().boundingBox();
   const last = await cards.last().boundingBox();
 
@@ -103,7 +103,7 @@ test("mobile controls and swipe preview adjacent project cards", async ({
   test.skip(testInfo.project.name !== "mobile");
   await page.goto("/");
 
-  const selector = page.getByRole("navigation", { name: "Portfolio projects" });
+  const selector = page.getByRole("navigation", { name: "Featured case chapters" });
   await page.getByRole("button", { name: "Next project" }).click();
   const designLogic = page.getByRole("link", { name: "Open DESIGN LOGIC" });
   await expect(designLogic).toHaveAttribute("data-previewed", "");
@@ -134,7 +134,7 @@ test("restores the neutral selector and copies contact details", async ({
   await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto("/");
 
-  const selector = page.getByRole("navigation", { name: "Portfolio projects" });
+  const selector = page.getByRole("navigation", { name: "Featured case chapters" });
   await expect(selector.locator("a[data-previewed]")).toHaveCount(0);
 
   for (const side of ["left", "right"] as const) {

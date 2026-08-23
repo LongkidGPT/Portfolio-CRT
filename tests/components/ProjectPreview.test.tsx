@@ -31,7 +31,7 @@ test("renders the approved business hierarchy as real text", () => {
   expect(container.querySelector('img[src*="/copy/"]')).toBeNull();
 });
 
-test("renders the approved two-layer mobile about copy", () => {
+test("renders the approved three-layer mobile positioning copy", () => {
   const { container } = render(
     <ProjectPreview project={getProjectById("about")} />,
   );
@@ -41,11 +41,25 @@ test("renders the approved two-layer mobile about copy", () => {
   const mobile = container.querySelector('[data-preview-layout="mobile"]');
 
   expect(desktop).not.toBeNull();
-  expect(desktop!.querySelector('[data-preview-body="true"]')).toBeNull();
-  expect(within(desktop!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
+  expect(within(desktop!).getByLabelText("SENIOR VISUAL DESIGNER")).toBeVisible();
+  expect(
+    within(desktop!).getByRole("heading", {
+      name: "品牌系统、新品上市与 DTC 转化设计",
+    }),
+  ).toBeVisible();
+  expect(
+    within(desktop!).getByLabelText("10+ 年视觉设计与品牌营销经验"),
+  ).toBeVisible();
   expect(mobile).not.toBeNull();
-  expect(within(mobile!).getByLabelText("VISUAL DESIGNER")).toBeVisible();
-  expect(within(mobile!).getByLabelText("我是KID（龙昊翔）")).toBeVisible();
+  expect(within(mobile!).getByLabelText("SENIOR VISUAL DESIGNER")).toBeVisible();
+  expect(
+    within(mobile!).getByRole("heading", {
+      name: "品牌系统、新品上市与 DTC 转化设计",
+    }),
+  ).toBeVisible();
+  expect(
+    within(mobile!).getByLabelText("10+ 年经验｜消费电子 · 家居新零售 · 4A"),
+  ).toBeVisible();
 });
 
 test("renders the approved two-layer mobile product launch copy", () => {

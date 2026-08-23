@@ -155,7 +155,7 @@ test("locks the full-frame target to the hovered formal project", () => {
   ).toHaveAttribute("data-target-frame", "128");
 });
 
-test("restores the ABOUT ME copy after the pointer leaves a project button", () => {
+test("restores the positioning copy after the pointer leaves a project button", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   render(<PortfolioHome />);
   const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
@@ -171,11 +171,11 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   );
   expect(desktopPreview()).not.toBeNull();
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
 });
 
-test("shows PROJECT OVERVIEW only while the first desktop card is previewed", () => {
+test("shows the flagship case overview only while the first desktop card is previewed", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   const { container } = render(<PortfolioHome />);
 
@@ -188,13 +188,13 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
   expect(desktopPreview()).not.toBeNull();
   expect(mobilePreview()).not.toBeNull();
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(mobilePreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
 
-  const overview = screen.getByRole("link", { name: "Open PROJECT OVERVIEW" });
+  const overview = screen.getByRole("link", { name: "Open CASE OVERVIEW" });
   fireEvent.pointerEnter(overview);
 
   expect(container.querySelector("main")).toHaveAttribute(
@@ -230,10 +230,10 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
     "data-previewed-project",
   );
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(mobilePreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
 });
 
@@ -245,6 +245,9 @@ test("renders the portfolio identity and five approved entry links", () => {
   render(<PortfolioHome />);
 
   expect(screen.getByText("KID LONG")).toBeInTheDocument();
+  expect(screen.getByTestId("featured-case-context")).toHaveTextContent(
+    "FEATURED CASE / ANKER INNOVATIONS · IFA 2025",
+  );
   expect(screen.getAllByRole("link", { name: /open/i })).toHaveLength(5);
 
   getContext.mockRestore();
