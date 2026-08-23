@@ -5,11 +5,13 @@ export default function RecruiterProjectSummary({
   summary,
   eyebrow,
   pageTitle,
+  mobilePageTitle,
   hideTitle = false,
 }: {
   summary: RecruiterSummary;
   eyebrow?: string;
   pageTitle?: string;
+  mobilePageTitle?: string;
   hideTitle?: boolean;
 }) {
   return (
@@ -27,8 +29,13 @@ export default function RecruiterProjectSummary({
             </>
           ) : (
             <>
-              <h1 id="recruiter-project-title">{summary.title}</h1>
-              <p>{summary.subtitle}</p>
+              <h1 id="recruiter-project-title" className={styles.recruiterSummaryDesktopTitle}>
+                {summary.title}
+              </h1>
+              <p className={styles.recruiterSummaryDesktopSubtitle}>{summary.subtitle}</p>
+              {mobilePageTitle ? (
+                <h1 className={styles.recruiterSummaryMobileTitle}>{mobilePageTitle}</h1>
+              ) : null}
             </>
           )}
         </header>

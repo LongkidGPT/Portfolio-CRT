@@ -34,6 +34,7 @@ export default async function FeaturedCaseOverlay({
     <CaseOverlay
       label={project.title}
       fallbackHref={isOverview ? "/" : FEATURED_CASE.overviewHref}
+      showCloseControl={false}
     >
       <CaseTemplate project={project} />
     </CaseOverlay>

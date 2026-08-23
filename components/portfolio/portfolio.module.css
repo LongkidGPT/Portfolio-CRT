@@ -732,6 +732,7 @@
 .caseChapterMenuButton,
 .caseChapterDrawerLayer { display: none; }
 .caseArtwork picture { display: block; }
+.caseArtworkMedia { position: relative; }
 .caseArtwork img {
   display: block;
   width: 100%;
@@ -781,6 +782,7 @@
   line-height: 1.05;
   text-wrap: balance;
 }
+.recruiterSummaryMobileTitle { display: none; }
 .recruiterSummary .recruiterSummaryMeta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1012,9 +1014,25 @@
     font-size: 13px;
   }
   .recruiterSummaryHeader > .recruiterSummaryEyebrow {
-    font-size: 14px;
+    display: none;
   }
-  .recruiterSummaryHeader > .recruiterSummaryChapterTitle { display: none; }
+  .recruiterSummaryHeader > .recruiterSummaryChapterTitle {
+    display: block;
+    margin-top: 0;
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  .recruiterSummaryHeader > .recruiterSummaryDesktopTitle,
+  .recruiterSummaryHeader > .recruiterSummaryDesktopSubtitle {
+    display: none;
+  }
+  .recruiterSummaryHeader > .recruiterSummaryMobileTitle {
+    display: block;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
   .recruiterSummary .recruiterSummaryMeta {
     grid-template-columns: 1fr;
     margin-top: 50px;
@@ -1054,6 +1072,10 @@
     left: var(--mobile-left);
     width: var(--mobile-width);
     height: var(--mobile-height);
+  }
+  .caseArtworkOverview .caseArtworkMedia {
+    aspect-ratio: 4560 / 8080;
+    overflow: hidden;
   }
 }
 .aboutDesktopPage {

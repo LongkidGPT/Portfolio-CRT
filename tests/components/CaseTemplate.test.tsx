@@ -61,8 +61,8 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
   const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
 
   expect(screen.getByRole("region", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
-  expect(screen.getByText("ANKER INNOVATIONS · IFA 2025")).toBeInTheDocument();
-  expect(screen.getAllByText("02 PRODUCT LAUNCH")).toHaveLength(2);
+  expect(screen.getAllByText("ANKER INNOVATIONS · IFA 2025")).toHaveLength(2);
+  expect(screen.getByText("02 PRODUCT LAUNCH")).toBeInTheDocument();
   expect(screen.queryByText("PROJECT OVERVIEW / 02 PRODUCT LAUNCH")).not.toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
   expect(screen.queryByText("全球新品上市传播与 DTC 转化设计")).not.toBeInTheDocument();
@@ -95,8 +95,8 @@ test.each([
 ] as const)("%s uses project attribution and a single chapter title system", (id, chapterTitle, repeatedTitle) => {
   render(<CaseTemplate project={getProjectById(id)} />);
 
-  expect(screen.getByText("ANKER INNOVATIONS · IFA 2025")).toBeInTheDocument();
-  expect(screen.getAllByText(chapterTitle)).toHaveLength(2);
+  expect(screen.getAllByText("ANKER INNOVATIONS · IFA 2025")).toHaveLength(2);
+  expect(screen.getByText(chapterTitle)).toBeInTheDocument();
   expect(screen.queryByText(`PROJECT OVERVIEW / ${chapterTitle}`)).not.toBeInTheDocument();
   expect(screen.queryByRole("heading", { name: repeatedTitle })).not.toBeInTheDocument();
   expect(screen.getByText("业务目标")).toBeInTheDocument();
@@ -131,6 +131,7 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
   expect(
     screen.getByRole("heading", { name: "ANKER INNOVATIONS" }),
   ).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "PROJECT OVERVIEW" })).toBeInTheDocument();
   expect(screen.getByText("IFA 2025 · 全球品牌升级")).toBeInTheDocument();
   expect(screen.getByText("系统联动")).toBeInTheDocument();
   expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();

@@ -21,25 +21,25 @@ const OVERVIEW_LINKS = [
     label: "00 BUSINESS CONTEXT",
     href: "/work/anker-ifa-2025/business",
     desktop: { left: 19.0278, top: 61.5675, width: 12.7778, height: 2.3135 },
-    mobile: { left: 9.0351, top: 47.0065, width: 19.8246, height: 4.5227 },
+    mobile: { left: 9.0351, top: 62.7723, width: 19.8246, height: 6.0396 },
   },
   {
     label: "01 BRAND SYSTEM",
     href: "/work/anker-ifa-2025/brand-system",
     desktop: { left: 23.3333, top: 83.4278, width: 9.4444, height: 2.3135 },
-    mobile: { left: 14.4737, top: 64.1705, width: 15.614, height: 4.4856 },
+    mobile: { left: 14.4737, top: 85.693, width: 15.614, height: 5.9901 },
   },
   {
     label: "02 PRODUCT LAUNCH",
     href: "/work/anker-ifa-2025/product-launch",
     desktop: { left: 45.2083, top: 83.4278, width: 9.4444, height: 2.3135 },
-    mobile: { left: 42.1053, top: 64.1705, width: 15.614, height: 4.4856 },
+    mobile: { left: 42.1053, top: 85.693, width: 15.614, height: 5.9901 },
   },
   {
     label: "03 LAUNCH EVENT",
     href: "/work/anker-ifa-2025/launch-event",
     desktop: { left: 67.0833, top: 83.4278, width: 9.5139, height: 2.3135 },
-    mobile: { left: 69.7368, top: 64.1705, width: 15.7018, height: 4.4856 },
+    mobile: { left: 69.7368, top: 85.693, width: 15.7018, height: 5.9901 },
   },
 ] as const;
 
@@ -74,46 +74,51 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
       : undefined;
 
     return (
-      <article className={styles.caseArtwork}>
+      <article
+        className={`${styles.caseArtwork} ${project.id === "about" ? styles.caseArtworkOverview : ""}`}
+      >
         <CaseNavigation project={project} />
         {project.recruiterSummary && (
           <RecruiterProjectSummary
             summary={project.recruiterSummary}
             eyebrow="ANKER INNOVATIONS · IFA 2025"
             pageTitle={CASE_TITLES[project.id]}
+            mobilePageTitle={project.id === "about" ? "PROJECT OVERVIEW" : undefined}
             hideTitle={Boolean(CASE_TITLES[project.id])}
           />
         )}
-        <picture>
-          <source
-            media="(max-width: 767px)"
-            srcSet={mobileSrcSet}
-            sizes={RESPONSIVE_SIZES}
-            width={project.caseArtwork.mobile.width}
-            height={project.caseArtwork.mobile.height}
-          />
-          {/* Supplied case-study artwork is intentionally rendered without reflowing its contents. */}
-          <img
-            src={useImageCdn
-              ? netlifyImage(project.caseArtwork.src, 870)
-              : project.caseArtwork.src}
-            srcSet={desktopSrcSet}
-            sizes={RESPONSIVE_SIZES}
-            alt={project.caseArtwork.alt}
-            width={project.caseArtwork.width}
-            height={project.caseArtwork.height}
-            decoding="async"
-          />
-        </picture>
-        {project.id === "about" && OVERVIEW_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={styles.overviewHotspot}
-            style={hotspotStyle(link)}
-            aria-label={`Open ${link.label} chapter`}
-          />
-        ))}
+        <div className={styles.caseArtworkMedia}>
+          <picture>
+            <source
+              media="(max-width: 767px)"
+              srcSet={mobileSrcSet}
+              sizes={RESPONSIVE_SIZES}
+              width={project.caseArtwork.mobile.width}
+              height={project.caseArtwork.mobile.height}
+            />
+            {/* Supplied case-study artwork is intentionally rendered without reflowing its contents. */}
+            <img
+              src={useImageCdn
+                ? netlifyImage(project.caseArtwork.src, 870)
+                : project.caseArtwork.src}
+              srcSet={desktopSrcSet}
+              sizes={RESPONSIVE_SIZES}
+              alt={project.caseArtwork.alt}
+              width={project.caseArtwork.width}
+              height={project.caseArtwork.height}
+              decoding="async"
+            />
+          </picture>
+          {project.id === "about" && OVERVIEW_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={styles.overviewHotspot}
+              style={hotspotStyle(link)}
+              aria-label={`Open ${link.label} chapter`}
+            />
+          ))}
+        </div>
       </article>
     );
   }

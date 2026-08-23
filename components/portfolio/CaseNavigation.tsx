@@ -33,7 +33,7 @@ export default function CaseNavigation({ project }: { project: ProjectDefinition
           <span className={styles.caseBackText}>{isOverview ? "BACK TO WORK" : "PROJECT OVERVIEW"}</span>
         </Link>
 
-        <p className={styles.caseMobileCurrent}>{project.label}</p>
+        <p className={styles.caseMobileCurrent}>{FEATURED_CASE.shortTitle}</p>
 
         <nav className={styles.caseChapterNav} aria-label="Featured case chapter navigation">
           {FEATURED_CASE_NAVIGATION.map((item) => {
