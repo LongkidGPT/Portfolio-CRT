@@ -29,23 +29,23 @@ test("tracks the pointer and locks all five R5 project poses", async ({
   }
 
   const projectTargets = [
-    ["CASE OVERVIEW", "118"],
-    ["DESIGN LOGIC", "128"],
-    ["BRAND SYSTEM", "140"],
-    ["PRODUCT LAUNCH", "154"],
-    ["LAUNCH EVENT", "157"],
+    ["PROJECT OVERVIEW", "118"],
+    ["00 BUSINESS CONTEXT", "128"],
+    ["01 BRAND SYSTEM", "140"],
+    ["02 PRODUCT LAUNCH", "154"],
+    ["03 LAUNCH EVENT", "157"],
   ] as const;
 
   for (const [label, frame] of projectTargets) {
-    await page.getByRole("link", { name: `Open ${label}` }).hover();
+    await page.getByRole("link", { name: `Open ${label} chapter` }).hover();
     await expect(portrait).toHaveAttribute("data-target-frame", frame);
   }
 
   const designLogicBox = await page
-    .getByRole("link", { name: "Open DESIGN LOGIC" })
+    .getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" })
     .boundingBox();
   const brandSystemBox = await page
-    .getByRole("link", { name: "Open BRAND SYSTEM" })
+    .getByRole("link", { name: "Open 01 BRAND SYSTEM chapter" })
     .boundingBox();
   expect(designLogicBox?.width).toBeCloseTo(brandSystemBox?.width ?? 0, 1);
 
@@ -104,8 +104,8 @@ test("mobile controls and swipe preview adjacent project cards", async ({
   await page.goto("/");
 
   const selector = page.getByRole("navigation", { name: "Featured case chapters" });
-  await page.getByRole("button", { name: "Next project" }).click();
-  const designLogic = page.getByRole("link", { name: "Open DESIGN LOGIC" });
+  await page.getByRole("button", { name: "Next chapter" }).click();
+  const designLogic = page.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
   await expect(designLogic).toHaveAttribute("data-previewed", "");
   await expect(
     page.getByRole("heading", { name: "业务洞察与设计目标" }),
@@ -121,7 +121,7 @@ test("mobile controls and swipe preview adjacent project cards", async ({
   await viewport.dispatchEvent("pointerdown", { clientX: 300 });
   await viewport.dispatchEvent("pointerup", { clientX: 100 });
   await expect(
-    page.getByRole("link", { name: "Open BRAND SYSTEM" }),
+    page.getByRole("link", { name: "Open 01 BRAND SYSTEM chapter" }),
   ).toHaveAttribute("data-previewed", "");
 });
 
@@ -144,7 +144,7 @@ test("restores the neutral selector and copies contact details", async ({
     expect(new Set(widths)).toEqual(new Set(["18px"]));
   }
 
-  const business = page.getByRole("link", { name: "Open DESIGN LOGIC" });
+  const business = page.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
   await business.hover();
   await expect(business).toHaveAttribute("data-previewed", "");
 
@@ -168,13 +168,15 @@ test("pointer navigation does not retain a project focus frame", async ({
   test.skip(testInfo.project.name !== "desktop");
   await page.goto("/");
 
-  await page.getByRole("link", { name: "Open DESIGN LOGIC" }).click();
-  await expect(page).toHaveURL(/\/work\/business$/);
+  await page.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }).click();
+  await expect(page).toHaveURL(/\/work\/anker-ifa-2025\/business$/);
   await expect(page.getByRole("dialog", { name: "Business Context" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page).toHaveURL(/\/work\/anker-ifa-2025$/);
   await page.keyboard.press("Escape");
   await expect(page).toHaveURL(/\/$/);
 
-  const business = page.getByRole("link", { name: "Open DESIGN LOGIC" });
+  const business = page.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
   await expect(business).not.toBeFocused();
   expect(
     await business.evaluate((element) => getComputedStyle(element).outlineStyle),
@@ -183,10 +185,10 @@ test("pointer navigation does not retain a project focus frame", async ({
 
 test("opens and closes a shareable project overlay", async ({ page }) => {
   await page.goto("/");
-  if (await page.getByRole("button", { name: "Next project" }).isVisible()) {
-    await page.getByRole("button", { name: "Next project" }).click();
+  if (await page.getByRole("button", { name: "Next chapter" }).isVisible()) {
+    await page.getByRole("button", { name: "Next chapter" }).click();
   }
-  await page.getByRole("link", { name: "Open DESIGN LOGIC" }).click();
+  await page.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }).click();
   await page.waitForTimeout(160);
   await expect(page).toHaveURL(/\/$/);
   const portraitOpacity = await page
@@ -197,11 +199,13 @@ test("opens and closes a shareable project overlay", async ({ page }) => {
   expect(portraitOpacity).toBeGreaterThan(0);
   expect(portraitOpacity).toBeLessThan(1);
 
-  await expect(page).toHaveURL(/\/work\/business$/);
+  await expect(page).toHaveURL(/\/work\/anker-ifa-2025\/business$/);
   await expect(page.getByRole("dialog", { name: "Business Context" })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.waitForTimeout(120);
-  await expect(page).toHaveURL(/\/work\/business$/);
+  await expect(page).toHaveURL(/\/work\/anker-ifa-2025\/business$/);
+  await expect(page).toHaveURL(/\/work\/anker-ifa-2025$/);
+  await page.keyboard.press("Escape");
   await expect(page).toHaveURL(/\/$/);
   await page.waitForTimeout(120);
   const returnOpacity = await page
@@ -215,6 +219,7 @@ test("opens and closes a shareable project overlay", async ({ page }) => {
 
 test("direct URL renders a standalone case page", async ({ page }) => {
   await page.goto("/work/product-launch");
+  await expect(page).toHaveURL(/\/work\/anker-ifa-2025\/product-launch$/);
   await expect(page.getByRole("img", { name: "Product launch case study" })).toBeVisible();
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });

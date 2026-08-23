@@ -28,8 +28,8 @@ test.each([
       height,
     );
     expect(
-      screen.queryByRole("navigation", { name: "Case chapters" }),
-    ).not.toBeInTheDocument();
+      screen.getByRole("navigation", { name: "Featured case chapter navigation" }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole("progressbar", { name: "Case reading progress" }),
     ).not.toBeInTheDocument();
@@ -39,21 +39,21 @@ test.each([
 test("PROJECT OVERVIEW blue CTAs link to the four matching case pages", () => {
   render(<CaseTemplate project={getProjectById("about")} />);
 
-  expect(screen.getByRole("link", { name: "Open DESIGN LOGIC case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" })).toHaveAttribute(
     "href",
-    "/work/business",
+    "/work/anker-ifa-2025/business",
   );
-  expect(screen.getByRole("link", { name: "Open BRAND SYSTEM case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 01 BRAND SYSTEM chapter" })).toHaveAttribute(
     "href",
-    "/work/brand-system",
+    "/work/anker-ifa-2025/brand-system",
   );
-  expect(screen.getByRole("link", { name: "Open PRODUCT LAUNCH case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 02 PRODUCT LAUNCH chapter" })).toHaveAttribute(
     "href",
-    "/work/product-launch",
+    "/work/anker-ifa-2025/product-launch",
   );
-  expect(screen.getByRole("link", { name: "Open LAUNCH EVENT case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 03 LAUNCH EVENT chapter" })).toHaveAttribute(
     "href",
-    "/work/launch-event",
+    "/work/anker-ifa-2025/launch-event",
   );
 });
 
@@ -61,7 +61,7 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
   const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
 
   expect(screen.getByRole("region", { name: "ANKER SOLIX PRIME E10" })).toBeInTheDocument();
-  expect(screen.getByText("PROJECT OVERVIEW / 02 PRODUCT LAUNCH")).toBeInTheDocument();
+  expect(screen.getAllByText("PROJECT OVERVIEW / 02 PRODUCT LAUNCH")).toHaveLength(2);
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
   expect(screen.queryByText("全球新品上市传播与 DTC 转化设计")).not.toBeInTheDocument();
   expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
@@ -86,20 +86,20 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
 });
 
 test.each([
-  ["business", "PROJECT OVERVIEW / 00 DESIGN LOGIC", "ANKER INNOVATIONS IFA 2025"],
+  ["business", "PROJECT OVERVIEW / 00 BUSINESS CONTEXT", "ANKER INNOVATIONS IFA 2025"],
   ["brand-system", "PROJECT OVERVIEW / 01 BRAND SYSTEM", "ANKER INNOVATIONS"],
   ["product-launch", "PROJECT OVERVIEW / 02 PRODUCT LAUNCH", "ANKER SOLIX PRIME E10"],
   ["launch-event", "PROJECT OVERVIEW / 03 LAUNCH EVENT", "ANKER INNOVATIONS IFA 2025"],
 ] as const)("%s uses a compact case context instead of a repeated title", (id, contextLabel, repeatedTitle) => {
   render(<CaseTemplate project={getProjectById(id)} />);
 
-  expect(screen.getByText(contextLabel)).toBeInTheDocument();
+  expect(screen.getAllByText(contextLabel)).toHaveLength(2);
   expect(screen.queryByRole("heading", { name: repeatedTitle })).not.toBeInTheDocument();
   expect(screen.getByText("业务目标")).toBeInTheDocument();
   expect(screen.getByText("负责范围")).toBeInTheDocument();
 });
 
-test("DESIGN LOGIC exposes the confirmed recruiter summary", () => {
+test("BUSINESS CONTEXT exposes the confirmed recruiter summary", () => {
   render(<CaseTemplate project={getProjectById("business")} />);
 
   expect(

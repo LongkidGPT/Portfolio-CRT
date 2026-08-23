@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { ProjectDefinition } from "@/lib/portfolio/projects";
 import RecruiterProjectSummary from "./RecruiterProjectSummary";
+import CaseNavigation from "./CaseNavigation";
 import styles from "./portfolio.module.css";
 
 const RESPONSIVE_SIZES =
@@ -17,26 +18,26 @@ function responsiveSource(src: string, widths: readonly number[]) {
 
 const OVERVIEW_LINKS = [
   {
-    label: "DESIGN LOGIC",
-    href: "/work/business",
+    label: "00 BUSINESS CONTEXT",
+    href: "/work/anker-ifa-2025/business",
     desktop: { left: 19.0278, top: 61.5675, width: 12.7778, height: 2.3135 },
     mobile: { left: 9.0351, top: 47.0065, width: 19.8246, height: 4.5227 },
   },
   {
-    label: "BRAND SYSTEM",
-    href: "/work/brand-system",
+    label: "01 BRAND SYSTEM",
+    href: "/work/anker-ifa-2025/brand-system",
     desktop: { left: 23.3333, top: 83.4278, width: 9.4444, height: 2.3135 },
     mobile: { left: 14.4737, top: 64.1705, width: 15.614, height: 4.4856 },
   },
   {
-    label: "PRODUCT LAUNCH",
-    href: "/work/product-launch",
+    label: "02 PRODUCT LAUNCH",
+    href: "/work/anker-ifa-2025/product-launch",
     desktop: { left: 45.2083, top: 83.4278, width: 9.4444, height: 2.3135 },
     mobile: { left: 42.1053, top: 64.1705, width: 15.614, height: 4.4856 },
   },
   {
-    label: "LAUNCH EVENT",
-    href: "/work/launch-event",
+    label: "03 LAUNCH EVENT",
+    href: "/work/anker-ifa-2025/launch-event",
     desktop: { left: 67.0833, top: 83.4278, width: 9.5139, height: 2.3135 },
     mobile: { left: 69.7368, top: 64.1705, width: 15.7018, height: 4.4856 },
   },
@@ -56,7 +57,7 @@ function hotspotStyle(link: (typeof OVERVIEW_LINKS)[number]) {
 }
 
 const CASE_CONTEXT: Partial<Record<ProjectDefinition["id"], string>> = {
-  business: "PROJECT OVERVIEW / 00 DESIGN LOGIC",
+  business: "PROJECT OVERVIEW / 00 BUSINESS CONTEXT",
   "brand-system": "PROJECT OVERVIEW / 01 BRAND SYSTEM",
   "product-launch": "PROJECT OVERVIEW / 02 PRODUCT LAUNCH",
   "launch-event": "PROJECT OVERVIEW / 03 LAUNCH EVENT",
@@ -74,6 +75,7 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
 
     return (
       <article className={styles.caseArtwork}>
+        <CaseNavigation project={project} />
         {project.recruiterSummary && (
           <RecruiterProjectSummary
             summary={project.recruiterSummary}
@@ -108,7 +110,7 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
             href={link.href}
             className={styles.overviewHotspot}
             style={hotspotStyle(link)}
-            aria-label={`Open ${link.label} case`}
+            aria-label={`Open ${link.label} chapter`}
           />
         ))}
       </article>

@@ -12,7 +12,7 @@ test("renders the approved business hierarchy as real text", () => {
   );
 
   expect(desktop).not.toBeNull();
-  expect(within(desktop!).getByLabelText("DESIGN LOGIC")).toBeVisible();
+  expect(within(desktop!).getByLabelText("00 BUSINESS CONTEXT")).toBeVisible();
   expect(
     within(desktop!).getByRole("heading", { name: "业务洞察与设计目标" }),
   ).toBeVisible();
@@ -69,7 +69,7 @@ test("renders the approved two-layer mobile product launch copy", () => {
   const mobile = container.querySelector('[data-preview-layout="mobile"]');
 
   expect(mobile).not.toBeNull();
-  expect(within(mobile!).getByLabelText("DESIGN GOAL 02")).toBeVisible();
+  expect(within(mobile!).getByLabelText("02 PRODUCT LAUNCH")).toBeVisible();
   expect(
     within(mobile!).getByLabelText(
       "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",

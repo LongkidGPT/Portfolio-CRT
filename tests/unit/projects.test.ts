@@ -24,14 +24,14 @@ describe("project registry", () => {
     }
   });
 
-  it("exposes DESIGN LOGIC as the business entry label", () => {
-    expect(getProjectById("business").label).toBe("DESIGN LOGIC");
+  it("exposes BUSINESS CONTEXT as the numbered business entry label", () => {
+    expect(getProjectById("business").label).toBe("00 BUSINESS CONTEXT");
   });
 
   it("opens the first project card as the responsive flagship case overview", () => {
     expect(getProjectById("about")).toMatchObject({
-      label: "CASE OVERVIEW",
-      href: "/work/about",
+      label: "PROJECT OVERVIEW",
+      href: "/work/anker-ifa-2025",
       kind: "case",
       caseArtwork: {
         src: "/kv/cases/project-overview-r4.png",
@@ -48,7 +48,7 @@ describe("project registry", () => {
 
   it("stores the selected-state flagship case mobile copy separately", () => {
     expect(PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY).toEqual({
-      firstLayer: "项目总览",
+      firstLayer: "PROJECT OVERVIEW",
       secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
     });
   });
@@ -68,21 +68,21 @@ describe("project registry", () => {
       {
         id: "business",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN LOGIC",
+          firstLayer: "00 BUSINESS CONTEXT",
           secondLayer: "将复杂业务问题转化为清晰的设计方向",
         },
       },
       {
         id: "brand-system",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN GOAL 01",
+          firstLayer: "01 BRAND SYSTEM",
           secondLayer: "Anker innovations 视觉符号系统构建",
         },
       },
       {
         id: "product-launch",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN GOAL 02",
+          firstLayer: "02 PRODUCT LAUNCH",
           secondLayer:
             "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
         },
@@ -90,7 +90,7 @@ describe("project registry", () => {
       {
         id: "launch-event",
         mobilePreviewCopy: {
-          firstLayer: "DESIGN GOAL 03",
+          firstLayer: "03 LAUNCH EVENT",
           secondLayer: "IFA 全球发布会传播与内容系统",
         },
       },
@@ -109,7 +109,7 @@ describe("project registry", () => {
       {
         id: "business",
         previewCopy: {
-          eyebrow: "DESIGN LOGIC",
+          eyebrow: "00 BUSINESS CONTEXT",
           headlineLines: ["业务洞察与设计目标"],
           subheadLines: ["将复杂业务问题转化为清晰", "的设计方向"],
           bodyLines: [
@@ -121,7 +121,7 @@ describe("project registry", () => {
       {
         id: "brand-system",
         previewCopy: {
-          eyebrow: "DESIGN GOAL 01",
+          eyebrow: "01 BRAND SYSTEM",
           headlineLines: ["建立母子品牌关系，", "提升子品牌认知"],
           subheadLines: ["母品牌视觉符号系统构建"],
           bodyLines: [
@@ -133,7 +133,7 @@ describe("project registry", () => {
       {
         id: "product-launch",
         previewCopy: {
-          eyebrow: "DESIGN GOAL 02",
+          eyebrow: "02 PRODUCT LAUNCH",
           headlineLines: ["清晰传达子品牌价值"],
           subheadLines: [
             "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
@@ -148,7 +148,7 @@ describe("project registry", () => {
       {
         id: "launch-event",
         previewCopy: {
-          eyebrow: "DESIGN GOAL 03",
+          eyebrow: "03 LAUNCH EVENT",
           headlineLines: ["强化发布会记忆点与", "传播连续性"],
           subheadLines: ["IFA 全球发布会传播与内容系统"],
           bodyLines: [

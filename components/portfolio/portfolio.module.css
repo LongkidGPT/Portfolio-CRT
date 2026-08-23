@@ -272,6 +272,8 @@
   transition: opacity 260ms ease;
 }
 .selectorContext {
+  display: flex;
+  align-items: baseline;
   margin: 0 0 10px;
   color: var(--muted);
   font-size: clamp(9px, 0.6vw, 11px);
@@ -279,7 +281,16 @@
   line-height: 1;
   white-space: nowrap;
 }
-.selectorContext span { color: var(--ink); font-weight: 600; }
+.selectorContext strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.selectorContext > * + *::before {
+  margin-inline: .65em;
+  color: var(--muted);
+  content: "/";
+  font-weight: 400;
+}
 .selectorViewport { overflow: visible; }
 .selectorTrack { display: flex; align-items: stretch; }
 .projectLink {
@@ -455,12 +466,23 @@
     width: 100%;
   }
   .selectorContext {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 6vw;
-    margin: 0;
+    position: relative;
+    display: flex;
+    width: 88vw;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0 0 9px 6vw;
+    padding: 9px 12px 10px;
+    background: rgba(248, 250, 252, .78);
     font-size: 9px;
+    line-height: 1.15;
+    white-space: normal;
   }
+  .selectorContext > * + *::before { content: none; }
+  .selectorContext strong,
+  .selectorContext span { display: block; }
+  .selectorContextFullTitle { display: none !important; }
   .selectorViewport { overflow: hidden; padding-inline: 2vw; touch-action: pan-y; }
   .selectorTrack {
     display: flex;
@@ -588,7 +610,7 @@
 .loadingRing span { animation: loadingPulse 800ms ease-in-out infinite alternate; }
 @keyframes loadingPulse { to { opacity: .25; transform: scale(.96); } }
 
-.standaloneCase { padding-top: 72px; }
+.standaloneCase { padding-top: 0; }
 .aboutStandalone { padding-top: 0; }
 .backHome,
 .closeOverlay {
@@ -637,6 +659,81 @@
   width: 100%;
   margin: 0 auto;
   background: #f8fafc;
+}
+.caseNavigation {
+  position: sticky;
+  z-index: 55;
+  top: 0;
+  border-bottom: 1px solid rgba(32, 35, 34, .16);
+  background: rgba(248, 250, 252, .96);
+  color: var(--ink);
+  backdrop-filter: blur(8px);
+}
+.caseNavigationPrimary {
+  display: grid;
+  width: min(calc(100% - 48px), 1120px);
+  margin: 0 auto;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding: 14px 0 12px;
+}
+.caseBackLink {
+  width: fit-content;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .04em;
+  line-height: 1.4;
+}
+.caseBackLink:hover,
+.caseBackLink:focus-visible,
+.caseHierarchy a:hover,
+.caseHierarchy a:focus-visible { color: #247ad3; }
+.caseBackLink:focus-visible,
+.caseHierarchy a:focus-visible,
+.caseChapterNav a:focus-visible {
+  outline: 1px solid #247ad3;
+  outline-offset: 3px;
+}
+.caseHierarchy p,
+.caseHierarchy strong { margin: 0; }
+.caseHierarchy p {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .035em;
+  line-height: 1.35;
+}
+.caseHierarchy strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .025em;
+  line-height: 1.4;
+}
+.caseChapterNav {
+  display: flex;
+  width: min(calc(100% - 48px), 1120px);
+  margin: 0 auto;
+  gap: clamp(18px, 2.8vw, 42px);
+  overflow-x: auto;
+  padding: 0 0 11px 214px;
+  scrollbar-width: none;
+}
+.caseChapterNav::-webkit-scrollbar { display: none; }
+.caseChapterNav a {
+  flex: 0 0 auto;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .04em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.caseChapterNav a[aria-current="page"] {
+  border-bottom-color: #247ad3;
+  color: #247ad3;
 }
 .caseArtwork picture { display: block; }
 .caseArtwork img {
@@ -787,6 +884,24 @@
   outline-offset: -2px;
 }
 @media (max-width: 767px) {
+  .caseNavigationPrimary {
+    width: calc(100% - 36px);
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 11px 0 9px;
+  }
+  .caseBackLink,
+  .caseHierarchy p { font-size: 9px; }
+  .caseHierarchy strong {
+    margin-top: 3px;
+    font-size: 10px;
+  }
+  .caseChapterNav {
+    width: calc(100% - 36px);
+    gap: 18px;
+    padding: 0 0 9px;
+  }
+  .caseChapterNav a { font-size: 8px; }
   .recruiterSummary {
     width: calc(100% - 36px);
     padding: 40px 0 36px;

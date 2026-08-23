@@ -38,7 +38,7 @@ test("click requests the selected project overlay", async () => {
   );
 
   await userEvent.click(
-    screen.getByRole("link", { name: "Open DESIGN LOGIC" }),
+    screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }),
   );
 
   expect(onOpen).toHaveBeenCalledWith("business");
@@ -56,7 +56,7 @@ test("renders the supplied default and active artwork for each project", () => {
     />,
   );
 
-  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
+  const business = screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
   expect(business.querySelector('[data-state="default"]')).toHaveAttribute(
     "src",
     "/kv/buttons/design-logic-default.png",
@@ -72,9 +72,9 @@ test("renders the supplied default and active artwork for each project", () => {
   expect(
     business.querySelector('[src="/kv-mobile/cards/design-logic-active.png"]'),
   ).toBeInTheDocument();
-  expect(screen.queryByText("DESIGN LOGIC")).not.toBeInTheDocument();
+  expect(screen.getByText("00 BUSINESS CONTEXT")).toBeInTheDocument();
   expect(business).toHaveAttribute("data-previewed");
-  expect(screen.getByRole("link", { name: "Open CASE OVERVIEW" })).not.toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open PROJECT OVERVIEW chapter" })).not.toHaveAttribute(
     "data-previewed",
   );
   expect(business).not.toHaveAttribute("aria-current");
@@ -94,10 +94,10 @@ test("uses active mobile artwork only for an activated project", () => {
   );
 
   expect(
-    screen.getByRole("link", { name: "Open DESIGN LOGIC" }),
+    screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }),
   ).toHaveAttribute("data-activated");
   expect(
-    screen.getByRole("link", { name: "Open CASE OVERVIEW" }),
+    screen.getByRole("link", { name: "Open PROJECT OVERVIEW chapter" }),
   ).not.toHaveAttribute("data-activated");
 });
 
@@ -115,7 +115,7 @@ test("returns control to free pointer tracking after leaving a project", () => {
   );
 
   fireEvent.pointerLeave(
-    screen.getByRole("link", { name: "Open DESIGN LOGIC" }),
+    screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }),
   );
 
   expect(onResumePointer).toHaveBeenCalledOnce();
@@ -133,7 +133,7 @@ test("pointer activation blurs before opening", async () => {
     />,
   );
 
-  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
+  const business = screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
   business.focus();
   await userEvent.click(business);
 
@@ -152,7 +152,7 @@ test("keyboard activation preserves keyboard focus", () => {
     />,
   );
 
-  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
+  const business = screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
   business.focus();
   fireEvent.click(business, { detail: 0 });
 
@@ -172,11 +172,11 @@ test("mobile carousel controls preview adjacent projects and wrap", async () => 
     />,
   );
 
-  await userEvent.click(screen.getByRole("button", { name: "Next project" }));
+  await userEvent.click(screen.getByRole("button", { name: "Next chapter" }));
   expect(onPreview).toHaveBeenLastCalledWith("business", expect.any(Object));
 
   await userEvent.click(
-    screen.getByRole("button", { name: "Previous project" }),
+    screen.getByRole("button", { name: "Previous chapter" }),
   );
   expect(onPreview).toHaveBeenLastCalledWith(
     "launch-event",
