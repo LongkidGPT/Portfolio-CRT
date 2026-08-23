@@ -63,6 +63,47 @@ const CASE_TITLES: Partial<Record<ProjectDefinition["id"], string>> = {
   "launch-event": "03 LAUNCH EVENT",
 };
 
+function ProductLaunchEvidence() {
+  return (
+    <section
+      className={styles.productLaunchEvidence}
+      aria-labelledby="product-launch-evidence-title"
+    >
+      <div className={styles.productLaunchEvidenceInner}>
+        <div className={styles.productLaunchEvidenceCopy}>
+          <p className={styles.productLaunchEvidenceKicker}>
+            KEY OUTPUT / PRODUCT IDENTIFICATION
+          </p>
+          <h2 id="product-launch-evidence-title">
+            SOLIX PRIME E10 上市主视觉与 DTC 首屏
+          </h2>
+          <p>
+            建立 E10 产品识别与视觉锤，将 Infinite Power 的核心概念转化为新品上市与购买决策的首屏表达。
+          </p>
+        </div>
+        <figure className={styles.productLaunchEvidenceFigure}>
+          <picture>
+            <source
+              media="(max-width: 767px)"
+              srcSet="/kv/cases/product-launch-evidence-mobile.png"
+              width="1887"
+              height="1600"
+            />
+            <img
+              src="/kv/cases/product-launch-evidence.png"
+              alt="SOLIX PRIME E10 上市发布主视觉与 DTC 首屏视觉"
+              width="2375"
+              height="1600"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </figure>
+      </div>
+    </section>
+  );
+}
+
 export default function CaseTemplate({ project }: { project: ProjectDefinition }) {
   if (project.caseArtwork) {
     const useImageCdn = process.env.NETLIFY === "true";
@@ -87,6 +128,7 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
             hideTitle={Boolean(CASE_TITLES[project.id])}
           />
         )}
+        {project.id === "product-launch" && <ProductLaunchEvidence />}
         <div className={styles.caseArtworkMedia}>
           <picture>
             <source
