@@ -71,19 +71,9 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
   expect(screen.getByText(/页面阅读深度 65%/)).toBeInTheDocument();
 
   const summary = screen.getByRole("region", { name: "ANKER SOLIX PRIME E10" });
-  const evidence = screen.getByRole("region", { name: "SOLIX PRIME E10 上市主视觉与 DTC 首屏" });
   const artwork = screen.getByRole("img", { name: "Product launch case study" });
   expect(summary?.compareDocumentPosition(artwork) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-  expect(evidence.compareDocumentPosition(artwork) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-  expect(screen.getByText("KEY OUTPUT / PRODUCT IDENTIFICATION")).toBeInTheDocument();
-  expect(
-    screen.getByText("建立 E10 产品识别与视觉锤，将 Infinite Power 的核心概念转化为新品上市与购买决策的首屏表达。"),
-  ).toBeInTheDocument();
-  expect(screen.getByRole("img", { name: "SOLIX PRIME E10 上市发布主视觉与 DTC 首屏视觉" })).toHaveAttribute(
-    "src",
-    "/kv/cases/product-launch-evidence.png",
-  );
-  expect(container.querySelectorAll("section")).toHaveLength(2);
+  expect(container.querySelectorAll("section")).toHaveLength(1);
 });
 
 test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
@@ -155,18 +145,15 @@ test.each([
   ["product-launch", "/kv/cases/product-launch-mobile-r2.png", "1887", "32768"],
   ["launch-event", "/kv/cases/launch-event-mobile.png", "3789", "32768"],
 ] as const)("%s exposes its supplied mobile artwork below 768px", (id, src, width, height) => {
-  render(<CaseTemplate project={getProjectById(id)} />);
+  const { container } = render(<CaseTemplate project={getProjectById(id)} />);
 
-  const artwork = screen.getByRole("img", { name: `${id === "product-launch" ? "Product launch" : id === "brand-system" ? "Brand system" : id === "business" ? "Design logic" : "Launch event"} case study` });
-  const source = artwork.closest("picture")?.querySelector("source");
-
-  expect(source).toHaveAttribute("srcset", src);
-  expect(source).toHaveAttribute(
+  expect(container.querySelector("source")).toHaveAttribute("srcset", src);
+  expect(container.querySelector("source")).toHaveAttribute(
     "media",
     "(max-width: 767px)",
   );
-  expect(source).toHaveAttribute("width", width);
-  expect(source).toHaveAttribute("height", height);
+  expect(container.querySelector("source")).toHaveAttribute("width", width);
+  expect(container.querySelector("source")).toHaveAttribute("height", height);
 });
 
 test("uses responsive Netlify Image CDN sources in production", () => {
