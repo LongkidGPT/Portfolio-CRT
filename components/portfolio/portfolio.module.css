@@ -295,13 +295,12 @@
 .selectorTrack {
   display: flex;
   align-items: stretch;
-  gap: 0;
+  gap: 8px;
 }
 .projectLink {
   position: relative;
   display: flex;
-  flex: 0 0 clamp(260px, 18.5vw, 380px);
-  width: clamp(260px, 18.5vw, 380px);
+  flex: 0 0 auto;
   height: clamp(46px, 5.5vh, 56px);
   align-items: center;
   border: 0;
@@ -316,12 +315,11 @@
 .buttonArtwork {
   position: relative;
   display: block;
-  width: 100%;
   height: 100%;
 }
 .buttonArtwork img {
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
   max-width: none;
   user-select: none;
