@@ -1,8 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import {
   FEATURED_CASE,
   FEATURED_CASE_NAVIGATION,
@@ -15,20 +11,11 @@ export default function CaseNavigation({ project }: { project: ProjectDefinition
   const isOverview = project.id === "about";
   const backHref = isOverview ? "/" : FEATURED_CASE.overviewHref;
   const backLabel = isOverview ? "← BACK TO WORK" : "← PROJECT OVERVIEW";
-  const [chaptersOpen, setChaptersOpen] = useState(false);
-
-  useEffect(() => {
-    if (!chaptersOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setChaptersOpen(false);
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [chaptersOpen]);
 
   return (
-    <header className={styles.caseNavigation}>
-      <div className={styles.caseNavigationInner}>
+    <>
+      <header className={styles.caseNavigation} id="case-navigation">
+        <div className={styles.caseNavigationInner}>
         <Link href={backHref} className={styles.caseBackLink} aria-label={backLabel}>
           <span aria-hidden="true">←</span>
           <span className={styles.caseBackText}>{isOverview ? "BACK TO WORK" : "PROJECT OVERVIEW"}</span>
@@ -52,32 +39,29 @@ export default function CaseNavigation({ project }: { project: ProjectDefinition
           })}
         </nav>
 
-        <button
-          type="button"
+        <a
+          href="#case-chapter-menu"
           className={styles.caseChapterMenuButton}
-          aria-expanded={chaptersOpen}
           aria-controls="case-chapter-menu"
-          aria-label={chaptersOpen ? "Close chapter menu" : "Open chapter menu"}
-          onClick={() => setChaptersOpen((open) => !open)}
+          aria-label="Open chapter menu"
+          role="button"
         >
           <span className={styles.caseChapterMenuIcon} aria-hidden="true">
             <i />
             <i />
             <i />
           </span>
-        </button>
-      </div>
+        </a>
+        </div>
+      </header>
 
-      {chaptersOpen && typeof document !== "undefined" && createPortal(
-        <div className={styles.caseChapterDrawerLayer}>
-          <button
-            type="button"
+      <div className={styles.caseChapterDrawerLayer} id="case-chapter-menu">
+          <a
+            href="#case-navigation"
             className={styles.caseChapterDrawerBackdrop}
             aria-label="Close chapter menu"
-            onClick={() => setChaptersOpen(false)}
           />
-          <section
-            id="case-chapter-menu"
+          <div
             className={styles.caseChapterDrawer}
             role="dialog"
             aria-modal="true"
@@ -85,9 +69,9 @@ export default function CaseNavigation({ project }: { project: ProjectDefinition
           >
             <header>
               <p id="case-chapter-menu-title">CHAPTERS</p>
-              <button type="button" aria-label="Close chapter menu" onClick={() => setChaptersOpen(false)}>
+              <a href="#case-navigation" aria-label="Close chapter menu" role="button">
                 ×
-              </button>
+              </a>
             </header>
             <nav aria-label="Mobile featured case chapter navigation">
               {FEATURED_CASE_NAVIGATION.map((item) => {
@@ -98,17 +82,23 @@ export default function CaseNavigation({ project }: { project: ProjectDefinition
                     key={item.id}
                     href={target.href}
                     aria-current={active ? "page" : undefined}
-                    onClick={() => setChaptersOpen(false)}
                   >
-                    <span>{target.label}</span>
+                    {active ? (
+                      <span
+                        className={styles.caseChapterDrawerCurrentLabel}
+                        data-label={target.label}
+                        aria-label={target.label}
+                      />
+                    ) : (
+                      <span>{target.label}</span>
+                    )}
                     <span aria-hidden="true">{active ? "●" : "↗"}</span>
                   </Link>
                 );
               })}
             </nav>
-          </section>
-        </div>
-      , document.body)}
-    </header>
+          </div>
+      </div>
+    </>
   );
 }

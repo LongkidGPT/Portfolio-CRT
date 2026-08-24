@@ -130,9 +130,9 @@
   position: absolute;
   z-index: 9;
   top: 40.5%;
-  left: calc(31.6% - 50px);
+  left: calc(31.6% - 60px);
   width: min(19.2vw, 368px);
-  transform: translateY(calc(clamp(-112px, -11vh, -92px) + 40px));
+  transform: translateY(calc(clamp(-112px, -11vh, -92px) + 20px));
   transition: opacity 260ms ease;
 }
 .preview h1,
@@ -171,7 +171,7 @@
 }
 @media (min-width: 768px) {
   .home[data-previewed-project="about"] .previewStage {
-    left: calc(31.6% - 80px);
+    left: calc(31.6% - 90px);
     width: min(28vw, 452px);
   }
 }
@@ -295,13 +295,14 @@
 .selectorTrack {
   display: flex;
   align-items: stretch;
-  gap: 8px;
+  /* Desktop card group: 110% of the previous scale, including rhythm. */
+  gap: 7.04704px;
 }
 .projectLink {
   position: relative;
   display: flex;
   flex: 0 0 auto;
-  height: clamp(46px, 5.5vh, 56px);
+  min-height: 44px;
   align-items: center;
   border: 0;
   background: transparent;
@@ -315,7 +316,7 @@
 .buttonArtwork {
   position: relative;
   display: block;
-  height: 100%;
+  height: clamp(40.52048px, 4.84484vh, 49.32928px);
 }
 .buttonArtwork img {
   display: block;
@@ -954,11 +955,15 @@
     font-size: 9px;
     letter-spacing: .06em;
     cursor: pointer;
+    text-decoration: none;
   }
   .caseChapterDrawerLayer {
     position: fixed;
     z-index: 80;
     inset: 0;
+    display: none;
+  }
+  .caseChapterDrawerLayer:target {
     display: block;
   }
   .caseChapterDrawerBackdrop {
@@ -968,6 +973,7 @@
     height: 100%;
     border: 0;
     background: rgba(15, 17, 17, .48);
+    text-decoration: none;
   }
   .caseChapterDrawer {
     position: absolute;
@@ -992,15 +998,19 @@
     font-size: 10px;
     letter-spacing: .06em;
   }
-  .caseChapterDrawer > header button {
+  .caseChapterDrawer > header a {
+    display: inline-flex;
     width: 44px;
     height: 44px;
+    align-items: center;
+    justify-content: center;
     border: 0;
     background: transparent;
     color: var(--ink);
     font: inherit;
     font-size: 22px;
     cursor: pointer;
+    text-decoration: none;
   }
   .caseChapterDrawer nav { display: block; }
   .caseChapterDrawer nav a {
@@ -1013,6 +1023,7 @@
     font-size: 12px;
     letter-spacing: .025em;
   }
+  .caseChapterDrawerCurrentLabel::before { content: attr(data-label); }
   .caseChapterDrawer nav a[aria-current="page"] {
     color: #247ad3;
     font-weight: 500;
