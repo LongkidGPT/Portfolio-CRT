@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   FEATURED_CASE,
   FEATURED_CASE_NAVIGATION,
@@ -56,14 +57,18 @@ export default function CaseNavigation({ project }: { project: ProjectDefinition
           className={styles.caseChapterMenuButton}
           aria-expanded={chaptersOpen}
           aria-controls="case-chapter-menu"
-          aria-label="Open chapter menu"
-          onClick={() => setChaptersOpen(true)}
+          aria-label={chaptersOpen ? "Close chapter menu" : "Open chapter menu"}
+          onClick={() => setChaptersOpen((open) => !open)}
         >
-          <span aria-hidden="true">CH</span>
+          <span className={styles.caseChapterMenuIcon} aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
         </button>
       </div>
 
-      {chaptersOpen && (
+      {chaptersOpen && typeof document !== "undefined" && createPortal(
         <div className={styles.caseChapterDrawerLayer}>
           <button
             type="button"
@@ -103,7 +108,7 @@ export default function CaseNavigation({ project }: { project: ProjectDefinition
             </nav>
           </section>
         </div>
-      )}
+      , document.body)}
     </header>
   );
 }

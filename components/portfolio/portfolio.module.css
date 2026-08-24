@@ -728,6 +728,17 @@
   border-bottom-color: #247ad3;
   color: #247ad3;
 }
+.caseChapterMenuIcon {
+  display: grid;
+  width: 18px;
+  gap: 4px;
+}
+.caseChapterMenuIcon i {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
 .caseMobileCurrent,
 .caseChapterMenuButton,
 .caseChapterDrawerLayer { display: none; }
