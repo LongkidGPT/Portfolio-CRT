@@ -114,21 +114,17 @@ export const PROJECTS = [
     year: "IFA 2025",
     summary: "Anker Innovations global brand upgrade and three connected design goals.",
     previewCopy: {
-      eyebrow: "SENIOR VISUAL DESIGNER",
-      headlineLines: ["品牌系统、新品上市", "与 DTC 转化设计"],
-      subheadLines: [
-        "10+ 年视觉设计与品牌营销经验",
-        "消费电子 · 家居新零售 · 4A/创意公司",
-      ],
+      eyebrow: "BRAND SYSTEM · AI WORKFLOW",
+      headlineLines: ["我是KID（龙昊翔）"],
+      subheadLines: ["资深品牌与营销视觉设计师"],
       bodyLines: [
-        "从业务判断与视觉策略，到品牌语言、新品发布、DTC 页面与",
-        "AI 创意流程，推动多触点设计落地。曾管理 8 人视觉团队。",
+        "从 Anker 全球新品、品牌系统与 AIGC 规范中，展示将复杂技术",
+        "转译为可感知品牌表达的方法。",
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "SENIOR VISUAL DESIGNER",
-      secondLayer: ["品牌系统、新品上市", "与 DTC 转化设计"],
-      evidence: "10+ 年经验｜消费电子 · 家居新零售 · 4A",
+      firstLayer: "BRAND SYSTEM · AI WORKFLOW",
+      secondLayer: "我是KID（龙昊翔）",
     },
     href: FEATURED_CASE.overviewHref,
     kind: "case",
@@ -302,7 +298,7 @@ export const PROJECTS = [
         },
         {
           title: "规模化应用",
-          description: "建立光型样本库、Prompt 模板与人工筛选机制，使视觉资产稳定应用于发布会、官网、社媒和渠道内容。",
+          description: "建立光型样本库、Prompt 模板与人工筛选机制，使视觉资产稳定应用于发布会、官网、社媒和渠道内容；团队出图效率提升 36%（Midjourney · Stable Diffusion）。",
         },
       ],
       validationLabel: "应用验证",
