@@ -53,6 +53,38 @@ test("tracks the pointer and locks all five R5 project poses", async ({
   await expect(portrait).toHaveAttribute("data-target-frame", "80");
 });
 
+test("prioritizes the default CRT frame and limits background frame warmup", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop");
+
+  const frameRequests: string[] = [];
+  let activeRequests = 0;
+  let peakRequests = 0;
+  await page.route("**/kv-desktop-r5/frames/*.webp", async (route) => {
+    frameRequests.push(new URL(route.request().url()).pathname);
+    activeRequests += 1;
+    peakRequests = Math.max(peakRequests, activeRequests);
+    await new Promise((resolve) => setTimeout(resolve, 40));
+    activeRequests -= 1;
+    await route.continue();
+  });
+
+  await page.goto("/");
+  const portrait = page.getByRole("img", {
+    name: "Interactive full-frame KV portrait",
+  });
+
+  await expect.poll(() => frameRequests.length).toBe(1);
+  expect(frameRequests[0]).toContain("frame-080.webp");
+
+  await expect.poll(async () => Number(await portrait.getAttribute("data-loaded")), {
+    timeout: 15_000,
+  }).toBeGreaterThanOrEqual(6);
+  expect(peakRequests).toBeLessThanOrEqual(2);
+  await expect(portrait).toHaveAttribute("data-warmup", "active");
+});
+
 test("fills standard and wide desktop viewports without letterboxing", async ({
   page,
 }, testInfo) => {
