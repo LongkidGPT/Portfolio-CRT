@@ -2,13 +2,13 @@ import AboutExperience from "./AboutExperience";
 import styles from "./portfolio.module.css";
 
 const ABOUT_HERO_COPY = {
-  eyebrow: "SENIOR VISUAL DESIGNER",
+  eyebrow: "CREATIVE VISUAL DESIGNER · BRAND & AI",
   name: "我是KID（龙昊翔）",
-  role: "资深视觉设计师",
+  role: "资深创意视觉设计师",
   introduction:
-    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
+    "10+ 年品牌与营销视觉经验，消费电子（Anker）和 4A 出身。做过从 0→1 的品牌视觉体系、全球新品上市与发布会传播，关注让复杂信息有辨识度、可被理解，并落实到真实触点。项目中也会用 AI 建立可控的创意生产规则 ▮",
   mobileIntroduction:
-    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。精通新品发布视觉、品牌 VI 体系、DTC/电商页面及 AI 创意提效，具备从策略提案到落地闭环的全流程能力。",
+    "10+ 年品牌与营销视觉经验，消费电子（Anker）和 4A 出身。做过 0→1 品牌体系、全球新品上市与发布会传播，关注让复杂信息有辨识度、可被理解，并落实到真实触点；也会用 AI 建立可控的创意生产规则。",
 } as const;
 
 function aboutImage(src: string, width: number) {
