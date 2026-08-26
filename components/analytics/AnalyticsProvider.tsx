@@ -1,12 +1,13 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import { sendAnalyticsEvent } from "@/lib/analytics/client";
 import {
   createSessionId,
   getOrCreateVisitorId,
-  resolveBranchId,
+  normalizeBranchId,
+  resolveDeploymentBranchId,
 } from "@/lib/analytics/identity";
 import type {
   AnalyticsEvent,
@@ -21,6 +22,7 @@ import { createActiveDwellClock } from "@/lib/analytics/measurements";
 import AnalyticsCard from "./AnalyticsCard";
 
 const BRANCH_STORAGE_KEY = "kid-portfolio-branch-v1";
+const subscribeToStaticHostname = () => () => undefined;
 
 function environmentConfig(): PublicPostHogConfig | null {
   const token = process.env.NEXT_PUBLIC_POSTHOG_TOKEN;
@@ -50,14 +52,25 @@ export default function AnalyticsProvider({
     || typeof navigator === "undefined"
     || !navigator.webdriver;
   const identity = useRef<SessionIdentity | null>(null);
-  const branchId = useMemo(() => {
-    const configuredBranch = process.env.NEXT_PUBLIC_ANALYTICS_BRANCH_ID;
-    if (typeof window === "undefined") return resolveBranchId(pathname, undefined, configuredBranch);
-    const stored = window.sessionStorage.getItem(BRANCH_STORAGE_KEY) ?? undefined;
-    const branch = resolveBranchId(pathname, stored, configuredBranch);
-    window.sessionStorage.setItem(BRANCH_STORAGE_KEY, branch);
-    return branch;
-  }, [pathname]);
+  const fallbackBranchId = useMemo(() => normalizeBranchId(pathname), [pathname]);
+  const hostname = useSyncExternalStore(
+    subscribeToStaticHostname,
+    () => window.location.hostname,
+    () => "",
+  );
+  const storedBranch = typeof window === "undefined"
+    ? undefined
+    : window.sessionStorage.getItem(BRANCH_STORAGE_KEY) ?? undefined;
+  const resolvedBranchId = hostname
+    ? resolveDeploymentBranchId(hostname, pathname, storedBranch)
+    : null;
+  const branchId = resolvedBranchId ?? fallbackBranchId;
+
+  useEffect(() => {
+    if (resolvedBranchId) {
+      window.sessionStorage.setItem(BRANCH_STORAGE_KEY, resolvedBranchId);
+    }
+  }, [resolvedBranchId]);
 
   const capture = useCallback((details: AnalyticsEventDetails) => {
     if (!trackingEnabled) return;

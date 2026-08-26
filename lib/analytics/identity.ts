@@ -1,5 +1,6 @@
 const VISITOR_STORAGE_KEY = "kid-portfolio-visitor-id-v1";
 const SAFE_BRANCH_PATTERN = /^\/[a-z0-9/_-]*$/;
+const NETLIFY_HOST_PATTERN = /^([a-z0-9][a-z0-9-]*)--[^.]+\.netlify\.app$/;
 
 export function isValidBranchId(value: string) {
   return SAFE_BRANCH_PATTERN.test(value) && !value.includes("//");
@@ -35,12 +36,16 @@ export function normalizeBranchId(pathname: string, storedBranch?: string) {
   return current;
 }
 
-export function resolveBranchId(
+export function resolveDeploymentBranchId(
+  hostname: string,
   pathname: string,
   storedBranch?: string,
-  configuredBranch?: string,
 ) {
-  return safePath(configuredBranch) ?? normalizeBranchId(pathname, storedBranch);
+  const normalizedHostname = hostname.trim().toLowerCase().replace(/:\d+$/, "");
+  const branchDeploy = normalizedHostname.match(NETLIFY_HOST_PATTERN)?.[1];
+  if (branchDeploy) return `/${branchDeploy}`;
+  if (normalizedHostname.endsWith(".netlify.app")) return "/main";
+  return normalizeBranchId(pathname, storedBranch);
 }
 
 export function getOrCreateVisitorId(
