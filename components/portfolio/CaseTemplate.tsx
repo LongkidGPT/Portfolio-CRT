@@ -49,11 +49,11 @@ function hotspotStyle(link: (typeof OVERVIEW_LINKS)[number]) {
   } as CSSProperties;
 }
 
-const CASE_CONTEXT: Partial<Record<ProjectDefinition["id"], string>> = {
-  business: "PROJECT OVERVIEW / 00 DESIGN LOGIC",
-  "brand-system": "PROJECT OVERVIEW / 01 BRAND SYSTEM",
-  "product-launch": "PROJECT OVERVIEW / 02 PRODUCT LAUNCH",
-  "launch-event": "PROJECT OVERVIEW / 03 LAUNCH EVENT",
+const CASE_TITLES: Partial<Record<ProjectDefinition["id"], string>> = {
+  business: "00 BUSINESS CONTEXT",
+  "brand-system": "01 BRAND SYSTEM",
+  "product-launch": "02 PRODUCT LAUNCH",
+  "launch-event": "03 LAUNCH EVENT",
 };
 
 export default function CaseTemplate({ project }: { project: ProjectDefinition }) {
@@ -66,8 +66,10 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
         {project.recruiterSummary && (
           <RecruiterProjectSummary
             summary={project.recruiterSummary}
-            contextLabel={CASE_CONTEXT[project.id]}
-            hideTitle={Boolean(CASE_CONTEXT[project.id])}
+            eyebrow="ANKER INNOVATIONS · IFA 2025"
+            pageTitle={CASE_TITLES[project.id]}
+            mobilePageTitle={project.id === "about" ? "PROJECT OVERVIEW" : undefined}
+            hideTitle={Boolean(CASE_TITLES[project.id])}
           />
         )}
         <div className={styles.caseArtworkMedia}>

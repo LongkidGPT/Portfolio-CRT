@@ -124,13 +124,20 @@ export const PROJECTS = [
     summary: "Brand systems, product storytelling and global launch communication.",
     previewCopy: {
       eyebrow: "CREATIVE VISUAL DESIGNER",
-      headlineLines: ["我是KID（龙昊翔）"],
-      subheadLines: ["一个人类 · 品牌与创意视觉设计师"],
-      bodyLines: [],
+      headlineLines: ["品牌系统、产品表达", "与全球传播设计"],
+      subheadLines: [
+        "可控生成 · 产品叙事 · 多触点内容",
+        "品牌系统 · DTC 表达 · 全球传播",
+      ],
+      bodyLines: [
+        "从品牌策略与 AIGC 规则，到产品价值转译、DTC 叙事与全球传播，",
+        "建立可识别、可复用并可跨触点落地的创意视觉系统。",
+      ],
     },
     mobilePreviewCopy: {
       firstLayer: "CREATIVE VISUAL DESIGNER",
-      secondLayer: "我是KID（龙昊翔）",
+      secondLayer: ["品牌系统、产品表达", "与全球传播设计"],
+      evidence: "可控生成｜产品叙事｜多触点内容",
     },
     href: FEATURED_CASE.overviewHref,
     kind: "case",

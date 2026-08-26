@@ -3,11 +3,15 @@ import styles from "./portfolio.module.css";
 
 export default function RecruiterProjectSummary({
   summary,
-  contextLabel,
+  eyebrow,
+  pageTitle,
+  mobilePageTitle,
   hideTitle = false,
 }: {
   summary: RecruiterSummary;
-  contextLabel?: string;
+  eyebrow?: string;
+  pageTitle?: string;
+  mobilePageTitle?: string;
   hideTitle?: boolean;
 }) {
   return (
@@ -19,11 +23,19 @@ export default function RecruiterProjectSummary({
       <div className={styles.recruiterSummary}>
         <header className={styles.recruiterSummaryHeader}>
           {hideTitle ? (
-            <p className={styles.recruiterSummaryContext}>{contextLabel}</p>
+            <>
+              <p className={styles.recruiterSummaryEyebrow}>{eyebrow}</p>
+              <h1 className={styles.recruiterSummaryChapterTitle}>{pageTitle}</h1>
+            </>
           ) : (
             <>
-              <h1 id="recruiter-project-title">{summary.title}</h1>
-              <p>{summary.subtitle}</p>
+              <h1 id="recruiter-project-title" className={styles.recruiterSummaryDesktopTitle}>
+                {summary.title}
+              </h1>
+              <p className={styles.recruiterSummaryDesktopSubtitle}>{summary.subtitle}</p>
+              {mobilePageTitle ? (
+                <h1 className={styles.recruiterSummaryMobileTitle}>{mobilePageTitle}</h1>
+              ) : null}
             </>
           )}
         </header>
