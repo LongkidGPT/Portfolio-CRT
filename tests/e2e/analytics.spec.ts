@@ -44,7 +44,7 @@ test("captures explicit project and case events and renders the branch card", as
 
   await page.goto("/");
   if (testInfo.project.name === "mobile") {
-    const controls = page.getByRole("button", { name: "Next project" }).locator("..");
+    const controls = page.getByRole("button", { name: "Next chapter" }).locator("..");
     expect(await controls.evaluate((element) => getComputedStyle(element).transform)).toContain("-10");
   }
   const launcher = page.getByRole("button", { name: /open live signal analytics/i });
@@ -73,8 +73,8 @@ test("captures explicit project and case events and renders the branch card", as
   expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(viewport.height + 1);
 
   await page.getByRole("button", { name: "Close analytics" }).click();
-  await page.getByRole("link", { name: "Open DESIGN LOGIC" }).click();
-  await expect(page).toHaveURL(/\/work\/business$/);
+  await page.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }).click();
+  await expect(page).toHaveURL(/\/work\/anker-ifa-2025\/business$/);
   await expect.poll(() => events.filter(({ event }) => event === "portfolio_project_clicked").length).toBe(1);
   expect(events.find(({ event }) => event === "portfolio_project_clicked")?.properties).toMatchObject({ branch_id: "/", project_id: "business" });
 

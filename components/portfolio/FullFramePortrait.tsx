@@ -17,6 +17,10 @@ import {
 import type { Point } from "@/lib/portfolio/sprite";
 import { shortestFrameDelta } from "@/lib/portfolio/sprite";
 
+const DESKTOP_FRAME_CONCURRENCY = 2;
+const INITIAL_NEIGHBOUR_RADIUS = 2;
+const POINTER_NEIGHBOUR_RADIUS = 2;
+
 export interface FrameDiagnostics {
   angle: number | null;
   frame: number;
@@ -61,6 +65,8 @@ export default function FullFramePortrait({
     if (!context) return;
 
     const images = new Array<HTMLImageElement | undefined>(KV_SYNC_FRAME_COUNT);
+    const pendingFrames = new Map<number, number>();
+    const startedFrames = new Set<number>();
     let pointer: Point | null = null;
     let drawnFrame = -1;
     let displayFrame = KV_SYNC_NEUTRAL_FRAME;
@@ -70,6 +76,12 @@ export default function FullFramePortrait({
     let cancelled = false;
     let visible = document.visibilityState === "visible";
     let lastTimestamp = 0;
+    let inFlight = 0;
+    let requestCount = 0;
+    let firstFrameMs: number | null = null;
+    let backgroundWarmupStarted = false;
+    let warmupTimer = 0;
+    const startedAt = Date.now();
     let diagnostics: FrameDiagnostics = {
       angle: null,
       frame: KV_SYNC_NEUTRAL_FRAME,
@@ -136,27 +148,54 @@ export default function FullFramePortrait({
       return true;
     };
 
-    const loadFrame = (frame: number) => {
-      const normalized =
-        ((Math.round(frame) % KV_SYNC_FRAME_COUNT) + KV_SYNC_FRAME_COUNT) %
-        KV_SYNC_FRAME_COUNT;
-      if (images[normalized]) return;
+    const normalizedFrame = (frame: number) =>
+      ((Math.round(frame) % KV_SYNC_FRAME_COUNT) + KV_SYNC_FRAME_COUNT) %
+      KV_SYNC_FRAME_COUNT;
+
+    const updateLoadDiagnostics = () => {
+      canvas.dataset.requests = String(requestCount);
+      canvas.dataset.inflight = String(inFlight);
+      canvas.dataset.queued = String(pendingFrames.size);
+      canvas.dataset.firstFrameMs =
+        firstFrameMs === null ? "" : String(firstFrameMs);
+    };
+
+    const startFrame = (normalized: number) => {
+      if (cancelled || startedFrames.has(normalized)) return;
+      startedFrames.add(normalized);
+      inFlight += 1;
+      requestCount += 1;
+      updateLoadDiagnostics();
 
       const image = new Image();
       images[normalized] = image;
       image.onload = () => {
         if (cancelled) return;
+        inFlight = Math.max(0, inFlight - 1);
         loadedCount += 1;
-        publishDiagnostics({ loaded: loadedCount });
-        if (normalized === KV_SYNC_NEUTRAL_FRAME || drawnFrame < 0) {
-          resizeCanvas();
-          drawFrame(normalized);
+        if (firstFrameMs === null && normalized === KV_SYNC_NEUTRAL_FRAME) {
+          firstFrameMs = Date.now() - startedAt;
+          warmupTimer = window.setTimeout(startBackgroundWarmup, 0);
         }
+        publishDiagnostics({ loaded: loadedCount });
+        updateLoadDiagnostics();
+        if (
+          normalized === KV_SYNC_NEUTRAL_FRAME ||
+          drawnFrame < 0 ||
+          normalized === normalizedFrame(displayFrame)
+        ) {
+          resizeCanvas();
+          drawFrame(normalized, diagnostics.angle);
+        }
+        flushQueue();
       };
       image.onerror = () => {
         if (cancelled) return;
+        inFlight = Math.max(0, inFlight - 1);
         errorCount += 1;
         publishDiagnostics({ errors: errorCount });
+        updateLoadDiagnostics();
+        flushQueue();
       };
       image.src = kvSyncFrameSrc(normalized);
     };
@@ -169,10 +208,25 @@ export default function FullFramePortrait({
       const delta = shortestFrameDelta(target, from, KV_SYNC_FRAME_COUNT);
       const direction = Math.sign(delta);
       const steps = Math.min(Math.ceil(Math.abs(delta)), lookAhead);
-      loadFrame(target);
+      queueFramesNear(target, POINTER_NEIGHBOUR_RADIUS, -20);
       for (let index = 0; index <= steps; index += 1) {
-        loadFrame(from + direction * index);
+        queueFrame(from + direction * index, -10 + index);
       }
+    };
+
+    const startBackgroundWarmup = () => {
+      if (backgroundWarmupStarted || cancelled || !canUseInteractiveFrames) return;
+      backgroundWarmupStarted = true;
+      canvas.dataset.warmup = "active";
+      queueFramesNear(KV_SYNC_NEUTRAL_FRAME, INITIAL_NEIGHBOUR_RADIUS, 0);
+      for (const frame of Object.values(KV_SYNC_PROJECT_FRAMES)) {
+        queueFrame(frame, 8);
+      }
+      for (let distance = INITIAL_NEIGHBOUR_RADIUS + 1; distance <= 96; distance += 1) {
+        queueFrame(KV_SYNC_NEUTRAL_FRAME - distance, 40 + distance * 2);
+        queueFrame(KV_SYNC_NEUTRAL_FRAME + distance, 41 + distance * 2);
+      }
+      flushQueue();
     };
 
     const pointerTarget = () => {
@@ -209,7 +263,9 @@ export default function FullFramePortrait({
           : stepKvSyncFrame(displayFrame, next.frame, elapsed);
         const roundedFrame = Math.round(displayFrame) % KV_SYNC_FRAME_COUNT;
         const roundedTarget = Math.round(next.frame) % KV_SYNC_FRAME_COUNT;
-        preloadPath(roundedFrame, roundedTarget);
+        if (pointer || fixedFrameRef.current !== null) {
+          preloadPath(roundedFrame, roundedTarget);
+        }
         publishDiagnostics({ angle: next.angle, targetFrame: roundedTarget });
         drawFrame(roundedFrame, next.angle);
         shouldContinue =
@@ -249,13 +305,23 @@ export default function FullFramePortrait({
         ? null
         : new ResizeObserver(handleResize);
     const finePointer = window.matchMedia?.("(pointer: fine)").matches ?? true;
+    const connection = (navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }).connection;
+    const constrainedNetwork =
+      connection?.saveData === true ||
+      connection?.effectiveType === "slow-2g" ||
+      connection?.effectiveType === "2g";
+    const canUseInteractiveFrames =
+      finePointer && !motionReducedRef.current && !constrainedNetwork;
 
     observer?.observe(canvas);
     window.addEventListener("resize", handleResize);
-    if (finePointer) window.addEventListener("pointermove", handlePointer);
+    if (canUseInteractiveFrames) window.addEventListener("pointermove", handlePointer);
     document.addEventListener("visibilitychange", handleVisibility);
     resizeCanvas();
-    preloadPriorityFrames();
+    canvas.dataset.warmup = canUseInteractiveFrames ? "pending" : "limited";
+    queueFrame(KV_SYNC_NEUTRAL_FRAME, -100);
     scheduleTick();
 
     return () => {
@@ -268,6 +334,7 @@ export default function FullFramePortrait({
       }
       observer?.disconnect();
       window.removeEventListener("resize", handleResize);
+      window.clearTimeout(warmupTimer);
       window.removeEventListener("pointermove", handlePointer);
       document.removeEventListener("visibilitychange", handleVisibility);
       window.cancelAnimationFrame(animationFrame);

@@ -24,14 +24,14 @@ describe("project registry", () => {
     }
   });
 
-  it("exposes DESIGN LOGIC as the business entry label", () => {
-    expect(getProjectById("business").label).toBe("DESIGN LOGIC");
+  it("exposes BUSINESS CONTEXT as the numbered business entry label", () => {
+    expect(getProjectById("business").label).toBe("00 BUSINESS CONTEXT");
   });
 
-  it("opens the first project card as the responsive PROJECT OVERVIEW case", () => {
+  it("opens the first project card as the responsive flagship case overview", () => {
     expect(getProjectById("about")).toMatchObject({
       label: "PROJECT OVERVIEW",
-      href: "/work/about",
+      href: "/work/anker-ifa-2025",
       kind: "case",
       caseArtwork: {
         src: "/kv/cases/project-overview-r4.png",
@@ -46,7 +46,7 @@ describe("project registry", () => {
     });
   });
 
-  it("stores the selected-state PROJECT OVERVIEW mobile copy separately", () => {
+  it("stores the selected-state flagship case mobile copy separately", () => {
     expect(PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY).toEqual({
       firstLayer: "NEW PRODUCT LAUNCH",
       secondLayer: ["新品发布视觉系统", "从前期创意到线上线下触点"],
@@ -60,8 +60,9 @@ describe("project registry", () => {
       {
         id: "about",
         mobilePreviewCopy: {
-          firstLayer: "VISUAL DESIGNER",
-          secondLayer: "我是KID（龙昊翔）",
+          firstLayer: "SENIOR VISUAL DESIGNER",
+          secondLayer: ["品牌系统、新品上市", "与 DTC 转化设计"],
+          evidence: "10+ 年经验｜消费电子 · 家居新零售 · 4A",
         },
       },
       {
@@ -99,12 +100,10 @@ describe("project registry", () => {
     expect(PROJECTS.map(({ id, previewCopy }) => ({ id, previewCopy }))).toEqual([
       {
         id: "about",
-        previewCopy: {
-          eyebrow: "VISUAL DESIGNER",
-          headlineLines: ["我是KID（龙昊翔）"],
-          subheadLines: ["一个人类 · 资深视觉设计师"],
-          bodyLines: [],
-        },
+        previewCopy: expect.objectContaining({
+          eyebrow: "SENIOR VISUAL DESIGNER",
+          headlineLines: ["品牌系统、新品上市", "与 DTC 转化设计"],
+        }),
       },
       {
         id: "business",

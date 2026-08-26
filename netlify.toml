@@ -10,3 +10,10 @@ NEXT_PUBLIC_ANALYTICS_BRANCH_ID = "/dji-product-launch"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+
+# Case artwork is split into independent WebP slices. Keep a browser copy for
+# repeat visits while allowing the CDN to refresh it in the background.
+[[headers]]
+for = "/kv/cases/*"
+  [headers.values]
+  Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"

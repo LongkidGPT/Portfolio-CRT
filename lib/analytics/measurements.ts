@@ -167,12 +167,16 @@ export function createJourneyMatrixTracker(
 }
 
 const CASE_PATHS: Readonly<Record<string, ProjectId>> = {
-  "/about": "about",
   "/work/about": "about",
   "/work/business": "business",
   "/work/brand-system": "brand-system",
   "/work/product-launch": "product-launch",
   "/work/launch-event": "launch-event",
+  "/work/anker-ifa-2025": "about",
+  "/work/anker-ifa-2025/business": "business",
+  "/work/anker-ifa-2025/brand-system": "brand-system",
+  "/work/anker-ifa-2025/product-launch": "product-launch",
+  "/work/anker-ifa-2025/launch-event": "launch-event",
 };
 
 export function projectIdFromPathname(pathname: string) {
