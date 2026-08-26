@@ -8,6 +8,7 @@ import {
   KV_SYNC_HEAD_ANCHOR,
   KV_SYNC_HEIGHT,
   KV_SYNC_NEUTRAL_FRAME,
+  KV_SYNC_PROJECT_FRAMES,
   KV_SYNC_WIDTH,
   angleForKvSyncPointer,
   frameForKvSyncPointer,
@@ -200,8 +201,38 @@ export default function FullFramePortrait({
       image.src = kvSyncFrameSrc(normalized);
     };
 
+    const flushQueue = () => {
+      while (inFlight < DESKTOP_FRAME_CONCURRENCY && pendingFrames.size > 0) {
+        const next = [...pendingFrames.entries()].sort(
+          ([frameA, priorityA], [frameB, priorityB]) =>
+            priorityA - priorityB || frameA - frameB,
+        )[0];
+        pendingFrames.delete(next[0]);
+        startFrame(next[0]);
+      }
+      updateLoadDiagnostics();
+    };
+
+    const queueFrame = (frame: number, priority: number) => {
+      const normalized = normalizedFrame(frame);
+      if (startedFrames.has(normalized)) return;
+      const currentPriority = pendingFrames.get(normalized);
+      if (currentPriority === undefined || priority < currentPriority) {
+        pendingFrames.set(normalized, priority);
+      }
+      flushQueue();
+    };
+
+    const queueFramesNear = (frame: number, radius: number, priority: number) => {
+      queueFrame(frame, priority);
+      for (let distance = 1; distance <= radius; distance += 1) {
+        queueFrame(frame - distance, priority + distance);
+        queueFrame(frame + distance, priority + distance);
+      }
+    };
+
     const preloadPriorityFrames = () => {
-      loadFrame(KV_SYNC_NEUTRAL_FRAME);
+      queueFrame(KV_SYNC_NEUTRAL_FRAME, -100);
     };
 
     const preloadPath = (from: number, target: number, lookAhead = 8) => {
