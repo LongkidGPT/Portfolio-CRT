@@ -105,7 +105,7 @@ test("syncs the mobile portrait target with the selected project", async () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
 
   render(<PortfolioHome />);
-  fireEvent.click(screen.getByRole("button", { name: "Next project" }));
+  fireEvent.click(screen.getByRole("button", { name: "Next chapter" }));
 
   expect(
     screen.getByRole("img", { name: "Mobile full-frame KV portrait" }),
@@ -147,7 +147,7 @@ test("locks the full-frame target to the hovered formal project", () => {
   });
 
   render(<PortfolioHome />);
-  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open DESIGN LOGIC" }));
+  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }));
   act(() => callbacks.shift()?.(1000 / 60));
 
   expect(
@@ -155,10 +155,10 @@ test("locks the full-frame target to the hovered formal project", () => {
   ).toHaveAttribute("data-target-frame", "128");
 });
 
-test("restores the ABOUT ME copy after the pointer leaves a project button", () => {
+test("restores the positioning copy after the pointer leaves a project button", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   render(<PortfolioHome />);
-  const business = screen.getByRole("link", { name: "Open DESIGN LOGIC" });
+  const business = screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
 
   fireEvent.pointerEnter(business);
   expect(
@@ -171,11 +171,11 @@ test("restores the ABOUT ME copy after the pointer leaves a project button", () 
   );
   expect(desktopPreview()).not.toBeNull();
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
 });
 
-test("shows PROJECT OVERVIEW only while the first desktop card is previewed", () => {
+test("shows the flagship case overview only while the first desktop card is previewed", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   const { container } = render(<PortfolioHome />);
 
@@ -188,13 +188,13 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
   expect(desktopPreview()).not.toBeNull();
   expect(mobilePreview()).not.toBeNull();
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(mobilePreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
 
-  const overview = screen.getByRole("link", { name: "Open PROJECT OVERVIEW" });
+  const overview = screen.getByRole("link", { name: "Open PROJECT OVERVIEW chapter" });
   fireEvent.pointerEnter(overview);
 
   expect(container.querySelector("main")).toHaveAttribute(
@@ -218,7 +218,7 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
       "项目是 ANKER INNOVATIONS 全球品牌升级、IFA 2025",
     ),
   ).toBeInTheDocument();
-  expect(within(mobilePreview()!).getByLabelText("项目总览")).toBeInTheDocument();
+  expect(within(mobilePreview()!).getByLabelText("PROJECT OVERVIEW")).toBeInTheDocument();
   expect(
     within(mobilePreview()!).getByRole("heading", {
       name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
@@ -230,10 +230,10 @@ test("shows PROJECT OVERVIEW only while the first desktop card is previewed", ()
     "data-previewed-project",
   );
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "我是KID（龙昊翔）" }),
+    within(mobilePreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
   ).toBeInTheDocument();
 });
 
@@ -245,6 +245,9 @@ test("renders the portfolio identity and five approved entry links", () => {
   render(<PortfolioHome />);
 
   expect(screen.getByText("KID LONG")).toBeInTheDocument();
+  expect(screen.getByTestId("featured-case-context")).toHaveTextContent(
+    "FEATURED CASEANKER INNOVATIONS · IFA 2025GLOBAL BRAND UPGRADE",
+  );
   expect(screen.getAllByRole("link", { name: /open/i })).toHaveLength(5);
 
   getContext.mockRestore();
@@ -257,17 +260,17 @@ test("holds navigation until the portrait exit transition completes", () => {
     .mockReturnValue(null);
   const { container } = render(<PortfolioHome />);
 
-  fireEvent.click(screen.getByRole("link", { name: "Open DESIGN LOGIC" }));
+  fireEvent.click(screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }));
   expect(analytics.trackProjectClick).toHaveBeenCalledWith({
     id: "business",
-    label: "DESIGN LOGIC",
+    label: "00 BUSINESS CONTEXT",
   });
   expect(container.querySelector("main")).toHaveAttribute("data-phase", "zooming");
   act(() => vi.advanceTimersByTime(719));
   expect(navigation.push).not.toHaveBeenCalled();
 
   act(() => vi.advanceTimersByTime(1));
-  expect(navigation.push).toHaveBeenCalledWith("/work/business");
+  expect(navigation.push).toHaveBeenCalledWith("/work/anker-ifa-2025/business");
 
   getContext.mockRestore();
 });
@@ -276,7 +279,7 @@ test("hovering a project previews it without counting a click", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
   render(<PortfolioHome />);
 
-  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open DESIGN LOGIC" }));
+  fireEvent.pointerEnter(screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" }));
 
   expect(analytics.trackProjectClick).not.toHaveBeenCalled();
 });

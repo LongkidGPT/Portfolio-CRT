@@ -11,13 +11,13 @@ test("calibrates and remembers an independent frame for each mobile project", as
   await userEvent.click(screen.getByRole("button", { name: "Next frame" }));
   expect(screen.getByAltText("PROJECT OVERVIEW frame 125")).toBeVisible();
 
-  await userEvent.click(screen.getByRole("button", { name: /DESIGN LOGIC/ }));
-  expect(screen.getByAltText("DESIGN LOGIC frame 124")).toBeVisible();
+  await userEvent.click(screen.getByRole("button", { name: /00 BUSINESS CONTEXT/ }));
+  expect(screen.getByAltText("00 BUSINESS CONTEXT frame 124")).toBeVisible();
 
   fireEvent.change(screen.getByRole("slider", { name: "Frame" }), {
     target: { value: "30" },
   });
-  expect(screen.getByAltText("DESIGN LOGIC frame 30")).toBeVisible();
+  expect(screen.getByAltText("00 BUSINESS CONTEXT frame 30")).toBeVisible();
 
   await userEvent.click(screen.getByRole("button", { name: /PROJECT OVERVIEW/ }));
   expect(screen.getByAltText("PROJECT OVERVIEW frame 125")).toBeVisible();

@@ -30,8 +30,7 @@ export default function CaseOverlay({
     closing.current = true;
     setIsClosing(true);
     closeTimer.current = window.setTimeout(() => {
-      if (window.history.length > 1) router.back();
-      else router.replace(fallbackHref);
+      router.replace(fallbackHref);
     }, reduced ? 100 : 320);
   }, [fallbackHref, reduced, router]);
 

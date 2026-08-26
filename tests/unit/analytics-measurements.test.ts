@@ -79,7 +79,12 @@ test("returns a defensive heatmap copy and clamps invalid segment indexes", () =
 });
 
 test.each([
-  ["/about", "about"],
+  ["/about", null],
+  ["/work/anker-ifa-2025", "about"],
+  ["/work/anker-ifa-2025/business", "business"],
+  ["/work/anker-ifa-2025/brand-system", "brand-system"],
+  ["/work/anker-ifa-2025/product-launch", "product-launch"],
+  ["/work/anker-ifa-2025/launch-event", "launch-event"],
   ["/work/business", "business"],
   ["/work/brand-system", "brand-system"],
   ["/", null],
