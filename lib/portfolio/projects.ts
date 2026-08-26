@@ -5,24 +5,6 @@ export type ProjectId =
   | "product-launch"
   | "launch-event";
 
-export type FeaturedCaseChapter = Exclude<ProjectId, "about">;
-
-export const FEATURED_CASE = {
-  label: "FEATURED CASE",
-  client: "ANKER INNOVATIONS",
-  project: "IFA 2025",
-  title: "GLOBAL BRAND UPGRADE",
-  shortTitle: "ANKER INNOVATIONS · IFA 2025",
-  overviewHref: "/work/anker-ifa-2025",
-} as const;
-
-export const FEATURED_CASE_CHAPTER_PATHS = {
-  business: `${FEATURED_CASE.overviewHref}/business`,
-  "brand-system": `${FEATURED_CASE.overviewHref}/brand-system`,
-  "product-launch": `${FEATURED_CASE.overviewHref}/product-launch`,
-  "launch-event": `${FEATURED_CASE.overviewHref}/launch-event`,
-} as const satisfies Record<FeaturedCaseChapter, string>;
-
 export interface MediaSlot {
   id: string;
   label: string;
@@ -40,7 +22,6 @@ export interface PreviewCopy {
 export interface MobilePreviewCopy {
   firstLayer: string;
   secondLayer: string | readonly string[];
-  evidence?: string;
 }
 
 export interface CaseArtwork {
@@ -87,9 +68,7 @@ export interface ProjectDefinition {
   summary: string;
   previewCopy: PreviewCopy;
   mobilePreviewCopy: MobilePreviewCopy;
-  href:
-    | typeof FEATURED_CASE.overviewHref
-    | (typeof FEATURED_CASE_CHAPTER_PATHS)[FeaturedCaseChapter];
+  href: "/about" | `/work/${ProjectId}`;
   kind: "about" | "case";
   buttonDefault: `/kv/buttons/${string}-default.png`;
   buttonActive: `/kv/buttons/${string}-active.png`;
@@ -119,7 +98,7 @@ export const PROJECTS = [
   {
     id: "about",
     label: "PROJECT OVERVIEW",
-    title: "Case Overview",
+    title: "Project Overview",
     year: "IFA 2025",
     summary: "Brand systems, product storytelling and global launch communication.",
     previewCopy: {
@@ -132,7 +111,7 @@ export const PROJECTS = [
       firstLayer: "CREATIVE VISUAL DESIGNER",
       secondLayer: "我是KID（龙昊翔）",
     },
-    href: FEATURED_CASE.overviewHref,
+    href: "/work/about",
     kind: "case",
     buttonDefault: "/kv/buttons/about-default.png",
     buttonActive: "/kv/buttons/about-active.png",
@@ -197,12 +176,12 @@ export const PROJECTS = [
   },
   {
     id: "business",
-    label: "00 BUSINESS CONTEXT",
+    label: "DESIGN LOGIC",
     title: "Business Context",
     year: "IFA 2025",
     summary: "Business objectives, project framing and design requirements.",
     previewCopy: {
-      eyebrow: "00 BUSINESS CONTEXT",
+      eyebrow: "DESIGN LOGIC",
       headlineLines: ["业务洞察与设计目标"],
       subheadLines: ["将复杂业务问题转化为清晰", "的设计方向"],
       bodyLines: [
@@ -211,10 +190,10 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "00 BUSINESS CONTEXT",
+      firstLayer: "DESIGN LOGIC",
       secondLayer: "将复杂业务问题转化为清晰的设计方向",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS.business,
+    href: "/work/business",
     kind: "case",
     buttonDefault: "/kv/buttons/design-logic-default.png",
     buttonActive: "/kv/buttons/design-logic-active.png",
@@ -292,12 +271,12 @@ export const PROJECTS = [
   },
   {
     id: "brand-system",
-    label: "01 BRAND SYSTEM",
+    label: "BRAND SYSTEM",
     title: "Mother & Sub-brand System",
     year: "IFA 2025",
     summary: "A visual relationship system for Anker and SOLIX.",
     previewCopy: {
-      eyebrow: "01 BRAND SYSTEM",
+      eyebrow: "DESIGN GOAL 01",
       headlineLines: ["建立母子品牌关系，", "提升子品牌认知"],
       subheadLines: ["母品牌视觉符号系统构建"],
       bodyLines: [
@@ -306,10 +285,10 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "01 BRAND SYSTEM",
+      firstLayer: "DESIGN GOAL 01",
       secondLayer: "Anker innovations 视觉符号系统构建",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS["brand-system"],
+    href: "/work/brand-system",
     kind: "case",
     buttonDefault: "/kv/buttons/brand-system-default.png",
     buttonActive: "/kv/buttons/brand-system-active.png",
@@ -393,12 +372,12 @@ export const PROJECTS = [
   },
   {
     id: "product-launch",
-    label: "02 PRODUCT LAUNCH",
+    label: "PRODUCT LAUNCH",
     title: "SOLIX Product Launch",
     year: "IFA 2025",
     summary: "Launch communication, product value and DTC structure.",
     previewCopy: {
-      eyebrow: "02 PRODUCT LAUNCH",
+      eyebrow: "DESIGN GOAL 02",
       headlineLines: ["清晰传达子品牌价值"],
       subheadLines: [
         "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
@@ -410,10 +389,10 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "02 PRODUCT LAUNCH",
+      firstLayer: "DESIGN GOAL 02",
       secondLayer: "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS["product-launch"],
+    href: "/work/product-launch",
     kind: "case",
     buttonDefault: "/kv/buttons/product-launch-default.png",
     buttonActive: "/kv/buttons/product-launch-active.png",
@@ -502,12 +481,12 @@ export const PROJECTS = [
   },
   {
     id: "launch-event",
-    label: "03 LAUNCH EVENT",
+    label: "LAUNCH EVENT",
     title: "IFA Launch Event",
     year: "IFA 2025",
     summary: "Key visual, event narrative and multi-touchpoint content.",
     previewCopy: {
-      eyebrow: "03 LAUNCH EVENT",
+      eyebrow: "DESIGN GOAL 03",
       headlineLines: ["强化发布会记忆点与", "传播连续性"],
       subheadLines: ["IFA 全球发布会传播与内容系统"],
       bodyLines: [
@@ -516,10 +495,10 @@ export const PROJECTS = [
       ],
     },
     mobilePreviewCopy: {
-      firstLayer: "03 LAUNCH EVENT",
+      firstLayer: "DESIGN GOAL 03",
       secondLayer: "IFA 全球发布会传播与内容系统",
     },
-    href: FEATURED_CASE_CHAPTER_PATHS["launch-event"],
+    href: "/work/launch-event",
     kind: "case",
     buttonDefault: "/kv/buttons/launch-event-default.png",
     buttonActive: "/kv/buttons/launch-event-active.png",
@@ -600,22 +579,6 @@ export const PROJECTS = [
   },
 ] as const satisfies readonly ProjectDefinition[];
 
-export const FEATURED_CASE_NAVIGATION = [
-  { id: "about", label: "OVERVIEW" },
-  { id: "business", label: "00 CONTEXT" },
-  { id: "brand-system", label: "01 BRAND" },
-  { id: "product-launch", label: "02 PRODUCT" },
-  { id: "launch-event", label: "03 EVENT" },
-] as const satisfies readonly { id: ProjectId; label: string }[];
-
-export const LEGACY_PROJECT_REDIRECTS = {
-  about: FEATURED_CASE.overviewHref,
-  business: FEATURED_CASE_CHAPTER_PATHS.business,
-  "brand-system": FEATURED_CASE_CHAPTER_PATHS["brand-system"],
-  "product-launch": FEATURED_CASE_CHAPTER_PATHS["product-launch"],
-  "launch-event": FEATURED_CASE_CHAPTER_PATHS["launch-event"],
-} as const satisfies Record<ProjectId, ProjectDefinition["href"]>;
-
 export function getProjectById(id: ProjectId): ProjectDefinition {
   const project = PROJECTS.find((candidate) => candidate.id === id);
 
@@ -630,10 +593,4 @@ export function getProjectByPath(
   pathname: string,
 ): ProjectDefinition | undefined {
   return PROJECTS.find((project) => project.href === pathname);
-}
-
-export function getProjectByChapterSlug(
-  chapter: string,
-): ProjectDefinition | undefined {
-  return PROJECTS.find((project) => project.id !== "about" && project.id === chapter);
 }
