@@ -3,7 +3,11 @@ import type { CSSProperties } from "react";
 import type { ProjectDefinition } from "@/lib/portfolio/projects";
 import RecruiterProjectSummary from "./RecruiterProjectSummary";
 import CaseNavigation from "./CaseNavigation";
+import ProgressiveCaseSlices from "./ProgressiveCaseSlices";
 import styles from "./portfolio.module.css";
+
+const EMPTY_PIXEL =
+  "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
 const OVERVIEW_LINKS = [
   {
@@ -69,23 +73,62 @@ export default function CaseTemplate({ project }: { project: ProjectDefinition }
           />
         )}
         <div className={styles.caseArtworkMedia}>
-          <picture>
-            <source
-              media="(max-width: 767px)"
-              srcSet={project.caseArtwork.mobile.src}
-              width={project.caseArtwork.mobile.width}
-              height={project.caseArtwork.mobile.height}
-            />
-            {/* Supplied case-study artwork is intentionally rendered without reflowing its contents. */}
-            <img
-              src={project.caseArtwork.src}
-              alt={project.caseArtwork.alt}
-              width={project.caseArtwork.width}
-              height={project.caseArtwork.height}
-              decoding="async"
-              fetchPriority="high"
-            />
-          </picture>
+          {project.caseArtwork.desktopSlices ? (
+            <>
+              <div className={styles.caseDesktopSlices}>
+                <ProgressiveCaseSlices
+                  slices={project.caseArtwork.desktopSlices}
+                  alt={project.caseArtwork.alt}
+                  media="(min-width: 768px)"
+                  className={styles.caseSliceStack}
+                />
+              </div>
+              {project.caseArtwork.mobileSlices ? (
+                <div className={styles.caseMobileSlices}>
+                  <ProgressiveCaseSlices
+                    slices={project.caseArtwork.mobileSlices}
+                    alt={`${project.caseArtwork.alt} mobile`}
+                    media="(max-width: 767px)"
+                    className={styles.caseSliceStack}
+                  />
+                </div>
+              ) : (
+                <picture className={styles.caseMobileArtwork}>
+                  <source
+                    media="(max-width: 767px)"
+                    srcSet={project.caseArtwork.mobile.src}
+                  />
+                  <img
+                    src={EMPTY_PIXEL}
+                    alt={`${project.caseArtwork.alt} mobile`}
+                    width={project.caseArtwork.mobile.width}
+                    height={project.caseArtwork.mobile.height}
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                  />
+                </picture>
+              )}
+            </>
+          ) : (
+            <picture>
+              <source
+                media="(max-width: 767px)"
+                srcSet={project.caseArtwork.mobile.src}
+                width={project.caseArtwork.mobile.width}
+                height={project.caseArtwork.mobile.height}
+              />
+              {/* Supplied case-study artwork is intentionally rendered without reflowing its contents. */}
+              <img
+                src={project.caseArtwork.src}
+                alt={project.caseArtwork.alt}
+                width={project.caseArtwork.width}
+                height={project.caseArtwork.height}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
+          )}
           {project.id === "about" && OVERVIEW_LINKS.map((link) => (
             <Link
               key={link.href}
