@@ -42,6 +42,10 @@ playwright-report/
 # Netlify local state and generated deployment artifacts
 .netlify/
 
+# High-resolution case-study source slices stay local; the site serves adjacent WebP derivatives.
+public/kv/cases/桌面端/**/*.png
+public/kv/cases/移动端/**/*.png
+
 # vercel
 .vercel
 
