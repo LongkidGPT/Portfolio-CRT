@@ -48,6 +48,16 @@ export interface CaseArtwork {
   alt: string;
   width: number;
   height: number;
+  desktopSlices?: readonly {
+    src: `/kv/cases/${string}`;
+    width: number;
+    height: number;
+  }[];
+  mobileSlices?: readonly {
+    src: `/kv/cases/${string}`;
+    width: number;
+    height: number;
+  }[];
   mobile: {
     src: `/kv/cases/${string}`;
     width: number;
@@ -165,6 +175,19 @@ export const PROJECTS = [
       alt: "Project overview case study",
       width: 5760,
       height: 8472,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/project-overview/Slice-01.webp", width: 5760, height: 2200 },
+        { src: "/kv/cases/桌面端/project-overview/Slice-02.webp", width: 5760, height: 2200 },
+        { src: "/kv/cases/桌面端/project-overview/Slice-03.webp", width: 5760, height: 2200 },
+        { src: "/kv/cases/桌面端/project-overview/Slice-04.webp", width: 5760, height: 1872 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/project-overview/Slice-01.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-02.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-03.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-04.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-05.webp", width: 4560, height: 1590 },
+      ],
       mobile: {
         src: "/kv/cases/project-overview-mobile-r4.png",
         width: 4560,
@@ -242,6 +265,18 @@ export const PROJECTS = [
       alt: "Design logic case study",
       width: 5760,
       height: 22882,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/design-logic/Slice-44.webp", width: 3840, height: 3599 },
+        { src: "/kv/cases/桌面端/design-logic/Slice-45.webp", width: 3840, height: 4635 },
+        { src: "/kv/cases/桌面端/design-logic/Slice-46.webp", width: 3840, height: 4469 },
+        { src: "/kv/cases/桌面端/design-logic/Slice-47.webp", width: 3840, height: 2092 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/design-logic/Slice-44.webp", width: 3840, height: 4546 },
+        { src: "/kv/cases/移动端/design-logic/Slice-45.webp", width: 3840, height: 5855 },
+        { src: "/kv/cases/移动端/design-logic/Slice-46.webp", width: 3840, height: 5645 },
+        { src: "/kv/cases/移动端/design-logic/Slice-47.webp", width: 3840, height: 2643 },
+      ],
       mobile: {
         src: "/kv/cases/design-logic-mobile.png",
         width: 4560,
@@ -323,6 +358,26 @@ export const PROJECTS = [
       alt: "Brand system case study",
       width: 3299,
       height: 32768,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/brand-system/Slice-36.webp", width: 3840, height: 2917 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-37.webp", width: 3840, height: 4229 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-38.webp", width: 3840, height: 3226 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-39.webp", width: 3840, height: 5813 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-40.webp", width: 3840, height: 3968 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-41.webp", width: 3840, height: 6069 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-42.webp", width: 3840, height: 5547 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-43.webp", width: 3840, height: 6289 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/brand-system/Slice-36.webp", width: 3840, height: 3687 },
+        { src: "/kv/cases/移动端/brand-system/Slice-37.webp", width: 3840, height: 5345 },
+        { src: "/kv/cases/移动端/brand-system/Slice-38.webp", width: 3840, height: 4077 },
+        { src: "/kv/cases/移动端/brand-system/Slice-39.webp", width: 3840, height: 7346 },
+        { src: "/kv/cases/移动端/brand-system/Slice-40.webp", width: 3840, height: 5014 },
+        { src: "/kv/cases/移动端/brand-system/Slice-41.webp", width: 3840, height: 7670 },
+        { src: "/kv/cases/移动端/brand-system/Slice-42.webp", width: 3840, height: 7009 },
+        { src: "/kv/cases/移动端/brand-system/Slice-43.webp", width: 3840, height: 7947 },
+      ],
       mobile: {
         src: "/kv/cases/brand-system-mobile.png",
         width: 2618,
@@ -408,6 +463,30 @@ export const PROJECTS = [
       alt: "Product launch case study",
       width: 2375,
       height: 32768,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-26.webp", width: 3840, height: 4624 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-27.webp", width: 3840, height: 4735 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-28.webp", width: 3840, height: 5848 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-29.webp", width: 3840, height: 7500 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-30.webp", width: 3840, height: 5304 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-31.webp", width: 3840, height: 4279 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-32.webp", width: 3840, height: 8355 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-33.webp", width: 3840, height: 3514 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-34.webp", width: 3840, height: 5979 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-35.webp", width: 3840, height: 2749 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-26.webp", width: 3840, height: 5841 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-27.webp", width: 3840, height: 5981 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-28.webp", width: 3840, height: 7387 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-29.webp", width: 3840, height: 9474 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-30.webp", width: 3840, height: 6700 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-31.webp", width: 3840, height: 5405 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-32.webp", width: 3840, height: 10554 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-33.webp", width: 3840, height: 4439 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-34.webp", width: 3840, height: 7553 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-35.webp", width: 3840, height: 3607 },
+      ],
       mobile: {
         src: "/kv/cases/product-launch-mobile-r2.png",
         width: 1887,
@@ -490,6 +569,22 @@ export const PROJECTS = [
       alt: "Launch event case study",
       width: 4786,
       height: 32768,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/launch-event/Slice-20.webp", width: 3840, height: 2900 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-21.webp", width: 3840, height: 4874 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-22.webp", width: 3840, height: 3917 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-23.webp", width: 3840, height: 4787 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-24.webp", width: 3840, height: 6553 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-25.webp", width: 3840, height: 3265 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/launch-event/Slice-20.webp", width: 3840, height: 3663 },
+        { src: "/kv/cases/移动端/launch-event/Slice-21.webp", width: 3840, height: 6157 },
+        { src: "/kv/cases/移动端/launch-event/Slice-22.webp", width: 3840, height: 4948 },
+        { src: "/kv/cases/移动端/launch-event/Slice-23.webp", width: 3840, height: 6047 },
+        { src: "/kv/cases/移动端/launch-event/Slice-24.webp", width: 3840, height: 8278 },
+        { src: "/kv/cases/移动端/launch-event/Slice-25.webp", width: 3840, height: 4125 },
+      ],
       mobile: {
         src: "/kv/cases/launch-event-mobile.png",
         width: 3789,
