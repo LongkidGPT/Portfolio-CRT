@@ -749,6 +749,28 @@
 .caseChapterDrawerLayer { display: none; }
 .caseArtwork picture { display: block; }
 .caseArtworkMedia { position: relative; }
+.caseDesktopSlices { display: block; }
+.caseMobileSlices { display: none; }
+.caseArtwork .caseMobileArtwork { display: none; }
+.caseSlice,
+.caseSliceStack {
+  width: 100%;
+}
+.caseSlice {
+  position: relative;
+  overflow: hidden;
+  background: #f8fafc;
+  contain: layout paint style;
+}
+.caseSlice picture,
+.caseSlicePlaceholder {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.caseSlicePlaceholder {
+  background: #f8fafc;
+}
 .caseArtwork img {
   display: block;
   width: 100%;
@@ -906,6 +928,9 @@
   outline-offset: -2px;
 }
 @media (max-width: 767px) {
+  .caseDesktopSlices { display: none; }
+  .caseMobileSlices { display: block; }
+  .caseArtwork .caseMobileArtwork { display: block; }
   .caseNavigationInner {
     display: grid;
     width: calc(100% - 20px);
