@@ -60,6 +60,11 @@ export default function ProjectPreview({
           <h1 className={styles.mobilePreviewSecond}>
             <ReelLines lines={mobileSecondLayer} />
           </h1>
+          {mobileCopy.evidence && (
+            <p className={styles.mobilePreviewEvidence}>
+              <ReelText text={mobileCopy.evidence} />
+            </p>
+          )}
         </div>
       </div>
     </section>

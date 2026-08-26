@@ -1,35 +1,49 @@
-import { render, screen } from "@testing-library/react";
-import { expect, test } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, expect, test, vi } from "vitest";
 import AboutTemplate from "@/components/portfolio/AboutTemplate";
 import CaseTemplate from "@/components/portfolio/CaseTemplate";
 import { getProjectById } from "@/lib/portfolio/projects";
 
-test.each([
-  ["about", "Project overview case study", "/kv/cases/project-overview-r4.png", "5760", "8472"],
-  ["business", "Design logic case study", "/kv/cases/design-logic.png", "5760", "22882"],
-  ["brand-system", "Brand system case study", "/kv/cases/brand-system.png", "3299", "32768"],
-  ["product-launch", "Product launch case study", "/kv/cases/product-launch-r2.png", "2375", "32768"],
-  ["launch-event", "Launch event case study", "/kv/cases/launch-event.png", "4786", "32768"],
-] as const)(
-  "%s case uses its supplied full-page artwork",
-  (id, accessibleName, src, width, height) => {
-    render(<CaseTemplate project={getProjectById(id)} />);
+afterEach(() => vi.unstubAllGlobals());
 
-    expect(screen.getByRole("img", { name: accessibleName })).toHaveAttribute(
-      "src",
-      src,
-    );
-    expect(screen.getByRole("img", { name: accessibleName })).toHaveAttribute(
-      "width",
-      width,
-    );
-    expect(screen.getByRole("img", { name: accessibleName })).toHaveAttribute(
-      "height",
-      height,
-    );
+test("PROJECT OVERVIEW uses lossless-source-derived progressive slices", () => {
+  const { container } = render(<CaseTemplate project={getProjectById("about")} />);
+  const desktopStack = container.querySelector('[class*="caseDesktopSlices"]')!;
+  const mobileStack = container.querySelector('[class*="caseMobileSlices"]')!;
+
+  expect(desktopStack.querySelectorAll('[data-slice-src]')).toHaveLength(4);
+  expect(mobileStack.querySelectorAll('[data-slice-src]')).toHaveLength(5);
+  expect(desktopStack.querySelector("source")).toHaveAttribute(
+    "srcset",
+    "/kv/cases/桌面端/project-overview/Slice-01.webp",
+  );
+});
+
+test.each([
+  ["business", "Design logic case study", "/kv/cases/桌面端/design-logic/Slice-44.webp", 4],
+  ["brand-system", "Brand system case study", "/kv/cases/桌面端/brand-system/Slice-36.webp", 8],
+  ["product-launch", "Product launch case study", "/kv/cases/桌面端/product-launch-r2/Slice-26.webp", 10],
+  ["launch-event", "Launch event case study", "/kv/cases/桌面端/launch-event/Slice-20.webp", 6],
+] as const)(
+  "%s case uses ordered desktop slices",
+  (id, accessibleName, firstSlice, sliceCount) => {
+    const { container } = render(<CaseTemplate project={getProjectById(id)} />);
+    const sliceStack = container.querySelector('[class*="caseDesktopSlices"]')!;
+    const slots = sliceStack.querySelectorAll('[data-slice-src]');
+    const sources = sliceStack.querySelectorAll("source");
+    const images = sliceStack.querySelectorAll("img");
+
+    expect(slots).toHaveLength(sliceCount);
+    expect(sources).toHaveLength(1);
+    expect(slots[0]).toHaveAttribute("data-slice-src", firstSlice);
+    expect(sources[0]).toHaveAttribute("srcset", firstSlice);
+    expect(sources[0]).toHaveAttribute("media", "(min-width: 768px)");
+    expect(images[0]).toHaveAttribute("loading", "eager");
+    expect(images[0]).toHaveAttribute("fetchpriority", "high");
+    expect(screen.getByRole("img", { name: accessibleName })).toBe(images[0]);
     expect(
-      screen.queryByRole("navigation", { name: "Case chapters" }),
-    ).not.toBeInTheDocument();
+      screen.getByRole("navigation", { name: "Featured case chapter navigation" }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole("progressbar", { name: "Case reading progress" }),
     ).not.toBeInTheDocument();
@@ -39,21 +53,21 @@ test.each([
 test("PROJECT OVERVIEW blue CTAs link to the four matching case pages", () => {
   render(<CaseTemplate project={getProjectById("about")} />);
 
-  expect(screen.getByRole("link", { name: "Open DESIGN LOGIC case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" })).toHaveAttribute(
     "href",
-    "/work/business",
+    "/work/anker-ifa-2025/business",
   );
-  expect(screen.getByRole("link", { name: "Open BRAND SYSTEM case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 01 BRAND SYSTEM chapter" })).toHaveAttribute(
     "href",
-    "/work/brand-system",
+    "/work/anker-ifa-2025/brand-system",
   );
-  expect(screen.getByRole("link", { name: "Open PRODUCT LAUNCH case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 02 PRODUCT LAUNCH chapter" })).toHaveAttribute(
     "href",
-    "/work/product-launch",
+    "/work/anker-ifa-2025/product-launch",
   );
-  expect(screen.getByRole("link", { name: "Open LAUNCH EVENT case" })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: "Open 03 LAUNCH EVENT chapter" })).toHaveAttribute(
     "href",
-    "/work/launch-event",
+    "/work/anker-ifa-2025/launch-event",
   );
 });
 
@@ -124,37 +138,48 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
 });
 
 test.each([
-  ["business", "/kv/cases/design-logic-mobile.png", "4560", "22192"],
-  ["brand-system", "/kv/cases/brand-system-mobile.png", "2618", "32768"],
-  ["product-launch", "/kv/cases/product-launch-mobile-r2.png", "1887", "32768"],
-  ["launch-event", "/kv/cases/launch-event-mobile.png", "3789", "32768"],
-] as const)("%s exposes its supplied mobile artwork below 768px", (id, src, width, height) => {
+  ["business", "/kv/cases/移动端/design-logic/Slice-44.webp", 4],
+  ["brand-system", "/kv/cases/移动端/brand-system/Slice-36.webp", 8],
+  ["product-launch", "/kv/cases/移动端/product-launch-r2/Slice-26.webp", 10],
+  ["launch-event", "/kv/cases/移动端/launch-event/Slice-20.webp", 6],
+] as const)("%s exposes ordered mobile slices below 768px", (id, firstSlice, sliceCount) => {
   const { container } = render(<CaseTemplate project={getProjectById(id)} />);
+  const mobileStack = container.querySelector('[class*="caseMobileSlices"]')!;
+  const slots = mobileStack.querySelectorAll('[data-slice-src]');
+  const sources = mobileStack.querySelectorAll("source");
+  const images = mobileStack.querySelectorAll("img");
 
-  expect(container.querySelector("source")).toHaveAttribute("srcset", src);
-  expect(container.querySelector("source")).toHaveAttribute(
-    "media",
-    "(max-width: 767px)",
-  );
-  expect(container.querySelector("source")).toHaveAttribute("width", width);
-  expect(container.querySelector("source")).toHaveAttribute("height", height);
+  expect(slots).toHaveLength(sliceCount);
+  expect(sources).toHaveLength(1);
+  expect(slots[0]).toHaveAttribute("data-slice-src", firstSlice);
+  expect(sources[0]).toHaveAttribute("srcset", firstSlice);
+  expect(sources[0]).toHaveAttribute("media", "(max-width: 767px)");
+  expect(images[0]).toHaveAttribute("loading", "eager");
 });
 
-test("uses responsive Netlify Image CDN sources in production", () => {
-  const previous = process.env.NETLIFY;
-  process.env.NETLIFY = "true";
-  try {
-    const { container } = render(<CaseTemplate project={getProjectById("brand-system")} />);
-    const source = container.querySelector("source")!;
-    const image = screen.getByRole("img", { name: "Brand system case study" });
-
-    expect(source.getAttribute("srcset")).toContain("/.netlify/images?url=%2Fkv%2Fcases%2Fbrand-system-mobile.png&w=1170&fm=webp&q=86 1170w");
-    expect(image.getAttribute("srcset")).toContain("/.netlify/images?url=%2Fkv%2Fcases%2Fbrand-system.png&w=1740&fm=webp&q=86 1740w");
-    expect(image).toHaveAttribute("sizes", "(max-width: 767px) calc(100vw - 36px), min(calc(100vw - 48px), 870px)");
-  } finally {
-    if (previous === undefined) delete process.env.NETLIFY;
-    else process.env.NETLIFY = previous;
+test("case slices mount only the first image before approaching the viewport", () => {
+  class MockIntersectionObserver {
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
   }
+  vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
+
+  const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
+  const desktopStack = container.querySelector('[class*="caseDesktopSlices"]')!;
+
+  expect(desktopStack.querySelectorAll('[data-slice-src]')).toHaveLength(10);
+  expect(desktopStack.querySelectorAll("source")).toHaveLength(1);
+  expect(desktopStack.querySelectorAll('[class*="caseSlicePlaceholder"]')).toHaveLength(9);
+});
+
+test("serves desktop slices directly without runtime image conversion", () => {
+  const { container } = render(<CaseTemplate project={getProjectById("brand-system")} />);
+  const sliceStack = container.querySelector('[class*="caseDesktopSlices"]')!;
+  const sources = Array.from(sliceStack.querySelectorAll("source"));
+
+  expect(sources[0]).toHaveAttribute("srcset", "/kv/cases/桌面端/brand-system/Slice-36.webp");
+  expect(sources.every((source) => !source.getAttribute("srcset")?.includes("/.netlify/images"))).toBe(true);
 });
 
 test("about template links experience rows to the ruler and rebuilds the contact card", () => {

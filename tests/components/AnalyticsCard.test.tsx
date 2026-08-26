@@ -52,7 +52,7 @@ test("loads the current branch and expands into anonymized detail", async () => 
 
   fireEvent.click(screen.getByRole("button", { name: /live signal/i }));
   expect(await screen.findByText("VISITOR-02")).toBeVisible();
-  expect(screen.getByText("DESIGN LOGIC")).toBeVisible();
+  expect(screen.getByText("00 BUSINESS CONTEXT")).toBeVisible();
   expect(screen.getByText("ACTIVE 00:58")).toBeVisible();
   expect(screen.queryByText("BRANCH")).not.toBeInTheDocument();
   expect(screen.queryByText("TOTAL VISITS")).not.toBeInTheDocument();
@@ -76,7 +76,7 @@ test("keeps only one project metrics row expanded", async () => {
 
   fireEvent.click(screen.getByRole("button", { name: /brand system metrics/i }));
   expect(screen.getByText("84%")).toBeVisible();
-  fireEvent.click(screen.getByRole("button", { name: /design logic metrics/i }));
+  fireEvent.click(screen.getByRole("button", { name: /00 business context metrics/i }));
 
   expect(screen.queryByText("84%")).not.toBeInTheDocument();
   expect(screen.getByText("2 CLICKS")).toBeVisible();

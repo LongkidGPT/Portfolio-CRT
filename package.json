@@ -7,6 +7,7 @@
     "assets:kv-sync-test": "node scripts/build-kv-sync-test-assets.mjs",
     "assets:kv-desktop-r5": "node scripts/build-kv-desktop-r5-assets.mjs",
     "assets:kv-mobile": "node scripts/build-mobile-kv-assets.mjs",
+    "assets:case-slices": "node scripts/build-case-slice-assets.mjs",
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",

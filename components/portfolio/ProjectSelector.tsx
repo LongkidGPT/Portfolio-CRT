@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { useRef } from "react";
 import type { CSSProperties } from "react";
-import type { ProjectDefinition, ProjectId } from "@/lib/portfolio/projects";
+import {
+  FEATURED_CASE,
+  type ProjectDefinition,
+  type ProjectId,
+} from "@/lib/portfolio/projects";
 import type { Point } from "@/lib/portfolio/sprite";
 import styles from "./portfolio.module.css";
 
@@ -33,7 +37,12 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
   };
 
   return (
-    <nav className={styles.selector} aria-label="Portfolio projects">
+    <nav className={styles.selector} aria-label="Featured case chapters">
+      <p className={styles.selectorContext} data-testid="featured-case-context">
+        <strong>{FEATURED_CASE.label}</strong>
+        <span>{FEATURED_CASE.shortTitle}</span>
+        <span className={styles.selectorContextFullTitle}>{FEATURED_CASE.title}</span>
+      </p>
       <div
         className={styles.selectorViewport}
         onPointerDown={(event) => {
@@ -61,7 +70,7 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
               href={project.href}
               prefetch={false}
               className={styles.projectLink}
-              aria-label={`Open ${project.label}`}
+              aria-label={`Open ${project.label} chapter`}
               data-project-id={project.id}
               data-current={project.id === activeProject ? "" : undefined}
               data-previewed={project.id === previewedProject ? "" : undefined}
@@ -118,7 +127,7 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
                 />
               </span>
               <span className={styles.mobileMeta}>
-                <strong>{project.title}</strong><small>{project.year}</small>
+                <strong>{project.label}</strong><small>{project.year}</small>
                 <small>{project.summary}</small><b>VIEW ↗</b>
               </span>
             </Link>
@@ -140,19 +149,19 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
           style={{ "--active-index": activeIndex } as CSSProperties}
           aria-hidden="true"
         />
-        <button type="button" aria-label="Previous project" onClick={(event) => previewIndex(activeIndex - 1, event.currentTarget)}>←</button>
+        <button type="button" aria-label="Previous chapter" onClick={(event) => previewIndex(activeIndex - 1, event.currentTarget)}>←</button>
         <div className={styles.dots}>
           {projects.map((project, index) => (
             <button
               key={project.id}
               type="button"
-              aria-label={`Preview ${project.label}`}
+              aria-label={`Preview ${project.label} chapter`}
               aria-pressed={index === activeIndex}
               onClick={(event) => previewIndex(index, event.currentTarget)}
             />
           ))}
         </div>
-        <button type="button" aria-label="Next project" onClick={(event) => previewIndex(activeIndex + 1, event.currentTarget)}>→</button>
+        <button type="button" aria-label="Next chapter" onClick={(event) => previewIndex(activeIndex + 1, event.currentTarget)}>→</button>
       </div>
     </nav>
   );
