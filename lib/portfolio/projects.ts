@@ -5,6 +5,24 @@ export type ProjectId =
   | "product-launch"
   | "launch-event";
 
+export type FeaturedCaseChapter = Exclude<ProjectId, "about">;
+
+export const FEATURED_CASE = {
+  label: "FEATURED CASE",
+  client: "ANKER INNOVATIONS",
+  project: "IFA 2025",
+  title: "GLOBAL BRAND UPGRADE",
+  shortTitle: "ANKER INNOVATIONS · IFA 2025",
+  overviewHref: "/work/anker-ifa-2025",
+} as const;
+
+export const FEATURED_CASE_CHAPTER_PATHS = {
+  business: `${FEATURED_CASE.overviewHref}/business`,
+  "brand-system": `${FEATURED_CASE.overviewHref}/brand-system`,
+  "product-launch": `${FEATURED_CASE.overviewHref}/product-launch`,
+  "launch-event": `${FEATURED_CASE.overviewHref}/launch-event`,
+} as const satisfies Record<FeaturedCaseChapter, string>;
+
 export interface MediaSlot {
   id: string;
   label: string;
@@ -22,6 +40,7 @@ export interface PreviewCopy {
 export interface MobilePreviewCopy {
   firstLayer: string;
   secondLayer: string | readonly string[];
+  evidence?: string;
 }
 
 export interface CaseArtwork {
@@ -29,6 +48,16 @@ export interface CaseArtwork {
   alt: string;
   width: number;
   height: number;
+  desktopSlices?: readonly {
+    src: `/kv/cases/${string}`;
+    width: number;
+    height: number;
+  }[];
+  mobileSlices?: readonly {
+    src: `/kv/cases/${string}`;
+    width: number;
+    height: number;
+  }[];
   mobile: {
     src: `/kv/cases/${string}`;
     width: number;
@@ -58,7 +87,9 @@ export interface ProjectDefinition {
   summary: string;
   previewCopy: PreviewCopy;
   mobilePreviewCopy: MobilePreviewCopy;
-  href: "/about" | `/work/${ProjectId}`;
+  href:
+    | typeof FEATURED_CASE.overviewHref
+    | (typeof FEATURED_CASE_CHAPTER_PATHS)[FeaturedCaseChapter];
   kind: "about" | "case";
   buttonDefault: `/kv/buttons/${string}-default.png`;
   buttonActive: `/kv/buttons/${string}-active.png`;
@@ -87,20 +118,27 @@ export const PROJECTS = [
   {
     id: "about",
     label: "PROJECT OVERVIEW",
-    title: "Project Overview",
+    title: "Case Overview",
     year: "IFA 2025",
     summary: "10+ years in smart hardware visual design, focused on product launch and DTC conversion.",
     previewCopy: {
-      eyebrow: "VISUAL DESIGNER",
-      headlineLines: ["我是KID（龙昊翔）"],
-      subheadLines: ["一个人类 · 资深视觉设计师"],
-      bodyLines: [],
+      eyebrow: "SENIOR VISUAL DESIGNER",
+      headlineLines: ["品牌系统、新品上市", "与 DTC 转化设计"],
+      subheadLines: [
+        "10+ 年视觉设计与品牌营销经验",
+        "消费电子 · 家居新零售 · 4A/创意公司",
+      ],
+      bodyLines: [
+        "从业务判断与视觉策略，到品牌语言、新品发布、DTC 页面与",
+        "AI 创意流程，推动多触点设计落地。曾管理 8 人视觉团队。",
+      ],
     },
     mobilePreviewCopy: {
-      firstLayer: "VISUAL DESIGNER",
-      secondLayer: "我是KID（龙昊翔）",
+      firstLayer: "SENIOR VISUAL DESIGNER",
+      secondLayer: ["品牌系统、新品上市", "与 DTC 转化设计"],
+      evidence: "10+ 年经验｜消费电子 · 家居新零售 · 4A",
     },
-    href: "/work/about",
+    href: FEATURED_CASE.overviewHref,
     kind: "case",
     buttonDefault: "/kv/buttons/about-default.png",
     buttonActive: "/kv/buttons/about-active.png",
@@ -135,6 +173,19 @@ export const PROJECTS = [
       alt: "Project overview case study",
       width: 5760,
       height: 8472,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/project-overview/Slice-01.webp", width: 5760, height: 2200 },
+        { src: "/kv/cases/桌面端/project-overview/Slice-02.webp", width: 5760, height: 2200 },
+        { src: "/kv/cases/桌面端/project-overview/Slice-03.webp", width: 5760, height: 2200 },
+        { src: "/kv/cases/桌面端/project-overview/Slice-04.webp", width: 5760, height: 1872 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/project-overview/Slice-01.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-02.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-03.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-04.webp", width: 4560, height: 2300 },
+        { src: "/kv/cases/移动端/project-overview/Slice-05.webp", width: 4560, height: 1590 },
+      ],
       mobile: {
         src: "/kv/cases/project-overview-mobile-r4.png",
         width: 4560,
@@ -152,12 +203,12 @@ export const PROJECTS = [
   },
   {
     id: "business",
-    label: "DESIGN LOGIC",
+    label: "00 BUSINESS CONTEXT",
     title: "Business Context",
     year: "IFA 2025",
     summary: "From product value and user needs to a clear design direction.",
     previewCopy: {
-      eyebrow: "DESIGN LOGIC",
+      eyebrow: "00 BUSINESS CONTEXT",
       headlineLines: ["业务洞察与设计目标"],
       subheadLines: ["从产品价值、用户理解到设计方向"],
       bodyLines: [
@@ -169,7 +220,7 @@ export const PROJECTS = [
       firstLayer: "DESIGN LOGIC",
       secondLayer: "业务洞察与设计目标",
     },
-    href: "/work/business",
+    href: FEATURED_CASE_CHAPTER_PATHS.business,
     kind: "case",
     buttonDefault: "/kv/buttons/design-logic-default.png",
     buttonActive: "/kv/buttons/design-logic-active.png",
@@ -212,6 +263,18 @@ export const PROJECTS = [
       alt: "Design logic case study",
       width: 5760,
       height: 22882,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/design-logic/Slice-44.webp", width: 3840, height: 3599 },
+        { src: "/kv/cases/桌面端/design-logic/Slice-45.webp", width: 3840, height: 4635 },
+        { src: "/kv/cases/桌面端/design-logic/Slice-46.webp", width: 3840, height: 4469 },
+        { src: "/kv/cases/桌面端/design-logic/Slice-47.webp", width: 3840, height: 2092 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/design-logic/Slice-44.webp", width: 3840, height: 4546 },
+        { src: "/kv/cases/移动端/design-logic/Slice-45.webp", width: 3840, height: 5855 },
+        { src: "/kv/cases/移动端/design-logic/Slice-46.webp", width: 3840, height: 5645 },
+        { src: "/kv/cases/移动端/design-logic/Slice-47.webp", width: 3840, height: 2643 },
+      ],
       mobile: {
         src: "/kv/cases/design-logic-mobile.png",
         width: 4560,
@@ -235,7 +298,7 @@ export const PROJECTS = [
   },
   {
     id: "brand-system",
-    label: "BRAND SYSTEM",
+    label: "01 BRAND SYSTEM",
     title: "Mother & Sub-brand System",
     year: "IFA 2025",
     summary: "A global visual language connecting brand, product and channel touchpoints.",
@@ -252,7 +315,7 @@ export const PROJECTS = [
       firstLayer: "DESIGN GOAL 01",
       secondLayer: "品牌系统与触点应用",
     },
-    href: "/work/brand-system",
+    href: FEATURED_CASE_CHAPTER_PATHS["brand-system"],
     kind: "case",
     buttonDefault: "/kv/buttons/brand-system-default.png",
     buttonActive: "/kv/buttons/brand-system-active.png",
@@ -293,6 +356,26 @@ export const PROJECTS = [
       alt: "Brand system case study",
       width: 3299,
       height: 32768,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/brand-system/Slice-36.webp", width: 3840, height: 2917 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-37.webp", width: 3840, height: 4229 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-38.webp", width: 3840, height: 3226 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-39.webp", width: 3840, height: 5813 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-40.webp", width: 3840, height: 3968 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-41.webp", width: 3840, height: 6069 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-42.webp", width: 3840, height: 5547 },
+        { src: "/kv/cases/桌面端/brand-system/Slice-43.webp", width: 3840, height: 6289 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/brand-system/Slice-36.webp", width: 3840, height: 3687 },
+        { src: "/kv/cases/移动端/brand-system/Slice-37.webp", width: 3840, height: 5345 },
+        { src: "/kv/cases/移动端/brand-system/Slice-38.webp", width: 3840, height: 4077 },
+        { src: "/kv/cases/移动端/brand-system/Slice-39.webp", width: 3840, height: 7346 },
+        { src: "/kv/cases/移动端/brand-system/Slice-40.webp", width: 3840, height: 5014 },
+        { src: "/kv/cases/移动端/brand-system/Slice-41.webp", width: 3840, height: 7670 },
+        { src: "/kv/cases/移动端/brand-system/Slice-42.webp", width: 3840, height: 7009 },
+        { src: "/kv/cases/移动端/brand-system/Slice-43.webp", width: 3840, height: 7947 },
+      ],
       mobile: {
         src: "/kv/cases/brand-system-mobile.png",
         width: 2618,
@@ -316,7 +399,7 @@ export const PROJECTS = [
   },
   {
     id: "product-launch",
-    label: "PRODUCT LAUNCH",
+    label: "02 PRODUCT LAUNCH",
     title: "SOLIX Product Launch",
     year: "IFA 2025",
     summary: "SOLIX product launch: product value, DTC information and conversion validation.",
@@ -333,7 +416,7 @@ export const PROJECTS = [
       firstLayer: "DESIGN GOAL 02",
       secondLayer: "新品传播与 DTC 转化",
     },
-    href: "/work/product-launch",
+    href: FEATURED_CASE_CHAPTER_PATHS["product-launch"],
     kind: "case",
     buttonDefault: "/kv/buttons/product-launch-default.png",
     buttonActive: "/kv/buttons/product-launch-active.png",
@@ -375,6 +458,30 @@ export const PROJECTS = [
       alt: "Product launch case study",
       width: 2375,
       height: 32768,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-26.webp", width: 3840, height: 4624 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-27.webp", width: 3840, height: 4735 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-28.webp", width: 3840, height: 5848 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-29.webp", width: 3840, height: 7500 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-30.webp", width: 3840, height: 5304 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-31.webp", width: 3840, height: 4279 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-32.webp", width: 3840, height: 8355 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-33.webp", width: 3840, height: 3514 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-34.webp", width: 3840, height: 5979 },
+        { src: "/kv/cases/桌面端/product-launch-r2/Slice-35.webp", width: 3840, height: 2749 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-26.webp", width: 3840, height: 5841 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-27.webp", width: 3840, height: 5981 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-28.webp", width: 3840, height: 7387 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-29.webp", width: 3840, height: 9474 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-30.webp", width: 3840, height: 6700 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-31.webp", width: 3840, height: 5405 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-32.webp", width: 3840, height: 10554 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-33.webp", width: 3840, height: 4439 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-34.webp", width: 3840, height: 7553 },
+        { src: "/kv/cases/移动端/product-launch-r2/Slice-35.webp", width: 3840, height: 3607 },
+      ],
       mobile: {
         src: "/kv/cases/product-launch-mobile-r2.png",
         width: 1887,
@@ -398,7 +505,7 @@ export const PROJECTS = [
   },
   {
     id: "launch-event",
-    label: "LAUNCH EVENT",
+    label: "03 LAUNCH EVENT",
     title: "IFA Launch Event",
     year: "IFA 2025",
     summary: "Launch visual and multi-touchpoint content across the event communication journey.",
@@ -415,7 +522,7 @@ export const PROJECTS = [
       firstLayer: "DESIGN GOAL 03",
       secondLayer: "发布会传播与内容系统",
     },
-    href: "/work/launch-event",
+    href: FEATURED_CASE_CHAPTER_PATHS["launch-event"],
     kind: "case",
     buttonDefault: "/kv/buttons/launch-event-default.png",
     buttonActive: "/kv/buttons/launch-event-active.png",
@@ -457,6 +564,22 @@ export const PROJECTS = [
       alt: "Launch event case study",
       width: 4786,
       height: 32768,
+      desktopSlices: [
+        { src: "/kv/cases/桌面端/launch-event/Slice-20.webp", width: 3840, height: 2900 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-21.webp", width: 3840, height: 4874 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-22.webp", width: 3840, height: 3917 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-23.webp", width: 3840, height: 4787 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-24.webp", width: 3840, height: 6553 },
+        { src: "/kv/cases/桌面端/launch-event/Slice-25.webp", width: 3840, height: 3265 },
+      ],
+      mobileSlices: [
+        { src: "/kv/cases/移动端/launch-event/Slice-20.webp", width: 3840, height: 3663 },
+        { src: "/kv/cases/移动端/launch-event/Slice-21.webp", width: 3840, height: 6157 },
+        { src: "/kv/cases/移动端/launch-event/Slice-22.webp", width: 3840, height: 4948 },
+        { src: "/kv/cases/移动端/launch-event/Slice-23.webp", width: 3840, height: 6047 },
+        { src: "/kv/cases/移动端/launch-event/Slice-24.webp", width: 3840, height: 8278 },
+        { src: "/kv/cases/移动端/launch-event/Slice-25.webp", width: 3840, height: 4125 },
+      ],
       mobile: {
         src: "/kv/cases/launch-event-mobile.png",
         width: 3789,
@@ -480,6 +603,22 @@ export const PROJECTS = [
   },
 ] as const satisfies readonly ProjectDefinition[];
 
+export const FEATURED_CASE_NAVIGATION = [
+  { id: "about", label: "OVERVIEW" },
+  { id: "business", label: "00 CONTEXT" },
+  { id: "brand-system", label: "01 BRAND" },
+  { id: "product-launch", label: "02 PRODUCT" },
+  { id: "launch-event", label: "03 EVENT" },
+] as const satisfies readonly { id: ProjectId; label: string }[];
+
+export const LEGACY_PROJECT_REDIRECTS = {
+  about: FEATURED_CASE.overviewHref,
+  business: FEATURED_CASE_CHAPTER_PATHS.business,
+  "brand-system": FEATURED_CASE_CHAPTER_PATHS["brand-system"],
+  "product-launch": FEATURED_CASE_CHAPTER_PATHS["product-launch"],
+  "launch-event": FEATURED_CASE_CHAPTER_PATHS["launch-event"],
+} as const satisfies Record<ProjectId, ProjectDefinition["href"]>;
+
 export function getProjectById(id: ProjectId): ProjectDefinition {
   const project = PROJECTS.find((candidate) => candidate.id === id);
 
@@ -494,4 +633,10 @@ export function getProjectByPath(
   pathname: string,
 ): ProjectDefinition | undefined {
   return PROJECTS.find((project) => project.href === pathname);
+}
+
+export function getProjectByChapterSlug(
+  chapter: string,
+): ProjectDefinition | undefined {
+  return PROJECTS.find((project) => project.id !== "about" && project.id === chapter);
 }

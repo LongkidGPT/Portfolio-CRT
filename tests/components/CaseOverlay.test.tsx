@@ -21,9 +21,9 @@ test("locks body scroll and closes on Escape after the transition", () => {
   render(<CaseOverlay label="Business Context"><h1>Business Context</h1></CaseOverlay>);
   expect(document.body.style.overflow).toBe("hidden");
   fireEvent.keyDown(window, { key: "Escape" });
-  expect(back).not.toHaveBeenCalled();
+  expect(replace).not.toHaveBeenCalled();
   act(() => vi.advanceTimersByTime(320));
-  expect(back).toHaveBeenCalledOnce();
+  expect(replace).toHaveBeenCalledWith("/");
   vi.useRealTimers();
 });
 
@@ -50,10 +50,10 @@ test("plays the close transition before returning to the homepage", () => {
   render(<CaseOverlay label="Business Context"><h1>Business Context</h1></CaseOverlay>);
 
   fireEvent.click(screen.getByRole("button", { name: "Close project" }));
-  expect(back).not.toHaveBeenCalled();
+  expect(replace).not.toHaveBeenCalled();
 
   act(() => vi.advanceTimersByTime(320));
-  expect(back).toHaveBeenCalledOnce();
+  expect(replace).toHaveBeenCalledWith("/");
   vi.useRealTimers();
 });
 

@@ -24,14 +24,14 @@ describe("project registry", () => {
     }
   });
 
-  it("exposes DESIGN LOGIC as the business entry label", () => {
-    expect(getProjectById("business").label).toBe("DESIGN LOGIC");
+  it("exposes BUSINESS CONTEXT as the numbered business entry label", () => {
+    expect(getProjectById("business").label).toBe("00 BUSINESS CONTEXT");
   });
 
-  it("opens the first project card as the responsive PROJECT OVERVIEW case", () => {
+  it("opens the first project card as the responsive flagship case overview", () => {
     expect(getProjectById("about")).toMatchObject({
       label: "PROJECT OVERVIEW",
-      href: "/work/about",
+      href: "/work/anker-ifa-2025",
       kind: "case",
       caseArtwork: {
         src: "/kv/cases/project-overview-r4.png",
@@ -60,8 +60,9 @@ describe("project registry", () => {
       {
         id: "about",
         mobilePreviewCopy: {
-          firstLayer: "VISUAL DESIGNER",
-          secondLayer: "我是KID（龙昊翔）",
+          firstLayer: "SENIOR VISUAL DESIGNER",
+          secondLayer: ["品牌系统、新品上市", "与 DTC 转化设计"],
+          evidence: "10+ 年经验｜消费电子 · 家居新零售 · 4A",
         },
       },
       {
@@ -99,17 +100,15 @@ describe("project registry", () => {
     expect(PROJECTS.map(({ id, previewCopy }) => ({ id, previewCopy }))).toEqual([
       {
         id: "about",
-        previewCopy: {
-          eyebrow: "VISUAL DESIGNER",
-          headlineLines: ["我是KID（龙昊翔）"],
-          subheadLines: ["一个人类 · 资深视觉设计师"],
-          bodyLines: [],
-        },
+        previewCopy: expect.objectContaining({
+          eyebrow: "SENIOR VISUAL DESIGNER",
+          headlineLines: ["品牌系统、新品上市", "与 DTC 转化设计"],
+        }),
       },
       {
         id: "business",
         previewCopy: {
-          eyebrow: "DESIGN LOGIC",
+          eyebrow: "00 BUSINESS CONTEXT",
           headlineLines: ["业务洞察与设计目标"],
           subheadLines: ["从产品价值、用户理解到设计方向"],
           bodyLines: [

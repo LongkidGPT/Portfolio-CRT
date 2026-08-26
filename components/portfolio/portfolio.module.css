@@ -130,9 +130,9 @@
   position: absolute;
   z-index: 9;
   top: 40.5%;
-  left: calc(31.6% - 50px);
+  left: calc(31.6% - 60px);
   width: min(19.2vw, 368px);
-  transform: translateY(calc(clamp(-112px, -11vh, -92px) + 40px));
+  transform: translateY(calc(clamp(-112px, -11vh, -92px) + 20px));
   transition: opacity 260ms ease;
 }
 .preview h1,
@@ -171,7 +171,7 @@
 }
 @media (min-width: 768px) {
   .home[data-previewed-project="about"] .previewStage {
-    left: calc(31.6% - 80px);
+    left: calc(31.6% - 90px);
     width: min(28vw, 452px);
   }
 }
@@ -182,6 +182,13 @@
   font-weight: 400;
   line-height: 1.3;
   letter-spacing: -0.04em;
+}
+.mobilePreviewEvidence {
+  margin-top: 12px !important;
+  color: rgba(32, 35, 34, 0.62);
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
 }
 .projectYear { margin-top: 8px !important; color: var(--muted); font-size: clamp(11px, 0.78vw, 16px); }
 .projectSummary {
@@ -264,13 +271,38 @@
   transform: translateX(-50%);
   transition: opacity 260ms ease;
 }
+.selectorContext {
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: clamp(9px, 0.6vw, 11px);
+  letter-spacing: 0.045em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.selectorContext strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.selectorContext > * + *::before {
+  margin-inline: .65em;
+  color: var(--muted);
+  content: "/";
+  font-weight: 400;
+}
 .selectorViewport { overflow: visible; }
-.selectorTrack { display: flex; align-items: stretch; }
+.selectorTrack {
+  display: flex;
+  align-items: stretch;
+  /* Desktop card group: 110% of the previous scale, including rhythm. */
+  gap: 7.04704px;
+}
 .projectLink {
   position: relative;
   display: flex;
   flex: 0 0 auto;
-  height: clamp(46px, 5.5vh, 56px);
+  min-height: 44px;
   align-items: center;
   border: 0;
   background: transparent;
@@ -284,7 +316,7 @@
 .buttonArtwork {
   position: relative;
   display: block;
-  height: 100%;
+  height: clamp(40.52048px, 4.84484vh, 49.32928px);
 }
 .buttonArtwork img {
   display: block;
@@ -377,6 +409,13 @@
     font-size: 15px;
     line-height: 1.3;
   }
+  .mobilePreviewEvidence {
+    display: block;
+    margin-top: 10px !important;
+    color: rgba(32, 35, 34, 0.58);
+    font-size: 9px;
+    line-height: 1.3;
+  }
   .previewDivider { display: none; }
   .previewSubhead {
     margin-top: 12px;
@@ -431,6 +470,24 @@
     left: 0;
     width: 100%;
   }
+  .selectorContext {
+    position: relative;
+    display: flex;
+    width: 88vw;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0 0 9px 6vw;
+    padding: 9px 12px 10px;
+    background: rgba(248, 250, 252, .78);
+    font-size: 9px;
+    line-height: 1.15;
+    white-space: normal;
+  }
+  .selectorContext > * + *::before { content: none; }
+  .selectorContext strong,
+  .selectorContext span { display: block; }
+  .selectorContextFullTitle { display: none !important; }
   .selectorViewport { overflow: hidden; padding-inline: 2vw; touch-action: pan-y; }
   .selectorTrack {
     display: flex;
@@ -558,7 +615,7 @@
 .loadingRing span { animation: loadingPulse 800ms ease-in-out infinite alternate; }
 @keyframes loadingPulse { to { opacity: .25; transform: scale(.96); } }
 
-.standaloneCase { padding-top: 72px; }
+.standaloneCase { padding-top: 0; }
 .aboutStandalone { padding-top: 0; }
 .backHome,
 .closeOverlay {
@@ -608,7 +665,112 @@
   margin: 0 auto;
   background: #f8fafc;
 }
+.caseNavigation {
+  position: sticky;
+  z-index: 55;
+  top: 0;
+  border-bottom: 1px solid rgba(32, 35, 34, .16);
+  background: rgba(248, 250, 252, .96);
+  color: var(--ink);
+  backdrop-filter: blur(8px);
+}
+.caseNavigationInner {
+  display: flex;
+  width: min(calc(100% - 48px), 1120px);
+  min-height: 64px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.caseBackLink {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  margin-left: -10px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.caseBackLink:hover,
+.caseBackLink:focus-visible { color: #247ad3; }
+.caseBackLink:focus-visible,
+.caseChapterNav a:focus-visible,
+.caseChapterMenuButton:focus-visible,
+.caseChapterDrawer button:focus-visible,
+.caseChapterDrawer a:focus-visible {
+  outline: 1px solid #247ad3;
+  outline-offset: 2px;
+}
+.caseChapterNav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(8px, 1.5vw, 20px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.caseChapterNav::-webkit-scrollbar { display: none; }
+.caseChapterNav a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 8px;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.caseChapterNav a[aria-current="page"] {
+  border-bottom-color: #247ad3;
+  color: #247ad3;
+}
+.caseChapterMenuIcon {
+  display: grid;
+  width: 18px;
+  gap: 4px;
+}
+.caseChapterMenuIcon i {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+.caseMobileCurrent,
+.caseChapterMenuButton,
+.caseChapterDrawerLayer { display: none; }
 .caseArtwork picture { display: block; }
+.caseArtworkMedia { position: relative; }
+.caseDesktopSlices { display: block; }
+.caseMobileSlices { display: none; }
+.caseArtwork .caseMobileArtwork { display: none; }
+.caseSlice,
+.caseSliceStack {
+  width: 100%;
+}
+.caseSlice {
+  position: relative;
+  overflow: hidden;
+  background: #f8fafc;
+  contain: layout paint style;
+}
+.caseSlice picture,
+.caseSlicePlaceholder {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.caseSlicePlaceholder {
+  background: #f8fafc;
+}
 .caseArtwork img {
   display: block;
   width: 100%;
@@ -770,8 +932,133 @@
   outline-offset: -2px;
 }
 @media (max-width: 767px) {
+  .caseDesktopSlices { display: none; }
+  .caseMobileSlices { display: block; }
+  .caseArtwork .caseMobileArtwork { display: block; }
+  .caseNavigationInner {
+    display: grid;
+    width: calc(100% - 20px);
+    min-height: 56px;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    gap: 8px;
+  }
+  .caseBackLink {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+  }
+  .caseBackText { display: none; }
+  .caseMobileCurrent {
+    display: block;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .025em;
+    line-height: 1.2;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .caseChapterNav { display: none; }
+  .caseChapterMenuButton {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(32, 35, 34, .22);
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 9px;
+    letter-spacing: .06em;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .caseChapterDrawerLayer {
+    position: fixed;
+    z-index: 80;
+    inset: 0;
+    display: none;
+  }
+  .caseChapterDrawerLayer:target {
+    display: block;
+  }
+  .caseChapterDrawerBackdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: rgba(15, 17, 17, .48);
+    text-decoration: none;
+  }
+  .caseChapterDrawer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-height: min(72vh, 520px);
+    padding: 14px 18px calc(18px + env(safe-area-inset-bottom));
+    border-radius: 14px 14px 0 0;
+    background: #f8fafc;
+    box-shadow: 0 -4px 8px rgba(15, 17, 17, .14);
+  }
+  .caseChapterDrawer > header {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(32, 35, 34, .16);
+  }
+  .caseChapterDrawer > header p {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: .06em;
+  }
+  .caseChapterDrawer > header a {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 22px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .caseChapterDrawer nav { display: block; }
+  .caseChapterDrawer nav a {
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(32, 35, 34, .12);
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: .025em;
+  }
+  .caseChapterDrawerCurrentLabel::before { content: attr(data-label); }
+  .caseChapterDrawer nav a[aria-current="page"] {
+    color: #247ad3;
+    font-weight: 500;
+  }
   .recruiterSummary {
-    width: calc(100% - 36px);
+    width: calc(100% - 84px);
     padding: 40px 0 36px;
   }
   .recruiterSummaryWithoutTitle {
@@ -829,6 +1116,10 @@
     left: var(--mobile-left);
     width: var(--mobile-width);
     height: var(--mobile-height);
+  }
+  .caseArtworkOverview .caseArtworkMedia {
+    aspect-ratio: 4560 / 8080;
+    overflow: hidden;
   }
 }
 .aboutDesktopPage {
