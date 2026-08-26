@@ -53,11 +53,24 @@ export default function AnalyticsProvider({
     || !navigator.webdriver;
   const identity = useRef<SessionIdentity | null>(null);
   const fallbackBranchId = useMemo(() => normalizeBranchId(pathname), [pathname]);
-  const hostname = useSyncExternalStore(subscribeToStaticHostname, () => window.location.hostname, () => "");
-  const storedBranch = typeof window === "undefined" ? undefined : window.sessionStorage.getItem(BRANCH_STORAGE_KEY) ?? undefined;
-  const resolvedBranchId = hostname ? resolveDeploymentBranchId(hostname, pathname, storedBranch) : null;
+  const hostname = useSyncExternalStore(
+    subscribeToStaticHostname,
+    () => window.location.hostname,
+    () => "",
+  );
+  const storedBranch = typeof window === "undefined"
+    ? undefined
+    : window.sessionStorage.getItem(BRANCH_STORAGE_KEY) ?? undefined;
+  const resolvedBranchId = hostname
+    ? resolveDeploymentBranchId(hostname, pathname, storedBranch)
+    : null;
   const branchId = resolvedBranchId ?? fallbackBranchId;
-  useEffect(() => { if (resolvedBranchId) window.sessionStorage.setItem(BRANCH_STORAGE_KEY, resolvedBranchId); }, [resolvedBranchId]);
+
+  useEffect(() => {
+    if (resolvedBranchId) {
+      window.sessionStorage.setItem(BRANCH_STORAGE_KEY, resolvedBranchId);
+    }
+  }, [resolvedBranchId]);
 
   const capture = useCallback((details: AnalyticsEventDetails) => {
     if (!trackingEnabled) return;
