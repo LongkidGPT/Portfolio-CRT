@@ -91,8 +91,8 @@ export interface ProjectDefinition {
 
 export const PROJECT_OVERVIEW_PREVIEW_COPY = {
   eyebrow: "PROJECT OVERVIEW",
-  headlineLines: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
-  subheadLines: ["母品牌识别 · 子品牌上市 · 发布会传播"],
+  headlineLines: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌与新品传播"],
+  subheadLines: ["品牌视觉系统 · 新品 Campaign · 全球发布会"],
   bodyLines: [
     "项目是 ANKER INNOVATIONS 全球品牌升级、IFA 2025",
     "官宣。围绕“提升子品牌多品类转化”，拆成三条设计目标，由",
@@ -103,7 +103,7 @@ export const PROJECT_OVERVIEW_PREVIEW_COPY = {
 
 export const PROJECT_OVERVIEW_MOBILE_PREVIEW_COPY = {
   firstLayer: "PROJECT OVERVIEW",
-  secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌升级"],
+  secondLayer: ["ANKER INNOVATIONS", "IFA 2025 · 全球品牌与新品传播"],
 } satisfies MobilePreviewCopy;
 
 export const PROJECTS = [
@@ -115,20 +115,20 @@ export const PROJECTS = [
     summary: "Anker Innovations global brand upgrade and three connected design goals.",
     previewCopy: {
       eyebrow: "SENIOR VISUAL DESIGNER",
-      headlineLines: ["品牌系统、新品上市", "与 DTC 转化设计"],
+      headlineLines: ["消费科技品牌系统、", "新品 Campaign 与全球传播"],
       subheadLines: [
         "10+ 年视觉设计与品牌营销经验",
-        "消费电子 · 家居新零售 · 4A/创意公司",
+        "消费科技 · 全球新品发布 · 多触点视觉",
       ],
       bodyLines: [
-        "从业务判断与视觉策略，到品牌语言、新品发布、DTC 页面与",
-        "AI 创意流程，推动多触点设计落地。曾管理 8 人视觉团队。",
+        "从品牌语言与新品主视觉，到包装、DTC、社媒和线下活动，",
+        "推动全球传播资产落地；并以 AIGC 流程提升探索与协作效率。",
       ],
     },
     mobilePreviewCopy: {
       firstLayer: "SENIOR VISUAL DESIGNER",
-      secondLayer: ["品牌系统、新品上市", "与 DTC 转化设计"],
-      evidence: "10+ 年经验｜消费电子 · 家居新零售 · 4A",
+      secondLayer: ["消费科技品牌系统、", "新品 Campaign 与全球传播"],
+      evidence: "10+ 年经验｜消费科技 · 全球新品发布 · 8 人团队",
     },
     href: FEATURED_CASE.overviewHref,
     kind: "case",
@@ -136,22 +136,22 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/about-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS",
-      subtitle: "IFA 2025 · 全球品牌升级",
-      objective: "围绕“提升子品牌多品类转化效率”，建立从业务判断、母品牌识别，到子品牌上市与全球发布会传播的完整设计链路。",
-      scope: "业务推导与设计目标 · 母品牌视觉符号系统 · SOLIX 新品上市与 DTC · IFA 全球发布会传播",
+      subtitle: "IFA 2025 · 全球品牌与新品传播",
+      objective: "围绕“提升子品牌多品类转化效率”，建立从业务判断、品牌视觉系统，到新品 Campaign 与全球发布会传播的完整设计链路。",
+      scope: "业务推导 · 品牌视觉系统 · SOLIX 新品 Campaign 与 DTC · IFA 全球发布会",
       showMeta: false,
       contributions: [
         {
           title: "策略推导",
-          description: "从品牌升级、全球发布与多品牌增长目标出发，识别影响转化的核心问题，并拆解为三条设计目标。",
+          description: "从品牌升级、全球新品发布与多品牌增长目标出发，识别传播和转化问题，并拆解为三条设计目标。",
         },
         {
           title: "系统联动",
-          description: "以母品牌视觉资产为基础，连接品牌识别、子品牌价值表达与发布会传播，保持三个项目的策略和视觉一致性。",
+          description: "以母品牌视觉资产为基础，连接品牌识别、新品 Campaign 与发布会传播，保持三个子项目的策略和视觉一致性。",
         },
         {
           title: "项目落地",
-          description: "承接 BRAND SYSTEM、PRODUCT LAUNCH、LAUNCH EVENT 三个子项目，将设计目标落实到品牌、产品与传播触点。",
+          description: "承接 BRAND SYSTEM、PRODUCT LAUNCH、LAUNCH EVENT 三个子项目，将设计目标落实到数字、社媒和线下活动触点。",
         },
       ],
       validationLabel: "项目产出",
@@ -268,11 +268,11 @@ export const PROJECTS = [
     label: "01 BRAND SYSTEM",
     title: "Mother & Sub-brand System",
     year: "IFA 2025",
-    summary: "A visual relationship system for Anker and SOLIX.",
+    summary: "Global consumer technology brand language and a reusable multi-brand system.",
     previewCopy: {
       eyebrow: "01 BRAND SYSTEM",
       headlineLines: ["建立母子品牌关系，", "提升子品牌认知"],
-      subheadLines: ["母品牌视觉符号系统构建"],
+      subheadLines: ["全球消费科技品牌视觉语言与多品牌延展"],
       bodyLines: [
         "将品牌战略中的“光”，转译为母品牌可承载、子品牌",
         "可继承、多触点可复用的视觉符号规则。",
@@ -280,7 +280,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "01 BRAND SYSTEM",
-      secondLayer: "Anker innovations 视觉符号系统构建",
+      secondLayer: "全球消费科技品牌视觉语言与多品牌延展",
     },
     href: FEATURED_CASE_CHAPTER_PATHS["brand-system"],
     kind: "case",
@@ -288,7 +288,7 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/brand-system-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS",
-      subtitle: "母品牌视觉符号系统构建",
+      subtitle: "全球消费科技品牌视觉语言与多品牌延展",
       objective: "建立清晰的母子品牌关系，让母品牌资产可继承、子品牌表达可区分，并适配多场景与多触点传播。",
       scope: "品牌视觉策略 · 品牌符号模块 · 母子品牌映射规则 · 光型样本库 · AIGC 工作流",
       contributions: [
@@ -349,12 +349,12 @@ export const PROJECTS = [
     label: "02 PRODUCT LAUNCH",
     title: "SOLIX Product Launch",
     year: "IFA 2025",
-    summary: "Launch communication, product value and DTC structure.",
+    summary: "Global product-launch campaign, key visual and DTC communication.",
     previewCopy: {
       eyebrow: "02 PRODUCT LAUNCH",
       headlineLines: ["清晰传达子品牌价值"],
       subheadLines: [
-        "ANKER SOLIX PRIME E10 全球新品上市传播与 DTC 转化设计",
+        "ANKER SOLIX PRIME E10 全球新品 Campaign、主视觉与 DTC 承接",
       ],
       bodyLines: [
         "通过 PRIME E10 的上市传播与页面承接，帮助",
@@ -364,7 +364,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "02 PRODUCT LAUNCH",
-      secondLayer: "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
+      secondLayer: "Anker SOLIX Prime E10 全球新品 Campaign、主视觉与 DTC 承接",
     },
     href: FEATURED_CASE_CHAPTER_PATHS["product-launch"],
     kind: "case",
@@ -372,17 +372,17 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/product-launch-active.png",
     recruiterSummary: {
       title: "ANKER SOLIX PRIME E10",
-      subtitle: "全球新品上市传播与 DTC 转化设计",
+      subtitle: "全球新品 Campaign、主视觉与 DTC 承接",
       objective: "降低用户理解成本与购买决策风险，同时强化 SOLIX 在家庭能源系统中的品类价值。",
-      scope: "上市视觉策略 · 产品视觉识别 · AIGC 生成规则 · DTC 信息架构与页面设计",
+      scope: "上市传播策略 · 产品主视觉 · AIGC 生成规则 · DTC 信息架构与页面设计",
       contributions: [
         {
           title: "产品识别",
           description: "建立 E10 产品识别与视觉锤，明确 Infinite Power 的核心概念与品类记忆。",
         },
         {
-          title: "视觉调性与 AIGC 规则",
-          description: "以黑色、能量蓝和阳光橙平衡系统科技感与家庭安心感，并沉淀为 AIGC 生成规则，统一多触点输出。",
+          title: "Campaign 视觉系统",
+          description: "以黑色、能量蓝和阳光橙平衡系统科技感与家庭安心感，并沉淀为 AIGC 生成规则，统一新品传播的多触点输出。",
         },
         {
           title: "DTC 购买判断",
@@ -434,11 +434,11 @@ export const PROJECTS = [
     label: "03 LAUNCH EVENT",
     title: "IFA Launch Event",
     year: "IFA 2025",
-    summary: "Key visual, event narrative and multi-touchpoint content.",
+    summary: "Global launch-event key visual and an integrated content system.",
     previewCopy: {
       eyebrow: "03 LAUNCH EVENT",
       headlineLines: ["强化发布会记忆点与", "传播连续性"],
-      subheadLines: ["IFA 全球发布会传播与内容系统"],
+      subheadLines: ["IFA 全球发布会主视觉与全渠道内容系统"],
       bodyLines: [
         "将品牌升级后的视觉系统，转化为发布会可识别、",
         "可延展、可连续传播的内容系统。",
@@ -446,7 +446,7 @@ export const PROJECTS = [
     },
     mobilePreviewCopy: {
       firstLayer: "03 LAUNCH EVENT",
-      secondLayer: "IFA 全球发布会传播与内容系统",
+      secondLayer: "IFA 全球发布会主视觉与全渠道内容系统",
     },
     href: FEATURED_CASE_CHAPTER_PATHS["launch-event"],
     kind: "case",
@@ -454,7 +454,7 @@ export const PROJECTS = [
     buttonActive: "/kv/buttons/launch-event-active.png",
     recruiterSummary: {
       title: "ANKER INNOVATIONS IFA 2025",
-      subtitle: "全球发布会传播与内容系统",
+      subtitle: "全球发布会主视觉与全渠道内容系统",
       objective: "以 IFA 全球发布会承接品牌升级，强化发布会记忆点，并让品牌、新品内容在展前、展中、展后保持连续传播。",
       scope: "发布会视觉策略 · 主视觉系统 · 展前预热 · Keynote 与现场内容 · 展后 Recap 与官网承接",
       contributions: [
@@ -463,12 +463,12 @@ export const PROJECTS = [
           description: "将母品牌“光”资产转化为发布会核心视觉，建立明暗双模式及跨触点统一的识别基础。",
         },
         {
-          title: "传播内容链路",
+          title: "全渠道内容链路",
           description: "组织倒计时、官网预热、直播、Keynote、现场物料和展后 Recap，形成“抢占关注—组织理解—延长传播”的完整链路。",
         },
         {
-          title: "多品牌内容整合",
-          description: "在统一系统下承接 Anker、eufy、soundcore 的品牌与新品内容，保证多品牌、多产品和多场景传播的一致性。",
+          title: "内容统筹与品控",
+          description: "在统一系统下承接 Anker、eufy、soundcore 的品牌与新品内容，保证多品牌、多产品和多场景传播的视觉质量与一致性。",
         },
       ],
       validationLabel: "应用验证",

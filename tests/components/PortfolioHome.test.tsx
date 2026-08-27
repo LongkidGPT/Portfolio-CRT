@@ -171,7 +171,7 @@ test("restores the positioning copy after the pointer leaves a project button", 
   );
   expect(desktopPreview()).not.toBeNull();
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
+    within(desktopPreview()!).getByRole("heading", { name: "消费科技品牌系统、新品 Campaign 与全球传播" }),
   ).toBeInTheDocument();
 });
 
@@ -188,10 +188,10 @@ test("shows the flagship case overview only while the first desktop card is prev
   expect(desktopPreview()).not.toBeNull();
   expect(mobilePreview()).not.toBeNull();
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
+    within(desktopPreview()!).getByRole("heading", { name: "消费科技品牌系统、新品 Campaign 与全球传播" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
+    within(mobilePreview()!).getByRole("heading", { name: "消费科技品牌系统、新品 Campaign 与全球传播" }),
   ).toBeInTheDocument();
 
   const overview = screen.getByRole("link", { name: "Open PROJECT OVERVIEW chapter" });
@@ -207,11 +207,11 @@ test("shows the flagship case overview only while the first desktop card is prev
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌与新品传播",
     }),
   ).toBeInTheDocument();
   expect(
-    within(desktopPreview()!).getByLabelText("母品牌识别 · 子品牌上市 · 发布会传播"),
+    within(desktopPreview()!).getByLabelText("品牌视觉系统 · 新品 Campaign · 全球发布会"),
   ).toBeInTheDocument();
   expect(
     within(desktopPreview()!).getByLabelText(
@@ -221,7 +221,7 @@ test("shows the flagship case overview only while the first desktop card is prev
   expect(within(mobilePreview()!).getByLabelText("PROJECT OVERVIEW")).toBeInTheDocument();
   expect(
     within(mobilePreview()!).getByRole("heading", {
-      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌升级",
+      name: "ANKER INNOVATIONSIFA 2025 · 全球品牌与新品传播",
     }),
   ).toBeInTheDocument();
 
@@ -230,10 +230,10 @@ test("shows the flagship case overview only while the first desktop card is prev
     "data-previewed-project",
   );
   expect(
-    within(desktopPreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
+    within(desktopPreview()!).getByRole("heading", { name: "消费科技品牌系统、新品 Campaign 与全球传播" }),
   ).toBeInTheDocument();
   expect(
-    within(mobilePreview()!).getByRole("heading", { name: "品牌系统、新品上市与 DTC 转化设计" }),
+    within(mobilePreview()!).getByRole("heading", { name: "消费科技品牌系统、新品 Campaign 与全球传播" }),
   ).toBeInTheDocument();
 });
 

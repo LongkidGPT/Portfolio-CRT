@@ -44,7 +44,7 @@ test("renders the approved three-layer mobile positioning copy", () => {
   expect(within(desktop!).getByLabelText("SENIOR VISUAL DESIGNER")).toBeVisible();
   expect(
     within(desktop!).getByRole("heading", {
-      name: "品牌系统、新品上市与 DTC 转化设计",
+      name: "消费科技品牌系统、新品 Campaign 与全球传播",
     }),
   ).toBeVisible();
   expect(
@@ -54,11 +54,11 @@ test("renders the approved three-layer mobile positioning copy", () => {
   expect(within(mobile!).getByLabelText("SENIOR VISUAL DESIGNER")).toBeVisible();
   expect(
     within(mobile!).getByRole("heading", {
-      name: "品牌系统、新品上市与 DTC 转化设计",
+      name: "消费科技品牌系统、新品 Campaign 与全球传播",
     }),
   ).toBeVisible();
   expect(
-    within(mobile!).getByLabelText("10+ 年经验｜消费电子 · 家居新零售 · 4A"),
+    within(mobile!).getByLabelText("10+ 年经验｜消费科技 · 全球新品发布 · 8 人团队"),
   ).toBeVisible();
 });
 
@@ -72,7 +72,7 @@ test("renders the approved two-layer mobile product launch copy", () => {
   expect(within(mobile!).getByLabelText("02 PRODUCT LAUNCH")).toBeVisible();
   expect(
     within(mobile!).getByLabelText(
-      "Anker SOLIX Prime E10 全球新品上市传播与 DTC 转化设计",
+      "Anker SOLIX Prime E10 全球新品 Campaign、主视觉与 DTC 承接",
     ),
   ).toBeVisible();
 });

@@ -65,8 +65,8 @@ test("PRODUCT LAUNCH exposes a concise recruiter summary before the supplied art
   expect(screen.getByText("02 PRODUCT LAUNCH")).toBeInTheDocument();
   expect(screen.queryByText("PROJECT OVERVIEW / 02 PRODUCT LAUNCH")).not.toBeInTheDocument();
   expect(screen.queryByText("DESIGN GOAL 02")).not.toBeInTheDocument();
-  expect(screen.queryByText("全球新品上市传播与 DTC 转化设计")).not.toBeInTheDocument();
-  expect(screen.getByText("视觉调性与 AIGC 规则")).toBeInTheDocument();
+  expect(screen.queryByText("全球新品 Campaign、主视觉与 DTC 承接")).not.toBeInTheDocument();
+  expect(screen.getByText("Campaign 视觉系统")).toBeInTheDocument();
   expect(screen.queryByText("判断 · 方法 · 价值")).not.toBeInTheDocument();
   expect(screen.getByText(/页面阅读深度 65%/)).toBeInTheDocument();
 
@@ -82,8 +82,8 @@ test("LAUNCH EVENT exposes the confirmed recruiter summary", () => {
   expect(
     screen.getByRole("region", { name: "ANKER INNOVATIONS IFA 2025" }),
   ).toBeInTheDocument();
-  expect(screen.queryByText("全球发布会传播与内容系统")).not.toBeInTheDocument();
-  expect(screen.getByText("传播内容链路")).toBeInTheDocument();
+  expect(screen.queryByText("全球发布会主视觉与全渠道内容系统")).not.toBeInTheDocument();
+  expect(screen.getByText("全渠道内容链路")).toBeInTheDocument();
   expect(screen.getByText(/覆盖展前、展中、展后三个传播阶段/)).toBeInTheDocument();
 });
 
@@ -132,7 +132,7 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
     screen.getByRole("heading", { name: "ANKER INNOVATIONS" }),
   ).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "PROJECT OVERVIEW" })).toBeInTheDocument();
-  expect(screen.getByText("IFA 2025 · 全球品牌升级")).toBeInTheDocument();
+  expect(screen.getByText("IFA 2025 · 全球品牌与新品传播")).toBeInTheDocument();
   expect(screen.getByText("系统联动")).toBeInTheDocument();
   expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();
   expect(screen.queryByText("业务目标")).not.toBeInTheDocument();
@@ -179,10 +179,10 @@ test("about template links experience rows to the ruler and rebuilds the contact
   expect(screen.getAllByText("创意设计主管（带8人团队）")).toHaveLength(2);
   expect(screen.getAllByText("创意设计组长（带4人团队）")).toHaveLength(2);
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费电子新品发布视觉、品牌视觉语言、DTC/电商页面与 AI 创意生产流程，能从创意方向、风格制定、设计提案到落地执行完整推进，并为后续数据验证与跨触点一致性建立清晰设计框架 ▮",
+    "10+ 年视觉设计与品牌营销经验，具备消费电子、家居新零售与 4A/创意公司复合背景，曾管理 8 人视觉团队。擅长消费科技品牌视觉系统、全球新品 Campaign、包装系统优化与线上线下传播资产，能从策略理解、创意方向、主视觉和设计规范推进至多触点交付，并以 AIGC 工作流提升探索与协作效率 ▮",
   )).toBeInTheDocument();
   expect(screen.getByText(
-    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。精通新品发布视觉、品牌 VI 体系、DTC/电商页面及 AI 创意提效，具备从策略提案到落地闭环的全流程能力。",
+    "10+ 年视觉设计与品牌营销经验，具消费电子、家居新零售及 4A 复合背景，曾管理 8 人团队。擅长消费科技品牌视觉系统、全球新品 Campaign、包装系统与多触点传播，并以 AIGC 工作流提升创意探索和协作效率。",
   )).toBeInTheDocument();
   expect(screen.getByTestId("about-desktop-background")).toHaveAttribute(
     "src",
