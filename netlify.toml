@@ -7,3 +7,18 @@ directory = ".netlify/functions"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+
+[[headers]]
+for = "/kv/*"
+  [headers.values]
+  Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+for = "/kv-desktop-r5/*"
+  [headers.values]
+  Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+for = "/kv-mobile/*"
+  [headers.values]
+  Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"

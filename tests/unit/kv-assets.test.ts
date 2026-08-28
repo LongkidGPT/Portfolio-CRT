@@ -58,24 +58,24 @@ describe("generated KV assets", () => {
   it("uses the approved high-resolution desktop artwork for every project state", () => {
     const expectedSizes = {
       about: {
-        default: { width: 1148, height: 336 },
-        active: { width: 1148, height: 336 },
+        default: { width: 1442, height: 313 },
+        active: { width: 1442, height: 313 },
       },
       "design-logic": {
-        default: { width: 1456, height: 336 },
-        active: { width: 1460, height: 336 },
+        default: { width: 1443, height: 313 },
+        active: { width: 1443, height: 313 },
       },
       "brand-system": {
-        default: { width: 1348, height: 336 },
-        active: { width: 1348, height: 336 },
+        default: { width: 1326, height: 313 },
+        active: { width: 1326, height: 313 },
       },
       "product-launch": {
-        default: { width: 1500, height: 336 },
-        active: { width: 1500, height: 336 },
+        default: { width: 1442, height: 313 },
+        active: { width: 1442, height: 313 },
       },
       "launch-event": {
-        default: { width: 1348, height: 336 },
-        active: { width: 1348, height: 336 },
+        default: { width: 1326, height: 313 },
+        active: { width: 1326, height: 313 },
       },
     } as const;
 

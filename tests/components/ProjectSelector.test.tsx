@@ -44,7 +44,7 @@ test("click requests the selected project overlay", async () => {
   expect(onOpen).toHaveBeenCalledWith("business");
 });
 
-test("renders the supplied default and active artwork for each project", () => {
+test("renders only the current active artwork for the selected project", () => {
   render(
     <ProjectSelector
       projects={PROJECTS}
@@ -57,21 +57,15 @@ test("renders the supplied default and active artwork for each project", () => {
   );
 
   const business = screen.getByRole("link", { name: "Open 00 BUSINESS CONTEXT chapter" });
-  expect(business.querySelector('[data-state="default"]')).toHaveAttribute(
-    "src",
-    "/kv/buttons/design-logic-default.png",
-  );
   expect(business.querySelector('[data-state="active"]')).toHaveAttribute(
     "src",
     "/kv/buttons/design-logic-active.png",
   );
-  expect(business.querySelectorAll("img")).toHaveLength(4);
-  expect(
-    business.querySelector('[src="/kv-mobile/cards/design-logic-default.png"]'),
-  ).toBeInTheDocument();
-  expect(
-    business.querySelector('[src="/kv-mobile/cards/design-logic-active.png"]'),
-  ).toBeInTheDocument();
+  expect(business.querySelectorAll("img")).toHaveLength(1);
+  expect(business.querySelector("source")).toHaveAttribute(
+    "srcSet",
+    "/kv-mobile/cards/design-logic-active.png",
+  );
   expect(screen.getByText("00 BUSINESS CONTEXT")).toBeInTheDocument();
   expect(business).toHaveAttribute("data-previewed");
   expect(screen.getByRole("link", { name: "Open PROJECT OVERVIEW chapter" })).not.toHaveAttribute(

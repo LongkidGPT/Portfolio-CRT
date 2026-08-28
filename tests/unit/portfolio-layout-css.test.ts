@@ -66,18 +66,18 @@ test("mobile carousel and controls remain anchored to the viewport bottom", () =
   );
 });
 
-test("desktop preview copy sits forty pixels below the two-button upward offset", () => {
+test("desktop preview copy uses the current baseline and vertical offset", () => {
   expect(css).toMatch(
-    /\.previewStage\s*\{[^}]*transform:\s*translateY\(calc\(clamp\(-112px,\s*-11vh,\s*-92px\)\s*\+\s*40px\)\)/s,
+    /\.previewStage\s*\{[^}]*top:\s*40\.5%;[^}]*left:\s*calc\(31\.6%\s*-\s*60px\);[^}]*transform:\s*translateY\(calc\(clamp\(-112px,\s*-11vh,\s*-92px\)\s*\+\s*20px\)\)/s,
   );
 
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
   expect(mobile).toMatch(/\.previewStage\s*\{[^}]*transform:\s*none/s);
 });
 
-test("desktop preview copy shifts fifty pixels left without changing mobile", () => {
+test("desktop preview copy uses the current horizontal offset without changing mobile", () => {
   expect(css).toMatch(
-    /\.previewStage\s*\{[^}]*left:\s*calc\(31\.6%\s*-\s*50px\)/s,
+    /\.previewStage\s*\{[^}]*left:\s*calc\(31\.6%\s*-\s*60px\)/s,
   );
 
   const mobile = css.slice(css.indexOf("@media (max-width: 767px)"));
@@ -86,7 +86,7 @@ test("desktop preview copy shifts fifty pixels left without changing mobile", ()
 
 test("desktop overview preview widens and clears the portrait edge", () => {
   expect(css).toMatch(
-    /\.home\[data-previewed-project="about"\] \.previewStage\s*\{[^}]*left:\s*calc\(31\.6%\s*-\s*80px\);[^}]*width:\s*min\(28vw,\s*452px\)/s,
+    /\.home\[data-previewed-project="about"\] \.previewStage\s*\{[^}]*left:\s*calc\(31\.6%\s*-\s*90px\);[^}]*width:\s*min\(28vw,\s*452px\)/s,
   );
 });
 

@@ -64,7 +64,15 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
           className={styles.selectorTrack}
           style={{ "--active-index": activeIndex } as CSSProperties}
         >
-          {projects.map((project) => (
+          {projects.map((project) => {
+            const highlighted = project.id === previewedProject || project.id === activatedProject;
+            const mobileCardName = project.id === "business" ? "design-logic" : project.id;
+            const desktopArtwork = highlighted
+              ? project.buttonActive
+              : project.buttonDefault;
+            const mobileArtwork = `/kv-mobile/cards/${mobileCardName}-${highlighted ? "active" : "default"}.png`;
+
+            return (
             <Link
               key={project.id}
               href={project.href}
@@ -92,46 +100,23 @@ export default function ProjectSelector({ projects, activeProject, previewedProj
                 onOpen(project.id);
               }}
             >
-              <span className={styles.buttonArtwork} aria-hidden="true">
-                {/* Final raster artwork is supplied as-is; optimization would alter state pixels. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+              <picture className={styles.projectArtwork} aria-hidden="true">
+                <source media="(max-width: 767px)" srcSet={mobileArtwork} />
+                {/* The browser requests only the artwork for its current breakpoint and state. */}
                 <img
-                  src={project.buttonDefault}
+                  src={desktopArtwork}
                   alt=""
                   draggable={false}
-                  data-state="default"
+                  data-state={highlighted ? "active" : "default"}
                 />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={project.buttonActive}
-                  alt=""
-                  draggable={false}
-                  data-state="active"
-                />
-              </span>
-              <span className={styles.mobileCardArtwork} aria-hidden="true">
-                {/* Mobile card artwork is supplied at final size and state. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/kv-mobile/cards/${project.id === "business" ? "design-logic" : project.id}-default.png`}
-                  alt=""
-                  draggable={false}
-                  data-state="default"
-                />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/kv-mobile/cards/${project.id === "business" ? "design-logic" : project.id}-active.png`}
-                  alt=""
-                  draggable={false}
-                  data-state="active"
-                />
-              </span>
+              </picture>
               <span className={styles.mobileMeta}>
                 <strong>{project.label}</strong><small>{project.year}</small>
                 <small>{project.summary}</small><b>VIEW ↗</b>
               </span>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
       <div className={styles.carouselControls}>

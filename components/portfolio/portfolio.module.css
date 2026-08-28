@@ -313,32 +313,19 @@
 .projectLink[data-previewed] { z-index: 1; }
 .projectLink:focus-visible,
 .carouselControls button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-.buttonArtwork {
-  position: relative;
+.projectArtwork {
   display: block;
   height: clamp(40.52048px, 4.84484vh, 49.32928px);
 }
-.buttonArtwork img {
+.projectArtwork img {
   display: block;
   width: auto;
   height: 100%;
   max-width: none;
   user-select: none;
 }
-.buttonArtwork img[data-state="active"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-}
-.projectLink:hover .buttonArtwork img[data-state="default"],
-.projectLink:focus-visible .buttonArtwork img[data-state="default"],
-.projectLink[data-previewed] .buttonArtwork img[data-state="default"] { opacity: 0; }
-.projectLink:hover .buttonArtwork img[data-state="active"],
-.projectLink:focus-visible .buttonArtwork img[data-state="active"],
-.projectLink[data-previewed] .buttonArtwork img[data-state="active"] { opacity: 1; }
 .mobileMeta,
 .carouselControls,
-.mobileCardArtwork,
 .mobileControlsArtwork,
 .activeDot { display: none; }
 
@@ -501,26 +488,18 @@
     align-items: stretch;
     padding: 0;
   }
-  .buttonArtwork,
   .mobileMeta { display: none; }
-  .mobileCardArtwork {
-    position: relative;
+  .projectArtwork {
     display: block;
     width: 100%;
+    height: auto;
   }
-  .mobileCardArtwork img {
+  .projectArtwork img {
     display: block;
     width: 100%;
     height: auto;
     user-select: none;
   }
-  .mobileCardArtwork img[data-state="active"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-  }
-  .projectLink[data-activated] .mobileCardArtwork img[data-state="default"] { opacity: 0; }
-  .projectLink[data-activated] .mobileCardArtwork img[data-state="active"] { opacity: 1; }
   .mobileControlsArtwork {
     position: absolute;
     inset: 0;
