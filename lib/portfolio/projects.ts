@@ -142,16 +142,16 @@ export const PROJECTS = [
       showMeta: false,
       contributions: [
         {
-          title: "策略推导",
-          description: "从品牌升级、全球新品发布与多品牌增长目标出发，识别传播和转化问题，并拆解为三条设计目标。",
+          title: "业务问题转译",
+          description: "我从品牌升级、全球新品发布与多品牌增长目标中识别传播和转化问题，并将其拆解为三条可执行的设计目标。",
         },
         {
-          title: "系统联动",
-          description: "以母品牌视觉资产为基础，连接品牌识别、新品 Campaign 与发布会传播，保持三个子项目的策略和视觉一致性。",
+          title: "视觉系统联动",
+          description: "我以母品牌视觉资产为基础，连接品牌识别、新品 Campaign 与发布会传播，建立三个子项目共用的策略和视觉关系。",
         },
         {
-          title: "项目落地",
-          description: "承接 BRAND SYSTEM、PRODUCT LAUNCH、LAUNCH EVENT 三个子项目，将设计目标落实到数字、社媒和线下活动触点。",
+          title: "多触点落地",
+          description: "我将三个设计目标分别落实到 BRAND SYSTEM、PRODUCT LAUNCH 与 LAUNCH EVENT，并覆盖数字、社媒和线下活动触点。",
         },
       ],
       validationLabel: "项目产出",
@@ -207,19 +207,19 @@ export const PROJECTS = [
       title: "ANKER INNOVATIONS IFA 2025",
       subtitle: "业务洞察与设计目标",
       objective: "围绕“提升子品牌多品类转化效率”，识别品牌、渠道和传播链路中的关键问题，并转化为可执行的设计方向。",
-      scope: "业务链路梳理 · 品牌数据分析 · 用户诉求研究 · 展会触点拆解 · 竞品研究 · 设计目标定义",
+      scope: "业务链路梳理 · 用户诉求与竞品分析 · 展会触点拆解 · 设计目标定义",
       contributions: [
         {
-          title: "业务链路建模",
-          description: "梳理内容生产、媒体与 KOL、线上渠道、线下体验及消费者决策之间的关系，定位影响转化的关键环节。",
+          title: "业务链路梳理",
+          description: "我梳理内容生产、媒体与 KOL、线上渠道、线下体验及消费者决策之间的关系，定位影响传播与转化的关键环节。",
         },
         {
           title: "核心问题定义",
-          description: "结合品牌数据、用户诉求与展会旅程，识别子品牌认知不足、购买决策成本高和传播转化有限三类问题。",
+          description: "我结合品牌数据、用户诉求与展会旅程，定义子品牌认知不足、购买决策成本高和传播连续性有限三类问题。",
         },
         {
-          title: "设计目标转译",
-          description: "将业务问题转化为“建立母子品牌关联、清晰传达品类价值、强化发布会记忆点”三条设计目标。",
+          title: "设计任务转译",
+          description: "我将业务问题转化为“建立母子品牌关联、清晰传达品类价值、强化发布会记忆点”三条后续设计任务。",
         },
       ],
       validationLabel: "策略产出",
@@ -290,19 +290,19 @@ export const PROJECTS = [
       title: "ANKER INNOVATIONS",
       subtitle: "全球消费科技品牌视觉语言与多品牌延展",
       objective: "建立清晰的母子品牌关系，让母品牌资产可继承、子品牌表达可区分，并适配多场景与多触点传播。",
-      scope: "品牌视觉策略 · 品牌符号模块 · 母子品牌映射规则 · 光型样本库 · AIGC 工作流",
+      scope: "品牌视觉策略 · 核心符号模块 · 母子品牌映射规则 · 光型样本库与 AIGC 生成规则",
       contributions: [
         {
-          title: "品牌符号",
-          description: "将品牌战略中的“光”转译为可识别、可继承的核心视觉符号，建立母品牌统一的视觉感知基础。",
+          title: "核心视觉符号",
+          description: "我将品牌战略中的“光”转译为可识别、可继承的视觉符号模块，建立母品牌统一的视觉感知基础。",
         },
         {
           title: "母子品牌规则",
-          description: "依据品牌定位，将统一的光型体系映射为 Anker、soundcore、eufy 不同的能量、节奏与情绪表达。",
+          description: "我依据品牌定位，将统一的光型体系映射为 Anker、soundcore、eufy 不同的能量、节奏与情绪表达。",
         },
         {
-          title: "规模化应用",
-          description: "建立光型样本库、Prompt 模板与人工筛选机制，使视觉资产稳定应用于发布会、官网、社媒和渠道内容。",
+          title: "生成与品控规则",
+          description: "我建立光型样本库、Prompt 模板与人工筛选机制，使视觉资产可稳定应用于发布会、官网、社媒和渠道内容。",
         },
       ],
       validationLabel: "应用验证",
@@ -374,19 +374,19 @@ export const PROJECTS = [
       title: "ANKER SOLIX PRIME E10",
       subtitle: "全球新品 Campaign、主视觉与 DTC 承接",
       objective: "降低用户理解成本与购买决策风险，同时强化 SOLIX 在家庭能源系统中的品类价值。",
-      scope: "上市传播策略 · 产品主视觉 · AIGC 生成规则 · DTC 信息架构与页面设计",
+      scope: "上市传播创意方向 · 产品主视觉 · AIGC 生成与筛选规则 · DTC 信息架构与页面设计",
       contributions: [
         {
-          title: "产品识别",
-          description: "建立 E10 产品识别与视觉锤，明确 Infinite Power 的核心概念与品类记忆。",
+          title: "产品识别与概念",
+          description: "我建立 E10 的产品识别与视觉锤，并以 Infinite Power 组织核心概念、品类价值和用户记忆。",
         },
         {
           title: "Campaign 视觉系统",
-          description: "以黑色、能量蓝和阳光橙平衡系统科技感与家庭安心感，并沉淀为 AIGC 生成规则，统一新品传播的多触点输出。",
+          description: "我以黑色、能量蓝和阳光橙平衡系统科技感与家庭安心感，并将视觉方向沉淀为可复用的 AIGC 生成与筛选规则。",
         },
         {
-          title: "DTC 购买判断",
-          description: "围绕家庭价值、系统能力与配置选择重组页面信息，推动用户从产品理解进入购买判断。",
+          title: "DTC 信息与转化",
+          description: "我围绕家庭价值、系统能力与配置选择重组页面信息，让用户从产品理解进一步进入购买判断。",
         },
       ],
       validation: [
@@ -456,19 +456,19 @@ export const PROJECTS = [
       title: "ANKER INNOVATIONS IFA 2025",
       subtitle: "全球发布会主视觉与全渠道内容系统",
       objective: "以 IFA 全球发布会承接品牌升级，强化发布会记忆点，并让品牌、新品内容在展前、展中、展后保持连续传播。",
-      scope: "发布会视觉策略 · 主视觉系统 · 展前预热 · Keynote 与现场内容 · 展后 Recap 与官网承接",
+      scope: "发布会视觉策略与主视觉 · 展前预热 · Keynote 与现场内容 · 展后 Recap 与官网承接",
       contributions: [
         {
           title: "发布会主视觉",
-          description: "将母品牌“光”资产转化为发布会核心视觉，建立明暗双模式及跨触点统一的识别基础。",
+          description: "我将母品牌“光”资产转化为发布会核心视觉，并建立明暗双模式和跨触点统一的识别基础。",
         },
         {
           title: "全渠道内容链路",
-          description: "组织倒计时、官网预热、直播、Keynote、现场物料和展后 Recap，形成“抢占关注—组织理解—延长传播”的完整链路。",
+          description: "我组织倒计时、官网预热、直播、Keynote、现场物料和展后 Recap，形成“抢占关注—组织理解—延长传播”的内容链路。",
         },
         {
           title: "内容统筹与品控",
-          description: "在统一系统下承接 Anker、eufy、soundcore 的品牌与新品内容，保证多品牌、多产品和多场景传播的视觉质量与一致性。",
+          description: "我在统一系统下整合 Anker、eufy、soundcore 的品牌与新品内容，保证多品牌、多产品和多场景传播的视觉质量与一致性。",
         },
       ],
       validationLabel: "应用验证",

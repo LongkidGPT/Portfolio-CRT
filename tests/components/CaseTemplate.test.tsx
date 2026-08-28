@@ -133,7 +133,7 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
   ).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "PROJECT OVERVIEW" })).toBeInTheDocument();
   expect(screen.getByText("IFA 2025 · 全球品牌与新品传播")).toBeInTheDocument();
-  expect(screen.getByText("系统联动")).toBeInTheDocument();
+  expect(screen.getByText("视觉系统联动")).toBeInTheDocument();
   expect(screen.getByText(/形成 1 条业务目标、3 条设计目标和 3 个落地项目/)).toBeInTheDocument();
   expect(screen.queryByText("业务目标")).not.toBeInTheDocument();
   expect(screen.queryByText("负责范围")).not.toBeInTheDocument();
