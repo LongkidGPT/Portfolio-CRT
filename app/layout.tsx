@@ -3,9 +3,9 @@ import "./globals.css";
 import AnalyticsProvider from "@/components/analytics/AnalyticsProvider";
 
 export const metadata: Metadata = {
-  title: "Kid（龙昊翔）· Visual Systems for Product Launch",
+  title: "Kid（龙昊翔）· Brand Launch & Visual Campaign",
   description:
-    "资深视觉设计师作品集 — 主视觉策略、品牌视觉系统、产品发布视觉与 AI 创意工作流。",
+    "资深视觉设计师作品集 — 新品发布视觉、品牌活动、视觉系统、产品传播与 AI 创意工作流。",
 };
 
 export const viewport: Viewport = {
