@@ -15,15 +15,15 @@ test("PROJECT OVERVIEW uses lossless-source-derived progressive slices", () => {
   expect(mobileStack.querySelectorAll('[data-slice-src]')).toHaveLength(5);
   expect(desktopStack.querySelector("source")).toHaveAttribute(
     "srcset",
-    "/kv/cases/桌面端/project-overview/Slice-01.webp",
+    "/kv/cases/桌面端/project-overview-r5/Slice-01.webp",
   );
 });
 
 test.each([
   ["business", "Design logic case study", "/kv/cases/桌面端/design-logic/Slice-44.webp", 4],
-  ["brand-system", "Brand system case study", "/kv/cases/桌面端/brand-system/Slice-36.webp", 8],
-  ["product-launch", "Product launch case study", "/kv/cases/桌面端/product-launch-r2/Slice-26.webp", 10],
-  ["launch-event", "Launch event case study", "/kv/cases/桌面端/launch-event/Slice-20.webp", 6],
+  ["brand-system", "Brand system case study", "/kv/cases/桌面端/brand-system-r2/Slice-01.webp", 9],
+  ["product-launch", "Product launch case study", "/kv/cases/桌面端/product-launch-r3/Slice-01.webp", 13],
+  ["launch-event", "Launch event case study", "/kv/cases/桌面端/launch-event-r2/Slice-01.webp", 7],
 ] as const)(
   "%s case uses ordered desktop slices",
   (id, accessibleName, firstSlice, sliceCount) => {
@@ -155,9 +155,9 @@ test("PROJECT OVERVIEW exposes the confirmed recruiter summary", () => {
 
 test.each([
   ["business", "/kv/cases/移动端/design-logic/Slice-44.webp", 4],
-  ["brand-system", "/kv/cases/移动端/brand-system/Slice-36.webp", 8],
-  ["product-launch", "/kv/cases/移动端/product-launch-r2/Slice-26.webp", 10],
-  ["launch-event", "/kv/cases/移动端/launch-event/Slice-20.webp", 6],
+  ["brand-system", "/kv/cases/移动端/brand-system-r2/Slice-01.webp", 9],
+  ["product-launch", "/kv/cases/移动端/product-launch-r3/Slice-01.webp", 13],
+  ["launch-event", "/kv/cases/移动端/launch-event-r2/Slice-01.webp", 7],
 ] as const)("%s exposes ordered mobile slices below 768px", (id, firstSlice, sliceCount) => {
   const { container } = render(<CaseTemplate project={getProjectById(id)} />);
   const mobileStack = container.querySelector('[class*="caseMobileSlices"]')!;
@@ -184,9 +184,9 @@ test("case slices mount only the first image before approaching the viewport", (
   const { container } = render(<CaseTemplate project={getProjectById("product-launch")} />);
   const desktopStack = container.querySelector('[class*="caseDesktopSlices"]')!;
 
-  expect(desktopStack.querySelectorAll('[data-slice-src]')).toHaveLength(10);
+  expect(desktopStack.querySelectorAll('[data-slice-src]')).toHaveLength(13);
   expect(desktopStack.querySelectorAll("source")).toHaveLength(1);
-  expect(desktopStack.querySelectorAll('[class*="caseSlicePlaceholder"]')).toHaveLength(9);
+  expect(desktopStack.querySelectorAll('[class*="caseSlicePlaceholder"]')).toHaveLength(12);
 });
 
 test("serves desktop slices directly without runtime image conversion", () => {
@@ -194,7 +194,7 @@ test("serves desktop slices directly without runtime image conversion", () => {
   const sliceStack = container.querySelector('[class*="caseDesktopSlices"]')!;
   const sources = Array.from(sliceStack.querySelectorAll("source"));
 
-  expect(sources[0]).toHaveAttribute("srcset", "/kv/cases/桌面端/brand-system/Slice-36.webp");
+  expect(sources[0]).toHaveAttribute("srcset", "/kv/cases/桌面端/brand-system-r2/Slice-01.webp");
   expect(sources.every((source) => !source.getAttribute("srcset")?.includes("/.netlify/images"))).toBe(true);
 });
 

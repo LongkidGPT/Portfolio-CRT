@@ -34,13 +34,13 @@ describe("project registry", () => {
       href: "/work/anker-ifa-2025",
       kind: "case",
       caseArtwork: {
-        src: "/kv/cases/project-overview-r4.png",
+        src: "/kv/cases/桌面端/project-overview-r5/overview.webp",
         width: 5760,
         height: 8472,
         mobile: {
-          src: "/kv/cases/project-overview-mobile-r4.png",
-          width: 4560,
-          height: 10790,
+          src: "/kv/cases/移动端/project-overview-r5/overview.webp",
+          width: 2280,
+          height: 5395,
         },
       },
     });
